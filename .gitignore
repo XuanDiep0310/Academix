@@ -1,0 +1,78 @@
+# =========================
+# Backend (.NET / Visual Studio)
+# =========================
+bin/
+obj/
+out/
+*.dll
+*.exe
+*.app
+*.log
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+.vscode/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Publish outputs
+publish/
+*.pubxml
+*.publishsettings
+
+# =========================
+# Frontend (Node.js / Next.js)
+# =========================
+node_modules/
+.next/
+dist/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+.cache/
+
+# =========================
+# Database / SQL
+# =========================
+*.mdf
+*.ldf
+*.ndf
+*.bak
+*.log
+*.sqlproj
+*.dbmdl
+GeneratedMigration/
+
+# =========================
+# Docker
+# =========================
+*.pid
+*.seed
+docker-compose.override.yml
+docker-compose.local.yml
+
+# =========================
+# OS / Editor specific
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.tmp
+*.lock
+
+# =========================
+# Secrets & Configs
+# =========================
+.env
+.env.local
+.env.development
+.env.production
+secrets.json
+appsettings.*.json
