@@ -1,19 +1,18 @@
-version: "3.9"
-
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: academix_sqlserver
     environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"
+      SA_PASSWORD: "Academix@K64"
       ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
     ports:
       - "1433:1433"
     volumes:
       - sql_data:/var/opt/mssql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - academix_network
+    restart: unless-stopped
 
   backend:
     build:
@@ -22,13 +21,14 @@ services:
     container_name: academix_backend
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=AcademixDB;User Id=sa;Password=YourStrong!Passw0rd;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=AcademixDB;User Id=sa;Password=Academix@K64;TrustServerCertificate=true;
     ports:
       - "5000:5000"
     depends_on:
       - sqlserver
     networks:
       - academix_network
+    restart: unless-stopped
 
   frontend:
     build:
@@ -43,6 +43,7 @@ services:
       - backend
     networks:
       - academix_network
+    restart: unless-stopped
 
   adminer:
     image: adminer
