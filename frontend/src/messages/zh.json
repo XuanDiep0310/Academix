@@ -1,0 +1,10 @@
+{
+  "HomePage": {
+    "title": "你好，Next.js + Ant Design！"
+  },
+  "Theme": {
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统"
+  }
+}

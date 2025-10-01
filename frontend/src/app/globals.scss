@@ -1,0 +1,91 @@
+html,
+body,
+#__next {
+  height: 100%;
+}
+html,
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans",
+    "Noto Sans CJK KR", "Noto Sans SC", "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", sans-serif;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+:root {
+  --page-bg: #ffffff;
+  --page-fg: #0f172a;
+}
+.dark {
+  --page-bg: #0b0f19;
+  --page-fg: #e2e8f0;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--page-fg);
+}
+
+.header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.container,
+.container-fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 10px auto;
+  overflow-y: hidden;
+  // background-color: #fff;
+  box-sizing: border-box;
+}
+@media (min-width: 100px) {
+  .container {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+@media (min-width: 575.98px) {
+  .container {
+    max-width: 540px;
+  }
+}
+@media (min-width: 767.98px) {
+  .container {
+    max-width: 720px;
+  }
+}
+@media (min-width: 991.98px) {
+  .container {
+    max-width: 992px;
+  }
+}
+@media (min-width: 1199.98px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+@media (min-width: 1399.98px) {
+  .container {
+    max-width: 1376px;
+  }
+}
