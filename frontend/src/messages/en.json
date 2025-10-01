@@ -1,0 +1,15 @@
+{
+  "HomePage": {
+    "title": "Home"
+  },
+  "UserPage": {
+    "home": "Home",
+    "blog": "Blog",
+    "courses": "Courses",
+    "userExam": "UserExam",
+    "video": "Video",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "Theme": { "light": "Light", "dark": "Dark", "system": "System" }
+}
