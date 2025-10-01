@@ -3,47 +3,67 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: academix_sqlserver
     environment:
-      SA_PASSWORD: "Academix@K64"
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: "Express"
+      - SA_PASSWORD=${SA_PASSWORD}
+      - ACCEPT_EULA=Y
     ports:
-      - "1433:1433"
+      - "${DB_PORT:-1433}:1433"
     volumes:
       - sql_data:/var/opt/mssql
     networks:
       - academix_network
     restart: unless-stopped
+    # healthcheck without sqlcmd: check SQL Server log for ready message
+    healthcheck:
+      test: ["CMD-SHELL", "grep -q \"SQL Server is now ready for client connections\" /var/opt/mssql/log/errorlog || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      target: production
     container_name: academix_backend
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=AcademixDB;User Id=sa;Password=Academix@K64;TrustServerCertificate=true;
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};TrustServerCertificate=true;
     ports:
-      - "5000:5000"
+      - "${BACKEND_PORT:-5000}:5000"
     depends_on:
       - sqlserver
     networks:
       - academix_network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      target: production
     container_name: academix_frontend
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:5000
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT:-3000}:3000"
     depends_on:
       - backend
     networks:
       - academix_network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   adminer:
     image: adminer
@@ -54,6 +74,7 @@ services:
       - sqlserver
     networks:
       - academix_network
+    restart: unless-stopped
 
 volumes:
   sql_data:

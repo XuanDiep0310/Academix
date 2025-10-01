@@ -1,40 +1,52 @@
 # frontend/Dockerfile
 
-# Stage 1: Build
-FROM node:20-alpine AS build
+# ---------------------
+# Development stage
+# ---------------------
+FROM node:20-alpine AS development
 WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
 
-# Copy package.json và cài dependencies
+# ---------------------
+# Dependencies stage (for production build)
+# ---------------------
+FROM node:20-alpine AS deps
+WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-# Copy toàn bộ source code và build
+# ---------------------
+# Build stage
+# ---------------------
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-# Stage 2: Production
+# ---------------------
+# Production runtime stage
+# ---------------------
 FROM node:20-alpine AS production
 WORKDIR /app
 
-# Copy package.json và cài production dependencies
-COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
-
-# Copy built application từ build stage
+# copy production artifacts
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
-COPY --from=build /app/next.config.js ./ 
-COPY --from=build /app/package.json ./
+COPY package*.json ./
+COPY --from=deps /app/node_modules ./node_modules
 
-# Tạo user non-root để chạy ứng dụng
-RUN addgroup -g 1001 -S nodejs \
-  && adduser -S nextjs -u 1001 \
-  && chown -R nextjs:nodejs /app
+# prune development deps to keep image small
+RUN npm prune --production
 
-USER nextjs
+# install curl for healthcheck
+RUN apk add --no-cache curl
 
 EXPOSE 3000
-
 ENV NODE_ENV=production
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
