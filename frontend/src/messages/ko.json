@@ -1,0 +1,10 @@
+{
+  "HomePage": {
+    "title": "안녕하세요, Next.js + Ant Design!"
+  },
+  "Theme": {
+    "light": "라이트",
+    "dark": "다크",
+    "system": "시스템"
+  }
+}
