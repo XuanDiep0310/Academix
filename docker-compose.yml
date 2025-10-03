@@ -1,7 +1,7 @@
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: academix_sqlserver
+    container_name: sqlserver
     environment:
       - SA_PASSWORD=${SA_PASSWORD}
       - ACCEPT_EULA=Y
@@ -14,7 +14,11 @@ services:
     restart: unless-stopped
     # healthcheck without sqlcmd: check SQL Server log for ready message
     healthcheck:
-      test: ["CMD-SHELL", "grep -q \"SQL Server is now ready for client connections\" /var/opt/mssql/log/errorlog || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          'grep -q "SQL Server is now ready for client connections" /var/opt/mssql/log/errorlog || exit 1',
+        ]
       interval: 10s
       timeout: 5s
       retries: 12
@@ -28,9 +32,10 @@ services:
     container_name: academix_backend
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};TrustServerCertificate=true;
+      - ConnectionStrings__DbContext=Server=sqlserver,1433;Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};TrustServerCertificate=true;
+      - ASPNETCORE_URLS=http://+:5000
     ports:
-      - "${BACKEND_PORT:-5000}:5000"
+      - "${BACKEND_PORT:-8080}:5000"
     depends_on:
       - sqlserver
     networks:

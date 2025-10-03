@@ -1,3 +1,4 @@
+using Academix.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Academix.API.Controllers
@@ -12,22 +13,27 @@ namespace Academix.API.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly AcademixDbContext _context;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, AcademixDbContext academixDbContext)
         {
             _logger = logger;
+            this._context = academixDbContext;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public IActionResult Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            //{
+            //    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            //    TemperatureC = Random.Shared.Next(-20, 55),
+            //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            //})
+            //.ToArray();
+
+            var model = _context.Organizations.ToList();
+            return Ok(model);
         }
     }
 }
