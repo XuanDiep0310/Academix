@@ -6,7 +6,7 @@ services:
       - SA_PASSWORD=${SA_PASSWORD}
       - ACCEPT_EULA=Y
     ports:
-      - "${DB_PORT:-1433}:1433"
+      - "${DB_PORT:-14330}:1433"
     volumes:
       - sql_data:/var/opt/mssql
     networks:
@@ -64,17 +64,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
-
-  adminer:
-    image: adminer
-    container_name: academix_adminer
-    ports:
-      - "8080:8080"
-    depends_on:
-      - sqlserver
-    networks:
-      - academix_network
-    restart: unless-stopped
 
 volumes:
   sql_data:
