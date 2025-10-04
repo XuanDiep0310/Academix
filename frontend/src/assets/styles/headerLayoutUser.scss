@@ -1,0 +1,28 @@
+.header-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__settings {
+    display: flex;
+    // gap: 20px;
+  }
+  &__logo {
+  }
+  &__left {
+    display: flex;
+    align-items: center;
+    p {
+      font-size: 40px;
+      font-weight: bold;
+      margin: 0;
+      color: var(--text-1);
+    }
+  }
+  &__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+}

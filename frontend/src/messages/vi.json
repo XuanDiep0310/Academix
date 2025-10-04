@@ -1,6 +1,32 @@
 {
   "HomePage": {
-    "title": "Trang chủ"
+    "title": "Trang chủ HIHI"
+  },
+  "UserPage": {
+    "home": "Trang chủ",
+    "contact": "Liên hệ",
+    "news": "Tin tức",
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "tagOne": "#1 Nền tảng thi trắc nghiệm online tốt nhất",
+    "whoFor": {
+      "cta": "Bắt đầu",
+      "student": {
+        "title": "Sinh viên",
+        "desc": "Nền tảng trao đổi đề thi, tài liệu học tập. Thông qua việc tự tạo đề, sinh viên có thể tự học với bộ tài liệu phù hợp đồng thời chia sẻ cho nhóm học tập.",
+        "href": "/bat-dau/sinh-vien"
+      },
+      "teacher": {
+        "title": "Giảng viên",
+        "desc": "Thao tác tạo đề đơn giản, chính xác cùng phương pháp đánh giá hiệu quả, giúp giảng viên dễ dàng quản lý bài giảng và chất lượng giảng dạy.",
+        "href": "/bat-dau/giang-vien"
+      },
+      "center": {
+        "title": "Trung tâm đào tạo",
+        "desc": "Nền tảng hỗ trợ chi tiết về kỹ thuật giúp các doanh nghiệp nhanh chóng tổ chức và sắp xếp các nội dung đào tạo cho cán bộ công nhân viên.",
+        "href": "/bat-dau/trung-tam"
+      }
+    }
   },
   "Theme": { "light": "Sáng", "dark": "Tối", "system": "Hệ thống" }
 }

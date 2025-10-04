@@ -2,6 +2,31 @@
   "HomePage": {
     "title": "你好，Next.js + Ant Design！"
   },
+  "UserPage": {
+    "home": "首页",
+    "contact": "联系",
+    "news": "新闻",
+    "signIn": "登录",
+    "signUp": "注册",
+    "whoFor": {
+      "cta": "开始使用",
+      "student": {
+        "title": "学生",
+        "desc": "用于交流试题、学习资料的平台。通过自行出题，学生可以配合合适的资料自学，同时与学习小组共享。",
+        "href": "/bat-dau/sinh-vien"
+      },
+      "teacher": {
+        "title": "教师",
+        "desc": "简洁而准确的出题操作与高效评估方法，帮助教师轻松管理课程与教学质量。",
+        "href": "/bat-dau/giang-vien"
+      },
+      "center": {
+        "title": "培训中心",
+        "desc": "提供完善的技术支持，帮助企业快速组织并安排培训内容，服务于员工与管理人员。",
+        "href": "/bat-dau/trung-tam"
+      }
+    }
+  },
   "Theme": {
     "light": "浅色",
     "dark": "深色",
