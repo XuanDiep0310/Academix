@@ -1,9 +1,9 @@
-import HomePageHeader from "@/components/Home/HomePageHeader";
+import HomePageUser from "@/components/home/HomePageUser";
 
 export default function HomePage() {
   return (
     <>
-      <HomePageHeader />
+      <HomePageUser />
     </>
   );
 }

@@ -16,38 +16,175 @@ body {
   overflow-x: hidden;
 }
 
+/* globals.scss */
 :root {
+  color-scheme: light;
+  /* Base */
   --page-bg: #ffffff;
   --page-fg: #0f172a;
-}
-.dark {
-  --page-bg: #0b0f19;
-  --page-fg: #e2e8f0;
+
+  /* Typography */
+  --text-1: #0f172a; /* chính */
+  --text-2: #334155; /* secondary */
+  --text-3: #64748b; /* muted */
+  --text-4: #94a3b8; /* subtle/disabled */
+
+  /* Links */
+  --link: #2563eb;
+  --link-hover: #1d4ed8;
+  --link-visited: #7c3aed;
+
+  /* Brand / Accent (khớp AntD 5) */
+  --accent: #1677ff;
+  --accent-foreground: #ffffff; /* chữ trên nút primary */
+  --accent-hover: #0f6bff; /* hover của nút primary */
+  --accent-soft: #e6f0ff; /* nền nhạt cho badge/pill */
+
+  /* Surfaces */
+  --card: #ffffff; /* thẻ trắng */
+  --surface-1: #f8fafc; /* vùng nền nhạt */
+  --surface-2: #f1f5f9; /* nhạt hơn chút */
+
+  /* Borders / Focus */
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --ring: #3b82f6; /* outline focus */
+  --ring-offset: #ffffff;
+
+  /* Semantic (text/border/bg subtle) */
+  --success: #16a34a;
+  --success-subtle: #ecfdf5;
+  --success-border: #86efac;
+  --success-text: #166534;
+
+  --warning: #f59e0b;
+  --warning-subtle: #fffbeb;
+  --warning-border: #fde68a;
+  --warning-text: #b45309;
+
+  --danger: #ef4444;
+  --danger-subtle: #fef2f2;
+  --danger-border: #fecaca;
+  --danger-text: #b91c1c;
+
+  --info: #0ea5e9;
+  --info-subtle: #f0f9ff;
+  --info-border: #bae6fd;
+  --info-text: #075985;
+
+  /* Misc */
+  --muted: #64748b;
+  --shadow-color: 0deg 0% 0%;
+  --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.06);
+  --shadow-md: 0 6px 20px hsl(var(--shadow-color) / 0.08);
+  --shadow-lg: 0 12px 40px hsl(var(--shadow-color) / 0.1);
+
+  /* Radius / Layout */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --container: 1120px;
 }
 
+.dark {
+  color-scheme: dark;
+  /* Base */
+  --page-bg: #0b0f19;
+  --page-fg: #e2e8f0;
+
+  /* Typography (sáng dần) */
+  --text-1: #e2e8f0;
+  --text-2: #cbd5e1;
+  --text-3: #94a3b8;
+  --text-4: #64748b;
+
+  /* Links */
+  --link: #60a5fa;
+  --link-hover: #3b82f6;
+  --link-visited: #a78bfa;
+
+  /* Accent */
+  --accent: #1677ff; /* giữ đồng bộ AntD */
+  --accent-foreground: #ffffff;
+  --accent-hover: #3b82f6;
+  --accent-soft: #0f172a;
+
+  /* Surfaces */
+  --card: #0f172a;
+  --surface-1: #0c1324;
+  --surface-2: #111a2e;
+
+  /* Borders / Focus */
+  --border: #1f2937;
+  --border-strong: #2b3646;
+  --ring: #60a5fa;
+  --ring-offset: #0b0f19;
+
+  /* Semantic (tăng tương phản trên nền tối) */
+  --success: #22c55e;
+  --success-subtle: #052e1a;
+  --success-border: #14532d;
+  --success-text: #86efac;
+
+  --warning: #f59e0b;
+  --warning-subtle: #2a1a00;
+  --warning-border: #7a4d00;
+  --warning-text: #fcd34d;
+
+  --danger: #ef4444;
+  --danger-subtle: #2a0a0a;
+  --danger-border: #7f1d1d;
+  --danger-text: #fca5a5;
+
+  --info: #38bdf8;
+  --info-subtle: #071c2a;
+  --info-border: #0b4a6b;
+  --info-text: #93c5fd;
+
+  --muted: #94a3b8;
+  --shadow-color: 220deg 40% 2%;
+}
+
+/* ——— Base apply ——— */
+html,
+body {
+  background: var(--page-bg);
+  color: var(--text-1);
+}
+a {
+  color: var(--link);
+}
+a:hover {
+  color: var(--link-hover);
+}
+a:visited {
+  color: var(--link-visited);
+}
+
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+/* Card mẫu dùng tokens */
+.ui-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* Nút primary custom (nếu cần ngoài AntD) */
+.btn-primary {
+  color: var(--accent-foreground);
+  background: var(--accent);
+  border: 1px s;
+}
 body {
   background: var(--page-bg);
   color: var(--page-fg);
 }
-
-.header {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 .container,
 .container-fluid {
   width: 100%;
