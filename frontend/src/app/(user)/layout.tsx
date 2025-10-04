@@ -6,7 +6,7 @@ import AntdThemeRegistry from "@/components/AntdThemeRegistry";
 import "antd/dist/reset.css";
 import "@/app/globals.scss";
 import en from "@/messages/en.json";
-import HeaderLayoutUser from "@/components/header/headerLayoutUser";
+import HeaderLayoutUser from "@/components/header/HeaderLayoutUser";
 type Messages = typeof en;
 type Locale = "en" | "vi";
 interface IProps {

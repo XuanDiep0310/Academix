@@ -1,15 +1,31 @@
 {
   "HomePage": {
-    "title": "Home"
+    "title": "Home HIHI"
   },
   "UserPage": {
     "home": "Home",
-    "blog": "Blog",
-    "courses": "Courses",
-    "userExam": "UserExam",
-    "video": "Video",
+    "contact": "Contact",
+    "news": "News",
     "signIn": "Sign In",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "whoFor": {
+      "cta": "Get started",
+      "student": {
+        "title": "Students",
+        "desc": "A platform for sharing exam papers and study materials. By creating their own quizzes, students can self-study with suitable materials while sharing them with their study groups.",
+        "href": "/bat-dau/sinh-vien"
+      },
+      "teacher": {
+        "title": "Teachers",
+        "desc": "Simple, accurate paper creation with effective assessment methods, helping instructors easily manage lectures and teaching quality.",
+        "href": "/bat-dau/giang-vien"
+      },
+      "center": {
+        "title": "Training centers",
+        "desc": "Detailed technical support that helps organizations quickly organize and schedule training content for staff.",
+        "href": "/bat-dau/trung-tam"
+      }
+    }
   },
   "Theme": { "light": "Light", "dark": "Dark", "system": "System" }
 }

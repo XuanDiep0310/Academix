@@ -2,6 +2,32 @@
   "HomePage": {
     "title": "안녕하세요, Next.js + Ant Design!"
   },
+  "UserPage": {
+    "home": "홈",
+    "contact": "연락처",
+    "news": "뉴스",
+    "signIn": "로그인",
+    "signUp": "회원가입",
+    "whoFor": {
+      "cta": "시작하기",
+      "student": {
+        "title": "학생",
+        "desc": "시험지와 학습 자료를 공유하는 플랫폼입니다. 직접 문제를 만들어 적합한 자료로 스스로 학습하고, 스터디 그룹과 함께 공유할 수 있습니다.",
+        "href": "/bat-dau/sinh-vien"
+      },
+      "teacher": {
+        "title": "강사",
+        "desc": "간단하고 정확한 출제와 효과적인 평가 방법을 통해 강사가 강의와 품질을 쉽게 관리할 수 있습니다.",
+        "href": "/bat-dau/giang-vien"
+      },
+      "center": {
+        "title": "교육 기관",
+        "desc": "기업이 직원 교육 콘텐츠를 신속하게 구성하고 배치할 수 있도록 상세한 기술 지원을 제공합니다.",
+        "href": "/bat-dau/trung-tam"
+      }
+    }
+  },
+
   "Theme": {
     "light": "라이트",
     "dark": "다크",
