@@ -13,13 +13,12 @@ export default function ThemeToggle() {
   React.useEffect(() => setMounted(true), []);
 
   const options = [
-    { label: t("light"), value: "light" },
-    { label: t("dark"), value: "dark" },
-    { label: t("system"), value: "system" },
+    // { label: t("light"), value: "light" },
+    // { label: t("dark"), value: "dark" },
+    // { label: t("system"), value: "system" },
   ];
 
   if (!mounted) {
-    // SSR & hydration khớp hoàn toàn (không controlled)
     return (
       <Segmented
         options={options}

@@ -8,6 +8,19 @@
     "news": "뉴스",
     "signIn": "로그인",
     "signUp": "회원가입",
+
+    "hero": {
+      "tag": "#1 최고의 온라인 퀴즈 플랫폼",
+      "titleBegin": "더 간단한 방법으로",
+      "title-animation1": "문항 자동 생성",
+      "title-animation2": "시험지 빠르게 생성",
+      "title-animation3": "학습 및 복습",
+      "title-animation4": "시험 운영",
+      "titleEnd": "온라인 퀴즈",
+      "desc": "스마트한 솔루션으로 문제와 시험지를 빠르게 만들어 보세요. Academix는 기술의 힘으로 학습 수준을 높여 줍니다.",
+      "rate": "200,000+ 명의 사용자가 사랑합니다",
+      "btn": "지금 퀴즈 만들기"
+    },
     "whoFor": {
       "cta": "시작하기",
       "student": {

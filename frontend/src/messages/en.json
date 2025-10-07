@@ -8,6 +8,18 @@
     "news": "News",
     "signIn": "Sign In",
     "signUp": "Sign Up",
+    "hero": {
+      "tag": "#1 The best online quiz platform",
+      "titleBegin": "There’s a simpler way to",
+      "title-animation1": "auto-generate questions",
+      "title-animation2": "create exams fast",
+      "title-animation3": "study & review",
+      "title-animation4": "organize exams",
+      "titleEnd": "Online Quizzes",
+      "desc": "Create questions and exams quickly with smart solutions. Academix leverages technology to elevate your learning.",
+      "rate": "Over 200,000+ users love using Academix",
+      "btn": "Create a quiz now"
+    },
     "whoFor": {
       "cta": "Get started",
       "student": {

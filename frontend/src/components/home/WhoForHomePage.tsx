@@ -1,11 +1,11 @@
 "use client";
 
-import { Card, Col, Row, Typography } from "antd";
+import { Col, Row, Typography } from "antd";
 import {
-  ReadFilled,
   SolutionOutlined,
-  HomeFilled,
   RightOutlined,
+  UserOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import "@/assets/styles/whoForHomePage.scss";
@@ -17,7 +17,7 @@ const WhoFor = () => {
   const items = [
     {
       key: "student",
-      icon: <ReadFilled />,
+      icon: <UserOutlined />,
       title: t("UserPage.whoFor.student.title"),
       desc: t("UserPage.whoFor.student.desc"),
       href: t("UserPage.whoFor.student.href"),
@@ -31,7 +31,7 @@ const WhoFor = () => {
     },
     {
       key: "center",
-      icon: <HomeFilled />,
+      icon: <HomeOutlined />,
       title: t("UserPage.whoFor.center.title"),
       desc: t("UserPage.whoFor.center.desc"),
       href: t("UserPage.whoFor.center.href"),
@@ -41,23 +41,21 @@ const WhoFor = () => {
   return (
     <section className="who-for">
       <div className="container" style={{ overflow: "hidden" }}>
-        <Row gutter={[16, 16]}>
+        <Row gutter={[16, 16]} className="who-for__row">
           {items.map((it) => (
-            <Col key={it.key} xs={24} md={12} lg={8}>
-              <Card bordered className="who-for__card">
+            <Col key={it.key} xs={24} md={24} lg={8}>
+              <div className="who-for__card">
                 <div className="who-for__header">
                   <span className="who-for__icon">{it.icon}</span>
-                  <Title level={4} className="who-for__title">
-                    {it.title}
-                  </Title>
+                  <span className="who-for__title">{it.title}</span>
                 </div>
 
                 <Paragraph className="who-for__desc">{it.desc}</Paragraph>
 
                 <Link href={it.href} className="who-for__link">
-                  Bắt đầu <RightOutlined />
+                  <div>Bắt đầu</div> <RightOutlined />
                 </Link>
-              </Card>
+              </div>
             </Col>
           ))}
         </Row>
