@@ -8,6 +8,18 @@
     "news": "新闻",
     "signIn": "登录",
     "signUp": "注册",
+    "hero": {
+      "tag": "#1 最佳在线测验平台",
+      "titleBegin": "有一种更简单的方式来",
+      "title-animation1": "自动生成题目",
+      "title-animation2": "快速创建试卷",
+      "title-animation3": "学习与复习",
+      "title-animation4": "组织考试",
+      "titleEnd": "在线测验",
+      "desc": "借助智能方案，快速创建题目与试卷。Academix 利用科技力量提升你的学习效率。",
+      "rate": "超过 200,000+ 名用户喜爱使用",
+      "btn": "立即创建测验"
+    },
     "whoFor": {
       "cta": "开始使用",
       "student": {

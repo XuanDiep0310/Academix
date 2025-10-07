@@ -84,6 +84,25 @@ body {
   --radius-md: 12px;
   --radius-lg: 16px;
   --container: 1120px;
+
+  // figma
+  /* Gradient Blue → Cyan */
+  --blue-500: #3e65fe;
+  --cyan-400: #15c4ff;
+
+  /* Purple fill (text/primary) */
+  --purple-500: #7958ff;
+
+  /* Hero muted gradient (button pill nền xám xanh) */
+  --hero-start: #7bb8ee;
+  --hero-end: #577c9d;
+
+  /* Text & surface */
+  --surface: #ffffff;
+  --text: #0f172a;
+
+  /* Extras */
+  --g-soft: rgba(62, 101, 254, 0.18); /* shadow xanh nhẹ */
 }
 
 .dark {
@@ -143,6 +162,15 @@ body {
 
   --muted: #94a3b8;
   --shadow-color: 220deg 40% 2%;
+
+  // figma
+  --surface: #0b0f19;
+  --text: #e2e8f0;
+
+  /* tối hơn ~8–12% */
+  --hero-start: #6da6e1;
+  --hero-end: #4d6e8b;
+  --g-soft: rgba(62, 101, 254, 0.28); /* shadow xanh đậm hơn */
 }
 
 /* ——— Base apply ——— */
