@@ -37,7 +37,7 @@ const HeroHomePage = () => {
         <div className="container">
           <Row gutter={[20, 20]}>
             {/* Left */}
-            <Col xl={10} lg={10} md={10} sm={24} xs={24}>
+            <Col xl={10} lg={10} md={24} sm={24} xs={24}>
               <div className="home-hero__left">
                 <div className="home-hero__badge">
                   <div className="home-hero__tag">
@@ -62,10 +62,92 @@ const HeroHomePage = () => {
                   <span>{t("hero.titleEnd")}</span>
                 </Title>
                 <div className="home-hero__lines"></div>
+
+                <Row>
+                  <Col xl={24} lg={24} md={0} sm={0} xs={0}>
+                    <Paragraph className="home-hero__desc">
+                      {t("hero.desc")}
+                    </Paragraph>
+                  </Col>
+                  <Col xl={24} lg={24} md={0} sm={0} xs={0}>
+                    <div className="home-hero__bottom">
+                      <div className="home-hero__social">
+                        <div className="home-hero__avatars">
+                          <div className="home-hero__avatar">
+                            <Image
+                              src={voanddiepAvatar}
+                              alt="VovaDiep"
+                              className="home-hero__avatar--img"
+                            />
+                          </div>
+                          <div className="home-hero__avatar">
+                            {/* <img src={diepAvatar} alt="diep" />
+                             */}
+                            <Image
+                              src={diepAvatar}
+                              alt="diep"
+                              className="home-hero__avatar--img"
+                            />
+                          </div>
+                          <div className="home-hero__avatar">
+                            <Image
+                              src={voAvatar}
+                              alt="vo"
+                              className="home-hero__avatar--img"
+                            />
+                          </div>
+                          <div className="home-hero__avatar">
+                            <Image
+                              src={yenAvatar}
+                              alt="yen"
+                              className="home-hero__avatar--img"
+                            />
+                          </div>
+                          <div className="home-hero__avatar">
+                            <Image
+                              src={nganAvatar}
+                              alt="ngan"
+                              className="home-hero__avatar--img"
+                            />
+                          </div>
+                        </div>
+
+                        <span className="home-hero__proof">
+                          {t("hero.rate")}
+                        </span>
+                      </div>
+                      <Rate
+                        disabled
+                        defaultValue={5}
+                        className="home-hero__rate"
+                      />
+
+                      <button className="home-hero__btn">
+                        {t("hero.btn")}
+                      </button>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+
+            {/* Right (để trống/ảnh minh hoạ) */}
+            <Col xl={14} lg={14} md={24} sm={24} xs={24}>
+              <div className="home-hero__right">
+                <Image
+                  src={diepandvoAvatar}
+                  alt="DiepVaVo"
+                  className="home-hero__right--img"
+                />
+              </div>
+            </Col>
+          </Row>
+          <Row gutter={[20, 20]}>
+            <Col xl={0} lg={0} md={24} sm={24} xs={24}>
+              <div className="home-hero__left">
                 <Paragraph className="home-hero__desc">
                   {t("hero.desc")}
                 </Paragraph>
-
                 <div className="home-hero__bottom">
                   <div className="home-hero__social">
                     <div className="home-hero__avatars">
@@ -114,17 +196,6 @@ const HeroHomePage = () => {
 
                   <button className="home-hero__btn">{t("hero.btn")}</button>
                 </div>
-              </div>
-            </Col>
-
-            {/* Right (để trống/ảnh minh hoạ) */}
-            <Col xl={14} lg={14} md={14} sm={24} xs={24}>
-              <div className="home-hero__right">
-                <Image
-                  src={diepandvoAvatar}
-                  alt="DiepVaVo"
-                  className="home-hero__right--img"
-                />
               </div>
             </Col>
           </Row>

@@ -4,57 +4,78 @@
   @media (min-width: 992px) {
     padding: 48px 0;
   }
-}
+  &__row {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+  &__title {
+    margin: 0;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.5rem;
+  }
+  &__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-right: 0.75rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f2f3f8;
+    color: #ff0000;
+    font-size: 18px;
+    box-shadow: inset 0 0 0 1px rgba(255, 77, 79, 0.22);
+  }
+  &__desc {
+    margin-bottom: 1.25rem;
 
-.who-for__card {
-  border-radius: 16px !important;
-  border: 1px solid var(--border) !important;
-  background: var(--card) !important;
+    width: 100%;
+    display: block;
+    line-height: 1.5rem;
+    margin: 0;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    gap: 12px;
 
-  .ant-card-body {
-    padding: 24px;
+    div {
+      color: transparent;
+      background-clip: text;
+      background-image: linear-gradient(90.57deg, #3e65fe, #15c4ff);
+      margin: 0;
+      font-size: 0.875rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 1.25rem;
+    }
+    span {
+      color: #3250e7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        // font-size: 1rem;
+        display: block;
+        vertical-align: middle;
+      }
+    }
   }
 }
-
-.who-for__header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.who-for__icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  background: var(--icon-bg);
-  color: var(--icon-fg);
-  font-size: 18px;
-  box-shadow: inset 0 0 0 1px rgba(255, 77, 79, 0.22);
-}
-
-.who-for__title {
-  margin: 0 !important;
-  font-weight: 700 !important;
-  color: var(--page-fg) !important;
-}
-
-.who-for__desc {
-  color: var(--muted) !important;
-  margin: 8px 0 16px;
-  line-height: 1.7;
-}
-
-.who-for__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--primary);
-  font-weight: 500;
-
-  &:hover {
-    text-decoration: underline;
+@media (min-width: 1024px) {
+  .who-for__desc {
+    max-width: 20rem;
   }
 }

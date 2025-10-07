@@ -3,14 +3,15 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  height: 700px;
-  width: 100%;
+  // min-height: 700px;
+  height: max-content;
+  // width: 100%;
   padding: 64px 16px;
-  @media (min-width: 992px) {
-    padding: 96px 24px;
-  }
   &__left {
     padding-right: 20px;
+    display: flex;
+    flex-direction: column;
+    height: max-content;
   }
   &__badge {
     padding: 0.125rem;
@@ -68,7 +69,8 @@
     padding-left: 0;
     padding-right: 0;
     line-height: 1.5rem;
-    margin: 0 !important;
+    margin: 0;
+    margin-bottom: 0 !important;
     font-size: 1rem;
     font-style: normal;
     font-weight: 500;
@@ -128,7 +130,7 @@
     line-height: 1.25rem;
   }
   &__rate {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
   }
   &__btn {
@@ -208,6 +210,33 @@
     &__title {
       font-size: 1.875rem;
       line-height: 2.25rem;
+    }
+  }
+}
+@media (max-width: 991.98px) {
+  .home-hero {
+    &__left {
+      align-items: center;
+    }
+    &__desc,
+    &__bottom {
+      text-align: center;
+      align-items: center;
+    }
+    &__desc {
+      margin-top: 20px;
+      display: inline-block;
+      text-align: center;
+    }
+    &__title {
+      text-align: center;
+    }
+    &__social {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    &__proof {
+      font-size: 1rem;
     }
   }
 }
