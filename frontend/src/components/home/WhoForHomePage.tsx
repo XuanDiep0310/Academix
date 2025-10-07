@@ -44,7 +44,7 @@ const WhoFor = () => {
         <Row gutter={[16, 16]}>
           {items.map((it) => (
             <Col key={it.key} xs={24} md={12} lg={8}>
-              <Card bordered className="who-for__card">
+              <Card className="who-for__card">
                 <div className="who-for__header">
                   <span className="who-for__icon">{it.icon}</span>
                   <Title level={4} className="who-for__title">

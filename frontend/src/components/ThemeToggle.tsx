@@ -19,7 +19,6 @@ export default function ThemeToggle() {
   ];
 
   if (!mounted) {
-    // SSR & hydration khớp hoàn toàn (không controlled)
     return (
       <Segmented
         options={options}

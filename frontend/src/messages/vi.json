@@ -9,6 +9,18 @@
     "signIn": "Đăng nhập",
     "signUp": "Đăng ký",
     "tagOne": "#1 Nền tảng thi trắc nghiệm online tốt nhất",
+    "hero": {
+      "tag": "#1 Nền tảng thi trắc nghiệm online tốt nhất",
+      "titleBegin": "Có một cách đơn giản hơn để",
+      "title-animation1": "tự động tạo câu hỏi",
+      "title-animation2": "tạo nhanh đề thi",
+      "title-animation3": "học tập ôn thi",
+      "title-animation4": "tổ chức kì thi",
+      "titleEnd": "Trắc nghiệm Online",
+      "desc": "Tạo câu hỏi và dề thi nhanh chóng với những giải pháp thông minh. Academix tận dụng sức mạnh công nghệ để nâng cao trình độ học tập của các bạn.",
+      "rate": "Hơn 200.000+ Khách hàng đã yêu thích sử dụng",
+      "btn": "Tạo đề thi ngay"
+    },
     "whoFor": {
       "cta": "Bắt đầu",
       "student": {
