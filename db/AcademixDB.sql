@@ -730,19 +730,6 @@ VALUES
     (N'Trường Đại học Bách Khoa', 'hcmut.edu.vn', SYSUTCDATETIME()),
     (N'Trường Đại học Khoa học Tự nhiên', 'hcmus.edu.vn', SYSUTCDATETIME());
 
--- Insert sample permissions
-INSERT INTO dbo.Permission (Name, Code) VALUES
-    (N'Xem khóa học', 'VIEW_COURSE'),
-    (N'Tạo khóa học', 'CREATE_COURSE'),
-    (N'Sửa khóa học', 'EDIT_COURSE'),
-    (N'Xóa khóa học', 'DELETE_COURSE'),
-    (N'Xem bài thi', 'VIEW_EXAM'),
-    (N'Tạo bài thi', 'CREATE_EXAM'),
-    (N'Chấm bài', 'GRADE_EXAM'),
-    (N'Quản lý người dùng', 'MANAGE_USERS');
-
-GO
-
 /* ============================================================
    UTILITY QUERIES - Kiểm tra UTC
    ============================================================ */

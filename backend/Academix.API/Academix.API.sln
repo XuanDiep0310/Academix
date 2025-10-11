@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22 d17.14
+VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academix.API", "Academix.API.csproj", "{4EF41E62-5FBD-478A-97D0-4F2FBBDFB23B}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academix.Application", "..\Academix.Application\Academix.Application.csproj", "{43C19B08-4F8E-4C20-96E3-4BD954877C53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academix.Infrastructure", "..\Academix.Infrastructure\Academix.Infrastructure.csproj", "{028ABE6A-946A-455B-9A25-2DB3A596FAE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupAdmin", "..\SetupAdmin\SetupAdmin.csproj", "{E0A70515-9612-4ABC-A1B5-CD229F737223}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{028ABE6A-946A-455B-9A25-2DB3A596FAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{028ABE6A-946A-455B-9A25-2DB3A596FAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{028ABE6A-946A-455B-9A25-2DB3A596FAE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0A70515-9612-4ABC-A1B5-CD229F737223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0A70515-9612-4ABC-A1B5-CD229F737223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0A70515-9612-4ABC-A1B5-CD229F737223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0A70515-9612-4ABC-A1B5-CD229F737223}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
