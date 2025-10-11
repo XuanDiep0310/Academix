@@ -1,10 +1,10 @@
-
-using Academix.Application.Interfaces;
-using Academix.Domain.Entities;
+﻿using Academix.Application.Interfaces;
+using Academix.Infrastructure;
 using Academix.Infrastructure.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using System.Text;
 
@@ -14,7 +14,7 @@ namespace Academix.API
     {
         public static void Main(string[] args)
         {
-            #region Configurating  Services - Start
+            #region Configurating Services - Start
             var builder = WebApplication.CreateBuilder(args);
 
             // Database
@@ -68,20 +68,54 @@ namespace Academix.API
                 });
             });
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
-            #endregion Configurating  Services - End
+            builder.Services.AddEndpointsApiExplorer();
 
-            #region Configurating  Middleware - Start
+            // Swagger with JWT
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Academix API",
+                    Version = "v1",
+                    Description = "Learning Management System API with RBAC"
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme. 
+                                  Enter 'Bearer' [space] and then your token in the text input below.
+                                  Example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
+            #endregion
+
+            #region Configurating Middleware - Start
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
                 app.MapScalarApiReference(options =>
                 {
                     options.WithTitle("Academix API");
@@ -89,20 +123,18 @@ namespace Academix.API
                     options.WithSidebar(true);
                 });
 
-                app.UseSwaggerUi(options =>
-                {
-                    options.DocumentPath = "openapi/v1.json";
-                });
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAll");
-            app.UseAuthentication();
+            app.UseAuthentication();  
             app.UseAuthorization();
             app.MapControllers();
 
             app.Run();
-            #endregion Configurating  Middleware - Start
+            #endregion
         }
     }
 }
