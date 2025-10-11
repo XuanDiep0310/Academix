@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Academix.Domain.Entities;
 
-namespace Academix.Domain.Entities;
+namespace Academix.Infrastructure;
 
 public partial class AcademixDbContext : DbContext
 {
