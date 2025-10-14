@@ -1,0 +1,163 @@
+/* vùng chứa full width giống hình */
+.embla {
+  position: relative;
+  width: 100%;
+  padding: 8px 0 12px;
+  --gap: 24px;
+  --slide-size: 420px; /* desktop ~ 4 thẻ/khung nếu đủ rộng */
+  --page-bg: var(--page-bg, #f6f8ff);
+}
+
+/* viewport & container (Embla) */
+.embla__viewport {
+  overflow: hidden;
+  padding: 4px 12px 8px;
+}
+.embla__container {
+  display: flex;
+  gap: var(--gap);
+}
+
+/* mỗi slide (kích thước card) */
+.embla__slide {
+  flex: 0 0 var(--slide-size);
+}
+
+/* responsive: giống hình — mobile hiển thị ~1.1 card, tablet ~1.6 */
+@media (max-width: 575.98px) {
+  .embla__slide {
+    flex-basis: 86vw;
+  }
+}
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .embla__slide {
+    flex-basis: 56vw;
+  }
+}
+
+/* gradient border + shadow như mockup */
+.cardWrap {
+  position: relative;
+  padding: 2px; /* độ dày viền */
+  border-radius: 24px;
+  background: linear-gradient(90deg, #3e65fe, #d23cff);
+  box-shadow: 0 16px 40px rgba(20, 20, 43, 0.15);
+}
+
+.card {
+  border-radius: 22px;
+  background: #fff;
+  padding: 20px 22px;
+}
+
+/* header: avatar + tên + trường */
+.card__head {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card__avatar {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #f2f3f5;
+}
+
+.card__meta {
+  min-width: 0;
+}
+.card__name {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.1;
+  color: #111827;
+  margin-bottom: 2px;
+}
+.card__school {
+  font-size: 13px;
+  line-height: 1.15;
+  color: #6b7280;
+  white-space: pre-wrap; /* cho xuống dòng như hình */
+}
+
+/* nội dung */
+.card__quote {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #111827;
+  margin: 10px 0 0;
+  min-height: 90px; /* giữ chiều cao tương đương */
+}
+.card__more {
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #3e65fe;
+}
+
+/* nav buttons trái/phải */
+.embla__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  line-height: 0;
+  cursor: pointer;
+}
+.embla__nav--prev {
+  left: 8px;
+}
+.embla__nav--next {
+  right: 8px;
+}
+.embla__nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* fade 2 biên */
+.embla__fade {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 56px;
+  z-index: 1;
+}
+.embla__fade--left {
+  left: 0;
+  background: linear-gradient(90deg, var(--page-bg), transparent);
+}
+.embla__fade--right {
+  right: 0;
+  background: linear-gradient(270deg, var(--page-bg), transparent);
+}
+
+/* Dark mode hòa hợp biến màu của bạn */
+.dark .card {
+  background: #0b0f19;
+}
+.dark .card__name {
+  color: #e5e7eb;
+}
+.dark .card__quote {
+  color: #e5e7eb;
+}
+.dark .embla__nav {
+  background: #0b0f19;
+}

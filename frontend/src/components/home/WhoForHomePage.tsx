@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import "@/assets/styles/whoForHomePage.scss";
 import { useTranslations } from "next-intl";
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 const WhoFor = () => {
   const t = useTranslations();
@@ -53,7 +53,7 @@ const WhoFor = () => {
                 <Paragraph className="who-for__desc">{it.desc}</Paragraph>
 
                 <Link href={it.href} className="who-for__link">
-                  <div>Bắt đầu</div> <RightOutlined />
+                  <div>{t("UserPage.whoFor.start")}</div> <RightOutlined />
                 </Link>
               </div>
             </Col>

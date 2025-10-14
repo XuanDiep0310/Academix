@@ -36,8 +36,45 @@
         "title": "Training centers",
         "desc": "Detailed technical support that helps organizations quickly organize and schedule training content for staff.",
         "href": "/bat-dau/trung-tam"
+      },
+      "start": "Start"
+    },
+    "title": "A flexible and easy-to-use learning platform",
+    "content": {
+      "autoQuiz": {
+        "label": "FAST",
+        "title-color": "Automatically ",
+        "title": "generate questions and quizzes",
+        "desc1": "Quickly create quizzes with just a few clicks. By uploading a Word or PDF file, AI will help you generate accurate questions within minutes.",
+        "desc2": "Optimize your experience, save time and effort, ensure objectivity, and have more time to study and research.",
+        "button": "Get started"
+      },
+      "friendly": {
+        "label": "OPTIMIZED",
+        "title-color": "User-friendly and personalized ",
+        "title": "learning experience",
+        "desc1": "The Academix interface is designed to be intuitive and friendly, helping users perform tasks quickly and make full use of all useful features on the platform.",
+        "desc2": "By personalizing learning, each user can have their own experience and build a study path that suits them, encouraging independent thinking, creativity, and better results.",
+        "button": "Get started"
+      },
+      "virtualExam": {
+        "label": "EFFICIENT",
+        "title-color": "Virtual exam ",
+        "title": "online",
+        "desc1": "The platform allows exams and assessments to be conducted safely, securely, and efficiently. Test-takers can take exams from anywhere with an internet connection without having to travel to a physical test site.",
+        "desc2": "Academix uses advanced technology to simulate traditional exam rooms, providing many superior benefits compared to old methods.",
+        "button": "Get started"
+      },
+      "learning": {
+        "label": "FLEXIBLE",
+        "title-color": "anytime, anywhere",
+        "title": "Learning ",
+        "desc1": "Wherever you are, as long as you have an internet-connected device, you can study.",
+        "desc2": "You can learn on your smartphone, tablet, laptop, or desktop computer.",
+        "button": "Get started"
       }
-    }
+    },
+    "response": "User feedback"
   },
   "Theme": { "light": "Light", "dark": "Dark", "system": "System" }
 }
