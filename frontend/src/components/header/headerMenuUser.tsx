@@ -6,9 +6,9 @@ import Link from "next/link";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-const headerMenuUser = () => {
+const HeaderMenuUser = () => {
   // const [current, setCurrent] = useState("mail");
-  const t = useTranslations("UserPage" as any);
+  const t = useTranslations("UserPage");
 
   const items: MenuItem[] = [
     {
@@ -38,4 +38,4 @@ const headerMenuUser = () => {
   return <Menu onClick={onClick} mode="horizontal" items={items} />;
 };
 
-export default headerMenuUser;
+export default HeaderMenuUser;
