@@ -1,0 +1,607 @@
+// styles/signup.scss
+
+.signup-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #89cff0 0%, #4a9ecd 100%);
+}
+
+.signup-row {
+  min-height: 100vh;
+  margin: 0 !important;
+}
+
+// Logo Section
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+    min-height: 400px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px;
+    min-height: 350px;
+  }
+}
+
+.logo-circle {
+  position: relative;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+
+  @media (max-width: 1200px) {
+    width: 380px;
+    height: 380px;
+  }
+
+  @media (max-width: 768px) {
+    width: 320px;
+    height: 320px;
+  }
+
+  @media (max-width: 480px) {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+// Panda Icon
+.panda-icon {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-bottom: 20px;
+
+  @media (max-width: 1200px) {
+    width: 170px;
+    height: 170px;
+  }
+
+  @media (max-width: 768px) {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 15px;
+  }
+
+  @media (max-width: 480px) {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.panda-face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #b8e6ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #000;
+
+  @media (max-width: 480px) {
+    border: 3px solid #000;
+  }
+}
+
+.ear {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: #000;
+  border-radius: 50%;
+  top: 10px;
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    top: 8px;
+  }
+
+  @media (max-width: 480px) {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+.ear-left {
+  left: 10px;
+
+  @media (max-width: 480px) {
+    left: 8px;
+  }
+}
+
+.ear-right {
+  right: 10px;
+
+  @media (max-width: 480px) {
+    right: 8px;
+  }
+}
+
+.graduation-cap {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.cap-top {
+  width: 80px;
+  height: 40px;
+  background: #2c3e50;
+  border-radius: 5px 5px 0 0;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    width: 100px;
+    height: 8px;
+    background: #2c3e50;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 768px) {
+    width: 65px;
+    height: 32px;
+
+    &::before {
+      width: 85px;
+      height: 7px;
+      transform: translateX(-50%) translateY(-7px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 55px;
+    height: 28px;
+
+    &::before {
+      width: 70px;
+      height: 6px;
+      transform: translateX(-50%) translateY(-6px);
+    }
+  }
+}
+
+.tassel {
+  position: absolute;
+  right: -15px;
+  top: 0;
+  width: 3px;
+  height: 30px;
+  background: #f39c12;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: #f39c12;
+    border-radius: 50%;
+  }
+
+  @media (max-width: 768px) {
+    height: 25px;
+    right: -12px;
+
+    &::after {
+      width: 10px;
+      height: 10px;
+      bottom: -6px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    height: 20px;
+    right: -10px;
+    width: 2px;
+
+    &::after {
+      width: 8px;
+      height: 8px;
+      bottom: -5px;
+    }
+  }
+}
+
+.eyes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  display: flex;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    width: 95px;
+  }
+
+  @media (max-width: 480px) {
+    width: 80px;
+  }
+}
+
+.eye {
+  width: 45px;
+  height: 45px;
+  background: #000;
+  border-radius: 50%;
+  position: relative;
+
+  @media (max-width: 768px) {
+    width: 36px;
+    height: 36px;
+  }
+
+  @media (max-width: 480px) {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.eye-patch {
+  position: absolute;
+  width: 55px;
+  height: 30px;
+  background: #4a5568;
+  border-radius: 50% 50% 0 0;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  @media (max-width: 768px) {
+    width: 45px;
+    height: 24px;
+    top: -4px;
+  }
+
+  @media (max-width: 480px) {
+    width: 38px;
+    height: 20px;
+    top: -3px;
+  }
+}
+
+.nose {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15px;
+  height: 12px;
+  background: #000;
+  border-radius: 50%;
+
+  @media (max-width: 768px) {
+    width: 12px;
+    height: 10px;
+  }
+
+  @media (max-width: 480px) {
+    width: 10px;
+    height: 8px;
+  }
+}
+
+.mouth {
+  position: absolute;
+  top: 68%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px;
+  height: 30px;
+  background: #000;
+  border-radius: 0 0 50% 50%;
+
+  @media (max-width: 768px) {
+    width: 20px;
+    height: 24px;
+  }
+
+  @media (max-width: 480px) {
+    width: 18px;
+    height: 20px;
+  }
+}
+
+.cheek {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: #ffb6c1;
+  border-radius: 50%;
+  top: 55%;
+
+  @media (max-width: 768px) {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media (max-width: 480px) {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.cheek-left {
+  left: 15px;
+
+  @media (max-width: 768px) {
+    left: 12px;
+  }
+
+  @media (max-width: 480px) {
+    left: 10px;
+  }
+}
+
+.cheek-right {
+  right: 15px;
+
+  @media (max-width: 768px) {
+    right: 12px;
+  }
+
+  @media (max-width: 480px) {
+    right: 10px;
+  }
+}
+
+.brand-name {
+  font-size: 48px;
+  font-weight: 900;
+  color: #000;
+  margin: 0;
+  letter-spacing: 2px;
+  text-align: center;
+
+  @media (max-width: 1200px) {
+    font-size: 40px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 32px;
+    letter-spacing: 1.5px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 28px;
+    letter-spacing: 1px;
+  }
+}
+
+// Form Section
+.form-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 15px;
+  }
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 50px 60px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 480px;
+
+  @media (max-width: 1200px) {
+    padding: 40px 50px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 35px 30px;
+    border-radius: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 25px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 28px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 24px;
+  }
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 32px 0;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+    margin: 0 0 28px 0;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    margin: 0 0 24px 0;
+  }
+}
+
+.signup-form {
+  .ant-form-item-label > label {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+
+    @media (max-width: 480px) {
+      font-size: 13px;
+    }
+  }
+
+  .ant-input,
+  .ant-input-password {
+    border-radius: 8px;
+
+    &:focus,
+    &:hover {
+      border-color: #1890ff;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 14px;
+    }
+  }
+
+  .ant-input-affix-wrapper {
+    border-radius: 8px;
+
+    &:focus,
+    &:hover {
+      border-color: #1890ff;
+    }
+  }
+
+  .ant-checkbox-wrapper {
+    font-size: 13px;
+
+    @media (max-width: 480px) {
+      font-size: 12px;
+    }
+  }
+}
+
+.submit-button {
+  height: 48px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #1565c0;
+  border: none;
+  margin-top: 8px;
+
+  &:hover,
+  &:focus {
+    background: #0d47a1 !important;
+  }
+
+  @media (max-width: 480px) {
+    height: 44px;
+    font-size: 15px;
+  }
+}
+
+.divider {
+  margin: 24px 0;
+  color: #999;
+  font-size: 12px;
+
+  .ant-divider-inner-text {
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    margin: 20px 0;
+    font-size: 11px;
+  }
+
+  @media (max-width: 480px) {
+    margin: 18px 0;
+    font-size: 10px;
+  }
+}
+
+.social-buttons {
+  margin-bottom: 24px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 18px;
+  }
+}
+
+.social-button {
+  height: 48px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1.5px solid #e0e0e0;
+
+  &:hover {
+    border-color: #1890ff !important;
+    color: #1890ff !important;
+  }
+
+  @media (max-width: 768px) {
+    height: 44px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    height: 42px;
+    font-size: 13px;
+  }
+}
+
+.signin-link {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
+}
+
+.link {
+  color: #1565c0;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    color: #0d47a1;
+  }
+}
