@@ -2,7 +2,6 @@ import { Col, Row } from "antd";
 import Image from "next/image";
 import HeaderMenuUser from "./HeaderMenuUser";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
-import ThemeToggle from "@/components/ThemeToggle";
 import logoAcademix from "@/assets/img/logo-Academix.png";
 import "@/assets/styles/headerLayoutUser.scss";
 
@@ -27,7 +26,6 @@ const HeaderLayoutUser = () => {
               <Col>
                 <div className="header-user__settings">
                   <LocaleSwitcher />
-                  <ThemeToggle />
                 </div>
               </Col>
             </Row>
