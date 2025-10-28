@@ -1,7 +1,7 @@
 "use client";
-import { Button, Col, Rate, Row, Typography } from "antd";
+import { Col, Rate, Row, Typography } from "antd";
 // import Image from "next/image";
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 import "@/assets/styles/heroHomePage.scss";
 import { TypeAnimation } from "react-type-animation";
 import { useLocale, useTranslations } from "next-intl";
