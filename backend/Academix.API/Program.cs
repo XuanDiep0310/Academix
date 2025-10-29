@@ -56,6 +56,7 @@ namespace Academix.API
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPermissionService, PermissionService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IClassService, ClassService>();
 
             // CORS
             builder.Services.AddCors(options =>
@@ -129,7 +130,7 @@ namespace Academix.API
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAll");
-            app.UseAuthentication();  
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
 
