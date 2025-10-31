@@ -57,6 +57,7 @@ namespace Academix.API
             builder.Services.AddScoped<IPermissionService, PermissionService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IClassService, ClassService>();
+            builder.Services.AddScoped<ICourseService, CourseService>();
 
             // CORS
             builder.Services.AddCors(options =>
