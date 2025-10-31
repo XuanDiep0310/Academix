@@ -768,3 +768,87 @@ EXEC sys.sp_addextendedproperty
     @level1type = N'TABLE',  @level1name = 'User',
     @level2type = N'COLUMN', @level2name = 'LastLoginAt';
 GO
+
+-- BỔ SUNG
+-- =============================================
+-- 1. REFRESH TOKEN TABLE
+-- =============================================
+CREATE TABLE dbo.RefreshToken (
+    RefreshTokenId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL FOREIGN KEY REFERENCES dbo.[User](UserId) ON DELETE CASCADE,
+    Token NVARCHAR(500) NOT NULL UNIQUE,
+    ExpiresAt DATETIME2(7) NOT NULL,
+    CreatedAt DATETIME2(7) NOT NULL DEFAULT SYSUTCDATETIME(),
+    CreatedByIp NVARCHAR(50) NULL,
+    RevokedAt DATETIME2(7) NULL,
+    RevokedByIp NVARCHAR(50) NULL,
+    ReplacedByToken NVARCHAR(500) NULL,
+    ReasonRevoked NVARCHAR(200) NULL,
+    IsExpired AS CASE WHEN ExpiresAt < SYSUTCDATETIME() THEN 1 ELSE 0 END,
+    IsRevoked AS CASE WHEN RevokedAt IS NOT NULL THEN 1 ELSE 0 END,
+    IsActive AS CASE 
+        WHEN RevokedAt IS NULL AND ExpiresAt > SYSUTCDATETIME() THEN 1 
+        ELSE 0 
+    END
+);
+
+CREATE INDEX IX_RefreshToken_User ON dbo.RefreshToken(UserId);
+CREATE INDEX IX_RefreshToken_Token ON dbo.RefreshToken(Token) WHERE RevokedAt IS NULL;
+CREATE INDEX IX_RefreshToken_Active ON dbo.RefreshToken(UserId, IsActive);
+
+-- =============================================
+-- 2. TOKEN BLACKLIST TABLE (cho Access Token)
+-- =============================================
+CREATE TABLE dbo.TokenBlacklist (
+    TokenBlacklistId INT IDENTITY(1,1) PRIMARY KEY,
+    Token NVARCHAR(MAX) NOT NULL, -- Full JWT token
+    UserId INT NOT NULL,
+    ExpiresAt DATETIME2(7) NOT NULL,
+    RevokedAt DATETIME2(7) NOT NULL DEFAULT SYSUTCDATETIME(),
+    Reason NVARCHAR(200) NULL
+);
+
+CREATE INDEX IX_TokenBlacklist_User ON dbo.TokenBlacklist(UserId);
+CREATE INDEX IX_TokenBlacklist_Expiry ON dbo.TokenBlacklist(ExpiresAt);
+
+--=============================================
+-- 3. EMAIL CONFIRMATION TABLE
+--=============================================
+CREATE TABLE dbo.EmailConfirmationToken (
+    TokenId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL FOREIGN KEY REFERENCES dbo.[User](UserId) ON DELETE CASCADE,
+    Token NVARCHAR(500) NOT NULL UNIQUE,
+    ExpiresAt DATETIME2(7) NOT NULL,
+    CreatedAt DATETIME2(7) NOT NULL DEFAULT SYSUTCDATETIME(),
+    UsedAt DATETIME2(7) NULL,
+    IsExpired AS CASE WHEN ExpiresAt < SYSUTCDATETIME() THEN 1 ELSE 0 END,
+    IsUsed AS CASE WHEN UsedAt IS NOT NULL THEN 1 ELSE 0 END
+);
+
+CREATE INDEX IX_EmailConfirmationToken_User ON dbo.EmailConfirmationToken(UserId);
+CREATE INDEX IX_EmailConfirmationToken_Token ON dbo.EmailConfirmationToken(Token) WHERE UsedAt IS NULL;
+GO
+-- =============================================
+-- 4. CLEANUP OLD TOKENS (Scheduled job)
+-- =============================================
+-- Xóa refresh tokens đã hết hạn > 30 ngày
+CREATE PROCEDURE dbo.CleanupExpiredTokens
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @CutoffDate DATETIME2(7) = DATEADD(DAY, -30, SYSUTCDATETIME());
+    
+    -- Delete expired refresh tokens
+    DELETE FROM dbo.RefreshToken
+    WHERE ExpiresAt < @CutoffDate;
+    
+    -- Delete expired blacklist entries
+    DELETE FROM dbo.TokenBlacklist
+    WHERE ExpiresAt < SYSUTCDATETIME();
+    
+    SELECT 
+        @@ROWCOUNT AS DeletedRows,
+        SYSUTCDATETIME() AS CleanupTime;
+END;
+GO
