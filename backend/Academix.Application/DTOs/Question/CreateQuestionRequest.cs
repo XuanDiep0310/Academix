@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Academix.Application.DTOs.Question
+{
+    public class CreateQuestionRequest
+    {
+        [Required]
+        public byte TypeId { get; set; }
+
+        [Required]
+        public string Stem { get; set; } = string.Empty;
+
+        public string? Solution { get; set; }
+
+        [Range(1, 5)]
+        public byte? Difficulty { get; set; }
+
+        public string? Metadata { get; set; }
+        public int? OrganizationId { get; set; }
+        public int? CreatedBy { get; set; }
+
+        public List<QuestionOptionResponse> Options { get; set; } = new();
+    }
+}
