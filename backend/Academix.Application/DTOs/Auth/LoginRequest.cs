@@ -11,5 +11,6 @@ namespace Academix.Application.DTOs.Auth
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string? TwoFACode { get; set; }
+        public string? IpAddress { get; set; }
     }
 }

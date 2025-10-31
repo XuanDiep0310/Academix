@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Academix.Application.DTOs.Auth
 {
-    public class RefreshTokenRequest
+    public class ResendConfirmationRequest
     {
-        public string RefreshToken { get; set; } = string.Empty;
-        public string? IpAddress { get; set; }
+        public string Email { get; set; } = string.Empty;
     }
 }

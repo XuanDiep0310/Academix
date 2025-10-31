@@ -15,5 +15,9 @@ namespace Academix.Application.Interfaces
         Task<bool> ValidateTokenAsync(string token, CancellationToken ct = default);
         Task LogoutAsync(int userId, CancellationToken ct = default);
         Task<UserDto> GetCurrentUserAsync(int userId, CancellationToken ct = default);
+
+        // New methods
+        Task RevokeTokenAsync(string refreshToken, string? ipAddress, CancellationToken ct = default);
+        Task BlacklistTokenAsync(string accessToken, int userId, DateTime expiresAt, string? reason = null, CancellationToken ct = default);
     }
 }

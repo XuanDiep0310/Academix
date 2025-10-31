@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Academix.Application.DTOs.Auth
 {
-    public class RefreshTokenRequest
+    public class Verify2FARequest
     {
-        public string RefreshToken { get; set; } = string.Empty;
-        public string? IpAddress { get; set; }
+        public string Code { get; set; } = string.Empty;
     }
 }
