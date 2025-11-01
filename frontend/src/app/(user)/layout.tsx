@@ -7,6 +7,7 @@ import "antd/dist/reset.css";
 import "@/app/globals.scss";
 import en from "@/messages/en.json";
 import HeaderLayoutUser from "@/components/header/HeaderLayoutUser";
+import NextAuthWrapper from "@/lib/next.auth.wrapper";
 type Messages = typeof en;
 type Locale = "en" | "vi";
 interface IProps {
@@ -59,8 +60,10 @@ export default async function RootLayout({ children }: IProps) {
               locale={locale}
               timeZone="Asia/Ho_Chi_Minh"
             >
-              <HeaderLayoutUser />
-              {children}
+              <NextAuthWrapper>
+                <HeaderLayoutUser />
+                {children}
+              </NextAuthWrapper>
             </NextIntlClientProvider>
           </AntdThemeRegistry>
         </ThemeProviderClient>
