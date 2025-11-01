@@ -2,6 +2,7 @@
 using Academix.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Academix.API.Controllers
 {
@@ -149,6 +150,25 @@ namespace Academix.API.Controllers
                 success = true,
                 message = "Class deleted successfully.",
                 data = (object?)null
+            });
+        }
+
+        [HttpGet("my-classes")]
+        public async Task<IActionResult> GetMyClasses()
+        {
+            // ✅ Lấy userId từ JWT (Claim)
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userIdClaim == null)
+                return Unauthorized(new { message = "User not authenticated" });
+
+            int userId = int.Parse(userIdClaim);
+
+            var classes = await _classService.GetMyClassesAsync(userId);
+            return Ok(new
+            {
+                success = true,
+                message = "Lấy danh sách lớp thành công",
+                data = classes
             });
         }
     }
