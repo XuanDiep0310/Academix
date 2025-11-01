@@ -14,50 +14,82 @@ namespace Academix.API
     {
         public static void Main(string[] args)
         {
-            #region Configurating Services - Start
             var builder = WebApplication.CreateBuilder(args);
 
-            // Database
+            #region Database Configuration
             builder.Services.AddDbContext<AcademixDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DbContext"),
                     providerOptions => providerOptions.EnableRetryOnFailure());
             });
+            #endregion
 
-            // JWT Authentication
+            #region JWT Authentication
             var jwtSecret = builder.Configuration["Jwt:Secret"]
                 ?? throw new InvalidOperationException("JWT Secret not configured");
+            var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "Academix";
+            var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "Academix";
 
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
             {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false; // Set true in production
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
                     ValidateIssuer = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "Academix",
+                    ValidIssuer = jwtIssuer,
                     ValidateAudience = true,
-                    ValidAudience = builder.Configuration["Jwt:Audience"] ?? "Academix",
+                    ValidAudience = jwtAudience,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
+                    ClockSkew = TimeSpan.Zero,
+                    RequireExpirationTime = true,
+                    RequireSignedTokens = true
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
 
             builder.Services.AddAuthorization();
+            #endregion
 
-            // Services
+            #region Service Registration
+            // Core Services
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPermissionService, PermissionService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IClassService, ClassService>();
+            builder.Services.AddScoped<ICourseService, CourseService>();
 
-            // CORS
+            // 2FA Service
+            builder.Services.AddScoped<I2FAService, TwoFactorAuthService>();
+
+            // Email Services
+            builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IEmailConfirmationService, EmailConfirmationService>();
+            #endregion
+
+            #region CORS
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
@@ -67,24 +99,24 @@ namespace Academix.API
                           .AllowAnyHeader();
                 });
             });
+            #endregion
 
+            #region Swagger Configuration
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-
-            // Swagger with JWT
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Academix API",
                     Version = "v1",
-                    Description = "Learning Management System API with RBAC"
+                    Description = "Learning Management System API with RBAC + 2FA + Email Confirmation"
                 });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = @"JWT Authorization header using the Bearer scheme. 
-                                  Enter 'Bearer' [space] and then your token in the text input below.
+                    Description = @"JWT Authorization header using the Bearer scheme.
+                                  Enter 'Bearer' [space] and then your token.
                                   Example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
@@ -110,10 +142,9 @@ namespace Academix.API
             });
             #endregion
 
-            #region Configurating Middleware - Start
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            #region Middleware Pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.MapScalarApiReference(options =>
@@ -129,8 +160,11 @@ namespace Academix.API
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAll");
-            app.UseAuthentication();  
+
+            // Important: Order matters!
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.MapControllers();
 
             app.Run();

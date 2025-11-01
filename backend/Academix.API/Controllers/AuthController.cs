@@ -12,10 +12,14 @@ namespace Academix.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IEmailConfirmationService _emailConfirmationService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(
+            IAuthService authService,
+            IEmailConfirmationService emailConfirmationService)
         {
             _authService = authService;
+            _emailConfirmationService = emailConfirmationService;
         }
 
         [HttpPost("register")]
@@ -83,6 +87,36 @@ namespace Academix.API.Controllers
             var userId = User.GetUserId();
             var user = await _authService.GetCurrentUserAsync(userId);
             return Ok(user);
+        }
+
+        [HttpGet("confirm-email")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string token)
+        {
+            if (string.IsNullOrEmpty(token))
+                return BadRequest(new { message = "Invalid token" });
+
+            var result = await _emailConfirmationService.ConfirmEmailAsync(token);
+
+            if (!result)
+                return BadRequest(new { message = "Invalid or expired token" });
+
+            return Ok(new { message = "Email confirmed successfully" });
+        }
+
+        [HttpPost("resend-confirmation")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResendConfirmation([FromBody] ResendConfirmationRequest request)
+        {
+            try
+            {
+                await _emailConfirmationService.ResendConfirmationEmailAsync(request.Email);
+                return Ok(new { message = "Confirmation email sent" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }
