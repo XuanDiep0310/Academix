@@ -39,14 +39,16 @@ export default function LocaleSwitcher() {
   }
 
   return (
-    <Select
-      style={{ width: 160 }}
-      value={value}
-      options={OPTIONS}
-      loading={isPending}
-      disabled={isPending}
-      onChange={onChange}
-      aria-label="Change language"
-    />
+    <div className="locale-switcher-root">
+      <Select
+        style={{ width: 160 }}
+        value={value}
+        options={OPTIONS}
+        loading={isPending}
+        disabled={isPending}
+        onChange={onChange}
+        aria-label="Change language"
+      />
+    </div>
   );
 }
