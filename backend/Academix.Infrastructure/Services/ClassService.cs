@@ -101,5 +101,19 @@ namespace Academix.Infrastructure.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<MyClassResponse>> GetMyClassesAsync(int userId)
+        {
+            return await _context.Enrollments
+                .Where(e => e.UserId == userId && e.IsActive)
+                .Include(e => e.Class)
+                .Select(e => new MyClassResponse
+                {
+                    ClassId = e.Class.ClassId,
+                    Title = e.Class.Title,
+                    CourseId = e.Class.CourseId
+                })
+                .ToListAsync();
+        }
     }
 }
