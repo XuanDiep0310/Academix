@@ -156,7 +156,6 @@ namespace Academix.API.Controllers
         [HttpGet("my-classes")]
         public async Task<IActionResult> GetMyClasses()
         {
-            // ✅ Lấy userId từ JWT (Claim)
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userIdClaim == null)
                 return Unauthorized(new { message = "User not authenticated" });

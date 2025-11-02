@@ -81,6 +81,7 @@ namespace Academix.API
             builder.Services.AddScoped<IClassService, ClassService>();
             builder.Services.AddScoped<IQuestionService, QuestionService>();
             builder.Services.AddScoped<ICourseService, CourseService>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
 
             // 2FA Service
             builder.Services.AddScoped<I2FAService, TwoFactorAuthService>();
