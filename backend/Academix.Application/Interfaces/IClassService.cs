@@ -14,5 +14,6 @@ namespace Academix.Application.Interfaces
         Task<ClassDto> CreateClassAsync(CreateClassRequest request);
         Task<bool> UpdateClassAsync(int classId, UpdateClassRequest request);
         Task<bool> DeleteClassAsync(int classId);
+        Task<IEnumerable<MyClassResponse>> GetMyClassesAsync(int userId);
     }
 }

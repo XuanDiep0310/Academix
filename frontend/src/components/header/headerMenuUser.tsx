@@ -1,14 +1,19 @@
 "use client";
+import LocaleSwitcher from "@/components/LocaleSwitcher";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
 const HeaderMenuUser = () => {
   // const [current, setCurrent] = useState("mail");
   const t = useTranslations("UserPage");
+  const { data } = useSession();
+  const session = data;
+  console.log(">> check session", session);
 
   const items: MenuItem[] = [
     {
@@ -24,9 +29,44 @@ const HeaderMenuUser = () => {
       label: <Link href="/contact">{t("contact")}</Link>,
       key: `${t("contact")}`,
     },
+    ...(session
+      ? [
+          {
+            key: "user",
+            label: <span>hihi </span>,
+            children: [
+              { key: "profile", label: <Link href="/profile">Profile</Link> },
+              {
+                key: "signout",
+                label: (
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      signOut();
+                    }}
+                  >
+                    Sign out
+                  </a>
+                ),
+              },
+            ],
+          },
+        ]
+      : [
+          { label: <Link href="/signup">{t("signUp")}</Link>, key: "signup" },
+          {
+            label: <Link href="/auth/signin">{t("signIn")}</Link>,
+            key: "signin",
+          },
+        ]),
     {
-      label: <Link href="/signIn">{t("signIn")}</Link>,
-      key: `${t("signIn")}`,
+      label: <LocaleSwitcher />,
+      key: "LocaleSwitcher",
+      disabled: true, // Disable item này
+      style: {
+        cursor: "default",
+        opacity: 1, // Giữ opacity bình thường khi disabled
+      },
     },
   ];
 
