@@ -4,7 +4,8 @@ import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+// signIn,
 
 type MenuItem = Required<MenuProps>["items"][number];
 

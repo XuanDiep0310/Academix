@@ -794,7 +794,7 @@ CREATE TABLE dbo.RefreshToken (
 
 CREATE INDEX IX_RefreshToken_User ON dbo.RefreshToken(UserId);
 CREATE INDEX IX_RefreshToken_Token ON dbo.RefreshToken(Token) WHERE RevokedAt IS NULL;
-CREATE INDEX IX_RefreshToken_Active ON dbo.RefreshToken(UserId, IsActive);
+--CREATE INDEX IX_RefreshToken_Active ON dbo.RefreshToken(UserId, IsActive);
 
 -- =============================================
 -- 2. TOKEN BLACKLIST TABLE (cho Access Token)

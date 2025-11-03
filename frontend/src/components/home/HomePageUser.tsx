@@ -5,7 +5,7 @@ import TitleHomePage from "@/components/home/TitleHomePage";
 import ContentHomePage from "@/components/home/ContentHomePage";
 import ResponseHomePage from "@/components/home/ResponseHomePage";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth-options";
 
 const HomePageUser = async () => {
   const session = await getServerSession(authOptions);
