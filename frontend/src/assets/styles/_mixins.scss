@@ -1,0 +1,249 @@
+@import "./variables";
+
+// ===== MIXINS (dùng cho SCSS module) =====
+
+@mixin card-base($padding: 1.5rem, $border-radius: 0.5rem) {
+  background: $bg-white;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: $padding;
+  transition: all 0.2s;
+  overflow: hidden;
+
+  // Ant Design Card overrides trong module:
+  // - Nếu element hiện tại *là* ant-card => dùng :global& (kết hợp class hiện tại với .ant-card)
+  :global(&.ant-card) {
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    :global(.ant-card-head) {
+      padding: 0;
+      min-height: auto;
+      border-bottom: 1px solid $border-color;
+    }
+    :global(.ant-card-body) {
+      padding: 0;
+    }
+  }
+
+  // - Nếu ant-card nằm *bên trong* element hiện tại => dùng :global(.ant-card) selector con
+  :global(.ant-card) {
+    border-radius: $border-radius;
+  }
+}
+
+@mixin button-primary(
+  $bg-color: $primary-color,
+  $text-color: $bg-white,
+  $hover-color: $primary-hover
+) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: $bg-color;
+  color: $text-color;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background: $hover-color;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px $primary-shadow;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #e5e7eb;
+    color: $text-secondary;
+    transform: none;
+    box-shadow: none;
+  }
+
+  // AntD Button override (nếu element hiện tại LÀ .ant-btn)
+  :global(&.ant-btn) {
+    height: auto;
+    padding: 0.625rem 1.25rem;
+    border: none;
+  }
+}
+
+@mixin alert-banner($bg-color, $border-color, $text-color) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: $bg-color;
+  border: 1px solid $border-color;
+  border-radius: 0.5rem;
+  color: $text-color;
+  font-size: 0.875rem;
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+}
+
+@mixin input-style {
+  padding: 0.625rem 0.875rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+  transition: all 0.2s;
+
+  &:focus,
+  :global(&.ant-input:focus),
+  :global(&.ant-input-focused) {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    outline: none;
+  }
+}
+
+/* (tuỳ chọn) mixin scroll mượt kiểu app chat */
+@mixin smooth-scroll {
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.25);
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+// Nút dạng "ghost": nền trong suốt, có hover nhẹ, dùng tốt cho icon button / action phụ
+@mixin button-ghost(
+  $fg: $text-default,
+  $hover-bg: rgba($primary-color, 0.08),
+  $active-bg: rgba($primary-color, 0.14),
+  $radius: 8px
+) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: $fg;
+  border-radius: $radius;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.08s ease;
+
+  &:hover:not(:disabled) {
+    background: $hover-bg;
+  }
+
+  &:active:not(:disabled) {
+    background: $active-bg;
+    transform: translateY(0.5px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Nếu phần tử LÀ AntD Button ngay tại chỗ include (SCSS module)
+  :global(&.ant-btn) {
+    border: 1px solid transparent; // tránh viền mặc định
+    height: auto; // cho padding tự do
+    background: transparent;
+    color: $fg;
+
+    &:hover:not(:disabled) {
+      background: $hover-bg;
+    }
+    &:active:not(:disabled) {
+      background: $active-bg;
+    }
+  }
+}
+// Viền mảnh, nền trong suốt
+@mixin button-outline(
+  $fg: $text-default,
+  $bd: $border-color,
+  $hover-bg: rgba($text-default, 0.04),
+  $radius: 8px
+) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid $bd;
+  background: transparent;
+  color: $fg;
+  border-radius: $radius;
+  font-size: 0.875rem;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover:not(:disabled) {
+    background: $hover-bg;
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  :global(&.ant-btn) {
+    border: 1px solid $bd;
+    background: transparent;
+    color: $fg;
+  }
+}
+
+// Nền rất nhạt (dùng cho toolbar)
+@mixin button-subtle(
+  $fg: $text-default,
+  $bg: rgba(0, 0, 0, 0.03),
+  $hover-bg: rgba(0, 0, 0, 0.06),
+  $radius: 8px
+) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.7rem;
+  background: $bg;
+  color: $fg;
+  border: 1px solid transparent;
+  border-radius: $radius;
+  font-size: 0.875rem;
+  transition: background 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: $hover-bg;
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  :global(&.ant-btn) {
+    background: $bg;
+    color: $fg;
+    border: none;
+  }
+}
