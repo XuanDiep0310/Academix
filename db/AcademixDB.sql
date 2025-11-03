@@ -1,4 +1,4 @@
-/* ============================================================
+`/* ============================================================
    HỆ THỐNG ACADEMIX DATABASE - PRODUCTION READY
    - Sử dụng UTC cho tất cả timestamp (SYSUTCDATETIME())
    - Collation Vietnamese_CI_AS cho tiếng Việt
@@ -787,14 +787,14 @@ CREATE TABLE dbo.RefreshToken (
     IsExpired AS CASE WHEN ExpiresAt < SYSUTCDATETIME() THEN 1 ELSE 0 END,
     IsRevoked AS CASE WHEN RevokedAt IS NOT NULL THEN 1 ELSE 0 END,
     IsActive AS CASE 
-        WHEN RevokedAt IS NULL AND ExpiresAt > SYSUTCDATETIME() THEN 1 
-        ELSE 0 
+        WHEN RevokedAt IS NULL AND ExpiresAt > SYSUTCDATETIME() THEN 1
+        ELSE 0
     END
 );
 
 CREATE INDEX IX_RefreshToken_User ON dbo.RefreshToken(UserId);
 CREATE INDEX IX_RefreshToken_Token ON dbo.RefreshToken(Token) WHERE RevokedAt IS NULL;
-CREATE INDEX IX_RefreshToken_Active ON dbo.RefreshToken(UserId, IsActive);
+--CREATE INDEX IX_RefreshToken_Active ON dbo.RefreshToken(UserId, IsActive);
 
 -- =============================================
 -- 2. TOKEN BLACKLIST TABLE (cho Access Token)
@@ -836,18 +836,18 @@ CREATE PROCEDURE dbo.CleanupExpiredTokens
 AS
 BEGIN
     SET NOCOUNT ON;
-    
+
     DECLARE @CutoffDate DATETIME2(7) = DATEADD(DAY, -30, SYSUTCDATETIME());
-    
+
     -- Delete expired refresh tokens
     DELETE FROM dbo.RefreshToken
     WHERE ExpiresAt < @CutoffDate;
-    
+
     -- Delete expired blacklist entries
     DELETE FROM dbo.TokenBlacklist
     WHERE ExpiresAt < SYSUTCDATETIME();
-    
-    SELECT 
+
+    SELECT
         @@ROWCOUNT AS DeletedRows,
         SYSUTCDATETIME() AS CleanupTime;
 END;
