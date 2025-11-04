@@ -1,0 +1,78 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.muted {
+  color: $text-secondary;
+}
+.card {
+  @include card-base(12px, 12px);
+}
+.grid5 {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 12px;
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+.danger {
+  color: #cf1322;
+  font-weight: 700;
+}
+.alert {
+  @include alert-banner(#fff1f0, #ffa39e, #a8071a);
+}
+.listHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.subCard {
+  @include card-base(12px, 12px);
+}
+.subCardDanger {
+  border-color: #ffccc7;
+  background: #fff2f0;
+}
+.subHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+.subTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.answer {
+  background: #fafafa;
+  border: 1px solid $border-light;
+  border-radius: 10px;
+  padding: 10px;
+}
+.grid2 {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.scoreBox {
+  display: grid;
+  gap: 6px;
+}
+.actionsRight {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

@@ -1,0 +1,70 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h1 {
+    margin: 0;
+  }
+}
+.list {
+  display: grid;
+  gap: 10px;
+}
+.cardItem {
+  @include card-base(12px, 12px);
+}
+.itemRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.iconBox {
+  padding: 10px;
+  background: #fafafa;
+  border: 1px solid $border-light;
+  border-radius: 10px;
+}
+.pdf {
+  color: #ef4444;
+  font-size: 20px;
+}
+.video {
+  color: #1677ff;
+  font-size: 20px;
+}
+.meta {
+  flex: 1;
+}
+.title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.sub {
+  color: $text-secondary;
+  font-size: 13px;
+}
+.dropzone {
+  margin-top: 8px;
+  text-align: center;
+  padding: 24px;
+  border: 2px dashed $border-color;
+  border-radius: 12px;
+  color: $text-secondary;
+}
+.dropHint {
+  font-size: 12px;
+  color: $text-light;
+  margin-top: 4px;
+}
