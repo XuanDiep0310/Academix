@@ -1,0 +1,323 @@
+@import "./variables";
+@import "./mixins";
+
+.container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: $text-default;
+      margin: 0;
+    }
+    p {
+      color: $text-secondary;
+      margin-top: 0.25rem;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.btnPrimary {
+  @include button-primary;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* --- FILTER TABS (AntD) --- */
+.filterTabs {
+  .ant-tabs-nav {
+    margin-bottom: 1.5rem;
+  }
+  .ant-tabs-nav-list {
+    .ant-tabs-tab {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: $text-secondary;
+      &.ant-tabs-tab-active {
+        color: $primary-color;
+        .ant-tabs-tab-btn {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+/* --- DIALOG (AntD Modal) --- */
+.dialog {
+  .ant-modal-header {
+    padding: 1.5rem;
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $text-default;
+    }
+    p {
+      color: $text-secondary;
+      font-size: 0.875rem;
+    }
+  }
+  .ant-modal-body {
+    padding: 1.5rem;
+  }
+  .ant-modal-footer {
+    padding: 1.5rem;
+    border-top: none;
+    .ant-btn {
+      height: auto;
+      padding: 0.625rem 1rem;
+      flex: 1;
+    }
+  }
+}
+
+.formGroup {
+  margin-bottom: 1.25rem;
+  label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #374151;
+    .required {
+      color: $status-danger;
+    }
+  }
+  .ant-input,
+  .ant-select,
+  .ant-input-number,
+  .ant-select-selector {
+    @include input-style;
+  }
+  .charCount {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: $text-light;
+    text-align: right;
+  }
+}
+
+.btnCancel {
+  @include button-primary($bg-white, $text-secondary, $bg-light);
+  border: 1.5px solid #d1d5db;
+  color: $text-secondary !important;
+}
+
+.btnSubmit {
+  @include button-primary;
+}
+
+.emptyState {
+  @include card-base(4rem);
+  text-align: center;
+  border: 2px dashed $border-color;
+  .emptyIcon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1rem;
+    color: $text-light;
+  }
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $text-default;
+  }
+  p {
+    color: $text-secondary;
+  }
+}
+
+/* --- QUESTIONS LIST --- */
+.questionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.questionCard {
+  @include card-base(0, 0.75rem);
+  &:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .cardHeader {
+    padding: 1.5rem;
+    border-bottom: 1px solid $border-light;
+    .badges {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: $text-default;
+      margin: 0 0 0.75rem 0;
+      line-height: 1.5;
+    }
+    p {
+      color: $text-secondary;
+      font-size: 0.9rem;
+      margin: 0;
+      line-height: 1.6;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .cardFooter {
+    padding: 1rem 1.5rem;
+    background: $bg-light;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+.badgeAnswered {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  background: $badge-answered-bg;
+  color: $badge-answered-text;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badgeOpen {
+  @extend .badgeAnswered;
+  background: $badge-open-bg;
+  color: $badge-open-text;
+}
+
+.badgeClass {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  background: #eff6ff;
+  color: #1e40af;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.875rem;
+  flex-wrap: wrap;
+  .separator {
+    color: #d1d5db;
+  }
+  .authorName {
+    font-weight: 500;
+    color: $text-default;
+  }
+  .timestamp {
+    color: $text-secondary;
+  }
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $primary-color 0%, $primary-hover 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: $bg-white;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.btnLike {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: $bg-white;
+  border: 1.5px solid $border-color;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-secondary;
+  transition: all 0.2s;
+
+  &:hover {
+    background: $bg-light;
+    border-color: $primary-color;
+    color: $primary-color;
+    transform: translateY(-1px);
+  }
+  &.liked {
+    border-color: $primary-color;
+    color: $primary-color;
+    background: #e0efff;
+  }
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.2s;
+  }
+}
+
+.answerCount {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: $text-secondary;
+  font-weight: 500;
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+  .cardFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .authorInfo {
+    width: 100%;
+  }
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

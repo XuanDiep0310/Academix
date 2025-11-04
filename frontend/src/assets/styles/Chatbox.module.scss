@@ -1,0 +1,235 @@
+@import "./_variables";
+@import "./_mixins";
+
+.container {
+  padding: 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  .titleWrap {
+    h1 {
+      font-size: 1.5rem;
+      line-height: 1.2;
+      font-weight: 700;
+      color: $text-default;
+      margin: 0;
+    }
+    p {
+      color: $text-secondary;
+      margin: 0.25rem 0 0 0;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.5rem;
+
+  .iconBtn {
+    @include button-ghost;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+.chatCard {
+  @include card-base(0, 0.75rem);
+  height: calc(100vh - 220px);
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+
+  /* AntD elements bên trong SCSS module phải dùng :global */
+  :global(.ant-card-head) {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid $border-color;
+    min-height: unset;
+  }
+  :global(.ant-card-body) {
+    padding: 0; /* để phần content tự kiểm soát padding */
+  }
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: $text-default;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* cho phép con flex co giãn */
+  height: 100%;
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background: $bg-white;
+
+  /* scroll mượt và thanh cuộn gọn */
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+.messagesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.message {
+  display: flex;
+  gap: 0.75rem;
+
+  &.userMessage {
+    flex-direction: row-reverse;
+
+    .bubbleWrap {
+      align-items: flex-end;
+    }
+    .messageContent {
+      background: $primary-color;
+      color: $bg-white;
+    }
+    .timestamp {
+      color: #cfe3ff;
+    }
+  }
+
+  &.botMessage {
+    .messageContent {
+      background: $border-light;
+      color: $text-default;
+    }
+    .timestamp {
+      color: $text-secondary;
+    }
+  }
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    color: $text-secondary;
+  }
+}
+
+.bubbleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: min(720px, 85%);
+}
+
+.messageContent {
+  border-radius: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  line-height: 1.6;
+
+  p {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    & + p {
+      margin-top: 0.25rem;
+    }
+  }
+}
+
+.metaBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timestamp {
+  font-size: 0.75rem;
+}
+
+.copyBtn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0.125rem;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+.inputArea {
+  padding: 0.75rem;
+  border-top: 1px solid $border-color;
+  display: flex;
+  gap: 0.5rem;
+  background: $bg-white;
+  position: sticky;
+  bottom: 0;
+
+  /* AntD TextArea/ Input trong module */
+  :global(.ant-input),
+  :global(.ant-input-textarea) {
+    @include input-style;
+  }
+
+  .ta {
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* AntD Button trong module */
+  :global(.ant-btn) {
+    @include button-primary;
+    padding: 0.5rem 0.9rem;
+    width: auto;
+    border: none;
+  }
+}
+
+.icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
