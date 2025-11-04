@@ -1,0 +1,65 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.muted {
+  color: $text-secondary;
+}
+.grid4 {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(1, 1fr);
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.card {
+  @include card-base(12px, 12px);
+}
+.filterLine {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.dist {
+  display: grid;
+  gap: 8px;
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+.dotRed {
+  width: 10px;
+  height: 10px;
+  background: #ff4d4f;
+  border-radius: 999px;
+}
+.dotOrange {
+  @extend .dotRed;
+  background: #fa8c16;
+}
+.dotGold {
+  @extend .dotRed;
+  background: #faad14;
+}
+.dotBlue {
+  @extend .dotRed;
+  background: #1677ff;
+}
+.pbRow {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.pbLabel {
+  font-size: 14px;
+}
+.pbValue {
+  color: $text-secondary;
+  font-size: 13px;
+}

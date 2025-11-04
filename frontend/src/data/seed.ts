@@ -1,5 +1,8 @@
-// --- INTERFACES ---
+// src/data/seed.ts
 
+// =======================
+// INTERFACES (theo bạn)
+// =======================
 export interface ClassInfo {
   id: string;
   name: string;
@@ -66,8 +69,9 @@ export interface Message {
   timestamp: Date;
 }
 
-// --- SEED DATA (Dữ liệu mẫu để hiển thị UI) ---
-
+// ===============
+// SEED DATA gốc
+// ===============
 export const SEED_CLASSES: ClassInfo[] = [
   { id: "1", name: "Toán 12A1" },
   { id: "2", name: "Vật lý 11B2" },
@@ -212,3 +216,138 @@ export const SEED_BOT_RESPONSES: Record<string, string> = {
   default:
     'Tôi hiểu bạn đang hỏi về "{query}". Bạn có thể cụ thể hơn được không? Hoặc bạn có thể hỏi về: bài kiểm tra, điểm số, tài liệu, giáo viên.',
 };
+
+// =============================================
+// MOCK DATA mở rộng cho UI (Next.js + AntD)
+// =============================================
+
+// Các type nội bộ phục vụ UI
+export type StudentItem = {
+  id: string;
+  name: string;
+  email: string;
+  classId: string;
+};
+export type ExamItem = Exam & { classId: string; totalPoints: number };
+export type QuestionItem = Question & { category?: string };
+export type DocumentItem = Document & { classId: string };
+export type ExamResultNormalized = ExamResult & { studentId: string };
+export type HighRiskSeverity = "low" | "medium" | "high" | "critical";
+export type CheatingAlert = {
+  id: string;
+  attemptId: string;
+  studentId: string;
+  examId: string;
+  severity: HighRiskSeverity;
+  createdAt: string;
+};
+
+// map className -> id
+const classIdByName = new Map(SEED_CLASSES.map((c) => [c.name, c.id]));
+
+// Lớp cho dashboard (thêm studentCount, teacherId)
+export const mockClasses: Array<
+  ClassInfo & { studentCount: number; teacherId: string }
+> = [
+  { id: "1", name: "Toán 12A1", studentCount: 32, teacherId: "t1" },
+  { id: "2", name: "Vật lý 11B2", studentCount: 28, teacherId: "t1" },
+  { id: "3", name: "Hóa học 10C", studentCount: 30, teacherId: "t2" },
+];
+
+// Học sinh
+export const mockStudents: StudentItem[] = [
+  { id: "s1", name: "Nguyễn Văn A", email: "a@example.com", classId: "1" },
+  { id: "s2", name: "Trần Thị B", email: "b@example.com", classId: "1" },
+  { id: "s3", name: "Lê Văn C", email: "c@example.com", classId: "2" },
+  { id: "s4", name: "Phạm Minh D", email: "d@example.com", classId: "2" },
+];
+
+// Bài kiểm tra (bổ sung classId & totalPoints cho grading)
+export const mockExams: ExamItem[] = SEED_EXAMS.map((e) => ({
+  ...e,
+  classId: classIdByName.get(e.className) || "1",
+  totalPoints: 100,
+}));
+
+// Câu hỏi (thêm category nhẹ)
+export const mockQuestions: QuestionItem[] = SEED_EXAM_QUESTIONS.map(
+  (q, i) => ({
+    ...q,
+    id: q.id || `q${i + 1}`,
+    category: q.type === "essay" ? "Đại số" : "Tổng hợp",
+  })
+);
+
+// Tài liệu (thêm classId)
+export const mockDocuments: DocumentItem[] = SEED_DOCUMENTS.map((d) => ({
+  ...d,
+  classId: classIdByName.get(d.className) || "1",
+}));
+
+// Kết quả bài thi (chuẩn hóa có studentId & Date cho completedAt)
+export const mockExamResults: ExamResultNormalized[] = [
+  {
+    ...SEED_EXAM_RESULTS[0],
+    studentId: "s1",
+    // để UI toLocaleString() dùng Date
+    completedAt: new Date(SEED_EXAM_RESULTS[0].completedAt).toISOString(),
+  },
+  {
+    id: "r2",
+    examId: "1",
+    studentId: "s2",
+    score: 72,
+    totalPoints: 100,
+    completedAt: new Date("2025-10-28T10:40:00").toISOString(),
+    focusLossCount: 12,
+    copyPasteCount: 2,
+  },
+  {
+    id: "r3",
+    examId: "1",
+    studentId: "s3",
+    score: 64,
+    totalPoints: 100,
+    completedAt: new Date("2025-10-28T10:45:00").toISOString(),
+    focusLossCount: 8,
+    copyPasteCount: 6,
+  },
+];
+
+// Cảnh báo gian lận (để CheatingMonitor map sang high-risk list)
+export const mockCheatingAlerts: CheatingAlert[] = [
+  {
+    id: "a1",
+    attemptId: "r1",
+    studentId: "s1",
+    examId: "1",
+    severity: "low",
+    createdAt: "2025-10-28T10:31:00",
+  },
+  {
+    id: "a2",
+    attemptId: "r2",
+    studentId: "s2",
+    examId: "1",
+    severity: "high",
+    createdAt: "2025-10-28T10:41:00",
+  },
+  {
+    id: "a3",
+    attemptId: "r3",
+    studentId: "s3",
+    examId: "1",
+    severity: "critical",
+    createdAt: "2025-10-28T10:46:00",
+  },
+];
+
+// =========================
+// Helpers (tùy chọn dùng)
+// =========================
+export const classMapById = Object.fromEntries(
+  mockClasses.map((c) => [c.id, c])
+);
+export const classMapByName = Object.fromEntries(
+  mockClasses.map((c) => [c.name, c.id])
+);
