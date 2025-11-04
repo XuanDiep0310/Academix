@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Academix.Application.DTOs.Student
 {
-    public class CreateStudentRequest
+    public class CreateStudentsRequest
     {
         public int ClassId { get; set; }
-        public string Email { get; set; } = string.Empty;
+
+        // Danh sách học sinh cần thêm
+        public List<CreateStudentRequest> Students { get; set; } = new();
     }
 }
