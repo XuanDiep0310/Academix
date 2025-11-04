@@ -852,3 +852,23 @@ BEGIN
         SYSUTCDATETIME() AS CleanupTime;
 END;
 GO
+
+
+-- =============================================
+-- 5. PASSWORD RESET TOKEN TABLE
+-- =============================================
+CREATE TABLE dbo.PasswordResetToken (
+    TokenId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL FOREIGN KEY REFERENCES dbo.[User](UserId) ON DELETE CASCADE,
+    Token NVARCHAR(500) NOT NULL UNIQUE,
+    ExpiresAt DATETIME2(7) NOT NULL,
+    CreatedAt DATETIME2(7) NOT NULL DEFAULT SYSUTCDATETIME(),
+    UsedAt DATETIME2(7) NULL,
+    CreatedByIp NVARCHAR(50) NULL,
+    IsExpired AS CASE WHEN ExpiresAt < SYSUTCDATETIME() THEN 1 ELSE 0 END,
+    IsUsed AS CASE WHEN UsedAt IS NOT NULL THEN 1 ELSE 0 END
+);
+
+CREATE INDEX IX_PasswordResetToken_User ON dbo.PasswordResetToken(UserId);
+CREATE INDEX IX_PasswordResetToken_Token ON dbo.PasswordResetToken(Token) WHERE UsedAt IS NULL;
+GO
