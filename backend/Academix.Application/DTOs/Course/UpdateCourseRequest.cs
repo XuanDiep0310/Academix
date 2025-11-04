@@ -12,8 +12,8 @@ namespace Academix.Application.DTOs.Course
         public int? OrganizationId { get; set; }
         public string? Code { get; set; }
         public string? Title { get; set; } = null!;
-        public string? ShortDescription { get; set; }
-        public string? LongDescription { get; set; }
-        public bool? IsPublished { get; set; }
+        public string ShortDescription { get; set; }
+        public string LongDescription { get; set; }
+        public bool IsPublished { get; set; }
     }
 }
