@@ -74,6 +74,7 @@ namespace Academix.API
             #region Service Registration
             // Core Services
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddScoped<IPasswordService, PasswordService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPermissionService, PermissionService>();
