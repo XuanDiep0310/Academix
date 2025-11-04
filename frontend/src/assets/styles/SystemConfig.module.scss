@@ -1,0 +1,46 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.card {
+  @include card-base(12px, 12px);
+}
+.list {
+  display: grid;
+}
+.row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid $border-light;
+}
+.info {
+  max-width: 70%;
+}
+.name {
+  font-weight: 600;
+}
+.sub {
+  color: $text-secondary;
+  font-size: 13px;
+}
+.mt8 {
+  margin-top: 8px;
+}
+.grid2 {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  @media (min-width: 992px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.kv {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+}
