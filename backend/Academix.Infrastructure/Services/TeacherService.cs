@@ -1,5 +1,7 @@
-﻿using Academix.Application.DTOs.Teacher;
+﻿using Academix.Application.DTOs.Class;
+using Academix.Application.DTOs.Teacher;
 using Academix.Application.Interfaces;
+using Academix.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,55 @@ namespace Academix.Infrastructure.Services
         {
             _context = context;
         }
+
+        public async Task<int> CreateExamAsync(int teacherId, CreateExamRequest request)
+        {
+            var classEntity = await _context.Classes
+                .FirstOrDefaultAsync(c => c.ClassId == request.ClassId && c.TeacherId == teacherId);
+
+            if (classEntity == null)
+                throw new UnauthorizedAccessException("Bạn không có quyền tạo bài kiểm tra cho lớp này.");
+
+            if (request.DurationMinutes <= 0)
+                throw new ArgumentException("Thời lượng bài kiểm tra phải lớn hơn 0.");
+
+            if (request.EndAt <= request.StartAt)
+                throw new ArgumentException("Thời gian kết thúc phải sau thời gian bắt đầu.");
+
+            var exam = new Exam
+            {
+                Title = request.Title,
+                ClassId = request.ClassId,
+                DurationMinutes = request.DurationMinutes,
+                StartAt = request.StartAt,
+                EndAt = request.EndAt,
+
+                ShuffleQuestions = false,
+                AllowBackNavigation = true,
+                ProctoringRequired = false,
+                AntiCheatLevel = 0,
+
+                CreatedBy = teacherId,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.Exams.Add(exam);
+            await _context.SaveChangesAsync();
+
+            if (request.QuestionIds.Any())
+            {
+                var examQuestions = request.QuestionIds.Select(qid => new ExamQuestion
+                {
+                    ExamId = exam.ExamId,
+                    QuestionId = qid
+                });
+                _context.ExamQuestions.AddRange(examQuestions);
+                await _context.SaveChangesAsync();
+            }
+
+            return exam.ExamId;
+        }
+
         public async Task<TeacherDashboardDto> GetDashboardAsync(int teacherId)
         {
             var result = new TeacherDashboardDto();
@@ -134,8 +185,43 @@ namespace Academix.Infrastructure.Services
 
             result.ClassStats = classStats;
 
-            return result;
+            return result;  
         }
 
+        public async Task<IEnumerable<ExamDto>> GetExamsAsync(int teacherId)
+        {
+            return await _context.Exams
+                .Include(e => e.Class)
+                .Where(e => e.Class.TeacherId == teacherId)
+                .OrderByDescending(e => e.StartAt)
+                .Select(e => new ExamDto
+                {
+                    ExamId = e.ExamId,
+                    Title = e.Title,
+                    ClassName = e.Class.Title,
+                    ClassId = e.ClassId ?? 0,
+                    StartAt = e.StartAt ?? DateTime.MinValue,
+                    EndAt = e.EndAt ?? DateTime.MinValue,
+                    DurationMinutes = e.DurationMinutes ?? 0,
+                    QuestionCount = _context.ExamQuestions.Count(eq => eq.ExamId == e.ExamId),
+                    Status = e.EndAt < DateTime.UtcNow ? "completed"
+                             : e.StartAt > DateTime.UtcNow ? "upcoming"
+                             : "ongoing"
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<MyClassResponse>> GetTeachingClassesAsync(int teacherId)
+        {
+            return await _context.Classes
+                .Where(c => c.TeacherId == teacherId && c.IsActive)
+                .Select(c => new MyClassResponse
+                {
+                    ClassId = c.ClassId,
+                    Title = c.Title,
+                    CourseId = c.CourseId
+                })
+                .ToListAsync();
+        }
     }
 }
