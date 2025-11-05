@@ -1,0 +1,29 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  h1 {
+    margin: 0;
+  }
+}
+.actions {
+  display: flex;
+  gap: 8px;
+}
+.card {
+  @include card-base(12px, 12px);
+}
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.muted {
+  color: $text-secondary;
+}

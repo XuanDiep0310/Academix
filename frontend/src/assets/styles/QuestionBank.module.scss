@@ -1,0 +1,78 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  h1 {
+    margin: 0;
+  }
+}
+.card {
+  @include card-base(12px, 12px);
+}
+.filters {
+  display: flex;
+  gap: 8px;
+  // flex-wrap: wrap;
+}
+.qCard {
+  @include card-base(12px, 12px);
+  margin-top: 12px;
+}
+.qTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.qContent {
+  margin-bottom: 6px;
+}
+.qActions {
+  display: flex;
+  gap: 4px;
+}
+.qTags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.options {
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+}
+.opt {
+  background: #f7f7f7;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.optCorrect {
+  @extend .opt;
+  background: #ecfff3;
+  color: #0a7a33;
+}
+.mcWrap {
+  display: grid;
+  gap: 8px;
+}
+.mcRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mcLabel {
+  width: 18px;
+  text-align: right;
+  color: $text-secondary;
+}
+.miniNote {
+  color: $text-secondary;
+  font-size: 12px;
+}

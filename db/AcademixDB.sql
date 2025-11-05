@@ -1,4 +1,4 @@
-/* ============================================================
+`/* ============================================================
    HỆ THỐNG ACADEMIX DATABASE - PRODUCTION READY
    - Sử dụng UTC cho tất cả timestamp (SYSUTCDATETIME())
    - Collation Vietnamese_CI_AS cho tiếng Việt
@@ -787,8 +787,8 @@ CREATE TABLE dbo.RefreshToken (
     IsExpired AS CASE WHEN ExpiresAt < SYSUTCDATETIME() THEN 1 ELSE 0 END,
     IsRevoked AS CASE WHEN RevokedAt IS NOT NULL THEN 1 ELSE 0 END,
     IsActive AS CASE 
-        WHEN RevokedAt IS NULL AND ExpiresAt > SYSUTCDATETIME() THEN 1 
-        ELSE 0 
+        WHEN RevokedAt IS NULL AND ExpiresAt > SYSUTCDATETIME() THEN 1
+        ELSE 0
     END
 );
 
@@ -836,19 +836,39 @@ CREATE PROCEDURE dbo.CleanupExpiredTokens
 AS
 BEGIN
     SET NOCOUNT ON;
-    
+
     DECLARE @CutoffDate DATETIME2(7) = DATEADD(DAY, -30, SYSUTCDATETIME());
-    
+
     -- Delete expired refresh tokens
     DELETE FROM dbo.RefreshToken
     WHERE ExpiresAt < @CutoffDate;
-    
+
     -- Delete expired blacklist entries
     DELETE FROM dbo.TokenBlacklist
     WHERE ExpiresAt < SYSUTCDATETIME();
-    
-    SELECT 
+
+    SELECT
         @@ROWCOUNT AS DeletedRows,
         SYSUTCDATETIME() AS CleanupTime;
 END;
+GO
+
+
+-- =============================================
+-- 5. PASSWORD RESET TOKEN TABLE
+-- =============================================
+CREATE TABLE dbo.PasswordResetToken (
+    TokenId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL FOREIGN KEY REFERENCES dbo.[User](UserId) ON DELETE CASCADE,
+    Token NVARCHAR(500) NOT NULL UNIQUE,
+    ExpiresAt DATETIME2(7) NOT NULL,
+    CreatedAt DATETIME2(7) NOT NULL DEFAULT SYSUTCDATETIME(),
+    UsedAt DATETIME2(7) NULL,
+    CreatedByIp NVARCHAR(50) NULL,
+    IsExpired AS CASE WHEN ExpiresAt < SYSUTCDATETIME() THEN 1 ELSE 0 END,
+    IsUsed AS CASE WHEN UsedAt IS NOT NULL THEN 1 ELSE 0 END
+);
+
+CREATE INDEX IX_PasswordResetToken_User ON dbo.PasswordResetToken(UserId);
+CREATE INDEX IX_PasswordResetToken_Token ON dbo.PasswordResetToken(Token) WHERE UsedAt IS NULL;
 GO

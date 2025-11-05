@@ -88,6 +88,8 @@ public partial class AcademixDbContext : DbContext
 
     public virtual DbSet<WebcamCapture> WebcamCaptures { get; set; }
 
+    public virtual DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("Vietnamese_CI_AS");
@@ -947,6 +949,17 @@ public partial class AcademixDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__WebcamCap__UserI__5AB9788F");
+        });
+
+        modelBuilder.Entity<PasswordResetToken>(entity =>
+        {
+            entity.HasKey(e => e.TokenId).HasName("PK__Password__658FEEEA82973FF8");
+
+            entity.HasIndex(e => e.Token, "IX_PasswordResetToken_Token").HasFilter("([UsedAt] IS NULL)");
+
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
+            entity.Property(e => e.IsExpired).HasComputedColumnSql("(case when [ExpiresAt]<sysutcdatetime() then (1) else (0) end)", false);
+            entity.Property(e => e.IsUsed).HasComputedColumnSql("(case when [UsedAt] IS NOT NULL then (1) else (0) end)", false);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,0 +1,329 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 20px;
+  padding: 8px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: $text-default;
+  }
+}
+
+.muted {
+  color: $text-secondary;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 992px) {
+    grid-template-columns: 1fr 400px;
+    align-items: start;
+  }
+}
+
+.left,
+.right {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  @include card-base(20px, 12px);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  :global(.ant-card-head) {
+    padding: 16px 20px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: $text-default;
+    background: linear-gradient(to bottom, $bg-white, $bg-light);
+  }
+
+  :global(.ant-card-body) {
+    padding: 20px;
+  }
+
+  :global(.ant-card-head-title) {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.row2 {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.subCard {
+  margin-bottom: 20px;
+  border: 2px solid rgba($primary-color, 0.25);
+  background: linear-gradient(
+    to bottom,
+    rgba($primary-color, 0.03),
+    rgba($primary-color, 0.01)
+  );
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba($primary-color, 0.08);
+
+  :global(.ant-card-head) {
+    background: rgba($primary-color, 0.06);
+    border-bottom: 1px solid rgba($primary-color, 0.15);
+    border-radius: 12px 12px 0 0;
+  }
+
+  :global(.ant-card-head-title) {
+    color: $primary-color;
+  }
+}
+
+.qItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px !important;
+  margin-bottom: 12px;
+  border: 1.5px solid $border-color;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: $bg-white;
+  position: relative;
+
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   left: 0;
+  //   top: 0;
+  //   bottom: 0;
+  //   width: 3px;
+  //   background: $primary-color;
+  //   border-radius: 10px 0 0 10px;
+  //   opacity: 0;
+  //   transition: opacity 0.2s;
+  // }
+
+  &:hover {
+    border-color: $primary-color;
+    box-shadow: 0 2px 8px rgba($primary-color, 0.12);
+    transform: translateX(2px);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.qPicked {
+  border-color: $primary-color;
+  background: rgba($primary-color, 0.04);
+  box-shadow: 0 2px 12px rgba($primary-color, 0.15);
+
+  &::before {
+    opacity: 1;
+  }
+
+  &:hover {
+    border-color: $primary-hover;
+    box-shadow: 0 4px 16px rgba($primary-color, 0.2);
+  }
+}
+
+.qMain {
+  display: grid;
+  gap: 12px;
+  flex: 1;
+}
+
+.qContent {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: $text-default;
+  font-weight: 500;
+}
+
+.qTags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+
+  :global(.ant-tag) {
+    margin: 0;
+    font-size: 0.8rem;
+    padding: 2px 10px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 500;
+
+    &:first-child {
+      background: rgba($status-info, 0.1);
+      color: $primary-hover;
+    }
+
+    &:global(.ant-tag-blue) {
+      background: rgba($primary-color, 0.12);
+      color: $primary-hover;
+    }
+
+    &:global(.ant-tag-processing) {
+      background: rgba($status-success, 0.12);
+      color: #047857;
+      border: 1px solid rgba($status-success, 0.2);
+    }
+  }
+}
+
+.mcWrap {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.mcRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  :global(.ant-radio-wrapper) {
+    margin: 0;
+  }
+}
+
+.mcLabel {
+  width: 22px;
+  text-align: center;
+  font-weight: 600;
+  color: $text-secondary;
+  font-size: 0.9rem;
+}
+
+.kv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid $border-light;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba($primary-color, 0.02);
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-left: -8px;
+    margin-right: -8px;
+    border-radius: 6px;
+  }
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  span {
+    color: $text-secondary;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  b {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: $text-default;
+    background: linear-gradient(135deg, $primary-color, $primary-hover);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.actionsCol {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid $border-light;
+
+  :global(.ant-btn) {
+    height: auto;
+    padding: 10px 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:global(.ant-btn-primary) {
+      background: $primary-color;
+      border-color: $primary-color;
+      box-shadow: 0 2px 4px rgba($primary-color, 0.2);
+
+      &:hover {
+        background: $primary-hover;
+        border-color: $primary-hover;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba($primary-color, 0.3);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+
+    &:global(.ant-btn-default) {
+      border-color: $border-color;
+      color: $text-default;
+
+      &:hover {
+        border-color: $primary-color;
+        color: $primary-color;
+        background: rgba($primary-color, 0.04);
+      }
+    }
+  }
+}
+
+.selRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+
+  span {
+    font-size: 0.9rem;
+    color: $text-default;
+  }
+
+  :global(.ant-tag) {
+    margin: 0;
+  }
+}

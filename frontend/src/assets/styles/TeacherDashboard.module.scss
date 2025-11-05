@@ -1,0 +1,103 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 16px;
+}
+
+.header {
+  h1 {
+    margin: 0;
+  }
+  p {
+    color: $text-secondary;
+    margin: 4px 0 0;
+  }
+}
+
+.grid4 {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 12px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.cardStat {
+  @include card-base(16px, 12px);
+}
+
+.alertCard {
+  @include card-base(16px, 12px);
+  border-color: rgba(250, 84, 28, 0.2);
+  background: #fff7f0;
+}
+.alertHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.alertTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #d4380d;
+  svg {
+    font-size: 18px;
+  }
+}
+.alertItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cardBlock {
+  @include card-base(16px, 12px);
+}
+
+.rowItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.bold {
+  font-weight: 600;
+}
+.muted {
+  color: $text-secondary;
+  font-size: 13px;
+}
+
+.classGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(1, 1fr);
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.classBox {
+  border: 1px solid $border-light;
+  border-radius: 12px;
+  background: #fff;
+  padding: 12px;
+  display: grid;
+  gap: 6px;
+}
+.kv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $text-secondary;
+}
