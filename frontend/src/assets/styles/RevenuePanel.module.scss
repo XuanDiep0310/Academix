@@ -1,0 +1,46 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.grid3 {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.card {
+  @include card-base(12px, 12px);
+}
+.planList {
+  display: grid;
+  gap: 10px;
+}
+.planRow {
+  display: grid;
+  grid-template-columns: 220px 1fr 60px;
+  gap: 10px;
+  align-items: center;
+}
+.planLeft {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.bar {
+  height: 8px;
+  background: $border-light;
+  border-radius: 8px;
+  overflow: hidden;
+  > div {
+    height: 8px;
+    background: #1677ff;
+  }
+}
+.pct {
+  text-align: right;
+  color: $text-secondary;
+}

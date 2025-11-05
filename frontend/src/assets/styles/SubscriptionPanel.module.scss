@@ -1,0 +1,73 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.header p {
+  color: $text-secondary;
+}
+.card {
+  @include card-base(12px, 12px);
+}
+.kv {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+.mt8 {
+  margin-top: 8px;
+}
+.h2 {
+  margin: 8px 0;
+}
+.planGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(1, 1fr);
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.planCard {
+  @include card-base(12px, 12px);
+  position: relative;
+}
+.reco {
+  border-color: #1677ff;
+}
+.current {
+  border-color: #52c41a;
+}
+.tagTop {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+}
+.tagTopRight {
+  position: absolute;
+  top: -10px;
+  right: 12px;
+}
+.planHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.planName {
+  font-size: 18px;
+  font-weight: 700;
+}
+.planPrice {
+  color: $text-secondary;
+}
+.featureList {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}
+.feature {
+  display: flex;
+  gap: 6px;
+}

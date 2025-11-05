@@ -1,0 +1,99 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.header {
+  p {
+    color: $text-secondary;
+    margin: 4px 0 0;
+  }
+}
+.grid4 {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(1, 1fr);
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.grid2 {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  @media (min-width: 992px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.card {
+  @include card-base(12px, 12px);
+}
+.sub {
+  color: $text-secondary;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.usage {
+  display: grid;
+  gap: 8px;
+}
+.usageRow {
+  display: flex;
+  justify-content: space-between;
+}
+.note {
+  color: $text-secondary;
+  margin-top: 4px;
+}
+.warn {
+  color: #d46b08;
+  font-weight: 600;
+}
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+  > div {
+    background: #fafafa;
+    border: 1px solid $border-light;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.kv {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+.payItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.muted {
+  color: $text-secondary;
+  font-size: 13px;
+}
+.right {
+  text-align: right;
+}
+.bold {
+  font-weight: 600;
+}
+.full {
+  grid-column: 1 / -1;
+}
+.activity {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  text-align: center;
+}
+.big {
+  font-size: 28px;
+  font-weight: 700;
+}

@@ -1,0 +1,38 @@
+@use "@/assets/styles/mixins" as *;
+
+.wrap {
+  display: grid;
+  gap: 12px;
+}
+.header p {
+  color: $text-secondary;
+}
+.grid4 {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(1, 1fr);
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.card {
+  @include card-base(12px, 12px);
+}
+.item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.muted {
+  color: $text-secondary;
+}
+.quick {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}

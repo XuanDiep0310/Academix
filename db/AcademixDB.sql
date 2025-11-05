@@ -1,4 +1,4 @@
-`/* ============================================================
+/* ============================================================
    HỆ THỐNG ACADEMIX DATABASE - PRODUCTION READY
    - Sử dụng UTC cho tất cả timestamp (SYSUTCDATETIME())
    - Collation Vietnamese_CI_AS cho tiếng Việt
@@ -786,7 +786,7 @@ CREATE TABLE dbo.RefreshToken (
     ReasonRevoked NVARCHAR(200) NULL,
     IsExpired AS CASE WHEN ExpiresAt < SYSUTCDATETIME() THEN 1 ELSE 0 END,
     IsRevoked AS CASE WHEN RevokedAt IS NOT NULL THEN 1 ELSE 0 END,
-    IsActive AS CASE 
+    IsActive AS CASE
         WHEN RevokedAt IS NULL AND ExpiresAt > SYSUTCDATETIME() THEN 1
         ELSE 0
     END

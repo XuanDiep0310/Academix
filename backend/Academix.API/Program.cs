@@ -83,6 +83,7 @@ namespace Academix.API
             builder.Services.AddScoped<IQuestionService, QuestionService>();
             builder.Services.AddScoped<ICourseService, CourseService>();
             builder.Services.AddScoped<IStudentService, StudentService>();
+            builder.Services.AddScoped<IQuizService, QuizService>();
 
             builder.Services.AddScoped<ITeacherService, TeacherService>();
 
