@@ -16,43 +16,38 @@ namespace Academix.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            #region Database Configuration
-            builder.Services.AddDbContext<AcademixDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DbContext"),
-                    providerOptions => providerOptions.EnableRetryOnFailure());
-            });
-            #endregion
+            // Add services to the container
+            builder.Services.AddControllers();
 
-            #region JWT Authentication
-            var jwtSecret = builder.Configuration["Jwt:Secret"]
-                ?? throw new InvalidOperationException("JWT Secret not configured");
-            var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "Academix";
-            var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "Academix";
+            // Database Configuration
+            builder.Services.AddDbContext<AcademixDbContext>(options =>
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    sqlOptions => sqlOptions.EnableRetryOnFailure()
+                )
+            );
+
+            // JWT Authentication Configuration
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
+            var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT Secret Key not configured");
 
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
             {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false; // Set true in production
-
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
                     ValidateIssuer = true,
-                    ValidIssuer = jwtIssuer,
                     ValidateAudience = true,
-                    ValidAudience = jwtAudience,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero,
-                    RequireExpirationTime = true,
-                    RequireSignedTokens = true
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings["Issuer"],
+                    ValidAudience = jwtSettings["Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+                    ClockSkew = TimeSpan.Zero
                 };
 
                 options.Events = new JwtBearerEvents
@@ -69,33 +64,8 @@ namespace Academix.API
             });
 
             builder.Services.AddAuthorization();
-            #endregion
 
-            #region Service Registration
-            // Core Services
-            builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-            builder.Services.AddScoped<IPasswordService, PasswordService>();
-            builder.Services.AddScoped<ITokenService, TokenService>();
-            builder.Services.AddScoped<IAuthService, AuthService>();
-            builder.Services.AddScoped<IPermissionService, PermissionService>();
-            builder.Services.AddScoped<IRoleService, RoleService>();
-            builder.Services.AddScoped<IClassService, ClassService>();
-            builder.Services.AddScoped<IQuestionService, QuestionService>();
-            builder.Services.AddScoped<ICourseService, CourseService>();
-            builder.Services.AddScoped<IStudentService, StudentService>();
-            builder.Services.AddScoped<IQuizService, QuizService>();
-
-            builder.Services.AddScoped<ITeacherService, TeacherService>();
-
-            // 2FA Service
-            builder.Services.AddScoped<I2FAService, TwoFactorAuthService>();
-
-            // Email Services
-            builder.Services.AddScoped<IEmailService, EmailService>();
-            builder.Services.AddScoped<IEmailConfirmationService, EmailConfirmationService>();
-            #endregion
-
-            #region CORS
+            // CORS Configuration
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
@@ -105,76 +75,91 @@ namespace Academix.API
                           .AllowAnyHeader();
                 });
             });
-            #endregion
 
-            #region Swagger Configuration
-            builder.Services.AddControllers();
+            // Dependency Injection - Services
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IJwtService, JwtService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
+            // Swagger/OpenAPI Configuration
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c =>
+            builder.Services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
+                options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Academix API",
                     Version = "v1",
-                    Description = "Learning Management System API with RBAC + 2FA + Email Confirmation"
-                });
-
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = @"JWT Authorization header using the Bearer scheme.
-                                  Enter 'Bearer' [space] and then your token.
-                                  Example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT"
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                    Description = "Online Classroom Platform API",
+                    Contact = new OpenApiContact
                     {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
+                        Name = "Academix Team",
+                        Email = "support@academix.com"
                     }
                 });
+
+                // JWT Authentication in Swagger
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter 'Bearer' [space] and then your valid token.\n\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\""
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+
+                // Include XML comments if available
+                var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                if (File.Exists(xmlPath))
+                {
+                    options.IncludeXmlComments(xmlPath);
+                }
             });
-            #endregion
+
+            // Logging Configuration
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+            builder.Logging.AddDebug();
 
             var app = builder.Build();
 
-            #region Middleware Pipeline
+            // Configure the HTTP request pipeline
             if (app.Environment.IsDevelopment())
             {
-                app.MapScalarApiReference(options =>
-                {
-                    options.WithTitle("Academix API");
-                    options.WithTheme(ScalarTheme.BluePlanet);
-                    options.WithSidebar(true);
-                });
-
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Academix API v1");
+                    options.RoutePrefix = string.Empty; // Swagger at root
+                });
             }
 
             app.UseHttpsRedirection();
+
             app.UseCors("AllowAll");
 
-            // Important: Order matters!
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
 
             app.Run();
-            #endregion
         }
     }
 }

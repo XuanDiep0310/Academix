@@ -8,9 +8,7 @@ namespace Academix.Application.Interfaces
 {
     public interface IEmailService
     {
-        Task SendEmailAsync(string to, string subject, string body, bool isHtml = true);
-        Task SendConfirmationEmailAsync(string email, string confirmationLink);
-        Task SendPasswordResetEmailAsync(string email, string resetLink);
-        Task SendWelcomeEmailAsync(string email, string displayName);
+        Task SendPasswordResetEmailAsync(string toEmail, string resetToken, string userName);
+        Task SendWelcomeEmailAsync(string toEmail, string userName, string temporaryPassword);
     }
 }

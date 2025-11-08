@@ -1,35 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Academix.Domain.Entities;
 
+[Index("Token", Name = "IX_RefreshTokens_Token")]
+[Index("UserId", Name = "IX_RefreshTokens_UserId")]
+[Index("Token", Name = "UQ__RefreshT__1EB4F817D9D1C46F", IsUnique = true)]
 public partial class RefreshToken
 {
-    public int RefreshTokenId { get; set; }
+    [Key]
+    public int TokenId { get; set; }
 
     public int UserId { get; set; }
 
+    [StringLength(500)]
     public string Token { get; set; } = null!;
 
     public DateTime ExpiresAt { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
-    public string? CreatedByIp { get; set; }
+    public bool IsRevoked { get; set; }
 
-    public DateTime? RevokedAt { get; set; }
-
-    public string? RevokedByIp { get; set; }
-
-    public string? ReplacedByToken { get; set; }
-
-    public string? ReasonRevoked { get; set; }
-
-    public int IsExpired { get; set; }
-
-    public int IsRevoked { get; set; }
-
-    public int IsActive { get; set; }
-
+    [ForeignKey("UserId")]
+    [InverseProperty("RefreshTokens")]
     public virtual User User { get; set; } = null!;
 }
