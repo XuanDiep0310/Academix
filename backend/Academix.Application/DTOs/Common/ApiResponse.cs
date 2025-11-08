@@ -9,12 +9,12 @@ namespace Academix.Application.DTOs.Common
     public class ApiResponse<T>
     {
         public bool Success { get; set; }
-        public string? Message { get; set; }
+        public string Message { get; set; } = string.Empty;
         public T? Data { get; set; }
-        public ErrorDetails? Error { get; set; }
-        public List<ValidationError>? Details { get; set; }
+        public List<string>? Errors { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
-        public static ApiResponse<T> SuccessResponse(T data, string? message = null)
+        public static ApiResponse<T> SuccessResponse(T data, string message = "Operation successful")
         {
             return new ApiResponse<T>
             {
@@ -24,35 +24,14 @@ namespace Academix.Application.DTOs.Common
             };
         }
 
-        public static ApiResponse<T> ErrorResponse(string code, string message, List<ValidationError>? details = null)
+        public static ApiResponse<T> ErrorResponse(string message, List<string>? errors = null)
         {
             return new ApiResponse<T>
             {
                 Success = false,
-                Error = new ErrorDetails { Code = code, Message = message },
-                Details = details
+                Message = message,
+                Errors = errors ?? new List<string>()
             };
         }
-    }
-
-    public class ErrorDetails
-    {
-        public string Code { get; set; } = string.Empty;
-        public string Message { get; set; } = string.Empty;
-    }
-
-    public class ValidationError
-    {
-        public string Field { get; set; } = string.Empty;
-        public string Message { get; set; } = string.Empty;
-    }
-
-    public class PagedResult<T>
-    {
-        public List<T> Items { get; set; } = new();
-        public int TotalCount { get; set; }
-        public int Page { get; set; }
-        public int PageSize { get; set; }
-        public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
     }
 }
