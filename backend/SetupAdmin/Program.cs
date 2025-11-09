@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Academix.Infrastructure;
-using Academix.Infrastructure.Services;
 
 namespace SetupAdmin
 {
@@ -32,14 +31,14 @@ namespace SetupAdmin
                 return;
             }
 
-            // Generate password hash
-            var passwordHasher = new PasswordHasher();
+            // Generate password hash using BCrypt
             var password = "Academix@K64";
-            var (hash, salt) = passwordHasher.HashPassword(password);
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
 
             // Update user
-            adminUser.PasswordHash = hash;
-            adminUser.PasswordSalt = salt;
+            adminUser.PasswordHash = passwordHash;
+            adminUser.UpdatedAt = DateTime.UtcNow;
+
 
             await context.SaveChangesAsync();
 
