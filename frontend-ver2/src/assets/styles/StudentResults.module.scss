@@ -1,0 +1,151 @@
+.wrap {
+  display: grid;
+  gap: 16px;
+}
+
+/* Header */
+.header {
+  background: #fff;
+  border: 1px solid #edf0f3;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+.title {
+  margin: 0 0 4px 0;
+}
+
+/* KPIs */
+.kpis {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 900px) {
+  .kpis {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.kpiCard {
+  border-radius: 12px;
+}
+.kpiValue {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 6px 0 8px 0;
+}
+.inlineMuted {
+  color: #6b7280;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* List */
+.list {
+  display: grid;
+  gap: 12px;
+}
+.item {
+  border-radius: 12px;
+}
+.itemHeader {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+}
+.itemMeta {
+  display: grid;
+  gap: 6px;
+}
+.itemTitle {
+  font-size: 16px;
+  color: #111827;
+}
+.itemDesc {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.time {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.scoreBox {
+  text-align: right;
+}
+.score {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+}
+.scoreDenom {
+  font-size: 14px;
+  color: #6b7280;
+  margin-left: 4px;
+}
+.sub {
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* Details */
+.details {
+  margin-top: 8px;
+}
+.detailList {
+  display: grid;
+  gap: 10px;
+}
+.detailItem {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+}
+.correct {
+  background: #f0fdf4;
+  border-color: #dcfce7;
+}
+.incorrect {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.detailIcon {
+  color: #16a34a; /* green-600 */
+  display: flex;
+  align-items: flex-start;
+}
+.incorrect .detailIcon {
+  color: #dc2626;
+} /* red-600 */
+
+.detailContent {
+  display: grid;
+  gap: 6px;
+}
+.question {
+  font-weight: 500;
+}
+.answers {
+  display: grid;
+  gap: 2px;
+}
+.answerRow {
+  font-size: 14px;
+}
+.muted {
+  color: #6b7280;
+}
+.ansOk {
+  color: #15803d;
+  font-weight: 500;
+} /* green-700 */
+.ansBad {
+  color: #b91c1c;
+  font-weight: 500;
+} /* red-700 */

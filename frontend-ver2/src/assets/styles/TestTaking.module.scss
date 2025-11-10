@@ -1,0 +1,137 @@
+.wrap {
+  display: grid;
+  gap: 16px;
+}
+
+/* Header cards */
+.headerCard {
+  background: #fff;
+  border: 1px solid #edf0f3;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+.title {
+  margin: 0 0 4px 0;
+}
+
+/* Doing test top bar */
+.topBar {
+  background: #fff;
+  border: 1px solid #edf0f3;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+.badges {
+  margin-top: 4px;
+  gap: 8px;
+}
+.timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  justify-self: end;
+}
+.timerDanger {
+  color: #dc2626;
+} /* red-600 */
+
+/* Alerts */
+.alert {
+  border-radius: 10px;
+}
+
+/* Questions */
+.questions {
+  display: grid;
+  gap: 12px;
+}
+.qCard {
+  border-radius: 12px;
+}
+.qTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.qOptions {
+  display: grid;
+  gap: 6px;
+}
+.optionRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+.optionRow:hover {
+  background: #f8fafc; /* slate-50 */
+}
+.optionLabel {
+  cursor: pointer;
+}
+
+/* Submit bar */
+.submitBar {
+  position: sticky;
+  bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+.submitInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* List tests */
+.list {
+  display: grid;
+  gap: 12px;
+}
+.item {
+  border-radius: 12px;
+}
+.itemHead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+}
+.itemMeta {
+  display: grid;
+  gap: 6px;
+}
+.itemTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+.tags {
+  display: inline-flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.itemBody {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+  color: #374151;
+}
+.inline {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+.inlineTop {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  align-items: start;
+}

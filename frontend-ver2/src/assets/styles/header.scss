@@ -1,0 +1,67 @@
+.header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  &__bar {
+    display: none;
+  }
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    // margin-right: 1%;
+    color: #2abce9;
+  }
+  &__input {
+    // width: 75%;
+    border-radius: 20px;
+  }
+  &__account {
+    // width: 10%;
+    // margin: 0 10px 0 20px;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+  &__shop {
+    // position: relative;
+    // margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    &::before {
+      content: "";
+      border-left: 2px solid #ddd;
+      height: 20px;
+    }
+  }
+}
+
+@media screen and (width <= 578px) {
+  .header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    &__bar {
+      display: block;
+      cursor: pointer;
+    }
+    &__logo {
+      display: none;
+    }
+    &__input {
+      border-radius: 20px;
+    }
+    &__account {
+      // width: 10%;
+      // margin: 0 10px 0 20px;
+      display: none;
+    }
+  }
+}

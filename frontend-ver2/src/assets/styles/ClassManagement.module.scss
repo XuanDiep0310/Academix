@@ -1,0 +1,93 @@
+.wrapper {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #edf0f3;
+
+  .title {
+    margin: 0;
+  }
+}
+
+.createBtn {
+  border-radius: 12px;
+}
+.tableCard {
+  padding: 16px 20px;
+}
+
+.pagination {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.membersWrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+
+  @media (min-width: 992px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.memberBlock {
+  border: 1px solid #edf0f3;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+}
+
+.memberHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.studentTable {
+  max-height: 420px;
+  overflow: hidden;
+}
+
+.pickList {
+  display: grid;
+  gap: 6px;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.pickRow {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: #fafafa;
+  }
+}
+
+.pickMeta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+
+  span {
+    font-weight: 600;
+  }
+  small {
+    color: #8a94a6;
+  }
+}
