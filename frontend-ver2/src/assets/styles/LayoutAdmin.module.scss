@@ -1,0 +1,68 @@
+.adminWrap {
+  height: 100vh;
+  background: #f7f8fa;
+}
+
+/* ---------- SIDER ---------- */
+.sider {
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.siderHeader {
+  padding: 16px 16px 8px 16px;
+  border-bottom: 1px solid #edf0f3;
+}
+
+.brand {
+  margin: 0;
+}
+
+.userName {
+  display: block;
+}
+
+.menu {
+  flex: 1;
+  padding: 8px;
+}
+
+/* Footer trong Sider */
+.siderFooter {
+  border-top: 1px solid #edf0f3;
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+  background: #fff;
+}
+
+.cpBlock {
+  padding-bottom: 4px;
+}
+
+/* ---------- HEADER ---------- */
+.header {
+  background: #fff;
+  border-bottom: 1px solid #edf0f3;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* ---------- CONTENT ---------- */
+.content {
+  padding: 16px;
+  overflow: auto;
+}
+
+.panel {
+  background: transparent;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #edf0f3;
+  border-radius: 12px;
+  padding: 16px;
+}

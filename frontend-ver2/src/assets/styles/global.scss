@@ -1,0 +1,40 @@
+.container,
+.container-fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 10px auto;
+  overflow-y: hidden;
+  // background-color: #fff;
+}
+@media (min-width: 100px) {
+  .container {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+@media (min-width: 575.98px) {
+  .container {
+    max-width: 540px;
+  }
+}
+@media (min-width: 767.98px) {
+  .container {
+    max-width: 720px;
+  }
+}
+@media (min-width: 991.98px) {
+  .container {
+    max-width: 992px;
+  }
+}
+@media (min-width: 1199.98px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+@media (min-width: 1399.98px) {
+  .container {
+    max-width: 1376px;
+  }
+}
