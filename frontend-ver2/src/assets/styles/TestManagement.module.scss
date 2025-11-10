@@ -1,0 +1,105 @@
+.wrap {
+  display: grid;
+  gap: 16px;
+}
+
+/* Header */
+.header {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.title {
+  margin: 0;
+}
+
+/* Grid of cards */
+.grid {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.card {
+  border-radius: 12px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.meta {
+  display: grid;
+  gap: 6px;
+}
+.cardTitle {
+  font-size: 16px;
+  line-height: 1.4;
+  color: #111827;
+}
+
+/* body info */
+.bodyGrid {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+}
+.inline svg {
+  flex: 0 0 auto;
+}
+
+.inlineWide {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #6b7280;
+}
+
+/* pagination */
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* questions box */
+.questionBox {
+  border: 1px solid #edf0f3;
+  border-radius: 10px;
+  padding: 12px;
+  max-height: 240px;
+  overflow: auto;
+  background: #fafafa;
+}
+
+.qRow {
+  padding: 6px 4px;
+}
+.qRow + .qRow {
+  border-top: 1px dashed #eee;
+}
+
+.selectedCount {
+  margin-top: -4px;
+  color: #374151;
+  font-size: 12px;
+}

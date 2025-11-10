@@ -1,0 +1,68 @@
+.wrap {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+/* Header */
+.header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #edf0f3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.title {
+  margin: 0;
+}
+
+/* Test select */
+.testSelect {
+  padding: 12px 20px 0 20px;
+
+  .label {
+    display: block;
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 6px;
+  }
+}
+
+/* KPIs */
+.kpis {
+  display: grid;
+  gap: 12px;
+  padding: 16px 20px 0 20px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.kpiCard {
+  border-radius: 10px;
+}
+
+.kpiValue {
+  font-size: 24px;
+  margin-top: 6px;
+}
+
+/* Table */
+.tableCard {
+  padding: 16px 20px 20px 20px;
+}
+
+.pagination {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Helpers */
+.bold {
+  font-weight: 600;
+}
+.muted {
+  color: #9ca3af;
+}
