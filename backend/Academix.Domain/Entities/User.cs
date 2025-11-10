@@ -28,9 +28,9 @@ public partial class User
 
     public bool IsActive { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 
     [InverseProperty("User")]
     public virtual ICollection<ClassMember> ClassMembers { get; set; } = new List<ClassMember>();
