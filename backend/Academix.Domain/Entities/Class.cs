@@ -24,11 +24,11 @@ public partial class Class
 
     public int CreatedBy { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     [InverseProperty("Class")]
     public virtual ICollection<ClassMember> ClassMembers { get; set; } = new List<ClassMember>();
