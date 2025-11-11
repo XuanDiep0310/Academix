@@ -81,6 +81,7 @@ namespace Academix.API
             builder.Services.AddScoped<IJwtService, JwtService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IClassService, ClassService>();
 
             // Swagger/OpenAPI Configuration
             builder.Services.AddEndpointsApiExplorer();
