@@ -96,5 +96,15 @@ namespace Academix.WinApp.Forms.Admin
             btnDangXuat.ForeColor = Color.LightSkyBlue; // Chữ xanh
 
         }
+
+        private void guna2CirclePictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormMainAdmin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

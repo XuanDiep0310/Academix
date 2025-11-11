@@ -13,7 +13,8 @@ static class Program
         ApplicationConfiguration.Initialize();
 
         //Application.Run(new Forms.FormSignIn());
-        Application.Run(new Forms.Admin.FormMainAdmin());
-        // Application.Run(new Forms.Teacher.FormMainTeacher());
+        //Application.Run(new Forms.Admin.FormMainAdmin());
+        Application.Run(new Forms.Student.FormMainStudent());
+        //Application.Run(new Forms.Teacher.FormMainTeacher());
     }
 }

@@ -255,6 +255,7 @@
             guna2CirclePictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             guna2CirclePictureBox2.TabIndex = 4;
             guna2CirclePictureBox2.TabStop = false;
+            guna2CirclePictureBox2.Click += guna2CirclePictureBox2_Click;
             // 
             // FormMainAdmin
             // 
@@ -267,6 +268,7 @@
             Name = "FormMainAdmin";
             Text = "FormMainAdmin";
             WindowState = FormWindowState.Maximized;
+            Load += FormMainAdmin_Load;
             guna2Panel2.ResumeLayout(false);
             guna2Panel4.ResumeLayout(false);
             guna2Panel1.ResumeLayout(false);
