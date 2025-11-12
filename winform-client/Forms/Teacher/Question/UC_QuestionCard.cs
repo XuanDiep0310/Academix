@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Academix.WinApp.Forms.Teacher.Question;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -27,6 +28,10 @@ namespace Academix.WinApp.Forms.Teacher
             QuestionId = questionId;
         }
 
-
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            Form_AddUpdateQuestion frm = new Form_AddUpdateQuestion();
+            frm.ShowDialog();
+        }
     }
 }

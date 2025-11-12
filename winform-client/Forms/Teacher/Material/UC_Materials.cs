@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Academix.WinApp.Forms.Teacher.Material;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,12 @@ namespace Academix.WinApp.Forms.Teacher
         public UC_Materials()
         {
             InitializeComponent();
+        }
+
+        private void btnThemTaiLieu_Click(object sender, EventArgs e)
+        {
+            Form_AddMaterial frm = new Form_AddMaterial();
+            frm.ShowDialog();
         }
     }
 }
