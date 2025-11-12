@@ -174,6 +174,7 @@
             btnSua.Size = new Size(56, 35);
             btnSua.TabIndex = 7;
             btnSua.Text = "Sửa";
+            btnSua.Click += btnSua_Click;
             // 
             // btnXoa
             // 
@@ -194,8 +195,7 @@
             // 
             // UC_QuestionCard
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
             BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(btnXoa);
