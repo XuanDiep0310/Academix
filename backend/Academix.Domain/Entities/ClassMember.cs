@@ -21,7 +21,7 @@ public partial class ClassMember
     [StringLength(20)]
     public string Role { get; set; } = null!;
 
-    public DateTime? JoinedAt { get; set; }
+    public DateTime JoinedAt { get; set; }
 
     [ForeignKey("ClassId")]
     [InverseProperty("ClassMembers")]

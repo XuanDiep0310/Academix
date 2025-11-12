@@ -1,0 +1,97 @@
+.wrap {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+/* Header */
+.header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #edf0f3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.title {
+  margin: 0;
+}
+
+/* Filters */
+.filters {
+  padding: 12px 20px 0 20px;
+}
+
+/* Table card */
+.tableCard {
+  padding: 16px 20px 20px 20px;
+}
+
+.pagination {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Truncate mô tả */
+.truncate {
+  max-width: 420px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Viewer */
+.viewer {
+  display: grid;
+  gap: 12px;
+}
+
+.pdf {
+  width: 100%;
+  height: 70vh;
+  border: 1px solid #edf0f3;
+  border-radius: 8px;
+}
+
+.video {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #edf0f3;
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.image {
+  border: 1px solid #edf0f3;
+  border-radius: 8px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+.linkWrap {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.desc {
+  padding: 12px;
+  background: #f9fafb;
+  border: 1px solid #edf0f3;
+  border-radius: 8px;
+}

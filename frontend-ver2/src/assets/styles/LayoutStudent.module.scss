@@ -1,0 +1,53 @@
+.wrapper {
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+/* Sider */
+.sider {
+  border-right: 1px solid #edf0f3;
+}
+
+.siderHeader {
+  padding: 16px 16px 12px 16px;
+  border-bottom: 1px solid #edf0f3;
+}
+.brand {
+  margin: 0;
+}
+.userName {
+  display: block;
+}
+
+.menu {
+  padding: 8px 8px 8px 8px;
+  border: 0;
+  background: transparent;
+}
+
+.siderFooter {
+  margin-top: auto;
+  padding: 12px;
+  border-top: 1px solid #edf0f3;
+}
+
+/* Header */
+.header {
+  background: #fff;
+  border-bottom: 1px solid #edf0f3;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+/* Content */
+.content {
+  padding: 20px;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #edf0f3;
+  border-radius: 12px;
+  padding: 16px;
+}

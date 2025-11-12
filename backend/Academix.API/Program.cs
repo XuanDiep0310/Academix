@@ -80,6 +80,10 @@ namespace Academix.API
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IClassService, ClassService>();
+            builder.Services.AddScoped<IMaterialService, MaterialService>(); 
+            builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 
             // Swagger/OpenAPI Configuration
             builder.Services.AddEndpointsApiExplorer();
@@ -151,6 +155,8 @@ namespace Academix.API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseCors("AllowAll");
 
