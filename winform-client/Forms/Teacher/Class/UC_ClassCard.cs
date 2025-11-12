@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Academix.WinApp.Forms.Teacher.Class;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,8 +34,25 @@ namespace Academix.WinApp.Forms.Teacher
 
         private void btnXemDSHS_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"Xem chi tiết lớp: {lblTenLop.Text} (ID: {ClassId})");
-            // Có thể mở form khác ở đây, ví dụ: FormClassDetails
+            Form parentForm = this.FindForm();
+            if (parentForm != null)
+            {
+                // Panel nền mờ
+                Panel overlayBg = new Panel
+                {
+                    Dock = DockStyle.Fill,
+                    BackColor = Color.FromArgb(100, 0, 0, 0), // mờ 50%
+                    Name = "overlayBackground"
+                };
+                UC_ListStudent ucOverlay = new UC_ListStudent(ClassId);
+                ucOverlay.Dock = DockStyle.Fill;
+
+                // Thêm panel mờ + UC overlay
+                parentForm.Controls.Add(overlayBg);
+                parentForm.Controls.Add(ucOverlay);
+
+                ucOverlay.BringToFront();
+            }
         }
     }
 }
