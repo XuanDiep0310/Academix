@@ -9,11 +9,11 @@ namespace Academix.WinApp.Models
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
-        public UserDto User { get; set; }
+        public LoginUserDto User { get; set; }
         public DateTime ExpiresAt { get; set; }
     }
 
-    public class UserDto
+    public class LoginUserDto
     {
         public int UserId { get; set; }
         public string Email { get; set; }
