@@ -16,8 +16,11 @@ namespace Academix.WinApp.Forms
         public FormSignIn()
         {
             InitializeComponent();
-            _authApi = new AuthApi();
+
+            _authApi = new AuthApi(Config.Get("ApiSettings:BaseUrl"));
+
         }
+
 
         private async void btnDangNhap_Click(object sender, EventArgs e)
         {
@@ -51,25 +54,26 @@ namespace Academix.WinApp.Forms
                     Password = txtMatKhau.Text
                 };
 
-                var result = await _authApi.LoginAsync(loginRequest);
+                 var loginResult = await _authApi.LoginAsync(loginRequest);
 
-                if (result.Success)
+                if (loginResult.Success)
                 {
-                    // Lưu session
-                    SessionManager.Token = result.Token;
-                    SessionManager.RefreshToken = result.RefreshToken;
-                    SessionManager.CurrentUser = result.User;
+                    SessionManager.Token = loginResult.Token;
+                    SessionManager.RefreshToken = loginResult.RefreshToken;
+                    SessionManager.CurrentUser = loginResult.User;
 
                     MessageBox.Show("Đăng nhập thành công!", "Thông báo",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Mở form tương ứng
-                    OpenMainForm(result.User.Role);
+                    OpenMainForm(loginResult.User?.Role); // dùng ?. để tránh null
                     this.Hide();
                 }
+
+
+
                 else
                 {
-                    MessageBox.Show(result.Message, "Đăng nhập thất bại",
+                    MessageBox.Show(loginResult.Message, "Đăng nhập thất bại",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
