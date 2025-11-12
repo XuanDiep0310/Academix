@@ -34,9 +34,9 @@ public partial class Material
 
     public int UploadedBy { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 
     [ForeignKey("ClassId")]
     [InverseProperty("Materials")]
