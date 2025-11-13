@@ -1,4 +1,5 @@
 import axios from "../utils/axios-customize";
+import { getCookie } from "../utils/cookie";
 
 const registerUserAPI = (fullName, email, password, phone) => {
   const URL_BACKEND = "/api/v1/user/register";
@@ -13,25 +14,28 @@ const registerUserAPI = (fullName, email, password, phone) => {
 };
 
 const loginUserAPI = (username, password) => {
-  const URL_BACKEND = "/api/v1/auth/login";
+  const URL_BACKEND = "/api/Auth/login";
   const data = {
-    username: username,
+    email: username,
     password: password,
-    // delay: 2000,
   };
   const res = axios.post(URL_BACKEND, data);
   return res;
 };
 const callFetchAccount = () => {
-  const URL_BACKEND = "/api/v1/auth/account";
+  const URL_BACKEND = "/api/Auth/profile";
   return axios.get(URL_BACKEND);
 };
 const callLogout = () => {
-  const URL_BACKEND = "/api/v1/auth/logout";
-  return axios.post(URL_BACKEND);
+  const URL_BACKEND = "/api/Auth/logout";
+  const refreshToken = getCookie("refresh_token");
+  return axios.post(URL_BACKEND, {
+    refreshToken: refreshToken,
+  });
 };
+
 const callListUserAPI = (query) => {
-  const URL_BACKEND = `/api/v1/user?${query}`;
+  const URL_BACKEND = `/api/Users?${query}`;
   const res = axios.get(URL_BACKEND);
   return res;
 };
@@ -48,7 +52,7 @@ const createUserAPI = (fullName, email, password, phone) => {
   return res;
 };
 const callBulkCreateUser = (data) => {
-  const URL_BACKEND = "/api/v1/user/bulk-create";
+  const URL_BACKEND = "/api/Users/bulk";
   const res = axios.post(URL_BACKEND, data);
   return res;
 };
@@ -58,7 +62,7 @@ const deleteUserAPI = (id) => {
   return res;
 };
 const editUserAPI = (id, fullName, phone) => {
-  const URL_BACKEND = `/api/v1/user/`;
+  const URL_BACKEND = `/api/Users`;
   const data = {
     _id: id,
     fullName,

@@ -5,11 +5,10 @@ const initialState = {
   isLoading: true,
   user: {
     email: "",
-    phone: "",
     fullName: "",
+    userId: 1,
     role: "",
-    avatar: "",
-    id: "",
+    isActive: false,
   },
 };
 
@@ -30,18 +29,17 @@ export const accountSlice = createSlice({
     doGetAccountAction: (state, action) => {
       state.isAuthenticated = true;
       state.isLoading = false;
-      state.user = action.payload.user;
+      state.user = action.payload;
     },
     doLogoutAction: (state, action) => {
       localStorage.removeItem("access_token");
       state.isAuthenticated = false;
       state.user = {
         email: "",
-        phone: "",
         fullName: "",
+        userId: 1,
         role: "",
-        avatar: "",
-        id: "",
+        isActive: false,
       };
     },
     doUpdateUserInfoAction: (state, action) => {

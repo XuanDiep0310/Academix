@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Input, message, notification } from "antd";
+import { Button, Divider, Form, Input, notification } from "antd";
 import { useNavigate } from "react-router";
 import "../../assets/styles/login.scss";
 import { useState } from "react";
@@ -14,9 +14,11 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     setLoading(true);
     const res = await loginUserAPI(values.email, values.password);
+    console.log("res login", res);
 
-    if (res?.data) {
-      localStorage.setItem("access_token", res.data.access_token);
+    if (res?.success === true) {
+      localStorage.setItem("access_token", res.data.accessToken);
+      cookieStore.set("refresh_token", res.data.refreshToken);
       dispatch(doLoginAction(res.data.user));
       notification.success({ message: "Đăng nhập thành công!" });
       navigate("/");

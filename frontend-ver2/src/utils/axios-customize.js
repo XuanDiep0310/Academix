@@ -1,12 +1,13 @@
 import axios from "axios";
 import { Mutex } from "async-mutex";
+import { getCookie } from "./cookie";
 
 const mutex = new Mutex();
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 const instance = axios.create({
   baseURL: baseURL,
-  withCredentials: true, // xét cookie
+  // withCredentials: true, // xét cookie
 });
 
 instance.defaults.headers.common = {
@@ -20,8 +21,12 @@ const handleRefreshToken = async () => {
   // return null;
 
   return await mutex.runExclusive(async () => {
-    const res = await instance.get("/api/v1/auth/refresh");
-    if (res && res?.data) return res.data.access_token;
+    const refreshToken = getCookie("refresh_token");
+    const res = await instance.post("/api/Auth/refresh-token", {
+      refreshToken: refreshToken,
+    });
+
+    if (res && res?.data) return res.data.accessToken;
     return null;
   });
 };
@@ -85,7 +90,7 @@ instance.interceptors.response.use(
     //   window.location.href = "/login";
     // }
 
-    return error?.response.data ?? Promise.reject(error);
+    return error?.response;
   }
 );
 export default instance;
