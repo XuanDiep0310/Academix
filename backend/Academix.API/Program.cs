@@ -85,6 +85,7 @@ namespace Academix.API
             builder.Services.AddScoped<IMaterialService, MaterialService>(); 
             builder.Services.AddScoped<IFileStorageService, FileStorageService>();
             builder.Services.AddScoped<IQuestionService, QuestionService>();
+            builder.Services.AddScoped<IExamService, ExamService>();
 
             // Swagger/OpenAPI Configuration
             builder.Services.AddEndpointsApiExplorer();
