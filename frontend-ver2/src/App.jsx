@@ -12,7 +12,7 @@ import { doGetAccountAction } from "./redux/account/accountSlice";
 import Loading from "./components/Loading";
 import NotFound from "./components/NotFound/index";
 import LayoutAdmin from "./components/Admin/LayoutAdmin";
-import ClassManagement from "./components/Admin/ClassManagement";
+import ClassManagement from "./components/Admin/Classes/ClassManagement";
 import UserManagement from "./components/Admin/User/UserManagement";
 import LayoutTeacher from "./components/Teacher/LayoutTeacher";
 import ClassList from "./components/Teacher/ClassList";
@@ -26,6 +26,7 @@ import MaterialView from "./components/Student/MaterialView";
 import { StudentResults } from "./components/Student/StudentResults";
 import { TestTaking } from "./components/Student/TestTaking";
 import { message } from "antd";
+import AdminPage from "./pages/admin";
 
 const Layout = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -81,7 +82,7 @@ let router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <>Hihi</>,
+        element: <AdminPage />,
       },
       {
         path: "classes",

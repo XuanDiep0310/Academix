@@ -18,7 +18,7 @@ import {
   Empty,
 } from "antd";
 import { Plus, Pencil, Trash2, Users, UserPlus } from "lucide-react";
-import styles from "../../assets/styles/ClassManagement.module.scss";
+import styles from "../../../assets/styles/ClassManagement.module.scss";
 
 const { Title, Text } = Typography;
 

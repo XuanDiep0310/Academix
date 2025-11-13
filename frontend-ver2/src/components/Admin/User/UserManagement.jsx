@@ -14,16 +14,24 @@ import {
   Empty,
   message,
   notification,
+  Spin,
 } from "antd";
 import { Plus, Pencil, Trash2, Lock, Unlock, Users, Eye } from "lucide-react";
+import * as XLSX from "xlsx";
+import { Upload } from "antd";
 
 import styles from "../../../assets/styles/UserManagement.module.scss";
 import {
   callBulkCreateUser,
   callListUserAPI,
+  createUserAPI,
+  deleteUserAPI,
+  editUserAPI,
+  editUserStatusAPI,
 } from "../../../services/api.service";
 import UserDetail from "./UserDetail";
 import moment from "moment";
+import UserImportModal from "./data/UserImportModal";
 
 const { Title, Text } = Typography;
 
@@ -61,6 +69,7 @@ export default function UserManagement() {
   // Modal/Forms
   const [openTeacherModal, setOpenTeacherModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
+  const [isTeacherSubmitting, setIsTeacherSubmitting] = useState(false);
   const [teacherForm] = Form.useForm();
 
   const [openStudentBulk, setOpenStudentBulk] = useState(false);
@@ -71,6 +80,9 @@ export default function UserManagement() {
   const [userDetail, setUserDetail] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
+  // Import Excel
+  const [isImportOpen, setIsImportOpen] = useState(false);
+
   const openUserDetail = (row) => {
     setUserDetail(row);
     setIsDetailOpen(true);
@@ -79,8 +91,6 @@ export default function UserManagement() {
   /* ======================= CALL API DANH SÁCH USER ======================= */
   const fetchUsers = async () => {
     try {
-      setLoading(true);
-
       const params = new URLSearchParams();
       params.append("page", String(current));
       params.append("pageSize", String(pageSize));
@@ -91,7 +101,8 @@ export default function UserManagement() {
 
       const query = params.toString();
       const res = await callListUserAPI(query);
-
+      setLoading(true);
+      delay(500);
       const data = res.data; // <-- chính là object bạn chụp hình
 
       const items = data.users || [];
@@ -116,10 +127,8 @@ export default function UserManagement() {
     }
   };
 
-  // Gọi API khi current / pageSize / q thay đổi
   useEffect(() => {
     fetchUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, pageSize, q]);
 
   /* ======================= HANDLE PHÂN TRANG TABLE ======================= */
@@ -137,7 +146,6 @@ export default function UserManagement() {
       setCurrent(+pagination.current);
     }
 
-    // Nếu sau này backend có sort thì xử lý thêm ở đây
     // if (sorter && sorter.order) {
     //   const q =
     //     sorter.order === "ascend"
@@ -166,48 +174,67 @@ export default function UserManagement() {
   };
 
   const submitTeacher = async () => {
-    const values = await teacherForm.validateFields();
+    try {
+      const values = await teacherForm.validateFields();
+      setIsTeacherSubmitting(true);
 
-    if (editingUser) {
-      // TODO: gọi API update giáo viên
-      // await updateTeacherApi(editingUser.id, values)
+      if (editingUser) {
+        // TODO: gọi API update giáo viên
+        // await updateTeacherApi(editingUser.id, values)
+        const res = await editUserAPI(
+          editingUser.id,
+          values.name,
+          values.email
+        );
+        if (res && res.success === true) {
+          await delay(700);
+          message.success("Đã cập nhật giáo viên");
+          setOpenTeacherModal(false);
+          setEditingUser(null);
+          await fetchUsers();
+        }
+      } else {
+        const res = await createUserAPI(
+          values.name,
+          values.email,
+          values.password,
+          "Teacher"
+        );
 
-      // Tạm thời cập nhật local cho đẹp UI
-      setUsers((prev) =>
-        prev.map((u) =>
-          u.id === editingUser.id
-            ? { ...u, email: values.email, name: values.name }
-            : u
-        )
-      );
-      message.success("Đã cập nhật giáo viên");
-    } else {
-      // TODO: gọi API tạo giáo viên
-      // const created = await createTeacherApi(values)
-      // const mapped = mapApiUserToRow(created)
+        if (res && res.success === true) {
+          const mapped = mapApiUserToRow(res.data);
+          await delay(700);
 
-      // Tạm thời giả lập thêm local
-      const fakeCreated = {
-        userId: Date.now(),
-        email: values.email,
-        fullName: values.name,
-        role: "Teacher",
-        isActive: true,
-        createdAt: new Date().toISOString(),
-      };
-      const mapped = mapApiUserToRow(fakeCreated);
+          setUsers((prev) => [mapped, ...prev]);
+          setCurrent(1);
+          message.success("Đã tạo tài khoản giáo viên");
 
-      setUsers((prev) => [mapped, ...prev]);
-      setCurrent(1);
-      message.success("Đã tạo tài khoản giáo viên");
+          setOpenTeacherModal(false);
+          setEditingUser(null);
+          teacherForm.resetFields();
+          await fetchUsers();
+        } else {
+          notification.error({
+            message: "Error",
+            description:
+              JSON.stringify(res?.message) ||
+              "Có lỗi xảy ra khi tạo tài khoản giáo viên",
+          });
+        }
+      }
+    } catch (err) {
+      // nếu lỗi validate form thì bỏ qua
+      if (err?.errorFields) return;
+      notification.error({
+        message: "Error",
+        description: "Có lỗi xảy ra khi xử lý tài khoản giáo viên",
+      });
+    } finally {
+      setIsTeacherSubmitting(false);
     }
-
-    setOpenTeacherModal(false);
-    setEditingUser(null);
-    teacherForm.resetFields();
   };
 
-  /* --------------------- Học sinh: thêm hàng loạt --------------------- */
+  /* --------------------- Học sinh: tạo hàng loạt --------------------- */
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const submitStudentBulk = async () => {
     setIsBulkSubmitting(true);
@@ -271,25 +298,36 @@ export default function UserManagement() {
     }
   };
 
-  /* --------------------- Khóa/Mở khóa & Xóa --------------------- */
-  const toggleStatus = (id) => {
-    // TODO: gọi API toggle active/locked
-    setUsers((prev) =>
-      prev.map((u) =>
-        u.id === id
-          ? { ...u, status: u.status === "active" ? "locked" : "active" }
-          : u
-      )
+  const toggleStatus = async (row) => {
+    console.log("Toggling status for", row);
+    const res = await editUserStatusAPI(
+      row.id,
+      row.name,
+      row.email,
+      row.status === "active" ? false : true
     );
+    if (res && res.success === true) {
+      message.success(
+        `Đã ${row.status === "active" ? "khóa" : "mở khóa"} tài khoản`
+      );
+      await fetchUsers();
+    }
   };
 
-  const deleteUser = (id) => {
-    // TODO: gọi API delete user
-    setUsers((prev) => prev.filter((u) => u.id !== id));
-    message.success("Đã xóa tài khoản");
+  const deleteUser = async (id) => {
+    const res = await deleteUserAPI(id);
+    if (res && res.success === true) {
+      message.success("Đã xóa tài khoản");
+      await fetchUsers();
+    } else {
+      notification.error({
+        message: "Error",
+        description:
+          JSON.stringify(res?.message) || "Có lỗi xảy ra khi xóa tài khoản",
+      });
+    }
   };
 
-  /* --------------------- Cột bảng --------------------- */
   const columns = [
     { title: "Họ tên", dataIndex: "name", key: "name" },
     { title: "Email", dataIndex: "email", key: "email" },
@@ -358,7 +396,7 @@ export default function UserManagement() {
 
           <Button
             size="small"
-            onClick={() => toggleStatus(row.id)}
+            onClick={() => toggleStatus(row)}
             icon={
               row.status === "active" ? (
                 <Lock size={16} />
@@ -388,7 +426,93 @@ export default function UserManagement() {
       ),
     },
   ];
+  const handleExportExcel = () => {
+    if (!users || users.length === 0) {
+      notification.warning({
+        message: "Không có dữ liệu",
+        description: "Hiện chưa có tài khoản nào để xuất Excel",
+      });
+      return;
+    }
 
+    // map dữ liệu cho gọn, chỉ những cột bạn muốn
+    const data = users.map((u) => ({
+      Email: u.email,
+      "Họ và tên": u.name,
+      Role: u.role,
+      Trạng_thái: u.status,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
+
+    XLSX.writeFile(workbook, "users.xlsx");
+  };
+  const handleImportExcel = async (file) => {
+    try {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const data = e.target?.result;
+        if (!data) return;
+
+        const workbook = XLSX.read(data, { type: "binary" });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+
+        const json = XLSX.utils.sheet_to_json(worksheet);
+
+        // Kỳ vọng file có cột: Email, Họ và tên, Mật khẩu, Role (Teacher/Student)
+        const apiUsers = json
+          .map((row) => ({
+            email: row["Email"]?.toString().trim(),
+            fullName: row["Họ và tên"]?.toString().trim(),
+            password: row["Mật khẩu"]?.toString().trim(),
+            role: row["Role"]?.toString().trim() || "Student",
+          }))
+          .filter((u) => u.email && u.fullName && u.password);
+
+        if (apiUsers.length === 0) {
+          notification.error({
+            message: "File không hợp lệ",
+            description:
+              "Không tìm thấy dòng nào có đủ Email / Họ và tên / Mật khẩu",
+          });
+          return;
+        }
+
+        // Gọi API bulk (dùng API bạn đã có)
+        const res = await callBulkCreateUser({ users: apiUsers });
+
+        if (res && res.success) {
+          notification.success({
+            message: "Import thành công",
+            description: res.message || "Đã tạo tài khoản từ file Excel",
+          });
+          setCurrent(1);
+          await fetchUsers();
+        } else {
+          notification.error({
+            message: "Import thất bại",
+            description:
+              JSON.stringify(res?.message) ||
+              "Có lỗi xảy ra khi import file Excel",
+          });
+        }
+      };
+
+      reader.readAsBinaryString(file);
+    } catch (err) {
+      console.error(err);
+      notification.error({
+        message: "Lỗi",
+        description: "Không thể đọc file Excel",
+      });
+    }
+
+    // ngăn Upload auto gửi lên server
+    return false;
+  };
   return (
     <>
       <div className={styles.wrap}>
@@ -414,7 +538,11 @@ export default function UserManagement() {
               }}
               style={{ width: 280 }}
             />
+            <Button onClick={handleExportExcel}>Xuất Excel</Button>
 
+            <Button onClick={() => setIsImportOpen(true)}>
+              Thêm bằng Excel
+            </Button>
             <Button
               icon={<Users size={16} />}
               onClick={() => setOpenStudentBulk(true)}
@@ -438,7 +566,10 @@ export default function UserManagement() {
             rowKey="id"
             dataSource={users}
             columns={columns}
-            loading={loading}
+            loading={{
+              spinning: loading,
+              tip: "Đang tải danh sách tài khoản...",
+            }}
             locale={{ emptyText: <Empty description="Chưa có người dùng" /> }}
             onChange={handleOnChangePagi}
             pagination={{
@@ -458,75 +589,104 @@ export default function UserManagement() {
 
         {/* Modal: Thêm/Sửa giáo viên */}
         <Modal
-          title={editingUser ? "Chỉnh sửa giáo viên" : "Thêm giáo viên mới"}
+          title={editingUser ? "Chỉnh sữa" : "Thêm giáo viên mới"}
           open={openTeacherModal}
-          onCancel={() => setOpenTeacherModal(false)}
+          onCancel={() => !isTeacherSubmitting && setOpenTeacherModal(false)}
           onOk={submitTeacher}
           okText={editingUser ? "Cập nhật" : "Tạo tài khoản"}
+          confirmLoading={isTeacherSubmitting} // 👈 loading ở nút
           destroyOnClose
+          maskClosable={!isTeacherSubmitting} // hạn chế click ra ngoài khi đang submit
         >
-          <Form
-            layout="vertical"
-            form={teacherForm}
-            initialValues={{ email: "", name: "", password: "" }}
-          >
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  type: "email",
-                  message: "Email không hợp lệ",
-                },
-              ]}
+          <Spin spinning={isTeacherSubmitting}>
+            <Form
+              layout="vertical"
+              form={teacherForm}
+              initialValues={{ email: "", name: "", password: "" }}
             >
-              <Input placeholder="teacher@school.com" />
-            </Form.Item>
-            <Form.Item
-              label="Họ và tên"
-              name="name"
-              rules={[{ required: true, message: "Vui lòng nhập họ tên" }]}
-            >
-              <Input placeholder="Nguyễn Văn A" />
-            </Form.Item>
-            {!editingUser && (
               <Form.Item
-                label="Mật khẩu"
-                name="password"
-                rules={[{ required: true, message: "Vui lòng nhập mật khẩu" }]}
+                label="Email"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "Email không hợp lệ",
+                  },
+                ]}
               >
-                <Input.Password placeholder="••••••••" />
+                <Input
+                  placeholder="teacher@school.com"
+                  disabled={isTeacherSubmitting}
+                />
               </Form.Item>
-            )}
-          </Form>
+
+              <Form.Item
+                label="Họ và tên"
+                name="name"
+                rules={[{ required: true, message: "Vui lòng nhập họ tên" }]}
+              >
+                <Input
+                  placeholder="Nguyễn Văn A"
+                  disabled={isTeacherSubmitting}
+                />
+              </Form.Item>
+
+              {!editingUser && (
+                <Form.Item
+                  label="Mật khẩu"
+                  name="password"
+                  rules={[
+                    { required: true, message: "Vui lòng nhập mật khẩu" },
+                  ]}
+                >
+                  <Input.Password
+                    placeholder="••••••••"
+                    disabled={isTeacherSubmitting}
+                  />
+                </Form.Item>
+              )}
+            </Form>
+          </Spin>
         </Modal>
 
         {/* Modal: Thêm học sinh hàng loạt */}
         <Modal
           title="Thêm học sinh hàng loạt"
           open={openStudentBulk}
-          onCancel={() => setOpenStudentBulk(false)}
+          onCancel={() => !isBulkSubmitting && setOpenStudentBulk(false)}
           onOk={submitStudentBulk}
           okText="Thêm học sinh"
           confirmLoading={isBulkSubmitting}
           destroyOnClose
         >
-          <Text type="secondary">
-            Nhập mỗi dòng theo định dạng:{" "}
-            <Text code>email,họ tên,mật khẩu</Text>
-          </Text>
-          <Divider />
-          <Input.TextArea
-            rows={10}
-            value={bulkText}
-            onChange={(e) => setBulkText(e.target.value)}
-            placeholder={
-              "student1@school.com,Nguyễn Văn A,password123\nstudent2@school.com,Trần Thị B,password456\nstudent3@school.com,Lê Văn C,password789"
-            }
-          />
+          <Spin spinning={isBulkSubmitting}>
+            <Text type="secondary">
+              Nhập mỗi dòng theo định dạng:{" "}
+              <Text code>email,họ tên,mật khẩu</Text>
+            </Text>
+            <Divider />
+            <Input.TextArea
+              rows={10}
+              value={bulkText}
+              onChange={(e) => setBulkText(e.target.value)}
+              disabled={isBulkSubmitting}
+              placeholder={
+                "student1@school.com,Nguyễn Văn A,password123\n" +
+                "student2@school.com,Trần Thị B,password456\n" +
+                "student3@school.com,Lê Văn C,password789"
+              }
+            />
+          </Spin>
         </Modal>
       </div>
+      <UserImportModal
+        open={isImportOpen}
+        onClose={() => setIsImportOpen(false)}
+        fetchUsers={fetchUsers}
+        setCurrent={setCurrent}
+      />
+
       <UserDetail
         userDetail={userDetail}
         setUserDetail={setUserDetail}

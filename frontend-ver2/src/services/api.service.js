@@ -40,13 +40,13 @@ const callListUserAPI = (query) => {
   return res;
 };
 
-const createUserAPI = (fullName, email, password, phone) => {
-  const URL_BACKEND = "/api/v1/user";
+const createUserAPI = (fullName, email, password, role) => {
+  const URL_BACKEND = "/api/Users";
   const data = {
     fullName: fullName,
     email: email,
     password: password,
-    phone: phone,
+    role: role,
   };
   const res = axios.post(URL_BACKEND, data);
   return res;
@@ -57,20 +57,48 @@ const callBulkCreateUser = (data) => {
   return res;
 };
 const deleteUserAPI = (id) => {
-  const URL_BACKEND = `/api/v1/user/${id}`;
+  const URL_BACKEND = `/api/Users/${id}`;
   const res = axios.delete(URL_BACKEND);
   return res;
 };
-const editUserAPI = (id, fullName, phone) => {
-  const URL_BACKEND = `/api/Users`;
+const editUserAPI = (id, fullName, email) => {
+  const URL_BACKEND = `/api/Users/${id}`;
   const data = {
-    _id: id,
     fullName,
-    phone,
+    email,
+    isActive: true,
   };
   const res = axios.put(URL_BACKEND, data);
   return res;
 };
+const editUserStatusAPI = (id, fullName, email, isActive) => {
+  const URL_BACKEND = `/api/Users/${id}`;
+  const data = {
+    fullName,
+    email,
+    isActive: isActive,
+  };
+  const res = axios.put(URL_BACKEND, data);
+  return res;
+};
+const callDashboardUsersAPI = () => {
+  const URL_BACKEND = `/api/Users/statistics`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+
+const callDashboardClassesAPI = () => {
+  const URL_BACKEND = `/api/Classes/statistics`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+
+const callListClassAPI = (query) => {
+  const URL_BACKEND = `/api/Classes?${query}`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+
 const callListBookAPI = (query) => {
   const URL_BACKEND = `/api/v1/book?${query}`;
   const res = axios.get(URL_BACKEND);
@@ -232,4 +260,8 @@ export {
   callOnChangePassWord,
   callOrderApi,
   callFetchDashBoard,
+  editUserStatusAPI,
+  callDashboardUsersAPI,
+  callDashboardClassesAPI,
+  callListClassAPI,
 };

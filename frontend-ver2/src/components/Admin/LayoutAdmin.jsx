@@ -1,7 +1,13 @@
 import { useMemo } from "react";
 import { Layout, Menu, Button, Typography, Space } from "antd";
 import { useLocation, useNavigate, Outlet } from "react-router";
-import { LogOut, Users, GraduationCap, Settings } from "lucide-react";
+import {
+  LogOut,
+  Users,
+  GraduationCap,
+  Settings,
+  BarChart2,
+} from "lucide-react";
 import styles from "../../assets/styles/LayoutAdmin.module.scss";
 
 const { Sider, Content, Header } = Layout;
@@ -19,6 +25,11 @@ const LayoutAdmin = ({ user, onLogout }) => {
   // Khai báo menu DÙNG ICON lucide-react, key = PATH
   const menuItems = useMemo(
     () => [
+      {
+        key: "/admin",
+        icon: <BarChart2 size={16} />,
+        label: "Tổng quan",
+      },
       {
         key: "/admin/users",
         icon: <Users size={16} />,
@@ -38,15 +49,13 @@ const LayoutAdmin = ({ user, onLogout }) => {
     []
   );
 
-  // Xác định mục đang chọn theo URL hiện tại
-  const selectedKeys = [
-    menuItems.find((i) => pathname.startsWith(i.key))?.key || menuItems[0]?.key,
-  ];
+  const activeItem =
+    [...menuItems]
+      .sort((a, b) => b.key.length - a.key.length) // key dài hơn ưu tiên trước
+      .find((item) => pathname.startsWith(item.key)) || menuItems[0];
 
-  // Header breadcrumb ngắn theo path
-  const currentLabel =
-    menuItems.find((i) => pathname.startsWith(i.key))?.label ||
-    "Quản lý tài khoản";
+  const selectedKeys = [activeItem.key];
+  const currentLabel = activeItem.label;
 
   return (
     <Layout className={styles.adminWrap}>
