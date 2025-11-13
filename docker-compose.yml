@@ -32,7 +32,7 @@ services:
     container_name: academix_backend
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - ConnectionStrings__DbContext=Server=sqlserver,1433;Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};TrustServerCertificate=true;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};TrustServerCertificate=true;
       - ASPNETCORE_URLS=http://+:5000
     ports:
       - "${BACKEND_PORT:-8080}:5000"
@@ -50,21 +50,23 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend-ver2
       dockerfile: Dockerfile
       target: production
+      args:
+        - VITE_PUBLIC_API_URL=${VITE_PUBLIC_API_URL}
     container_name: academix_frontend
-    environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    # environment: # <-- Không cần thiết cho Nginx production
+    #   - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
     ports:
-      - "${FRONTEND_PORT:-3000}:3000"
+      - "${FRONTEND_PORT:-3000}:80" # <-- ĐÃ THAY ĐỔI (container port là 80)
     depends_on:
       - backend
     networks:
       - academix_network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:80/ || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 3
