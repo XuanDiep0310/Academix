@@ -23,7 +23,7 @@ public partial class StudentAnswer
     [Column(TypeName = "decimal(5, 2)")]
     public decimal? MarksObtained { get; set; }
 
-    public DateTime? AnsweredAt { get; set; }
+    public DateTime AnsweredAt { get; set; } = DateTime.UtcNow;
 
     [ForeignKey("AttemptId")]
     [InverseProperty("StudentAnswers")]

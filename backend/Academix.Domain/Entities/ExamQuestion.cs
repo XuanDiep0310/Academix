@@ -20,7 +20,7 @@ public partial class ExamQuestion
     public int QuestionOrder { get; set; }
 
     [Column(TypeName = "decimal(5, 2)")]
-    public decimal? Marks { get; set; }
+    public decimal Marks { get; set; } = 1;
 
     [ForeignKey("ExamId")]
     [InverseProperty("ExamQuestions")]

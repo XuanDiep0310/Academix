@@ -18,7 +18,7 @@ public partial class StudentExamAttempt
 
     public int StudentId { get; set; }
 
-    public DateTime? StartTime { get; set; }
+    public DateTime StartTime { get; set; } = DateTime.UtcNow;
 
     public DateTime? SubmitTime { get; set; }
 
@@ -26,7 +26,7 @@ public partial class StudentExamAttempt
     public decimal? TotalScore { get; set; }
 
     [StringLength(20)]
-    public string? Status { get; set; }
+    public string Status { get; set; } = "InProgress"; // InProgress, Submitted, Graded
 
     [ForeignKey("ExamId")]
     [InverseProperty("StudentExamAttempts")]
