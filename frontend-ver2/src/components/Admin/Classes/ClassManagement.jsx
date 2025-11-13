@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Button,
   Modal,
@@ -12,250 +12,166 @@ import {
   Space,
   Popconfirm,
   message,
-  Pagination,
   Checkbox,
   Divider,
   Empty,
+  notification,
 } from "antd";
 import { Plus, Pencil, Trash2, Users, UserPlus } from "lucide-react";
 import styles from "../../../assets/styles/ClassManagement.module.scss";
+import {
+  callListClassAPI,
+  callListTeacherAPI,
+  callListStudentAPI,
+  createClassAPI,
+  deleteClassAPI,
+  callAddTeachersToClassAPI,
+} from "../../../services/api.service";
 
 const { Title, Text } = Typography;
-
-/* ============================ DATASET TRONG FILE ============================ */
-// Teachers
-const DATA_TEACHERS = [
-  { id: "1", name: "Nguyễn Văn A", email: "teacher1@school.com" },
-  { id: "2", name: "Trần Thị B", email: "teacher2@school.com" },
-  { id: "3", name: "Lê Văn C", email: "teacher3@school.com" },
-  { id: "4", name: "Phạm Thị D", email: "teacher4@school.com" },
-  { id: "5", name: "Võ Văn E", email: "teacher5@school.com" },
-  { id: "6", name: "Đỗ Thị F", email: "teacher6@school.com" },
-  { id: "7", name: "Huỳnh Văn G", email: "teacher7@school.com" },
-  { id: "8", name: "Bùi Thị H", email: "teacher8@school.com" },
-  { id: "9", name: "Phan Văn I", email: "teacher9@school.com" },
-  { id: "10", name: "Vũ Thị K", email: "teacher10@school.com" },
-  { id: "11", name: "Mai Văn L", email: "teacher11@school.com" },
-  { id: "12", name: "Hồ Thị M", email: "teacher12@school.com" },
-  { id: "13", name: "Tạ Văn N", email: "teacher13@school.com" },
-  { id: "14", name: "Đặng Thị O", email: "teacher14@school.com" },
-  { id: "15", name: "Lý Văn P", email: "teacher15@school.com" },
-];
-
-// Students
-const DATA_STUDENTS = [
-  { id: "1", name: "HS 01", email: "student01@school.com" },
-  { id: "2", name: "HS 02", email: "student02@school.com" },
-  { id: "3", name: "HS 03", email: "student03@school.com" },
-  { id: "4", name: "HS 04", email: "student04@school.com" },
-  { id: "5", name: "HS 05", email: "student05@school.com" },
-  { id: "6", name: "HS 06", email: "student06@school.com" },
-  { id: "7", name: "HS 07", email: "student07@school.com" },
-  { id: "8", name: "HS 08", email: "student08@school.com" },
-  { id: "9", name: "HS 09", email: "student09@school.com" },
-  { id: "10", name: "HS 10", email: "student10@school.com" },
-  { id: "11", name: "HS 11", email: "student11@school.com" },
-  { id: "12", name: "HS 12", email: "student12@school.com" },
-  { id: "13", name: "HS 13", email: "student13@school.com" },
-  { id: "14", name: "HS 14", email: "student14@school.com" },
-  { id: "15", name: "HS 15", email: "student15@school.com" },
-  { id: "16", name: "HS 16", email: "student16@school.com" },
-  { id: "17", name: "HS 17", email: "student17@school.com" },
-  { id: "18", name: "HS 18", email: "student18@school.com" },
-  { id: "19", name: "HS 19", email: "student19@school.com" },
-  { id: "20", name: "HS 20", email: "student20@school.com" },
-  { id: "21", name: "HS 21", email: "student21@school.com" },
-  { id: "22", name: "HS 22", email: "student22@school.com" },
-  { id: "23", name: "HS 23", email: "student23@school.com" },
-  { id: "24", name: "HS 24", email: "student24@school.com" },
-  { id: "25", name: "HS 25", email: "student25@school.com" },
-  { id: "26", name: "HS 26", email: "student26@school.com" },
-  { id: "27", name: "HS 27", email: "student27@school.com" },
-  { id: "28", name: "HS 28", email: "student28@school.com" },
-  { id: "29", name: "HS 29", email: "student29@school.com" },
-  { id: "30", name: "HS 30", email: "student30@school.com" },
-  { id: "31", name: "HS 31", email: "student31@school.com" },
-  { id: "32", name: "HS 32", email: "student32@school.com" },
-  { id: "33", name: "HS 33", email: "student33@school.com" },
-  { id: "34", name: "HS 34", email: "student34@school.com" },
-  { id: "35", name: "HS 35", email: "student35@school.com" },
-  { id: "36", name: "HS 36", email: "student36@school.com" },
-  { id: "37", name: "HS 37", email: "student37@school.com" },
-  { id: "38", name: "HS 38", email: "student38@school.com" },
-  { id: "39", name: "HS 39", email: "student39@school.com" },
-  { id: "40", name: "HS 40", email: "student40@school.com" },
-  { id: "41", name: "HS 41", email: "student41@school.com" },
-  { id: "42", name: "HS 42", email: "student42@school.com" },
-  { id: "43", name: "HS 43", email: "student43@school.com" },
-  { id: "44", name: "HS 44", email: "student44@school.com" },
-  { id: "45", name: "HS 45", email: "student45@school.com" },
-  { id: "46", name: "HS 46", email: "student46@school.com" },
-  { id: "47", name: "HS 47", email: "student47@school.com" },
-  { id: "48", name: "HS 48", email: "student48@school.com" },
-  { id: "49", name: "HS 49", email: "student49@school.com" },
-  { id: "50", name: "HS 50", email: "student50@school.com" },
-];
-
-// Classes
-const DATA_CLASSES = [
-  {
-    id: "c1",
-    name: "Lập trình C cơ bản",
-    code: "CS101",
-    description: "Nhập môn lập trình với C",
-    teacherIds: ["1"],
-    studentIds: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-    createdAt: "2024-01-10",
-  },
-  {
-    id: "c2",
-    name: "Toán cao cấp A",
-    code: "MTH201",
-    description: "Giải tích & đại số tuyến tính",
-    teacherIds: ["2", "3"],
-    studentIds: ["5", "6", "7", "8", "11", "12", "13", "14", "15"],
-    createdAt: "2024-02-05",
-  },
-  {
-    id: "c3",
-    name: "Vật lý đại cương",
-    code: "PHY110",
-    description: "Cơ học – Nhiệt – Điện",
-    teacherIds: ["4"],
-    studentIds: ["16", "17", "18", "19", "20", "21", "22"],
-    createdAt: "2024-03-12",
-  },
-  {
-    id: "c4",
-    name: "Hóa học đại cương",
-    code: "CHE101",
-    description: "Cấu tạo chất & phản ứng",
-    teacherIds: ["5", "6"],
-    studentIds: [
-      "9",
-      "10",
-      "11",
-      "23",
-      "24",
-      "25",
-      "26",
-      "27",
-      "28",
-      "29",
-      "30",
-    ],
-    createdAt: "2024-04-02",
-  },
-  {
-    id: "c5",
-    name: "Cấu trúc dữ liệu & Giải thuật",
-    code: "CS204",
-    description: "Array, LinkedList, Stack/Queue, Tree, Graph…",
-    teacherIds: ["7"],
-    studentIds: ["31", "32", "33", "34", "35", "36", "37", "38"],
-    createdAt: "2024-05-20",
-  },
-  {
-    id: "c6",
-    name: "Cơ sở dữ liệu",
-    code: "DB101",
-    description: "SQL căn bản, mô hình ER, chuẩn hoá",
-    teacherIds: ["8", "9"],
-    studentIds: [
-      "12",
-      "13",
-      "14",
-      "15",
-      "39",
-      "40",
-      "41",
-      "42",
-      "43",
-      "44",
-      "45",
-    ],
-    createdAt: "2024-06-18",
-  },
-  {
-    id: "c7",
-    name: "Lập trình Web",
-    code: "WEB201",
-    description: "HTML/CSS/JS cơ bản",
-    teacherIds: ["10"],
-    studentIds: ["18", "19", "20", "21", "22", "23", "24"],
-    createdAt: "2024-08-01",
-  },
-  {
-    id: "c8",
-    name: "Xác suất – Thống kê",
-    code: "STA210",
-    description: "Biến ngẫu nhiên, ước lượng, kiểm định",
-    teacherIds: ["11", "12"],
-    studentIds: [
-      "25",
-      "26",
-      "27",
-      "28",
-      "29",
-      "30",
-      "46",
-      "47",
-      "48",
-      "49",
-      "50",
-    ],
-    createdAt: "2024-09-09",
-  },
-];
-/* ========================================================================== */
 
 const MAX_TEACHERS = 2;
 const MAX_STUDENTS = 100;
 
 export default function ClassManagement() {
-  // State nội bộ (không API)
-  const [classes, setClasses] = useState(DATA_CLASSES);
-  const [teachers] = useState(DATA_TEACHERS);
-  const [students] = useState(DATA_STUDENTS);
+  // ======================= STATE =======================
+  // Lớp học (từ API)
+  const [classes, setClasses] = useState([]);
 
-  // UI
+  // Giáo viên / Học sinh (từ API /api/Users?role=...)
+  const [teachers, setTeachers] = useState([]);
+  const [students, setStudents] = useState([]);
+
+  // UI list lớp
+  const [loading, setLoading] = useState(false);
   const [q, setQ] = useState("");
-  const [page, setPage] = useState(1);
-  const pageSize = 10;
+  const [current, setCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
 
+  // Form tạo/sửa lớp
   const [form] = Form.useForm();
   const [openEditor, setOpenEditor] = useState(false);
   const [editingClass, setEditingClass] = useState(null);
 
+  // Modal thành viên
   const [openMembers, setOpenMembers] = useState(false);
   const [managingClass, setManagingClass] = useState(null);
 
+  // Drawer chọn GV/HS
   const [openTeacherDrawer, setOpenTeacherDrawer] = useState(false);
   const [openStudentDrawer, setOpenStudentDrawer] = useState(false);
   const [selectedTeachers, setSelectedTeachers] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
 
+  // ======================= CALL API =======================
+
+  // Lấy danh sách lớp có phân trang
+  const fetchClasses = async () => {
+    try {
+      setLoading(true);
+      const query = `page=${current}&pageSize=${pageSize}&sortBy=CreatedAt&sortOrder=desc`;
+      const res = await callListClassAPI(query);
+      if (res && res.success === true) {
+        const apiData = res.data;
+
+        // Map dữ liệu API -> shape local để giữ logic cũ
+        const mapped = (apiData.classes || []).map((c) => ({
+          id: c.classId,
+          name: c.className,
+          code: c.classCode,
+          description: c.description,
+          createdBy: c.createdBy,
+          createdByName: c.createdByName,
+          isActive: c.isActive,
+          createdAt: c.createdAt,
+          updatedAt: c.updatedAt,
+          // Quan hệ GV/HS tạm thời quản lý local (API chưa cung cấp)
+          teacherIds: [],
+          studentIds: [],
+          // giữ lại count từ API nếu muốn show ở nơi khác
+          teacherCountApi: c.teacherCount,
+          studentCountApi: c.studentCount,
+        }));
+
+        setClasses(mapped);
+        setTotal(apiData.totalCount || mapped.length);
+      } else {
+        message.error("Không thể tải danh sách lớp học");
+      }
+    } catch (err) {
+      console.error("fetchClasses error:", err);
+      message.error("Có lỗi xảy ra khi tải danh sách lớp học");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Lấy giáo viên (role = Teacher)
+  const fetchTeachers = async () => {
+    try {
+      const res = await callListTeacherAPI();
+      if (res && res.success === true) {
+        const mapped =
+          res.data.users?.map((u) => ({
+            id: u.userId,
+            name: u.fullName,
+            email: u.email,
+          })) || [];
+        setTeachers(mapped);
+      }
+    } catch (err) {
+      console.error("fetchTeachers error:", err);
+    }
+  };
+
+  // Lấy học sinh (role = Student)
+  const fetchStudents = async () => {
+    try {
+      const res = await callListStudentAPI();
+      if (res && res.success === true) {
+        const mapped =
+          res.data.users?.map((u) => ({
+            id: u.userId,
+            name: u.fullName,
+            email: u.email,
+          })) || [];
+        setStudents(mapped);
+      }
+    } catch (err) {
+      console.error("fetchStudents error:", err);
+    }
+  };
+
+  // Gọi API khi vào trang + khi đổi current/pageSize
+  useEffect(() => {
+    fetchClasses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, pageSize]);
+
+  // Chỉ gọi 1 lần cho list GV/HS
+  useEffect(() => {
+    fetchTeachers();
+    fetchStudents();
+  }, []);
+
+  // ======================= FILTER CLIENT-SIDE =======================
   const filtered = useMemo(() => {
     if (!q?.trim()) return classes;
     const key = q.toLowerCase();
     return classes.filter(
       (c) =>
-        c.name.toLowerCase().includes(key) ||
-        c.code.toLowerCase().includes(key) ||
+        c.name?.toLowerCase().includes(key) ||
+        c.code?.toLowerCase().includes(key) ||
         c.description?.toLowerCase().includes(key)
     );
   }, [classes, q]);
 
-  const total = filtered.length;
-  const currentData = useMemo(() => {
-    const start = (page - 1) * pageSize;
-    return filtered.slice(start, start + pageSize);
-  }, [filtered, page]);
-
+  // ======================= HELPER =======================
   const getTeacher = (id) => teachers.find((t) => String(t.id) === String(id));
   const getStudent = (id) => students.find((s) => String(s.id) === String(id));
 
-  /* --------------------- CRUD lớp học (local) --------------------- */
+  // ======================= CRUD LỚP (LOCAL + TODO API) =======================
   const openCreate = () => {
     setEditingClass(null);
     form.resetFields();
@@ -265,9 +181,9 @@ export default function ClassManagement() {
   const openEdit = (row) => {
     setEditingClass(row);
     form.setFieldsValue({
-      name: row.name,
-      code: row.code,
+      className: row.name,
       description: row.description,
+      isActive: row.isActive,
     });
     setOpenEditor(true);
   };
@@ -276,21 +192,25 @@ export default function ClassManagement() {
     const values = await form.validateFields();
     try {
       if (editingClass) {
-        setClasses((prev) =>
-          prev.map((c) => (c.id === editingClass.id ? { ...c, ...values } : c))
-        );
-        message.success("Đã cập nhật lớp học");
+        console.log("Editing class with values:", values);
       } else {
-        const newClass = {
-          id: String(Date.now()),
-          ...values,
-          teacherIds: [],
-          studentIds: [],
-          createdAt: new Date().toISOString().split("T")[0],
-        };
-        setClasses((prev) => [newClass, ...prev]);
-        setPage(1);
-        message.success("Đã tạo lớp học");
+        console.log("Creating class with values:", values);
+        const res = await createClassAPI(
+          values.name,
+          values.code,
+          values.description
+        );
+        if (res && res.success === true) {
+          message.success("Đã tạo lớp học thành công");
+          setCurrent(1);
+          fetchClasses();
+        } else {
+          notification.error({
+            message: "Tạo lớp học thất bại",
+            description: res.message || "Có lỗi xảy ra khi tạo lớp học",
+          });
+          return;
+        }
       }
       setOpenEditor(false);
       setEditingClass(null);
@@ -302,14 +222,23 @@ export default function ClassManagement() {
 
   const handleDelete = async (id) => {
     try {
-      setClasses((prev) => prev.filter((c) => c.id !== id));
-      message.success("Đã xóa lớp học");
+      const res = await deleteClassAPI(id);
+      if (res && res.success === true) {
+        message.success("Đã xóa lớp học");
+        fetchClasses();
+      } else {
+        notification.error({
+          message: "Xóa lớp học thất bại",
+          description: res.message || "Có lỗi xảy ra khi xóa lớp học",
+        });
+        return;
+      }
     } catch {
       message.error("Xóa thất bại");
     }
   };
 
-  /* --------------------- Thành viên (local) --------------------- */
+  // ======================= THÀNH VIÊN (LOCAL DEMO) =======================
   const openMembersModal = (row) => {
     setManagingClass(row);
     setOpenMembers(true);
@@ -326,7 +255,7 @@ export default function ClassManagement() {
           c.id === managingClass.id ? { ...c, teacherIds: next } : c
         )
       );
-      message.success("Đã xóa giáo viên khỏi lớp");
+      message.success("Đã xóa giáo viên khỏi lớp (local)");
     } catch {
       message.error("Thao tác thất bại");
     }
@@ -343,13 +272,13 @@ export default function ClassManagement() {
           c.id === managingClass.id ? { ...c, studentIds: next } : c
         )
       );
-      message.success("Đã xóa học sinh khỏi lớp");
+      message.success("Đã xóa học sinh khỏi lớp (local)");
     } catch {
       message.error("Thao tác thất bại");
     }
   };
 
-  /* --------------------- Drawer chọn GV/HS --------------------- */
+  // Drawer chọn GV/HS
   const openTeacherPicker = (row) => {
     setManagingClass(row);
     setSelectedTeachers(row.teacherIds || []);
@@ -368,14 +297,22 @@ export default function ClassManagement() {
       return;
     }
     try {
-      setClasses((prev) =>
-        prev.map((c) =>
-          c.id === managingClass.id ? { ...c, teacherIds: selectedTeachers } : c
-        )
+      const res = await callAddTeachersToClassAPI(
+        managingClass.id,
+        selectedTeachers
       );
-      setManagingClass((prev) => ({ ...prev, teacherIds: selectedTeachers }));
-      setOpenTeacherDrawer(false);
-      message.success("Đã cập nhật giáo viên");
+      console.log("Add teachers API response:", res);
+      if (res && res.success === true) {
+        message.success("Đã cập nhật giáo viên cho lớp");
+        setOpenTeacherDrawer(false);
+        await fetchClasses();
+      } else {
+        notification.error({
+          message: "Cập nhật giáo viên thất bại",
+          description: res.message || "Có lỗi xảy ra khi cập nhật giáo viên",
+        });
+        return;
+      }
     } catch {
       message.error("Cập nhật thất bại");
     }
@@ -394,7 +331,7 @@ export default function ClassManagement() {
       );
       setManagingClass((prev) => ({ ...prev, studentIds: selectedStudents }));
       setOpenStudentDrawer(false);
-      message.success("Đã cập nhật học sinh");
+      message.success("Đã cập nhật học sinh (local)");
     } catch {
       message.error("Cập nhật thất bại");
     }
@@ -426,7 +363,25 @@ export default function ClassManagement() {
     });
   };
 
-  /* --------------------- Columns --------------------- */
+  // ======================= PAGINATION HANDLER (giống Users) =======================
+  const handleOnChangePagi = (pagination, filters, sorter) => {
+    if (
+      pagination &&
+      pagination.pageSize &&
+      +pagination.pageSize !== +pageSize
+    ) {
+      setPageSize(+pagination.pageSize);
+      setCurrent(1); // đổi size thì về trang 1
+    }
+
+    if (pagination && pagination.current && +pagination.current !== +current) {
+      setCurrent(+pagination.current);
+    }
+
+    // nếu sau này cần sort server-side, xử lý thêm ở đây
+  };
+
+  // ======================= COLUMNS =======================
   const columns = [
     {
       title: "Tên lớp",
@@ -446,7 +401,7 @@ export default function ClassManagement() {
       key: "teachers",
       render: (_, row) => (
         <Space>
-          <Badge count={`${(row.teacherIds || []).length}/${MAX_TEACHERS}`} />
+          <Badge count={`${row.teacherCountApi}/${MAX_TEACHERS}`} />
           <Button
             type="text"
             size="small"
@@ -464,7 +419,7 @@ export default function ClassManagement() {
       key: "students",
       render: (_, row) => (
         <Space>
-          <Badge count={`${(row.studentIds || []).length}/${MAX_STUDENTS}`} />
+          <Badge count={`${row.studentCountApi}/${MAX_STUDENTS}`} />
           <Button
             type="text"
             size="small"
@@ -477,7 +432,17 @@ export default function ClassManagement() {
       ),
       width: 170,
     },
-    { title: "Ngày tạo", dataIndex: "createdAt", key: "createdAt", width: 140 },
+    {
+      title: "Ngày tạo",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      width: 180,
+      render: (val) => (
+        <Text type="secondary">
+          {val ? new Date(val).toLocaleString() : "--"}
+        </Text>
+      ),
+    },
     {
       title: "Thao tác",
       key: "actions",
@@ -511,6 +476,7 @@ export default function ClassManagement() {
     },
   ];
 
+  // ======================= RENDER =======================
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
@@ -518,7 +484,10 @@ export default function ClassManagement() {
           <Title level={4} className={styles.title}>
             Quản lý lớp học
           </Title>
-          <Text type="secondary">UI + dataset nội bộ (không API)</Text>
+          <Text type="secondary">
+            Kết nối API lớp học + quản lý giáo viên / học sinh trong lớp (demo
+            local)
+          </Text>
         </div>
 
         <Space>
@@ -528,7 +497,7 @@ export default function ClassManagement() {
             value={q}
             onChange={(e) => {
               setQ(e.target.value);
-              setPage(1);
+              setCurrent(1);
             }}
             style={{ width: 260 }}
           />
@@ -546,21 +515,27 @@ export default function ClassManagement() {
       <div className={styles.tableCard}>
         <Table
           rowKey="id"
-          dataSource={currentData}
+          dataSource={filtered}
           columns={columns}
-          pagination={false}
+          loading={{
+            spinning: loading,
+            tip: "Đang tải danh sách lớp học...",
+          }}
           locale={{ emptyText: <Empty description="Chưa có dữ liệu" /> }}
+          onChange={handleOnChangePagi}
+          pagination={{
+            current,
+            pageSize,
+            total,
+            showSizeChanger: true,
+            pageSizeOptions: [5, 10, 20, 50],
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} trên ${total} lớp học`,
+          }}
+          scroll={{ x: 900 }}
+          size="middle"
+          sticky
         />
-
-        <div className={styles.pagination}>
-          <Pagination
-            current={page}
-            pageSize={pageSize}
-            total={total}
-            showSizeChanger={false}
-            onChange={(p) => setPage(p)}
-          />
-        </div>
       </div>
 
       {/* Modal: tạo/sửa */}

@@ -18,7 +18,6 @@ import {
 } from "antd";
 import { Plus, Pencil, Trash2, Lock, Unlock, Users, Eye } from "lucide-react";
 import * as XLSX from "xlsx";
-import { Upload } from "antd";
 
 import styles from "../../../assets/styles/UserManagement.module.scss";
 import {
@@ -100,6 +99,7 @@ export default function UserManagement() {
       }
 
       const query = params.toString();
+      console.log("Fetching users with query:", query);
       const res = await callListUserAPI(query);
       setLoading(true);
       delay(500);
@@ -132,6 +132,7 @@ export default function UserManagement() {
   }, [current, pageSize, q]);
 
   /* ======================= HANDLE PHÂN TRANG TABLE ======================= */
+
   const handleOnChangePagi = (pagination, filters, sorter) => {
     if (
       pagination &&
@@ -448,70 +449,6 @@ export default function UserManagement() {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
 
     XLSX.writeFile(workbook, "users.xlsx");
-  };
-  const handleImportExcel = async (file) => {
-    try {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const data = e.target?.result;
-        if (!data) return;
-
-        const workbook = XLSX.read(data, { type: "binary" });
-        const firstSheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[firstSheetName];
-
-        const json = XLSX.utils.sheet_to_json(worksheet);
-
-        // Kỳ vọng file có cột: Email, Họ và tên, Mật khẩu, Role (Teacher/Student)
-        const apiUsers = json
-          .map((row) => ({
-            email: row["Email"]?.toString().trim(),
-            fullName: row["Họ và tên"]?.toString().trim(),
-            password: row["Mật khẩu"]?.toString().trim(),
-            role: row["Role"]?.toString().trim() || "Student",
-          }))
-          .filter((u) => u.email && u.fullName && u.password);
-
-        if (apiUsers.length === 0) {
-          notification.error({
-            message: "File không hợp lệ",
-            description:
-              "Không tìm thấy dòng nào có đủ Email / Họ và tên / Mật khẩu",
-          });
-          return;
-        }
-
-        // Gọi API bulk (dùng API bạn đã có)
-        const res = await callBulkCreateUser({ users: apiUsers });
-
-        if (res && res.success) {
-          notification.success({
-            message: "Import thành công",
-            description: res.message || "Đã tạo tài khoản từ file Excel",
-          });
-          setCurrent(1);
-          await fetchUsers();
-        } else {
-          notification.error({
-            message: "Import thất bại",
-            description:
-              JSON.stringify(res?.message) ||
-              "Có lỗi xảy ra khi import file Excel",
-          });
-        }
-      };
-
-      reader.readAsBinaryString(file);
-    } catch (err) {
-      console.error(err);
-      notification.error({
-        message: "Lỗi",
-        description: "Không thể đọc file Excel",
-      });
-    }
-
-    // ngăn Upload auto gửi lên server
-    return false;
   };
   return (
     <>

@@ -92,10 +92,51 @@ const callDashboardClassesAPI = () => {
   const res = axios.get(URL_BACKEND);
   return res;
 };
-
+const callListTeacherAPI = () => {
+  const URL_BACKEND = `/api/Users?role=Teacher`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const callListStudentAPI = () => {
+  const URL_BACKEND = `/api/Users?role=Student`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
 const callListClassAPI = (query) => {
   const URL_BACKEND = `/api/Classes?${query}`;
   const res = axios.get(URL_BACKEND);
+  return res;
+};
+const createClassAPI = (className, classCode, description) => {
+  const URL_BACKEND = `/api/Classes`;
+  const data = {
+    className,
+    classCode,
+    description,
+  };
+  const res = axios.post(URL_BACKEND, data);
+  return res;
+};
+const deleteClassAPI = (id) => {
+  const URL_BACKEND = `/api/Classes/${id}`;
+  const res = axios.delete(URL_BACKEND);
+  return res;
+};
+const callAddTeachersToClassAPI = (classId, data) => {
+  console.log("API Service - Adding teachers to class:", classId, data);
+  const URL_BACKEND = `/api/Classes/${classId}/members/teachers`;
+  const dataTeachers = {
+    userIds: data,
+  };
+  const res = axios.post(URL_BACKEND, dataTeachers);
+  return res;
+};
+const callAddStudentsToClassAPI = (classId, data) => {
+  const URL_BACKEND = `/api/Classes/${classId}/members/students`;
+  const dataStudents = {
+    userIds: data,
+  };
+  const res = axios.post(URL_BACKEND, dataStudents);
   return res;
 };
 
@@ -264,4 +305,10 @@ export {
   callDashboardUsersAPI,
   callDashboardClassesAPI,
   callListClassAPI,
+  callListTeacherAPI,
+  callListStudentAPI,
+  createClassAPI,
+  deleteClassAPI,
+  callAddTeachersToClassAPI,
+  callAddStudentsToClassAPI,
 };
