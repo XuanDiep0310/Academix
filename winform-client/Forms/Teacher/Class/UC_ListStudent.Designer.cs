@@ -187,6 +187,7 @@
             Controls.Add(guna2Panel1);
             Name = "UC_ListStudent";
             Size = new Size(692, 653);
+            Load += UC_ListStudent_Load;
             ((System.ComponentModel.ISupportInitialize)dgvListStudent).EndInit();
             guna2Panel1.ResumeLayout(false);
             guna2Panel1.PerformLayout();
