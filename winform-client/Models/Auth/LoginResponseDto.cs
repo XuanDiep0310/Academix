@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Academix.WinApp.Models
+namespace Academix.WinApp.Models.Auth
 {
     /// <summary>
     /// DTO từ API response
