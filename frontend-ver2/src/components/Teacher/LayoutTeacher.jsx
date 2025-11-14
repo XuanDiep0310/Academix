@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Layout, Menu, Button, Typography, Space } from "antd";
+import { Layout, Menu, Button, Typography, Space, message } from "antd";
 import { useLocation, useNavigate, Outlet } from "react-router";
 import {
   LogOut,
@@ -8,8 +8,10 @@ import {
   HelpCircle,
   ClipboardList,
   BarChart,
+  BarChart2,
 } from "lucide-react";
 import styles from "../../assets/styles/LayoutTeacher.module.scss";
+import { callLogout } from "../../services/api.service";
 
 const { Sider, Content, Header } = Layout;
 const { Text, Title } = Typography;
@@ -19,13 +21,26 @@ const { Text, Title } = Typography;
  *  - user?: { name?: string }
  *  - onLogout: () => void
  */
-export default function LayoutTeacher({ user, onLogout }) {
+export default function LayoutTeacher() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+  const onLogout = async () => {
+    const res = await callLogout();
+    if (res.success === true) {
+      localStorage.removeItem("access_token");
+      cookieStore.delete("refresh_token");
+      window.location.href = "/login";
+      message.success("Đăng xuất thành công!");
+    }
+  };
   // key = path để navigate(e.key)
   const menuItems = useMemo(
     () => [
+      {
+        key: "/teacher",
+        icon: <BarChart2 size={16} />,
+        label: "Tông quan",
+      },
       {
         key: "/teacher/classes",
         icon: <GraduationCap size={16} />,
@@ -55,12 +70,13 @@ export default function LayoutTeacher({ user, onLogout }) {
     []
   );
 
-  const selectedKeys = [
-    menuItems.find((i) => pathname.startsWith(i.key))?.key || menuItems[0]?.key,
-  ];
-  const currentLabel =
-    menuItems.find((i) => pathname.startsWith(i.key))?.label ||
-    "Lớp học của tôi";
+  const activeItem =
+    [...menuItems]
+      .sort((a, b) => b.key.length - a.key.length)
+      .find((item) => pathname.startsWith(item.key)) || menuItems[0];
+
+  const selectedKeys = [activeItem.key];
+  const currentLabel = activeItem.label;
 
   return (
     <Layout className={styles.wrap}>
@@ -71,7 +87,7 @@ export default function LayoutTeacher({ user, onLogout }) {
             Giáo viên
           </Title>
           <Text type="secondary" className={styles.userName}>
-            {user?.name || "Teacher"}
+            Teacher
           </Text>
         </div>
 

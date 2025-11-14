@@ -1,36 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import accountReducer from "../redux/account/accountSlice";
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-const persistConfig = {
-  key: "root",
-  version: 1,
-  storage,
-  blacklist: ["account"],
-};
+
+// Gộp các reducer lại
 const rootReducer = combineReducers({
   account: accountReducer,
 });
-const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+// Tạo store cơ bản
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+  reducer: rootReducer,
 });
-const persistor = persistStore(store);
 
-export { store, persistor };
+export { store };
