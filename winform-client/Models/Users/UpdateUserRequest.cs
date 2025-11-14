@@ -1,4 +1,4 @@
-﻿namespace Academix.WinApp.Models
+﻿namespace Academix.WinApp.Models.Users
 {
     public class UpdateUserRequest
     {

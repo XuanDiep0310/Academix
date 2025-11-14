@@ -13,4 +13,6 @@ public class UserData
     public string Email { get; set; }
     public string FullName { get; set; }
     public string Role { get; set; }
+    public bool IsActive { get; set; }  // <-- Tên này phải khớp
+    public DateTime CreatedAt { get; set; }
 }

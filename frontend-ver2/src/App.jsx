@@ -1,9 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
-import { Outlet } from "react-router";
 import Home from "./components/Home/index";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { callFetchAccount } from "./services/api.service";
 import { useDispatch, useSelector } from "react-redux";
 import { doGetAccountAction } from "./redux/account/accountSlice";
