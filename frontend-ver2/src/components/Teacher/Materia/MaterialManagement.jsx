@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Button,
   Modal,
@@ -27,12 +27,13 @@ import {
   Filter,
   Upload as UploadIcon,
 } from "lucide-react";
-import styles from "../../assets/styles/MaterialManagement.module.scss";
+import styles from "../../../assets/styles/MaterialManagement.module.scss";
+import {
+  callListMyClassesAPI,
+  callListMaterialsByClassAPI,
+} from "../../../services/api.service";
 
 const { Title, Text } = Typography;
-
-/* ====================== DATASET MẪU NGAY TRONG FILE ====================== */
-const CLASSES = ["Toán cao cấp 1", "Đại số tuyến tính", "Giải tích"];
 
 const MATERIAL_LABELS = {
   pdf: "PDF",
@@ -48,79 +49,132 @@ const MATERIAL_ICONS = {
   video: VideoIcon,
 };
 
-function generateMaterials() {
-  const types = ["pdf", "link", "image", "video"];
-  const titles = [
-    "Bài giảng chương",
-    "Video hướng dẫn",
-    "Tài liệu tham khảo",
-    "Slide trình bày",
-    "Hình ảnh minh họa",
-    "Link tham khảo",
-  ];
-  const materials = [];
-  for (let i = 1; i <= 50; i++) {
-    const type = types[i % types.length];
-    const className = CLASSES[i % CLASSES.length];
-    materials.push({
-      id: String(i),
-      title: `${titles[i % titles.length]} ${Math.floor(i / 6) + 1}`,
-      type, // "pdf" | "link" | "image" | "video"
-      url:
-        type === "video"
-          ? "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          : type === "image"
-          ? "https://picsum.photos/1200/800"
-          : "https://example.com/document.pdf",
-      classId: String((i % 3) + 1),
-      className,
-      description: `Tài liệu học tập cho ${className.toLowerCase()}`,
-      uploadedAt: `2024-0${Math.min((i % 3) + 1, 9)}-${String(
-        (i % 28) + 1
-      ).padStart(2, "0")}`,
-    });
-  }
-  return materials;
-}
-/* ======================================================================= */
+const IconOf = (t) => MATERIAL_ICONS[t] || FileText;
 
 export default function MaterialManagement() {
-  // Data local
-  const [materials, setMaterials] = useState(() => generateMaterials());
+  const [classes, setClasses] = useState([]);
+  const [loadingClasses, setLoadingClasses] = useState(false);
 
-  // UI state
+  const [materials, setMaterials] = useState([]);
+  const [loadingMaterials, setLoadingMaterials] = useState(false);
+
+  const [selectedClassId, setSelectedClassId] = useState(null);
+
+  const [filterType, setFilterType] = useState("all");
+  const [search, setSearch] = useState("");
+  const [current, setCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
+
   const [openEditor, setOpenEditor] = useState(false);
   const [viewing, setViewing] = useState(null);
 
-  const [filterClass, setFilterClass] = useState("all");
-  const [filterType, setFilterType] = useState("all");
-
-  const [page, setPage] = useState(1);
-  const pageSize = 10;
-
-  // Form
   const [form] = Form.useForm();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [filePreviewUrl, setFilePreviewUrl] = useState("");
 
-  /* -------------------------- FILTER & PAGINATION -------------------------- */
-  const filtered = useMemo(() => {
-    return materials.filter((m) => {
-      const byClass = filterClass === "all" || m.className === filterClass;
-      const byType = filterType === "all" || m.type === filterType;
-      return byClass && byType;
-    });
-  }, [materials, filterClass, filterType]);
+  /* ====================== GỌI API LỚP CỦA TÔI ====================== */
+  const fetchMyClasses = async () => {
+    try {
+      setLoadingClasses(true);
+      const res = await callListMyClassesAPI();
 
-  const total = filtered.length;
-  const dataSource = useMemo(() => {
-    const start = (page - 1) * pageSize;
-    return filtered.slice(start, start + pageSize);
-  }, [filtered, page]);
+      if (res && res.success && Array.isArray(res.data)) {
+        const mapped = res.data.map((c) => ({
+          id: c.classId,
+          name: c.className,
+          code: c.classCode,
+        }));
+        setClasses(mapped);
 
-  const IconOf = (t) => MATERIAL_ICONS[t] || FileText;
+        if (!selectedClassId && mapped.length > 0) {
+          setSelectedClassId(mapped[0].id);
+        }
+      } else {
+        message.error("Không thể tải danh sách lớp học");
+      }
+    } catch (err) {
+      console.error("fetchMyClasses error:", err);
+      message.error("Có lỗi xảy ra khi tải danh sách lớp học");
+    } finally {
+      setLoadingClasses(false);
+    }
+  };
+  useEffect(() => {
+    fetchMyClasses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  /* ------------------------------ FILE UPLOAD ------------------------------ */
+  /* ====================== GỌI API TÀI LIỆU THEO LỚP ====================== */
+  useEffect(() => {
+    if (!selectedClassId) return;
+
+    const fetchMaterials = async () => {
+      try {
+        setLoadingMaterials(true);
+
+        const qs = new URLSearchParams();
+        qs.set("page", String(current));
+        qs.set("pageSize", String(pageSize));
+        qs.set("sortBy", "CreatedAt");
+        qs.set("sortOrder", "desc");
+        if (filterType !== "all") qs.set("type", filterType);
+        if (search.trim()) qs.set("search", search.trim());
+
+        const res = await callListMaterialsByClassAPI(
+          selectedClassId,
+          qs.toString()
+        );
+
+        // Giả định response:
+        // { success, data: { materials: [...], totalCount, page, pageSize, totalPages } }
+        if (res && res.success && res.data) {
+          const api = res.data;
+          const mapped =
+            api.materials?.map((m) => ({
+              id: m.materialId,
+              title: m.title,
+              type: (m.type || "").toLowerCase(), // "pdf" | "link" | "image" | "video"
+              url: m.url,
+              classId: m.classId,
+              className: m.className,
+              description: m.description,
+              uploadedAt: m.createdAt,
+            })) || [];
+
+          setMaterials(mapped);
+          setTotal(api.totalCount ?? mapped.length);
+        } else {
+          message.error("Không thể tải danh sách tài liệu");
+        }
+      } catch (err) {
+        console.error("fetchMaterials error:", err);
+        message.error("Có lỗi xảy ra khi tải tài liệu");
+      } finally {
+        setLoadingMaterials(false);
+      }
+    };
+
+    fetchMaterials();
+  }, [selectedClassId, current, pageSize, filterType, search]);
+
+  /* ====================== PAGINATION HANDLER ====================== */
+  const handleOnChangePagi = (pagination) => {
+    if (
+      pagination &&
+      pagination.pageSize &&
+      +pagination.pageSize !== +pageSize
+    ) {
+      setPageSize(+pagination.pageSize);
+      setCurrent(1);
+    }
+
+    if (pagination && pagination.current && +pagination.current !== +current) {
+      setCurrent(+pagination.current);
+    }
+  };
+
+  /* ====================== UPLOAD & FORM LOGIC (LOCAL) ====================== */
   const beforeUpload = (file) => {
     const type = form.getFieldValue("type");
     if (type === "pdf" && file.type !== "application/pdf") {
@@ -139,27 +193,30 @@ export default function MaterialManagement() {
       message.error("Kích thước file không vượt quá 50MB");
       return Upload.LIST_IGNORE;
     }
-    // Không upload thật — chỉ tạo preview local
     const url = URL.createObjectURL(file);
     setUploadedFile(file);
     setFilePreviewUrl(url);
     message.success(`Đã chọn file: ${file.name}`);
-    return Upload.LIST_IGNORE; // chặn antd tự upload
+    return Upload.LIST_IGNORE;
   };
 
   const onTypeChange = (value) => {
-    // reset file + preview khi đổi loại
     setUploadedFile(null);
     setFilePreviewUrl("");
     form.setFieldValue("type", value);
   };
 
-  /* --------------------------------- CRUD --------------------------------- */
+  /* ====================== CRUD LOCAL (TẠM – CHƯA GỌI API CREATE) ====================== */
   const openCreate = () => {
+    if (!selectedClassId) {
+      message.warning("Vui lòng chọn lớp trước khi thêm tài liệu");
+      return;
+    }
+
     setUploadedFile(null);
     setFilePreviewUrl("");
     form.setFieldsValue({
-      classId: "1",
+      classId: selectedClassId,
       title: "",
       type: "pdf",
       url: "",
@@ -170,103 +227,122 @@ export default function MaterialManagement() {
 
   const handleCreate = async () => {
     const values = await form.validateFields();
-    // validate: phải có file hoặc URL (trừ khi type=link thì bắt buộc URL)
+
     if (values.type !== "link" && !uploadedFile && !values.url) {
       message.error("Vui lòng upload file hoặc nhập URL");
       return;
     }
 
+    const classInfo = classes.find((c) => c.id === values.classId);
+
     const newItem = {
-      id: String(Date.now()),
+      id: Date.now().toString(),
       ...values,
       url: uploadedFile ? filePreviewUrl : values.url,
-      className: CLASSES[Number(values.classId) - 1] || CLASSES[0],
-      uploadedAt: new Date().toISOString().split("T")[0],
+      className: classInfo?.name || "",
+      uploadedAt: new Date().toISOString(),
     };
+
+    // Tạm thời chỉ thêm local để demo UI
     setMaterials((prev) => [newItem, ...prev]);
     setOpenEditor(false);
     setUploadedFile(null);
     setFilePreviewUrl("");
     form.resetFields();
-    setPage(1);
-    message.success("Đã thêm tài liệu");
+    setCurrent(1);
+    message.success("Đã thêm tài liệu (local – bạn hãy nối API create sau)");
   };
 
   const handleDelete = (id) => {
+    // Tạm thời xóa local
     setMaterials((prev) => prev.filter((m) => m.id !== id));
-    message.success("Đã xóa tài liệu");
+    message.success("Đã xóa tài liệu (local)");
   };
 
-  /* -------------------------------- COLUMNS ------------------------------- */
-  const columns = [
-    {
-      title: "Tiêu đề",
-      dataIndex: "title",
-      key: "title",
-      render: (_t, row) => {
-        const Icon = IconOf(row.type);
-        return (
-          <Space>
-            <Icon size={16} />
-            <span>{row.title}</span>
-          </Space>
-        );
+  /* ====================== COLUMNS ====================== */
+  const columns = useMemo(
+    () => [
+      {
+        title: "Tiêu đề",
+        dataIndex: "title",
+        key: "title",
+        render: (_t, row) => {
+          const Icon = IconOf(row.type);
+          return (
+            <Space>
+              <Icon size={16} />
+              <span>{row.title}</span>
+            </Space>
+          );
+        },
       },
-    },
-    {
-      title: "Loại",
-      dataIndex: "type",
-      key: "type",
-      width: 120,
-      render: (t) => <Tag>{MATERIAL_LABELS[t] || t}</Tag>,
-    },
-    { title: "Lớp học", dataIndex: "className", key: "className", width: 180 },
-    {
-      title: "Mô tả",
-      dataIndex: "description",
-      key: "description",
-      render: (text) => <span className={styles.truncate}>{text}</span>,
-    },
-    {
-      title: "Ngày tải",
-      dataIndex: "uploadedAt",
-      key: "uploadedAt",
-      width: 130,
-    },
-    {
-      title: "Thao tác",
-      key: "actions",
-      align: "right",
-      width: 200,
-      render: (_, row) => (
-        <Space>
-          <Button
-            size="small"
-            onClick={() => setViewing(row)}
-            icon={<Eye size={16} />}
-          >
-            Xem
-          </Button>
-          <Button
-            size="small"
-            onClick={() => window.open(row.url, "_blank")}
-            icon={<Download size={16} />}
-          >
-            Tải
-          </Button>
-          <Button
-            size="small"
-            danger
-            onClick={() => handleDelete(row.id)}
-            icon={<Trash2 size={16} />}
-          >
-            Xóa
-          </Button>
-        </Space>
-      ),
-    },
-  ];
+      {
+        title: "Loại",
+        dataIndex: "type",
+        key: "type",
+        width: 120,
+        render: (t) => <Tag>{MATERIAL_LABELS[t] || t}</Tag>,
+      },
+      {
+        title: "Lớp học",
+        dataIndex: "className",
+        key: "className",
+        width: 200,
+      },
+      {
+        title: "Mô tả",
+        dataIndex: "description",
+        key: "description",
+        render: (text) => <span className={styles.truncate}>{text}</span>,
+      },
+      {
+        title: "Ngày tải",
+        dataIndex: "uploadedAt",
+        key: "uploadedAt",
+        width: 170,
+        render: (val) => (
+          <Text type="secondary">
+            {val ? new Date(val).toLocaleString() : "--"}
+          </Text>
+        ),
+      },
+      {
+        title: "Thao tác",
+        key: "actions",
+        align: "right",
+        width: 220,
+        render: (_, row) => (
+          <Space>
+            <Button
+              size="small"
+              onClick={() => setViewing(row)}
+              icon={<Eye size={16} />}
+            >
+              Xem
+            </Button>
+            <Button
+              size="small"
+              onClick={() => window.open(row.url, "_blank")}
+              icon={<Download size={16} />}
+            >
+              Tải
+            </Button>
+            <Button
+              size="small"
+              danger
+              onClick={() => handleDelete(row.id)}
+              icon={<Trash2 size={16} />}
+            >
+              Xóa
+            </Button>
+          </Space>
+        ),
+      },
+    ],
+    []
+  );
 
+  /* ====================== RENDER ====================== */
   return (
     <div className={styles.wrap}>
       {/* Header */}
@@ -275,37 +351,45 @@ export default function MaterialManagement() {
           <Title level={4} className={styles.title}>
             Tài liệu học tập
           </Title>
-          <Text type="secondary">Quản lý tài liệu cho các lớp học</Text>
+          <Text type="secondary">Quản lý tài liệu cho các lớp bạn dạy</Text>
         </div>
 
-        <Button type="primary" icon={<Plus size={16} />} onClick={openCreate}>
+        <Button
+          type="primary"
+          icon={<Plus size={16} />}
+          onClick={openCreate}
+          disabled={!selectedClassId}
+        >
           Thêm tài liệu
         </Button>
       </div>
 
       {/* Filters */}
       <div className={styles.filters}>
-        <Space>
+        <Space wrap>
           <Select
-            value={filterClass}
+            loading={loadingClasses}
+            value={selectedClassId ?? undefined}
             onChange={(v) => {
-              setFilterClass(v);
-              setPage(1);
+              setSelectedClassId(v);
+              setCurrent(1);
             }}
-            style={{ width: 220 }}
+            placeholder="Chọn lớp"
+            style={{ width: 260 }}
             suffixIcon={<Filter size={16} />}
-            options={[
-              { value: "all", label: "Tất cả lớp học" },
-              ...CLASSES.map((c) => ({ value: c, label: c })),
-            ]}
+            options={classes.map((c) => ({
+              value: c.id,
+              label: `${c.name} (${c.code})`,
+            }))}
           />
+
           <Select
             value={filterType}
             onChange={(v) => {
               setFilterType(v);
-              setPage(1);
+              setCurrent(1);
             }}
-            style={{ width: 220 }}
+            style={{ width: 200 }}
             suffixIcon={<Filter size={16} />}
             options={[
               { value: "all", label: "Tất cả loại" },
@@ -315,6 +399,15 @@ export default function MaterialManagement() {
               { value: "video", label: "Video" },
             ]}
           />
+
+          <Input.Search
+            allowClear
+            placeholder="Tìm theo tiêu đề/mô tả..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onSearch={() => setCurrent(1)}
+            style={{ width: 260 }}
+          />
         </Space>
       </div>
 
@@ -322,23 +415,27 @@ export default function MaterialManagement() {
       <div className={styles.tableCard}>
         <Table
           rowKey="id"
-          dataSource={dataSource}
+          dataSource={materials}
           columns={columns}
-          pagination={false}
+          loading={{
+            spinning: loadingMaterials,
+            tip: "Đang tải danh sách tài liệu...",
+          }}
           locale={{ emptyText: <Empty description="Chưa có tài liệu" /> }}
+          pagination={{
+            current,
+            pageSize,
+            total,
+            showSizeChanger: true,
+            pageSizeOptions: [5, 10, 20, 50],
+            showTotal: (t, range) =>
+              `${range[0]}-${range[1]} trên ${t} tài liệu`,
+          }}
+          onChange={handleOnChangePagi}
+          size="middle"
+          scroll={{ x: 900 }}
+          sticky
         />
-
-        {total > pageSize && (
-          <div className={styles.pagination}>
-            <Pagination
-              current={page}
-              pageSize={pageSize}
-              total={total}
-              showSizeChanger={false}
-              onChange={(p) => setPage(p)}
-            />
-          </div>
-        )}
       </div>
 
       {/* Modal tạo mới */}
@@ -354,7 +451,7 @@ export default function MaterialManagement() {
           layout="vertical"
           form={form}
           initialValues={{
-            classId: "1",
+            classId: selectedClassId ?? undefined,
             title: "",
             type: "pdf",
             url: "",
@@ -364,14 +461,13 @@ export default function MaterialManagement() {
           <Form.Item
             label="Lớp học"
             name="classId"
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: "Vui lòng chọn lớp" }]}
           >
             <Select
-              options={[
-                { value: "1", label: "Toán cao cấp 1" },
-                { value: "2", label: "Đại số tuyến tính" },
-                { value: "3", label: "Giải tích" },
-              ]}
+              options={classes.map((c) => ({
+                value: c.id,
+                label: `${c.name} (${c.code})`,
+              }))}
             />
           </Form.Item>
 
@@ -419,6 +515,7 @@ export default function MaterialManagement() {
                 >
                   <Button icon={<UploadIcon size={16} />}>Chọn file</Button>
                 </Upload>
+
                 {uploadedFile &&
                   form.getFieldValue("type") === "image" &&
                   filePreviewUrl && (
@@ -426,6 +523,7 @@ export default function MaterialManagement() {
                       <img src={filePreviewUrl} alt="Preview" />
                     </div>
                   )}
+
                 <Text
                   type="secondary"
                   style={{ display: "block", marginTop: 8 }}

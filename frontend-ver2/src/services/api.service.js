@@ -165,6 +165,17 @@ const deleteMemberOutClassAPI = (id, userId) => {
   return res;
 };
 
+const callListMyClassesAPI = () => {
+  const URL_BACKEND = `/api/Classes/my-classes`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const callListMaterialsByClassAPI = (classId, query) => {
+  const URL_BACKEND = `/api/classes/${classId}/materials?${query}`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+
 const callListBookAPI = (query) => {
   const URL_BACKEND = `/api/v1/book?${query}`;
   const res = axios.get(URL_BACKEND);
@@ -340,4 +351,6 @@ export {
   callListStudentOnClassesAPI,
   deleteMemberOutClassAPI,
   editClassesAPI,
+  callListMyClassesAPI,
+  callListMaterialsByClassAPI,
 };

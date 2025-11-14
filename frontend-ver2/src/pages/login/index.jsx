@@ -21,7 +21,25 @@ const LoginPage = () => {
       cookieStore.set("refresh_token", res.data.refreshToken);
       dispatch(doLoginAction(res.data.user));
       notification.success({ message: "Đăng nhập thành công!" });
-      navigate("/");
+      console.log(res);
+      const role = res?.data?.user?.role;
+      let redirectPath = "/";
+
+      switch (role) {
+        case "Admin":
+          redirectPath = "/admin";
+          break;
+        case "Teacher":
+          redirectPath = "/teacher";
+          break;
+        case "Student":
+          redirectPath = "/student";
+          break;
+        default:
+          redirectPath = "/";
+          break;
+      }
+      navigate(redirectPath);
     } else {
       notification.error({
         message: "Đăng nhập lỗi!!!",

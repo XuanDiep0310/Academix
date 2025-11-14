@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Layout, Menu, Button, Typography, Space } from "antd";
+import { Layout, Menu, Button, Typography, Space, message } from "antd";
 import { useLocation, useNavigate, Outlet } from "react-router";
 import {
   LogOut,
@@ -9,19 +9,23 @@ import {
   BarChart2,
 } from "lucide-react";
 import styles from "../../assets/styles/LayoutAdmin.module.scss";
+import { callLogout } from "../../services/api.service";
 
 const { Sider, Content, Header } = Layout;
 const { Text, Title } = Typography;
 
-/**
- * props:
- *  - user?: { name?: string }
- *  - onLogout: () => void
- */
-const LayoutAdmin = ({ user, onLogout }) => {
+const LayoutAdmin = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+  const onLogout = async () => {
+    const res = await callLogout();
+    if (res.success === true) {
+      localStorage.removeItem("access_token");
+      cookieStore.delete("refresh_token");
+      window.location.href = "/login";
+      message.success("Đăng xuất thành công!");
+    }
+  };
   // Khai báo menu DÙNG ICON lucide-react, key = PATH
   const menuItems = useMemo(
     () => [
@@ -66,7 +70,7 @@ const LayoutAdmin = ({ user, onLogout }) => {
             Quản trị hệ thống
           </Title>
           <Text type="secondary" className={styles.userName}>
-            {user?.name || "Admin"}
+            Admin
           </Text>
         </div>
 
