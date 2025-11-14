@@ -1,5 +1,5 @@
 ﻿using Academix.WinApp.Api;
-using Academix.WinApp.Models;
+using Academix.WinApp.Models.Users;
 using Academix.WinApp.Utils;
 using System;
 using System.Drawing;

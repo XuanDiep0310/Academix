@@ -1,4 +1,5 @@
-﻿using Academix.WinApp.Models;
+﻿using Academix.WinApp.Models.Common;
+using Academix.WinApp.Models.Users;
 using Academix.WinApp.Utils;
 using Newtonsoft.Json;
 using System;
