@@ -1,5 +1,6 @@
-﻿using Academix.WinApp.Models;
-using Academix.WinApp.Models.Academix.WinApp.Models;
+﻿using Academix.WinApp.Models.Academix.WinApp.Models;
+using Academix.WinApp.Models.Auth;
+using Academix.WinApp.Models.Common;
 using Academix.WinApp.Utils;
 using Newtonsoft.Json;
 using System;
