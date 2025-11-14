@@ -31,6 +31,7 @@ import styles from "../../../assets/styles/MaterialManagement.module.scss";
 import {
   callListMyClassesAPI,
   callListMaterialsByClassAPI,
+  callDownloadMaterialAPI,
 } from "../../../services/api.service";
 
 const { Title, Text } = Typography;
@@ -105,7 +106,6 @@ export default function MaterialManagement() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /* ====================== GỌI API TÀI LIỆU THEO LỚP ====================== */
   useEffect(() => {
     if (!selectedClassId) return;
 
@@ -126,22 +126,27 @@ export default function MaterialManagement() {
           qs.toString()
         );
 
-        // Giả định response:
-        // { success, data: { materials: [...], totalCount, page, pageSize, totalPages } }
-        if (res && res.success && res.data) {
+        if (res && res.success === true) {
           const api = res.data;
+
           const mapped =
             api.materials?.map((m) => ({
               id: m.materialId,
               title: m.title,
-              type: (m.type || "").toLowerCase(), // "pdf" | "link" | "image" | "video"
-              url: m.url,
+              type: (m.materialType || "").toLowerCase(),
+              url: m.fileUrl,
               classId: m.classId,
               className: m.className,
               description: m.description,
               uploadedAt: m.createdAt,
-            })) || [];
 
+              // nếu sau này muốn show thêm
+              fileName: m.fileName,
+              fileSize: m.fileSize,
+              fileSizeFormatted: m.fileSizeFormatted,
+              uploadedBy: m.uploadedBy,
+              uploadedByName: m.uploadedByName,
+            })) || [];
           setMaterials(mapped);
           setTotal(api.totalCount ?? mapped.length);
         } else {
@@ -158,7 +163,6 @@ export default function MaterialManagement() {
     fetchMaterials();
   }, [selectedClassId, current, pageSize, filterType, search]);
 
-  /* ====================== PAGINATION HANDLER ====================== */
   const handleOnChangePagi = (pagination) => {
     if (
       pagination &&
@@ -206,7 +210,6 @@ export default function MaterialManagement() {
     form.setFieldValue("type", value);
   };
 
-  /* ====================== CRUD LOCAL (TẠM – CHƯA GỌI API CREATE) ====================== */
   const openCreate = () => {
     if (!selectedClassId) {
       message.warning("Vui lòng chọn lớp trước khi thêm tài liệu");
@@ -258,8 +261,12 @@ export default function MaterialManagement() {
     setMaterials((prev) => prev.filter((m) => m.id !== id));
     message.success("Đã xóa tài liệu (local)");
   };
-
-  /* ====================== COLUMNS ====================== */
+  const handleDownload = async (id, classId, url) => {
+    console.log("Download material:", { id, classId, url });
+    const res = await callDownloadMaterialAPI(classId, id);
+    console.log(res);
+    // window.open(url, "_blank");
+  };
   const columns = useMemo(
     () => [
       {
@@ -293,7 +300,12 @@ export default function MaterialManagement() {
         title: "Mô tả",
         dataIndex: "description",
         key: "description",
-        render: (text) => <span className={styles.truncate}>{text}</span>,
+        // giới hạn chiều rộng + tự chấm ...
+        width: 400,
+        ellipsis: true,
+        render: (text) => (
+          <span className={styles.descriptionCell}>{text}</span>
+        ),
       },
       {
         title: "Ngày tải",
@@ -322,7 +334,7 @@ export default function MaterialManagement() {
             </Button>
             <Button
               size="small"
-              onClick={() => window.open(row.url, "_blank")}
+              onClick={() => handleDownload(row.id, row.classId, row.url)}
               icon={<Download size={16} />}
             >
               Tải

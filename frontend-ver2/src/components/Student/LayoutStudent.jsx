@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import { Layout, Menu, Button, Typography, Space } from "antd";
+import { Layout, Menu, Button, Typography, Space, message } from "antd";
 import {
   LogOut,
   GraduationCap,
@@ -9,6 +9,7 @@ import {
   BarChart,
 } from "lucide-react";
 import styles from "../../assets/styles/LayoutStudent.module.scss";
+import { callLogout } from "../../services/api.service";
 
 const { Sider, Content, Header } = Layout;
 const { Text, Title } = Typography;
@@ -62,9 +63,14 @@ export default function LayoutStudent() {
   };
 
   const userName = "Student"; // có thể lấy từ context/store của bạn
-  const handleLogout = () => {
-    // TODO: xoá token, clear store...
-    navigate("/login");
+  const handleLogout = async () => {
+    const res = await callLogout();
+    if (res.success === true) {
+      localStorage.removeItem("access_token");
+      cookieStore.delete("refresh_token");
+      window.location.href = "/login";
+      message.success("Đăng xuất thành công!");
+    }
   };
 
   const breadcrumbTitle = {

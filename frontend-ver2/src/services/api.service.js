@@ -165,9 +165,24 @@ const deleteMemberOutClassAPI = (id, userId) => {
   return res;
 };
 
-const callListMyClassesAPI = () => {
-  const URL_BACKEND = `/api/Classes/my-classes`;
+const callListQuestionBankAPI = (query) => {
+  const URL_BACKEND = `/api/Questions?${query}`;
   const res = axios.get(URL_BACKEND);
+  return res;
+};
+const callCreateQuestionAPI = (payload) => {
+  const URL_BACKEND = `/api/Questions`;
+  return axios.post(URL_BACKEND, payload);
+};
+const deleteQuestionAPI = (id) => {
+  const URL_BACKEND = `/api/Questions/${id}`;
+  const res = axios.delete(URL_BACKEND);
+  return res;
+};
+const editQuestionAPI = (id, payload) => {
+  const URL_BACKEND = `/api/Questions/${id}`;
+
+  const res = axios.put(URL_BACKEND, payload);
   return res;
 };
 const callListMaterialsByClassAPI = (classId, query) => {
@@ -175,99 +190,63 @@ const callListMaterialsByClassAPI = (classId, query) => {
   const res = axios.get(URL_BACKEND);
   return res;
 };
+const callDownloadMaterialAPI = (classId, materialId) => {
+  const URL_BACKEND = `/api/classes/${classId}/materials/${materialId}/download`;
+  const res = axios.get(URL_BACKEND, { responseType: "blob" });
+  return res;
+};
 
-const callListBookAPI = (query) => {
-  const URL_BACKEND = `/api/v1/book?${query}`;
+const callListMyClassesAPI = () => {
+  const URL_BACKEND = `/api/Classes/my-classes`;
   const res = axios.get(URL_BACKEND);
   return res;
 };
-const callListCategoryAPI = () => {
-  const URL_BACKEND = "/api/v1/database/category";
-  const res = axios.get(URL_BACKEND);
-  return res;
+
+const callListExamsByClassAPI = (classId, queryString) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams${
+    queryString ? `?${queryString}` : ""
+  }`;
+  return axios.get(URL_BACKEND);
 };
-const callUploadBookImg = (fileImg) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("fileImg", fileImg);
-  return axios({
-    method: "post",
-    url: "/api/v1/file/upload",
-    data: bodyFormData,
-    headers: {
-      "Content-Type": "multipart/form-data",
-      "upload-type": "book",
-    },
-  });
+
+const callCreateExamAPI = (classId, body) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams`;
+  return axios.post(URL_BACKEND, body);
 };
-const createBookAPI = (
-  thumbnail,
-  slider,
-  mainText,
-  author,
-  price,
-  sold,
-  quantity,
-  category
-) => {
-  const URL_BACKEND = "/api/v1/book";
-  const data = {
-    thumbnail: thumbnail,
-    slider: slider,
-    mainText: mainText,
-    author: author,
-    price: price,
-    sold: sold,
-    quantity: quantity,
-    category: category,
-  };
-  const res = axios.post(URL_BACKEND, data);
-  return res;
+
+const callUpdateExamAPI = (classId, examId, body) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}`;
+  return axios.put(URL_BACKEND, body);
 };
-const deleteBookAPI = (id) => {
-  const URL_BACKEND = `/api/v1/book/${id}`;
-  const res = axios.delete(URL_BACKEND);
-  return res;
+
+const callDeleteExamAPI = (classId, examId) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}`;
+  return axios.delete(URL_BACKEND);
 };
-const editBookAPI = (
-  _id,
-  thumbnail,
-  slider,
-  mainText,
-  author,
-  price,
-  sold,
-  quantity,
-  category
-) => {
-  const URL_BACKEND = `/api/v1/book/${_id}`;
-  const data = {
-    thumbnail: thumbnail,
-    slider: slider,
-    mainText: mainText,
-    author: author,
-    price: price,
-    sold: sold,
-    quantity: quantity,
-    category: category,
-  };
-  const res = axios.put(URL_BACKEND, data);
-  return res;
+
+const callPublishExamAPI = (classId, examId) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/publish`;
+  return axios.patch(URL_BACKEND);
 };
-const getBookAPI = (id) => {
-  const URL_BACKEND = `/api/v1/book/${id}`;
-  const res = axios.get(URL_BACKEND);
-  return res;
+const callGetExamQuestionsAPI = (classId, examId) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/questions`;
+  return axios.get(URL_BACKEND);
 };
-const callOrderAPI = (data) => {
-  const URL_BACKEND = `/api/v1/order`;
-  const res = axios.post(URL_BACKEND, data);
-  return res;
+const callUpsertExamQuestionsAPI = (classId, examId, body) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/questions`;
+  return axios.post(URL_BACKEND, body);
 };
-const callOrderHistory = () => {
-  const URL_BACKEND = `/api/v1/history`;
-  const res = axios.get(URL_BACKEND);
-  return res;
+
+const callDeleteExamQuestionAPI = (classId, examId, questionId) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/questions/${questionId}`;
+  return axios.delete(URL_BACKEND);
 };
+
+const callMaterialsStatisticsAPI = () => {
+  const URL_BACKEND = `/api/materials/statistics`;
+  return axios.get(URL_BACKEND);
+};
+
 const callUpdateAvatar = (fileImg) => {
   const bodyFormData = new FormData();
   bodyFormData.append("fileImg", fileImg);
@@ -323,15 +302,6 @@ export {
   callBulkCreateUser,
   deleteUserAPI,
   editUserAPI,
-  callListBookAPI,
-  callListCategoryAPI,
-  callUploadBookImg,
-  createBookAPI,
-  deleteBookAPI,
-  editBookAPI,
-  getBookAPI,
-  callOrderAPI,
-  callOrderHistory,
   callUpdateAvatar,
   callUpdateUserInfo,
   callOnChangePassWord,
@@ -353,4 +323,18 @@ export {
   editClassesAPI,
   callListMyClassesAPI,
   callListMaterialsByClassAPI,
+  callDownloadMaterialAPI,
+  callListQuestionBankAPI,
+  callCreateQuestionAPI,
+  deleteQuestionAPI,
+  editQuestionAPI,
+  callDeleteExamQuestionAPI,
+  callUpsertExamQuestionsAPI,
+  callGetExamQuestionsAPI,
+  callPublishExamAPI,
+  callDeleteExamAPI,
+  callUpdateExamAPI,
+  callCreateExamAPI,
+  callListExamsByClassAPI,
+  callMaterialsStatisticsAPI,
 };

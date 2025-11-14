@@ -53,7 +53,6 @@ export default function ClassList() {
           studentCount: c.studentCount ?? 0,
           teacherCount: c.teacherCount ?? 0,
         }));
-        console.log("Mapped classes:", mapped);
         setClasses(mapped);
       } else {
         message.error("Không thể tải danh sách lớp học của bạn");
