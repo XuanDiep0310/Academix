@@ -24,7 +24,7 @@ public partial class Exam
     public int Duration { get; set; }
 
     [Column(TypeName = "decimal(5, 2)")]
-    public decimal? TotalMarks { get; set; }
+    public decimal TotalMarks { get; set; } = 100;
 
     public DateTime? StartTime { get; set; }
 
@@ -32,11 +32,11 @@ public partial class Exam
 
     public int CreatedBy { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    public bool? IsPublished { get; set; }
+    public bool IsPublished { get; set; } = false;
 
     [ForeignKey("ClassId")]
     [InverseProperty("Exams")]
