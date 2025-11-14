@@ -139,6 +139,31 @@ const callAddStudentsToClassAPI = (classId, data) => {
   const res = axios.post(URL_BACKEND, dataStudents);
   return res;
 };
+const callListTeacherOnClassesAPI = (id) => {
+  const URL_BACKEND = `/api/Classes/${id}/teachers`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const callListStudentOnClassesAPI = (id) => {
+  const URL_BACKEND = `/api/Classes/${id}/students`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const editClassesAPI = (id, className, description) => {
+  const URL_BACKEND = `/api/Classes/${id}`;
+  const data = {
+    className,
+    description,
+    isActive: true,
+  };
+  const res = axios.put(URL_BACKEND, data);
+  return res;
+};
+const deleteMemberOutClassAPI = (id, userId) => {
+  const URL_BACKEND = `/api/Classes/${id}/members/${userId}`;
+  const res = axios.delete(URL_BACKEND);
+  return res;
+};
 
 const callListBookAPI = (query) => {
   const URL_BACKEND = `/api/v1/book?${query}`;
@@ -311,4 +336,8 @@ export {
   deleteClassAPI,
   callAddTeachersToClassAPI,
   callAddStudentsToClassAPI,
+  callListTeacherOnClassesAPI,
+  callListStudentOnClassesAPI,
+  deleteMemberOutClassAPI,
+  editClassesAPI,
 };

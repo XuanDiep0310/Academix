@@ -25,9 +25,9 @@ public partial class Question
     [StringLength(255)]
     public string? Subject { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 
     [InverseProperty("Question")]
     public virtual ICollection<ExamQuestion> ExamQuestions { get; set; } = new List<ExamQuestion>();

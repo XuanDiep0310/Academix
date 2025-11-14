@@ -40,11 +40,11 @@ const LayoutAdmin = ({ user, onLogout }) => {
         icon: <GraduationCap size={16} />,
         label: "Quản lý lớp học",
       },
-      {
-        key: "/admin/settings",
-        icon: <Settings size={16} />,
-        label: "Cài đặt",
-      },
+      // {
+      //   key: "/admin/settings",
+      //   icon: <Settings size={16} />,
+      //   label: "Cài đặt",
+      // },
     ],
     []
   );

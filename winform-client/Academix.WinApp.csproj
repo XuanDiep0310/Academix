@@ -37,8 +37,4 @@
 	  </EmbeddedResource>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Forms\Student\" />
-	</ItemGroup>
-
 </Project>
