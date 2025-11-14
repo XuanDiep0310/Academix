@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Academix.WinApp.Api;
+using Academix.WinApp.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +14,11 @@ namespace Academix.WinApp.Forms.Admin
 {
     public partial class FormMainAdmin : Form
     {
+        private readonly UserApi _userApi;
         public FormMainAdmin()
         {
             InitializeComponent();
+            _userApi = new UserApi(Config.Get("ApiSettings:BaseUrl"));
             ResetTabButtons();
         }
 
@@ -91,11 +95,38 @@ namespace Academix.WinApp.Forms.Admin
 
         private void btnDangXuat_Click(object sender, EventArgs e)
         {
-            ResetTabButtons();
-            btnDangXuat.FillColor = Color.White; // Tab được chọn -> trắng
-            btnDangXuat.ForeColor = Color.LightSkyBlue; // Chữ xanh
+            // Hiển thị hộp thoại xác nhận
+            var result = MessageBox.Show(
+                "Bạn có chắc muốn đăng xuất không?",
+                "Xác nhận đăng xuất",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
+            if (result == DialogResult.Yes)
+            {
+                // Xóa session
+                SessionManager.ClearSession();
+
+                // Reset màu tab
+                ResetTabButtons();
+                btnDangXuat.FillColor = Color.White;
+                btnDangXuat.ForeColor = Color.LightSkyBlue;
+
+                // Ẩn form hiện tại và mở FormSignIn
+                this.FindForm().Hide();
+                using var loginForm = new FormSignIn();
+                loginForm.ShowDialog();
+
+                // Đóng form hiện tại sau khi FormSignIn đóng
+                this.FindForm().Close();
+            }
+            // Nếu chọn No thì không làm gì, form vẫn giữ nguyên
         }
+
+
+
+
 
         private void guna2CirclePictureBox2_Click(object sender, EventArgs e)
         {
