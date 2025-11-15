@@ -604,10 +604,13 @@ namespace Academix.Infrastructure.Services
                     return ApiResponse<StartExamResponseDto>.ErrorResponse("Exam has ended");
                 }
 
-                // Check if student already has an active attempt
-                if (await HasActiveAttemptAsync(examId, studentId))
+                // IMPORTANT: Check if student has already attempted this exam (one attempt per student)
+                var existingAttempt = await _context.StudentExamAttempts
+                    .AnyAsync(a => a.ExamId == examId && a.StudentId == studentId);
+
+                if (existingAttempt)
                 {
-                    return ApiResponse<StartExamResponseDto>.ErrorResponse("You already have an active attempt for this exam");
+                    return ApiResponse<StartExamResponseDto>.ErrorResponse("You have already taken this exam. Each student can only take an exam once.");
                 }
 
                 // Check if student can take exam
@@ -1183,8 +1186,10 @@ namespace Academix.Infrastructure.Services
 
         public async Task<bool> HasActiveAttemptAsync(int examId, int studentId)
         {
+            // Changed: Check if student has ANY attempt (not just active ones)
+            // One attempt per student rule
             return await _context.StudentExamAttempts
-                .AnyAsync(a => a.ExamId == examId && a.StudentId == studentId && a.Status == ExamStatus.InProgress);
+                .AnyAsync(a => a.ExamId == examId && a.StudentId == studentId);
         }
     }
 }

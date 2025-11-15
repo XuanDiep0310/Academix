@@ -57,6 +57,6 @@ namespace Academix.Application.Interfaces
         // Validation
         Task<bool> CanAccessExamAsync(int examId, int userId, string role);
         Task<bool> CanTakeExamAsync(int examId, int studentId);
-        Task<bool> HasActiveAttemptAsync(int examId, int studentId);
+        Task<bool> HasActiveAttemptAsync(int examId, int studentId); // Returns true if student has ANY attempt (one attempt per exam rule)
     }
 }

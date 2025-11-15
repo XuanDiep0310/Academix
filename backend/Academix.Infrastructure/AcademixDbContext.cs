@@ -180,6 +180,8 @@ public partial class AcademixDbContext : DbContext
             entity.HasOne(d => d.Student).WithMany(p => p.StudentExamAttempts)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__StudentEx__Stude__797309D9");
+            // Thêm unique constraint vào StudentExamAttempts
+            entity.HasIndex(e => new { e.ExamId, e.StudentId }).IsUnique();
         });
 
         modelBuilder.Entity<User>(entity =>
