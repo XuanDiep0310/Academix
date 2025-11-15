@@ -26,6 +26,7 @@ import AdminPage from "./pages/admin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RoleRedirect from "./components/RoleRedirect";
 import TeacherPage from "./pages/teacher";
+import MaterialPreview from "./components/Teacher/Materia/MaterialPreview";
 
 const Layout = () => {
   return (
@@ -87,6 +88,10 @@ let router = createBrowserRouter([
       {
         path: "materials",
         element: <MaterialManagement />,
+      },
+      {
+        path: "materials/:id",
+        element: <MaterialPreview />,
       },
       {
         path: "questions",
