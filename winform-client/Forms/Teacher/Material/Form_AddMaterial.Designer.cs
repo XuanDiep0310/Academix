@@ -47,16 +47,16 @@
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2ComboBox1 = new Guna.UI2.WinForms.Guna2ComboBox();
+            cmbLopHoc = new Guna.UI2.WinForms.Guna2ComboBox();
             guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
-            guna2ComboBox2 = new Guna.UI2.WinForms.Guna2ComboBox();
+            txtTeiuDe = new Guna.UI2.WinForms.Guna2TextBox();
+            cmbLoaiTaiLieu = new Guna.UI2.WinForms.Guna2ComboBox();
             guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2TextBox2 = new Guna.UI2.WinForms.Guna2TextBox();
+            txtChonFile = new Guna.UI2.WinForms.Guna2TextBox();
             guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2TextBox3 = new Guna.UI2.WinForms.Guna2TextBox();
+            txtURLTaiLieu = new Guna.UI2.WinForms.Guna2TextBox();
             guna2HtmlLabel7 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2TextBox4 = new Guna.UI2.WinForms.Guna2TextBox();
+            txtMoTa = new Guna.UI2.WinForms.Guna2TextBox();
             guna2HtmlLabel8 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             btnThem = new Guna.UI2.WinForms.Guna2Button();
             btnHuy = new Guna.UI2.WinForms.Guna2Button();
@@ -94,22 +94,22 @@
             guna2HtmlLabel3.TabIndex = 2;
             guna2HtmlLabel3.Text = "Lớp học";
             // 
-            // guna2ComboBox1
+            // cmbLopHoc
             // 
-            guna2ComboBox1.BackColor = Color.Transparent;
-            guna2ComboBox1.CustomizableEdges = customizableEdges1;
-            guna2ComboBox1.DrawMode = DrawMode.OwnerDrawFixed;
-            guna2ComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            guna2ComboBox1.FocusedColor = Color.FromArgb(94, 148, 255);
-            guna2ComboBox1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2ComboBox1.Font = new Font("Segoe UI", 10F);
-            guna2ComboBox1.ForeColor = Color.FromArgb(68, 88, 112);
-            guna2ComboBox1.ItemHeight = 30;
-            guna2ComboBox1.Location = new Point(27, 123);
-            guna2ComboBox1.Name = "guna2ComboBox1";
-            guna2ComboBox1.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2ComboBox1.Size = new Size(523, 36);
-            guna2ComboBox1.TabIndex = 3;
+            cmbLopHoc.BackColor = Color.Transparent;
+            cmbLopHoc.CustomizableEdges = customizableEdges1;
+            cmbLopHoc.DrawMode = DrawMode.OwnerDrawFixed;
+            cmbLopHoc.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbLopHoc.FocusedColor = Color.FromArgb(94, 148, 255);
+            cmbLopHoc.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cmbLopHoc.Font = new Font("Segoe UI", 10F);
+            cmbLopHoc.ForeColor = Color.FromArgb(68, 88, 112);
+            cmbLopHoc.ItemHeight = 30;
+            cmbLopHoc.Location = new Point(27, 123);
+            cmbLopHoc.Name = "cmbLopHoc";
+            cmbLopHoc.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cmbLopHoc.Size = new Size(523, 36);
+            cmbLopHoc.TabIndex = 3;
             // 
             // guna2HtmlLabel4
             // 
@@ -121,42 +121,42 @@
             guna2HtmlLabel4.TabIndex = 4;
             guna2HtmlLabel4.Text = "Tiêu đề";
             // 
-            // guna2TextBox1
+            // txtTeiuDe
             // 
-            guna2TextBox1.CustomizableEdges = customizableEdges3;
-            guna2TextBox1.DefaultText = "";
-            guna2TextBox1.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            guna2TextBox1.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            guna2TextBox1.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            guna2TextBox1.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            guna2TextBox1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2TextBox1.Font = new Font("Segoe UI", 9F);
-            guna2TextBox1.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2TextBox1.Location = new Point(27, 202);
-            guna2TextBox1.Margin = new Padding(3, 4, 3, 4);
-            guna2TextBox1.Name = "guna2TextBox1";
-            guna2TextBox1.PlaceholderText = "";
-            guna2TextBox1.SelectedText = "";
-            guna2TextBox1.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            guna2TextBox1.Size = new Size(523, 42);
-            guna2TextBox1.TabIndex = 5;
+            txtTeiuDe.CustomizableEdges = customizableEdges3;
+            txtTeiuDe.DefaultText = "";
+            txtTeiuDe.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtTeiuDe.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtTeiuDe.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtTeiuDe.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtTeiuDe.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtTeiuDe.Font = new Font("Segoe UI", 9F);
+            txtTeiuDe.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtTeiuDe.Location = new Point(27, 202);
+            txtTeiuDe.Margin = new Padding(3, 4, 3, 4);
+            txtTeiuDe.Name = "txtTeiuDe";
+            txtTeiuDe.PlaceholderText = "";
+            txtTeiuDe.SelectedText = "";
+            txtTeiuDe.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            txtTeiuDe.Size = new Size(523, 42);
+            txtTeiuDe.TabIndex = 5;
             // 
-            // guna2ComboBox2
+            // cmbLoaiTaiLieu
             // 
-            guna2ComboBox2.BackColor = Color.Transparent;
-            guna2ComboBox2.CustomizableEdges = customizableEdges5;
-            guna2ComboBox2.DrawMode = DrawMode.OwnerDrawFixed;
-            guna2ComboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            guna2ComboBox2.FocusedColor = Color.FromArgb(94, 148, 255);
-            guna2ComboBox2.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2ComboBox2.Font = new Font("Segoe UI", 10F);
-            guna2ComboBox2.ForeColor = Color.FromArgb(68, 88, 112);
-            guna2ComboBox2.ItemHeight = 30;
-            guna2ComboBox2.Location = new Point(27, 292);
-            guna2ComboBox2.Name = "guna2ComboBox2";
-            guna2ComboBox2.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2ComboBox2.Size = new Size(523, 36);
-            guna2ComboBox2.TabIndex = 7;
+            cmbLoaiTaiLieu.BackColor = Color.Transparent;
+            cmbLoaiTaiLieu.CustomizableEdges = customizableEdges5;
+            cmbLoaiTaiLieu.DrawMode = DrawMode.OwnerDrawFixed;
+            cmbLoaiTaiLieu.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbLoaiTaiLieu.FocusedColor = Color.FromArgb(94, 148, 255);
+            cmbLoaiTaiLieu.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cmbLoaiTaiLieu.Font = new Font("Segoe UI", 10F);
+            cmbLoaiTaiLieu.ForeColor = Color.FromArgb(68, 88, 112);
+            cmbLoaiTaiLieu.ItemHeight = 30;
+            cmbLoaiTaiLieu.Location = new Point(27, 292);
+            cmbLoaiTaiLieu.Name = "cmbLoaiTaiLieu";
+            cmbLoaiTaiLieu.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            cmbLoaiTaiLieu.Size = new Size(523, 36);
+            cmbLoaiTaiLieu.TabIndex = 7;
             // 
             // guna2HtmlLabel5
             // 
@@ -168,25 +168,26 @@
             guna2HtmlLabel5.TabIndex = 6;
             guna2HtmlLabel5.Text = "Loại tài liệu";
             // 
-            // guna2TextBox2
+            // txtChonFile
             // 
-            guna2TextBox2.CustomizableEdges = customizableEdges7;
-            guna2TextBox2.DefaultText = "";
-            guna2TextBox2.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            guna2TextBox2.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            guna2TextBox2.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            guna2TextBox2.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            guna2TextBox2.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2TextBox2.Font = new Font("Segoe UI", 9F);
-            guna2TextBox2.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2TextBox2.Location = new Point(27, 377);
-            guna2TextBox2.Margin = new Padding(3, 4, 3, 4);
-            guna2TextBox2.Name = "guna2TextBox2";
-            guna2TextBox2.PlaceholderText = "";
-            guna2TextBox2.SelectedText = "";
-            guna2TextBox2.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            guna2TextBox2.Size = new Size(523, 37);
-            guna2TextBox2.TabIndex = 9;
+            txtChonFile.CustomizableEdges = customizableEdges7;
+            txtChonFile.DefaultText = "";
+            txtChonFile.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtChonFile.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtChonFile.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtChonFile.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtChonFile.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtChonFile.Font = new Font("Segoe UI", 9F);
+            txtChonFile.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtChonFile.Location = new Point(27, 377);
+            txtChonFile.Margin = new Padding(3, 4, 3, 4);
+            txtChonFile.Name = "txtChonFile";
+            txtChonFile.PlaceholderText = "";
+            txtChonFile.SelectedText = "";
+            txtChonFile.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            txtChonFile.Size = new Size(523, 37);
+            txtChonFile.TabIndex = 9;
+            txtChonFile.Click += txtChonFile_Click;
             // 
             // guna2HtmlLabel6
             // 
@@ -198,25 +199,25 @@
             guna2HtmlLabel6.TabIndex = 8;
             guna2HtmlLabel6.Text = "Chọn file";
             // 
-            // guna2TextBox3
+            // txtURLTaiLieu
             // 
-            guna2TextBox3.CustomizableEdges = customizableEdges9;
-            guna2TextBox3.DefaultText = "";
-            guna2TextBox3.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            guna2TextBox3.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            guna2TextBox3.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            guna2TextBox3.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            guna2TextBox3.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2TextBox3.Font = new Font("Segoe UI", 9F);
-            guna2TextBox3.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2TextBox3.Location = new Point(24, 485);
-            guna2TextBox3.Margin = new Padding(3, 4, 3, 4);
-            guna2TextBox3.Name = "guna2TextBox3";
-            guna2TextBox3.PlaceholderText = "";
-            guna2TextBox3.SelectedText = "";
-            guna2TextBox3.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            guna2TextBox3.Size = new Size(526, 36);
-            guna2TextBox3.TabIndex = 11;
+            txtURLTaiLieu.CustomizableEdges = customizableEdges9;
+            txtURLTaiLieu.DefaultText = "";
+            txtURLTaiLieu.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtURLTaiLieu.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtURLTaiLieu.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtURLTaiLieu.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtURLTaiLieu.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtURLTaiLieu.Font = new Font("Segoe UI", 9F);
+            txtURLTaiLieu.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtURLTaiLieu.Location = new Point(24, 485);
+            txtURLTaiLieu.Margin = new Padding(3, 4, 3, 4);
+            txtURLTaiLieu.Name = "txtURLTaiLieu";
+            txtURLTaiLieu.PlaceholderText = "";
+            txtURLTaiLieu.SelectedText = "";
+            txtURLTaiLieu.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            txtURLTaiLieu.Size = new Size(526, 36);
+            txtURLTaiLieu.TabIndex = 11;
             // 
             // guna2HtmlLabel7
             // 
@@ -228,25 +229,25 @@
             guna2HtmlLabel7.TabIndex = 10;
             guna2HtmlLabel7.Text = "URL tài liệu (tùy chọn)";
             // 
-            // guna2TextBox4
+            // txtMoTa
             // 
-            guna2TextBox4.CustomizableEdges = customizableEdges11;
-            guna2TextBox4.DefaultText = "";
-            guna2TextBox4.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            guna2TextBox4.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            guna2TextBox4.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            guna2TextBox4.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            guna2TextBox4.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2TextBox4.Font = new Font("Segoe UI", 9F);
-            guna2TextBox4.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2TextBox4.Location = new Point(24, 565);
-            guna2TextBox4.Margin = new Padding(3, 4, 3, 4);
-            guna2TextBox4.Name = "guna2TextBox4";
-            guna2TextBox4.PlaceholderText = "";
-            guna2TextBox4.SelectedText = "";
-            guna2TextBox4.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            guna2TextBox4.Size = new Size(526, 60);
-            guna2TextBox4.TabIndex = 13;
+            txtMoTa.CustomizableEdges = customizableEdges11;
+            txtMoTa.DefaultText = "";
+            txtMoTa.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtMoTa.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtMoTa.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtMoTa.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtMoTa.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtMoTa.Font = new Font("Segoe UI", 9F);
+            txtMoTa.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtMoTa.Location = new Point(24, 565);
+            txtMoTa.Margin = new Padding(3, 4, 3, 4);
+            txtMoTa.Name = "txtMoTa";
+            txtMoTa.PlaceholderText = "";
+            txtMoTa.SelectedText = "";
+            txtMoTa.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            txtMoTa.Size = new Size(526, 60);
+            txtMoTa.TabIndex = 13;
             // 
             // guna2HtmlLabel8
             // 
@@ -317,23 +318,24 @@
             Controls.Add(guna2HtmlLabel9);
             Controls.Add(btnHuy);
             Controls.Add(btnThem);
-            Controls.Add(guna2TextBox4);
+            Controls.Add(txtMoTa);
             Controls.Add(guna2HtmlLabel8);
-            Controls.Add(guna2TextBox3);
+            Controls.Add(txtURLTaiLieu);
             Controls.Add(guna2HtmlLabel7);
-            Controls.Add(guna2TextBox2);
+            Controls.Add(txtChonFile);
             Controls.Add(guna2HtmlLabel6);
-            Controls.Add(guna2ComboBox2);
+            Controls.Add(cmbLoaiTaiLieu);
             Controls.Add(guna2HtmlLabel5);
-            Controls.Add(guna2TextBox1);
+            Controls.Add(txtTeiuDe);
             Controls.Add(guna2HtmlLabel4);
-            Controls.Add(guna2ComboBox1);
+            Controls.Add(cmbLopHoc);
             Controls.Add(guna2HtmlLabel3);
             Controls.Add(guna2HtmlLabel2);
             Controls.Add(guna2HtmlLabel1);
             Name = "Form_AddMaterial";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thêm tài liệu mới";
+            Load += Form_AddMaterial_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -343,16 +345,16 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
-        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox1;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbLopHoc;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
-        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox2;
+        private Guna.UI2.WinForms.Guna2TextBox txtTeiuDe;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbLoaiTaiLieu;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel5;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox2;
+        private Guna.UI2.WinForms.Guna2TextBox txtChonFile;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox3;
+        private Guna.UI2.WinForms.Guna2TextBox txtURLTaiLieu;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel7;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox4;
+        private Guna.UI2.WinForms.Guna2TextBox txtMoTa;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel8;
         private Guna.UI2.WinForms.Guna2Button btnThem;
         private Guna.UI2.WinForms.Guna2Button btnHuy;
