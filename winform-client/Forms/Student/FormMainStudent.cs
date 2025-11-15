@@ -1,4 +1,5 @@
 ﻿using Academix.WinApp.Forms.Admin;
+using Academix.WinApp.Forms.Student.MyResult;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,16 +19,6 @@ namespace Academix.WinApp.Forms.Student
             InitializeComponent();
         }
 
-        private void guna2HtmlLabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void guna2CirclePictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnMyClass_Click(object sender, EventArgs e)
         {
             //ResetTabButtons();
@@ -42,6 +33,37 @@ namespace Academix.WinApp.Forms.Student
             uc.Dock = DockStyle.Fill;
 
             mainPanel.Controls.Add(uc);
+        }
+
+        private void btnTaiLieuHocTap_Click(object sender, EventArgs e)
+        {
+            mainPanel.Controls.Clear();
+
+            UC_MyMaterials uc = new UC_MyMaterials();
+
+            uc.Dock = DockStyle.Fill;
+
+            mainPanel.Controls.Add(uc);
+        }
+
+        private void btnBaiKiemTra_Click(object sender, EventArgs e)
+        {
+            mainPanel.Controls.Clear();
+
+            UC_MyExams uc = new UC_MyExams();
+
+            uc.Dock = DockStyle.Fill;
+
+            mainPanel.Controls.Add(uc);
+        }
+
+        private void btnMyResult_Click(object sender, EventArgs e)
+        {
+            mainPanel.Controls.Clear();
+            UC_MyResult uc = new UC_MyResult();
+            uc.Dock = DockStyle.Fill;
+            mainPanel.Controls.Add(uc);
+
         }
     }
 }
