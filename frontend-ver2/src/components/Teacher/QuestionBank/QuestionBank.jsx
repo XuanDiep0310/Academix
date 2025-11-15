@@ -13,6 +13,7 @@ import {
   Radio,
   message,
   Empty,
+  Divider,
 } from "antd";
 import { Plus, Pencil, Trash2, Filter } from "lucide-react";
 import styles from "../../../assets/styles/QuestionBank.module.scss";
@@ -56,6 +57,9 @@ export default function QuestionBank() {
   const [editing, setEditing] = useState(null);
   const [form] = Form.useForm();
   const questionType = Form.useWatch("questionType", form);
+
+  // để nhập môn/chủ đề mới trong Select
+  const [newSubject, setNewSubject] = useState("");
 
   // ======================= FETCH API =======================
 
@@ -148,7 +152,7 @@ export default function QuestionBank() {
   const openCreate = () => {
     setEditing(null);
     form.setFieldsValue({
-      subject: subjects[0],
+      subject: undefined,
       difficulty: "medium",
       questionType: "MultipleChoice",
       question: "",
@@ -209,7 +213,7 @@ export default function QuestionBank() {
       const res = await callCreateQuestionAPI(apiBody);
       if (res?.success) {
         message.success("Đã tạo câu hỏi");
-        setCurrent(1); // trả về trang đầu tiên
+        setCurrent(1); // trả về trang đầu
         await fetchQuestions();
       } else return message.error("Tạo câu hỏi thất bại");
     }
@@ -229,6 +233,19 @@ export default function QuestionBank() {
 
   const optionCount = questionType === "TrueFalse" ? 2 : 4;
   const tfLabels = ["Đúng", "Sai"];
+
+  // thêm/nhập môn hoặc chủ đề mới
+  const addNewSubject = () => {
+    const value = newSubject.trim();
+    if (!value) return;
+
+    if (!subjects.includes(value)) {
+      setSubjects((prev) => [...prev, value]);
+    }
+
+    form.setFieldsValue({ subject: value });
+    setNewSubject("");
+  };
 
   // ======================= RENDER =======================
 
@@ -367,20 +384,43 @@ export default function QuestionBank() {
           layout="vertical"
           form={form}
           initialValues={{
-            subject: subjects[0],
+            subject: undefined,
             difficulty: "medium",
             questionType: "MultipleChoice",
             correctAnswer: 0,
           }}
         >
+          {/* MÔN / CHỦ ĐỀ: chọn từ list hoặc nhập mới */}
           <Form.Item
             name="subject"
-            label="Môn học"
-            rules={[{ required: true, message: "Chọn môn học" }]}
+            label="Môn học / Chủ đề"
+            rules={[{ required: true, message: "Nhập môn học hoặc chủ đề" }]}
           >
             <Select
-              placeholder="Chọn môn học"
+              showSearch
+              placeholder="Chọn hoặc nhập môn/chủ đề"
               options={subjects.map((s) => ({ value: s, label: s }))}
+              dropdownRender={(menu) => (
+                <>
+                  {menu}
+                  <Divider style={{ margin: "8px 0" }} />
+                  <Space style={{ padding: "0 8px 4px" }}>
+                    <Input
+                      placeholder="Thêm môn/chủ đề mới"
+                      value={newSubject}
+                      onChange={(e) => setNewSubject(e.target.value)}
+                      onPressEnter={addNewSubject}
+                    />
+                    <Button
+                      type="text"
+                      icon={<Plus size={14} />}
+                      onClick={addNewSubject}
+                    >
+                      Thêm
+                    </Button>
+                  </Space>
+                </>
+              )}
             />
           </Form.Item>
 

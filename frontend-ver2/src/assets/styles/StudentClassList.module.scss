@@ -1,87 +1,100 @@
 .wrap {
+  padding: 16px 24px 24px;
+  background: #f5f5f5;
+  min-height: 100%;
+}
+
+.containerCard {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  margin-bottom: 4px;
+}
+
+.grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 16px;
 }
 
-/* Header */
-.header {
-  background: #fff;
-  border: 1px solid #edf0f3;
-  border-radius: 12px;
-  padding: 16px 20px;
-}
-.title {
-  margin: 0 0 4px 0;
-}
-
-/* Grid of cards */
-.grid {
-  display: grid;
-  gap: 12px;
-}
-@media (min-width: 900px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
 .card {
-  border-radius: 12px;
+  border-radius: 16px;
+  border: 1px solid #f0f0f0;
 }
 
 .cardHeader {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
 }
 
 .meta {
-  display: grid;
-  gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .cardTitle {
+  font-weight: 600;
   font-size: 16px;
-  color: #111827;
-  line-height: 1.4;
 }
 
 .tagCode {
-  border-radius: 6px;
+  background: #f3f4ff;
+  border-radius: 999px;
 }
 
-/* Parts */
 .section {
-  margin-top: 10px;
+  margin-bottom: 12px;
 }
 
 .rowBetween {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 6px;
+  align-items: center;
+  margin-bottom: 4px;
 }
 
 .inline {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
-  color: #374151;
-  margin-top: 10px;
-}
-
-.footer {
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid #edf0f3;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .inlineMuted {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
-  color: #6b7280;
+  color: #8c8c8c;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.pagination {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.emptyWrap {
+  padding: 32px 0;
+  display: flex;
+  justify-content: center;
 }

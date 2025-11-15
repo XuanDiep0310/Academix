@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 import {
   Button,
   Modal,
@@ -32,6 +33,7 @@ import {
   callListMyClassesAPI,
   callListMaterialsByClassAPI,
   callDownloadMaterialAPI,
+  callUploadMaterialAPI,
 } from "../../../services/api.service";
 
 const { Title, Text } = Typography;
@@ -51,7 +53,12 @@ const MATERIAL_ICONS = {
 };
 
 const IconOf = (t) => MATERIAL_ICONS[t] || FileText;
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "";
+const buildFileUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  return `${API_BASE_URL}${path}`;
+};
 export default function MaterialManagement() {
   const [classes, setClasses] = useState([]);
   const [loadingClasses, setLoadingClasses] = useState(false);
@@ -73,6 +80,7 @@ export default function MaterialManagement() {
   const [form] = Form.useForm();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [filePreviewUrl, setFilePreviewUrl] = useState("");
+  const navigate = useNavigate();
 
   /* ====================== GỌI API LỚP CỦA TÔI ====================== */
   const fetchMyClasses = async () => {
@@ -105,60 +113,57 @@ export default function MaterialManagement() {
     fetchMyClasses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const mapApiMaterial = (m) => ({
+    id: m.materialId,
+    title: m.title,
+    type: (m.materialType || "").toLowerCase(),
+    url: buildFileUrl(m.fileUrl), // 👈 GHÉP URL Ở ĐÂY
+    classId: m.classId,
+    className: m.className,
+    description: m.description,
+    uploadedAt: m.createdAt,
 
+    fileName: m.fileName,
+    fileSize: m.fileSize,
+    fileSizeFormatted: m.fileSizeFormatted,
+    uploadedBy: m.uploadedBy,
+    uploadedByName: m.uploadedByName,
+  });
+  const fetchMaterials = async () => {
+    try {
+      setLoadingMaterials(true);
+
+      const qs = new URLSearchParams();
+      qs.set("page", String(current));
+      qs.set("pageSize", String(pageSize));
+      qs.set("sortBy", "CreatedAt");
+      qs.set("sortOrder", "desc");
+      if (filterType !== "all") qs.set("type", filterType);
+      if (search.trim()) qs.set("search", search.trim());
+
+      const res = await callListMaterialsByClassAPI(
+        selectedClassId,
+        qs.toString()
+      );
+
+      if (res && res.success === true) {
+        const api = res.data;
+
+        const mapped = api.materials?.map(mapApiMaterial) || [];
+        setMaterials(mapped);
+        setTotal(api.totalCount ?? mapped.length);
+      } else {
+        message.error("Không thể tải danh sách tài liệu");
+      }
+    } catch (err) {
+      console.error("fetchMaterials error:", err);
+      message.error("Có lỗi xảy ra khi tải tài liệu");
+    } finally {
+      setLoadingMaterials(false);
+    }
+  };
   useEffect(() => {
     if (!selectedClassId) return;
-
-    const fetchMaterials = async () => {
-      try {
-        setLoadingMaterials(true);
-
-        const qs = new URLSearchParams();
-        qs.set("page", String(current));
-        qs.set("pageSize", String(pageSize));
-        qs.set("sortBy", "CreatedAt");
-        qs.set("sortOrder", "desc");
-        if (filterType !== "all") qs.set("type", filterType);
-        if (search.trim()) qs.set("search", search.trim());
-
-        const res = await callListMaterialsByClassAPI(
-          selectedClassId,
-          qs.toString()
-        );
-
-        if (res && res.success === true) {
-          const api = res.data;
-
-          const mapped =
-            api.materials?.map((m) => ({
-              id: m.materialId,
-              title: m.title,
-              type: (m.materialType || "").toLowerCase(),
-              url: m.fileUrl,
-              classId: m.classId,
-              className: m.className,
-              description: m.description,
-              uploadedAt: m.createdAt,
-
-              // nếu sau này muốn show thêm
-              fileName: m.fileName,
-              fileSize: m.fileSize,
-              fileSizeFormatted: m.fileSizeFormatted,
-              uploadedBy: m.uploadedBy,
-              uploadedByName: m.uploadedByName,
-            })) || [];
-          setMaterials(mapped);
-          setTotal(api.totalCount ?? mapped.length);
-        } else {
-          message.error("Không thể tải danh sách tài liệu");
-        }
-      } catch (err) {
-        console.error("fetchMaterials error:", err);
-        message.error("Có lỗi xảy ra khi tải tài liệu");
-      } finally {
-        setLoadingMaterials(false);
-      }
-    };
 
     fetchMaterials();
   }, [selectedClassId, current, pageSize, filterType, search]);
@@ -229,31 +234,82 @@ export default function MaterialManagement() {
   };
 
   const handleCreate = async () => {
-    const values = await form.validateFields();
+    try {
+      const values = await form.validateFields();
 
-    if (values.type !== "link" && !uploadedFile && !values.url) {
-      message.error("Vui lòng upload file hoặc nhập URL");
-      return;
+      const type = values.type;
+
+      // ---- TRƯỜNG HỢP LINK: hiện tại chưa có API riêng, bạn có thể xử lý sau ----
+      if (type === "link") {
+        const classInfo = classes.find((c) => c.id === values.classId);
+
+        const newItem = {
+          id: Date.now().toString(),
+          title: values.title,
+          type: "link",
+          url: values.url, // dùng URL người dùng nhập
+          classId: values.classId,
+          className: classInfo?.name || "",
+          description: values.description,
+          uploadedAt: new Date().toISOString(),
+        };
+
+        setMaterials((prev) => [newItem, ...prev]);
+        setOpenEditor(false);
+        form.resetFields();
+        setCurrent(1);
+        message.success(
+          "Đã thêm tài liệu liên kết (local – hãy nối API link sau)"
+        );
+        return;
+      }
+
+      // ---- TRƯỜNG HỢP FILE (pdf / image / video) → upload multipart như WinForms ----
+      if (!uploadedFile) {
+        message.error("Vui lòng chọn file để upload");
+        return;
+      }
+
+      if (!values.classId) {
+        message.error("Chưa chọn lớp");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("Title", values.title);
+      formData.append("Description", values.description || "");
+      formData.append("File", uploadedFile, uploadedFile.name);
+
+      const hide = message.loading("Đang upload tài liệu...", 0);
+
+      const res = await callUploadMaterialAPI(values.classId, formData);
+      console.log(res);
+
+      hide();
+
+      if (res && res.success === true) {
+        const apiMaterial = res.data;
+        const newItem = mapApiMaterial(apiMaterial);
+        setMaterials((prev) => [newItem, ...prev]);
+
+        message.success("Upload tài liệu thành công");
+
+        setOpenEditor(false);
+        setUploadedFile(null);
+        setFilePreviewUrl("");
+        form.resetFields();
+        setCurrent(1);
+      } else {
+        console.error("Upload error:", res);
+        message.error("Upload tài liệu thất bại");
+      }
+    } catch (error) {
+      console.error("handleCreate error:", error);
+      message.destroy();
+      // Nếu là lỗi validate của Form thì không cần báo thêm
+      if (error?.errorFields) return;
+      message.error("Có lỗi xảy ra khi upload tài liệu");
     }
-
-    const classInfo = classes.find((c) => c.id === values.classId);
-
-    const newItem = {
-      id: Date.now().toString(),
-      ...values,
-      url: uploadedFile ? filePreviewUrl : values.url,
-      className: classInfo?.name || "",
-      uploadedAt: new Date().toISOString(),
-    };
-
-    // Tạm thời chỉ thêm local để demo UI
-    setMaterials((prev) => [newItem, ...prev]);
-    setOpenEditor(false);
-    setUploadedFile(null);
-    setFilePreviewUrl("");
-    form.resetFields();
-    setCurrent(1);
-    message.success("Đã thêm tài liệu (local – bạn hãy nối API create sau)");
   };
 
   const handleDelete = (id) => {
@@ -261,12 +317,44 @@ export default function MaterialManagement() {
     setMaterials((prev) => prev.filter((m) => m.id !== id));
     message.success("Đã xóa tài liệu (local)");
   };
-  const handleDownload = async (id, classId, url) => {
-    console.log("Download material:", { id, classId, url });
-    const res = await callDownloadMaterialAPI(classId, id);
-    console.log(res);
-    // window.open(url, "_blank");
+  const handleDownload = async (id, classId, fileName) => {
+    try {
+      const res = await callDownloadMaterialAPI(classId, id);
+
+      // Nếu backend trả lỗi (404, 500, ...) thì axios sẽ throw, nên chỉ cần check thêm cho chắc
+      if (!res || res.status !== 200) {
+        message.error("Không thể tải file (trạng thái không thành công)");
+        return;
+      }
+
+      // bytes → Blob
+      const blob = new Blob([res.data]);
+
+      // Lấy tên file ưu tiên từ header nếu có
+      let downloadName = fileName || `material-${id}`;
+      const disposition = res.headers["content-disposition"];
+      if (disposition) {
+        const match = /filename\*?=(?:UTF-8''|")?([^";]+)/i.exec(disposition);
+        if (match && match[1]) {
+          downloadName = decodeURIComponent(match[1]);
+        }
+      }
+
+      // Tạo link ảo để browser bật hộp thoại lưu file
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = downloadName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Download material error:", err);
+      message.error("Có lỗi xảy ra khi tải file");
+    }
   };
+
   const columns = useMemo(
     () => [
       {
@@ -327,14 +415,19 @@ export default function MaterialManagement() {
           <Space>
             <Button
               size="small"
-              onClick={() => setViewing(row)}
+              // onClick={() => setViewing(row)}
+              onClick={() =>
+                navigate(`/teacher/materials/${row.id}`, {
+                  state: { material: row },
+                })
+              }
               icon={<Eye size={16} />}
             >
               Xem
             </Button>
             <Button
               size="small"
-              onClick={() => handleDownload(row.id, row.classId, row.url)}
+              onClick={() => handleDownload(row.id, row.classId, row.fileName)}
               icon={<Download size={16} />}
             >
               Tải
@@ -564,12 +657,19 @@ export default function MaterialManagement() {
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   const t = getFieldValue("type");
-                  if (t === "link" && !value)
-                    return Promise.reject("Vui lòng nhập URL");
-                  if (t !== "link" && !uploadedFile && !value)
-                    return Promise.reject("Nhập URL hoặc chọn file");
+
+                  // Nếu là link → bắt buộc URL
+                  if (t === "link") {
+                    if (!value) return Promise.reject("Vui lòng nhập URL");
+                    if (value && !/^https?:\/\//i.test(value))
+                      return Promise.reject("URL không hợp lệ");
+                    return Promise.resolve();
+                  }
+
+                  // Nếu là pdf/image/video → URL là tùy chọn
                   if (value && !/^https?:\/\//i.test(value))
                     return Promise.reject("URL không hợp lệ");
+
                   return Promise.resolve();
                 },
               }),
@@ -614,19 +714,15 @@ export default function MaterialManagement() {
               />
             )}
 
-            {viewing.type === "video" && (
-              <div className={styles.video}>
-                <iframe
-                  src={viewing.url.replace("watch?v=", "embed/")}
-                  title={viewing.title}
-                  allowFullScreen
-                />
-              </div>
-            )}
-
             {viewing.type === "image" && (
               <div className={styles.image}>
                 <img src={viewing.url} alt={viewing.title} />
+              </div>
+            )}
+
+            {viewing.type === "video" && (
+              <div className={styles.video}>
+                <video src={viewing.url} controls />
               </div>
             )}
 
@@ -640,10 +736,6 @@ export default function MaterialManagement() {
                 </Button>
               </div>
             )}
-
-            <div className={styles.desc}>
-              <Text type="secondary">{viewing.description}</Text>
-            </div>
           </div>
         )}
       </Modal>
