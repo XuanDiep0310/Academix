@@ -190,10 +190,17 @@ const callListMaterialsByClassAPI = (classId, query) => {
   const res = axios.get(URL_BACKEND);
   return res;
 };
-const callDownloadMaterialAPI = (classId, materialId) => {
-  const URL_BACKEND = `/api/classes/${classId}/materials/${materialId}/download`;
-  const res = axios.get(URL_BACKEND, { responseType: "blob" });
-  return res;
+export const callUploadMaterialAPI = (classId, formData) => {
+  return axios.post(`/api/classes/${classId}/materials/upload`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+export const callDownloadMaterialAPI = (classId, materialId) => {
+  return axios.get(`/api/classes/${classId}/materials/${materialId}/download`, {
+    responseType: "blob", // để nhận bytes
+  });
 };
 
 const callListMyClassesAPI = () => {
@@ -246,7 +253,33 @@ const callMaterialsStatisticsAPI = () => {
   const URL_BACKEND = `/api/materials/statistics`;
   return axios.get(URL_BACKEND);
 };
+// Lấy danh sách bài kiểm tra mà học sinh được làm trong 1 lớp
+export const callStudentListExamsByClassAPI = (classId) => {
+  const URL_BACKEND = `/api/student/exams?classId=${classId}`;
+  return axios.get(URL_BACKEND);
+};
 
+// Đã gửi ở trên nhưng nhắc lại cho đủ bộ:
+export const callStudentStartExamAPI = (examId) => {
+  const URL_BACKEND = `/api/student/exams/${examId}/start`;
+  return axios.post(URL_BACKEND);
+};
+
+export const callStudentSaveAnswerAPI = (attemptId, body) => {
+  // body: { questionId, selectedOptionId }
+  const URL_BACKEND = `/api/student/exams/attempts/${attemptId}/answer`;
+  return axios.post(URL_BACKEND, body);
+};
+
+export const callStudentSubmitAttemptAPI = (attemptId, body) => {
+  // body: { answers: [{questionId, selectedOptionId}] }
+  const URL_BACKEND = `/api/student/exams/attempts/${attemptId}/submit`;
+  return axios.post(URL_BACKEND, body);
+};
+
+export const callStudentGetAttemptResultAPI = (attemptId) => {
+  return axios.get(`/api/student/exams/attempts/${attemptId}/result`);
+};
 const callUpdateAvatar = (fileImg) => {
   const bodyFormData = new FormData();
   bodyFormData.append("fileImg", fileImg);
@@ -323,7 +356,6 @@ export {
   editClassesAPI,
   callListMyClassesAPI,
   callListMaterialsByClassAPI,
-  callDownloadMaterialAPI,
   callListQuestionBankAPI,
   callCreateQuestionAPI,
   deleteQuestionAPI,
