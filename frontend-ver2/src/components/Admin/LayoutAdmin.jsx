@@ -1,24 +1,39 @@
 import { useMemo } from "react";
-import { Layout, Menu, Button, Typography, Space } from "antd";
+import { Layout, Menu, Button, Typography, Space, message } from "antd";
 import { useLocation, useNavigate, Outlet } from "react-router";
-import { LogOut, Users, GraduationCap, Settings } from "lucide-react";
+import {
+  LogOut,
+  Users,
+  GraduationCap,
+  Settings,
+  BarChart2,
+} from "lucide-react";
 import styles from "../../assets/styles/LayoutAdmin.module.scss";
+import { callLogout } from "../../services/api.service";
 
 const { Sider, Content, Header } = Layout;
 const { Text, Title } = Typography;
 
-/**
- * props:
- *  - user?: { name?: string }
- *  - onLogout: () => void
- */
-const LayoutAdmin = ({ user, onLogout }) => {
+const LayoutAdmin = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+  const onLogout = async () => {
+    const res = await callLogout();
+    if (res.success === true) {
+      localStorage.removeItem("access_token");
+      cookieStore.delete("refresh_token");
+      window.location.href = "/login";
+      message.success("Đăng xuất thành công!");
+    }
+  };
   // Khai báo menu DÙNG ICON lucide-react, key = PATH
   const menuItems = useMemo(
     () => [
+      {
+        key: "/admin",
+        icon: <BarChart2 size={16} />,
+        label: "Tổng quan",
+      },
       {
         key: "/admin/users",
         icon: <Users size={16} />,
@@ -29,24 +44,22 @@ const LayoutAdmin = ({ user, onLogout }) => {
         icon: <GraduationCap size={16} />,
         label: "Quản lý lớp học",
       },
-      {
-        key: "/admin/settings",
-        icon: <Settings size={16} />,
-        label: "Cài đặt",
-      },
+      // {
+      //   key: "/admin/settings",
+      //   icon: <Settings size={16} />,
+      //   label: "Cài đặt",
+      // },
     ],
     []
   );
 
-  // Xác định mục đang chọn theo URL hiện tại
-  const selectedKeys = [
-    menuItems.find((i) => pathname.startsWith(i.key))?.key || menuItems[0]?.key,
-  ];
+  const activeItem =
+    [...menuItems]
+      .sort((a, b) => b.key.length - a.key.length) // key dài hơn ưu tiên trước
+      .find((item) => pathname.startsWith(item.key)) || menuItems[0];
 
-  // Header breadcrumb ngắn theo path
-  const currentLabel =
-    menuItems.find((i) => pathname.startsWith(i.key))?.label ||
-    "Quản lý tài khoản";
+  const selectedKeys = [activeItem.key];
+  const currentLabel = activeItem.label;
 
   return (
     <Layout className={styles.adminWrap}>
@@ -57,7 +70,7 @@ const LayoutAdmin = ({ user, onLogout }) => {
             Quản trị hệ thống
           </Title>
           <Text type="secondary" className={styles.userName}>
-            {user?.name || "Admin"}
+            Admin
           </Text>
         </div>
 

@@ -1,51 +1,36 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
-import { Outlet } from "react-router";
 import Home from "./components/Home/index";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { callFetchAccount } from "./services/api.service";
 import { useDispatch, useSelector } from "react-redux";
 import { doGetAccountAction } from "./redux/account/accountSlice";
 import Loading from "./components/Loading";
 import NotFound from "./components/NotFound/index";
 import LayoutAdmin from "./components/Admin/LayoutAdmin";
-import ClassManagement from "./components/Admin/ClassManagement";
-import UserManagement from "./components/Admin/UserManagement";
+import ClassManagement from "./components/Admin/Classes/ClassManagement";
+import UserManagement from "./components/Admin/User/UserManagement";
 import LayoutTeacher from "./components/Teacher/LayoutTeacher";
-import ClassList from "./components/Teacher/ClassList";
-import MaterialManagement from "./components/Teacher/MaterialManagement";
-import QuestionBank from "./components/Teacher/QuestionBank";
+import ClassList from "./components/Teacher/Classes/ClassList";
+import MaterialManagement from "./components/Teacher/Materia/MaterialManagement";
+import QuestionBank from "./components/Teacher/QuestionBank/QuestionBank";
 import ResultsView from "./components/Teacher/ResultsView";
-import TestManagement from "./components/Teacher/TestManagement";
+import TestManagement from "./components/Teacher/TestManagement/TestManagement";
 import LayoutStudent from "./components/Student/LayoutStudent";
 import { StudentClassList } from "./components/Student/StudentClassList";
 import MaterialView from "./components/Student/MaterialView";
 import { StudentResults } from "./components/Student/StudentResults";
 import { TestTaking } from "./components/Student/TestTaking";
+import AdminPage from "./pages/admin";
+import ProtectedRoute from "./components/ProtectedRoute";
+import RoleRedirect from "./components/RoleRedirect";
+import TeacherPage from "./pages/teacher";
 
 const Layout = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   return (
     <>
-      <div
-        className="layout-app"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-        }}
-      >
-        <Header setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
-        <div style={{ flex: "1", background: "#ddd" }}>
-          <div className="container">
-            <Outlet context={[searchTerm, setSearchTerm]} />
-          </div>
-        </div>
-        <Footer />
-      </div>
+      <RoleRedirect />
     </>
   );
 };
@@ -63,11 +48,15 @@ let router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <LayoutAdmin />,
+    element: (
+      <ProtectedRoute>
+        <LayoutAdmin />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
-        element: <>Hihi</>,
+        element: <AdminPage />,
       },
       {
         path: "classes",
@@ -81,11 +70,15 @@ let router = createBrowserRouter([
   },
   {
     path: "/teacher",
-    element: <LayoutTeacher />,
+    element: (
+      <ProtectedRoute>
+        <LayoutTeacher />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
-        element: <>Hihi</>,
+        element: <TeacherPage />,
       },
       {
         path: "classes",
@@ -95,7 +88,10 @@ let router = createBrowserRouter([
         path: "materials",
         element: <MaterialManagement />,
       },
-
+      {
+        path: "questions",
+        element: <QuestionBank />,
+      },
       {
         path: "tests",
         element: <TestManagement />,
@@ -108,7 +104,11 @@ let router = createBrowserRouter([
   },
   {
     path: "/student",
-    element: <LayoutStudent />,
+    element: (
+      <ProtectedRoute>
+        <LayoutStudent />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -143,22 +143,21 @@ let router = createBrowserRouter([
 ]);
 const App = () => {
   const dispatch = useDispatch();
-  // const isLoading = useSelector((state) => state.account.isLoading);
-  const isLoading = false;
-  // const getAccount = async () => {
-  //   if (
-  //     window.location.pathname === "/login" ||
-  //     window.location.pathname === "/register"
-  //   )
-  //     return;
-  //   const res = await callFetchAccount();
-  //   if (res && res?.data) {
-  //     dispatch(doGetAccountAction(res.data));
-  //   }
-  // };
-  // useEffect(() => {
-  //   getAccount();
-  // }, []);
+  const isLoading = useSelector((state) => state.account.isLoading);
+  const getAccount = async () => {
+    if (
+      window.location.pathname === "/login" ||
+      window.location.pathname === "/register"
+    )
+      return;
+    const res = await callFetchAccount();
+    if (res && res?.success === true) {
+      dispatch(doGetAccountAction(res.data));
+    }
+  };
+  useEffect(() => {
+    getAccount();
+  }, []);
   return (
     <>
       {isLoading === false ||

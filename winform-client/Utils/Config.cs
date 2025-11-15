@@ -19,5 +19,9 @@ namespace Academix.WinApp.Utils
         {
             return configuration[key];
         }
+        public static string GetApiBaseUrl()
+        {
+            return configuration["ApiSettings:BaseUrl"];
+        }
     }
 }

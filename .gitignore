@@ -76,3 +76,4 @@ desktop.ini
 .env.production
 secrets.json
 appsettings.*.json
+appsettings.json

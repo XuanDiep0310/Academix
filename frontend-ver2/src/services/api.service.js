@@ -1,4 +1,5 @@
 import axios from "../utils/axios-customize";
+import { getCookie } from "../utils/cookie";
 
 const registerUserAPI = (fullName, email, password, phone) => {
   const URL_BACKEND = "/api/v1/user/register";
@@ -13,152 +14,239 @@ const registerUserAPI = (fullName, email, password, phone) => {
 };
 
 const loginUserAPI = (username, password) => {
-  const URL_BACKEND = "/api/v1/auth/login";
+  const URL_BACKEND = "/api/Auth/login";
   const data = {
-    username: username,
+    email: username,
     password: password,
-    // delay: 2000,
   };
   const res = axios.post(URL_BACKEND, data);
   return res;
 };
 const callFetchAccount = () => {
-  const URL_BACKEND = "/api/v1/auth/account";
+  const URL_BACKEND = "/api/Auth/profile";
   return axios.get(URL_BACKEND);
 };
 const callLogout = () => {
-  const URL_BACKEND = "/api/v1/auth/logout";
-  return axios.post(URL_BACKEND);
+  const URL_BACKEND = "/api/Auth/logout";
+  const refreshToken = getCookie("refresh_token");
+  return axios.post(URL_BACKEND, {
+    refreshToken: refreshToken,
+  });
 };
+
 const callListUserAPI = (query) => {
-  const URL_BACKEND = `/api/v1/user?${query}`;
+  const URL_BACKEND = `/api/Users?${query}`;
   const res = axios.get(URL_BACKEND);
   return res;
 };
 
-const createUserAPI = (fullName, email, password, phone) => {
-  const URL_BACKEND = "/api/v1/user";
+const createUserAPI = (fullName, email, password, role) => {
+  const URL_BACKEND = "/api/Users";
   const data = {
     fullName: fullName,
     email: email,
     password: password,
-    phone: phone,
+    role: role,
   };
   const res = axios.post(URL_BACKEND, data);
   return res;
 };
 const callBulkCreateUser = (data) => {
-  const URL_BACKEND = "/api/v1/user/bulk-create";
+  const URL_BACKEND = "/api/Users/bulk";
   const res = axios.post(URL_BACKEND, data);
   return res;
 };
 const deleteUserAPI = (id) => {
-  const URL_BACKEND = `/api/v1/user/${id}`;
+  const URL_BACKEND = `/api/Users/${id}`;
   const res = axios.delete(URL_BACKEND);
   return res;
 };
-const editUserAPI = (id, fullName, phone) => {
-  const URL_BACKEND = `/api/v1/user/`;
+const editUserAPI = (id, fullName, email) => {
+  const URL_BACKEND = `/api/Users/${id}`;
   const data = {
-    _id: id,
     fullName,
-    phone,
+    email,
+    isActive: true,
   };
   const res = axios.put(URL_BACKEND, data);
   return res;
 };
-const callListBookAPI = (query) => {
-  const URL_BACKEND = `/api/v1/book?${query}`;
-  const res = axios.get(URL_BACKEND);
-  return res;
-};
-const callListCategoryAPI = () => {
-  const URL_BACKEND = "/api/v1/database/category";
-  const res = axios.get(URL_BACKEND);
-  return res;
-};
-const callUploadBookImg = (fileImg) => {
-  const bodyFormData = new FormData();
-  bodyFormData.append("fileImg", fileImg);
-  return axios({
-    method: "post",
-    url: "/api/v1/file/upload",
-    data: bodyFormData,
-    headers: {
-      "Content-Type": "multipart/form-data",
-      "upload-type": "book",
-    },
-  });
-};
-const createBookAPI = (
-  thumbnail,
-  slider,
-  mainText,
-  author,
-  price,
-  sold,
-  quantity,
-  category
-) => {
-  const URL_BACKEND = "/api/v1/book";
+const editUserStatusAPI = (id, fullName, email, isActive) => {
+  const URL_BACKEND = `/api/Users/${id}`;
   const data = {
-    thumbnail: thumbnail,
-    slider: slider,
-    mainText: mainText,
-    author: author,
-    price: price,
-    sold: sold,
-    quantity: quantity,
-    category: category,
+    fullName,
+    email,
+    isActive: isActive,
+  };
+  const res = axios.put(URL_BACKEND, data);
+  return res;
+};
+const callDashboardUsersAPI = () => {
+  const URL_BACKEND = `/api/Users/statistics`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+
+const callDashboardClassesAPI = () => {
+  const URL_BACKEND = `/api/Classes/statistics`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const callListTeacherAPI = () => {
+  const URL_BACKEND = `/api/Users?role=Teacher`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const callListStudentAPI = () => {
+  const URL_BACKEND = `/api/Users?role=Student`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const callListClassAPI = (query) => {
+  const URL_BACKEND = `/api/Classes?${query}`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const createClassAPI = (className, classCode, description) => {
+  const URL_BACKEND = `/api/Classes`;
+  const data = {
+    className,
+    classCode,
+    description,
   };
   const res = axios.post(URL_BACKEND, data);
   return res;
 };
-const deleteBookAPI = (id) => {
-  const URL_BACKEND = `/api/v1/book/${id}`;
+const deleteClassAPI = (id) => {
+  const URL_BACKEND = `/api/Classes/${id}`;
   const res = axios.delete(URL_BACKEND);
   return res;
 };
-const editBookAPI = (
-  _id,
-  thumbnail,
-  slider,
-  mainText,
-  author,
-  price,
-  sold,
-  quantity,
-  category
-) => {
-  const URL_BACKEND = `/api/v1/book/${_id}`;
+const callAddTeachersToClassAPI = (classId, data) => {
+  console.log("API Service - Adding teachers to class:", classId, data);
+  const URL_BACKEND = `/api/Classes/${classId}/members/teachers`;
+  const dataTeachers = {
+    userIds: data,
+  };
+  const res = axios.post(URL_BACKEND, dataTeachers);
+  return res;
+};
+const callAddStudentsToClassAPI = (classId, data) => {
+  const URL_BACKEND = `/api/Classes/${classId}/members/students`;
+  const dataStudents = {
+    userIds: data,
+  };
+  const res = axios.post(URL_BACKEND, dataStudents);
+  return res;
+};
+const callListTeacherOnClassesAPI = (id) => {
+  const URL_BACKEND = `/api/Classes/${id}/teachers`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const callListStudentOnClassesAPI = (id) => {
+  const URL_BACKEND = `/api/Classes/${id}/students`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+const editClassesAPI = (id, className, description) => {
+  const URL_BACKEND = `/api/Classes/${id}`;
   const data = {
-    thumbnail: thumbnail,
-    slider: slider,
-    mainText: mainText,
-    author: author,
-    price: price,
-    sold: sold,
-    quantity: quantity,
-    category: category,
+    className,
+    description,
+    isActive: true,
   };
   const res = axios.put(URL_BACKEND, data);
   return res;
 };
-const getBookAPI = (id) => {
-  const URL_BACKEND = `/api/v1/book/${id}`;
+const deleteMemberOutClassAPI = (id, userId) => {
+  const URL_BACKEND = `/api/Classes/${id}/members/${userId}`;
+  const res = axios.delete(URL_BACKEND);
+  return res;
+};
+
+const callListQuestionBankAPI = (query) => {
+  const URL_BACKEND = `/api/Questions?${query}`;
   const res = axios.get(URL_BACKEND);
   return res;
 };
-const callOrderAPI = (data) => {
-  const URL_BACKEND = `/api/v1/order`;
-  const res = axios.post(URL_BACKEND, data);
+const callCreateQuestionAPI = (payload) => {
+  const URL_BACKEND = `/api/Questions`;
+  return axios.post(URL_BACKEND, payload);
+};
+const deleteQuestionAPI = (id) => {
+  const URL_BACKEND = `/api/Questions/${id}`;
+  const res = axios.delete(URL_BACKEND);
   return res;
 };
-const callOrderHistory = () => {
-  const URL_BACKEND = `/api/v1/history`;
+const editQuestionAPI = (id, payload) => {
+  const URL_BACKEND = `/api/Questions/${id}`;
+
+  const res = axios.put(URL_BACKEND, payload);
+  return res;
+};
+const callListMaterialsByClassAPI = (classId, query) => {
+  const URL_BACKEND = `/api/classes/${classId}/materials?${query}`;
   const res = axios.get(URL_BACKEND);
   return res;
 };
+const callDownloadMaterialAPI = (classId, materialId) => {
+  const URL_BACKEND = `/api/classes/${classId}/materials/${materialId}/download`;
+  const res = axios.get(URL_BACKEND, { responseType: "blob" });
+  return res;
+};
+
+const callListMyClassesAPI = () => {
+  const URL_BACKEND = `/api/Classes/my-classes`;
+  const res = axios.get(URL_BACKEND);
+  return res;
+};
+
+const callListExamsByClassAPI = (classId, queryString) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams${
+    queryString ? `?${queryString}` : ""
+  }`;
+  return axios.get(URL_BACKEND);
+};
+
+const callCreateExamAPI = (classId, body) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams`;
+  return axios.post(URL_BACKEND, body);
+};
+
+const callUpdateExamAPI = (classId, examId, body) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}`;
+  return axios.put(URL_BACKEND, body);
+};
+
+const callDeleteExamAPI = (classId, examId) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}`;
+  return axios.delete(URL_BACKEND);
+};
+
+const callPublishExamAPI = (classId, examId) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/publish`;
+  return axios.patch(URL_BACKEND);
+};
+const callGetExamQuestionsAPI = (classId, examId) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/questions`;
+  return axios.get(URL_BACKEND);
+};
+const callUpsertExamQuestionsAPI = (classId, examId, body) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/questions`;
+  return axios.post(URL_BACKEND, body);
+};
+
+const callDeleteExamQuestionAPI = (classId, examId, questionId) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/questions/${questionId}`;
+  return axios.delete(URL_BACKEND);
+};
+
+const callMaterialsStatisticsAPI = () => {
+  const URL_BACKEND = `/api/materials/statistics`;
+  return axios.get(URL_BACKEND);
+};
+
 const callUpdateAvatar = (fileImg) => {
   const bodyFormData = new FormData();
   bodyFormData.append("fileImg", fileImg);
@@ -214,18 +302,39 @@ export {
   callBulkCreateUser,
   deleteUserAPI,
   editUserAPI,
-  callListBookAPI,
-  callListCategoryAPI,
-  callUploadBookImg,
-  createBookAPI,
-  deleteBookAPI,
-  editBookAPI,
-  getBookAPI,
-  callOrderAPI,
-  callOrderHistory,
   callUpdateAvatar,
   callUpdateUserInfo,
   callOnChangePassWord,
   callOrderApi,
   callFetchDashBoard,
+  editUserStatusAPI,
+  callDashboardUsersAPI,
+  callDashboardClassesAPI,
+  callListClassAPI,
+  callListTeacherAPI,
+  callListStudentAPI,
+  createClassAPI,
+  deleteClassAPI,
+  callAddTeachersToClassAPI,
+  callAddStudentsToClassAPI,
+  callListTeacherOnClassesAPI,
+  callListStudentOnClassesAPI,
+  deleteMemberOutClassAPI,
+  editClassesAPI,
+  callListMyClassesAPI,
+  callListMaterialsByClassAPI,
+  callDownloadMaterialAPI,
+  callListQuestionBankAPI,
+  callCreateQuestionAPI,
+  deleteQuestionAPI,
+  editQuestionAPI,
+  callDeleteExamQuestionAPI,
+  callUpsertExamQuestionsAPI,
+  callGetExamQuestionsAPI,
+  callPublishExamAPI,
+  callDeleteExamAPI,
+  callUpdateExamAPI,
+  callCreateExamAPI,
+  callListExamsByClassAPI,
+  callMaterialsStatisticsAPI,
 };

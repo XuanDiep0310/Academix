@@ -17,10 +17,6 @@ namespace Academix.WinApp.Forms.Teacher
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int ClassId { get; set; }
 
-        public UC_ClassCard()
-        {
-            InitializeComponent();
-        }
 
         public UC_ClassCard(int classId, string className, string classCode, int studentCount)
         {

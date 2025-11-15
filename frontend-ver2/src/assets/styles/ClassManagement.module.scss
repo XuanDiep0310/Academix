@@ -91,3 +91,33 @@
     color: #8a94a6;
   }
 }
+.pickRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* ĐÃ thuộc lớp từ trước (base) – ví dụ xanh ngọc nhạt */
+.pickRowBase {
+  background: #e6fffb;
+  border: 1px solid #13c2c2;
+}
+
+.pickRowBase span {
+  color: #08979c;
+  font-weight: 600;
+}
+
+/* MỚI tick thêm – xanh dương nhạt */
+.pickRowSelected {
+  background: #e6f7ff;
+  border: 1px solid #1890ff;
+}
+
+.pickRowSelected span {
+  color: #1890ff;
+  font-weight: 600;
+}
