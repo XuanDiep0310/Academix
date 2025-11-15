@@ -17,7 +17,7 @@ namespace Academix.WinApp.Forms
         {
             InitializeComponent();
 
-            _authApi = new AuthApi(Config.Get("ApiSettings:BaseUrl"));
+            _authApi = new AuthApi(Config.GetApiBaseUrl());
 
         }
 
