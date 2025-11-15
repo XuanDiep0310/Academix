@@ -150,6 +150,63 @@ namespace Academix.WinApp.Api
             }
         }
 
+        public async Task<ApiResponse<UserData>> UpdateUserAsync(int userId, string fullName, string email, bool isActive)
+        {
+            if (!SessionManager.IsAuthenticated)
+                throw new Exception("Chưa đăng nhập hoặc token không hợp lệ.");
+
+            EnsureAuthToken();
+
+            string endpoint = $"api/Users/{userId}";
+
+            // Tạo body request
+            var payload = new
+            {
+                fullName = fullName,
+                email = email,
+                isActive = isActive
+            };
+
+            var json = JsonConvert.SerializeObject(payload);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            Debug.WriteLine("=== REQUEST INFO ===");
+            Debug.WriteLine($"PUT URL: {new Uri(_client.BaseAddress, endpoint)}");
+            Debug.WriteLine($"Body: {json}");
+
+            // Gửi PUT request
+            var response = await _client.PutAsync(endpoint, content);
+            var body = await response.Content.ReadAsStringAsync();
+
+            Debug.WriteLine("HTTP Status: " + response.StatusCode);
+            Debug.WriteLine("Response Body: " + body);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new ApiResponse<UserData>
+                {
+                    Success = false,
+                    Message = $"Lỗi API: {response.StatusCode}",
+                    Data = null
+                };
+            }
+
+            try
+            {
+                return JsonConvert.DeserializeObject<ApiResponse<UserData>>(body);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("❌ Deserialize error: " + ex.Message);
+                return new ApiResponse<UserData>
+                {
+                    Success = false,
+                    Message = "Lỗi parse dữ liệu từ server.",
+                    Data = null
+                };
+            }
+        }
+
 
     }
 }

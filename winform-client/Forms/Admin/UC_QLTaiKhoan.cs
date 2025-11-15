@@ -319,22 +319,22 @@ namespace Academix.WinApp.Forms.Admin
         #endregion
 
         #region User Actions
-        private void HandleEditUser(UserData user)
+        private async void HandleEditUser(UserData user)
         {
             try
             {
                 ShowInfo($"Chỉnh sửa: {user.FullName}\nEmail: {user.Email}", "Chỉnh sửa");
 
-                // TODO: Implement edit form
-                // using var form = new FormEditUser(user);
-                // if (form.ShowDialog() == DialogResult.OK)
-                //     await LoadTaiKhoanAsync();
+                using var form = new FormEditUser(user);
+                if (form.ShowDialog() == DialogResult.OK)
+                    await LoadTaiKhoanAsync(); // OK bây giờ
             }
             catch (Exception ex)
             {
                 HandleError("Lỗi khi mở form chỉnh sửa", ex);
             }
         }
+
 
         private async Task HandleLockUnlockUser(UserData user)
         {
@@ -418,14 +418,11 @@ namespace Academix.WinApp.Forms.Admin
             }
             catch (Exception ex)
             {
-                HandleError("Lỗi khi mở form thêm giáo viên", ex);
+                HandleError("Lỗi khi mở form thêm học sinh", ex);
             }
         }
 
-        private async void btnRefresh_Click(object sender, EventArgs e)
-        {
-            await LoadTaiKhoanAsync();
-        }
+        
         #endregion
 
         #region Helper Methods

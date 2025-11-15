@@ -1,4 +1,6 @@
 ﻿using Academix.WinApp.Models;
+using Academix.WinApp.Models.Classes;
+using Academix.WinApp.Models.Common;
 using Academix.WinApp.Models.Teacher;
 using Academix.WinApp.Utils;
 using System;
@@ -8,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Academix.WinApp.Api
 {
@@ -69,6 +72,64 @@ namespace Academix.WinApp.Api
 
             return result?.Data ?? new List<ClassStudentDto>();
         }
+
+        public async Task<ClassPagedResult> GetClassesAsync(
+            int page = 1,
+            int pageSize = 10,
+            string sortBy = "CreatedAt",
+            string sortOrder = "desc")
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", SessionManager.Token);
+
+            string url = $"{_baseUrl}?page={page}&pageSize={pageSize}&sortBy={sortBy}&sortOrder={sortOrder}";
+
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<
+                ApiResponse<ClassPagedResult>
+            >();
+
+            return result?.Data ?? new ClassPagedResult();
+        }
+
+        public async Task<MyClassResponseDto> CreateClassAsync(string className, string classCode, string description)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+            var payload = new
+            {
+                className,
+                classCode,
+                description
+            };
+
+            var response = await client.PostAsJsonAsync(_baseUrl, payload);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            // đọc dữ liệu trả về theo schema ApiResponse
+            var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<MyClassResponseDto>>();
+
+            if (apiResponse == null || !apiResponse.Success)
+                throw new Exception($"API ERROR: {apiResponse?.Errors?.FirstOrDefault() ?? "Không có dữ liệu"}");
+
+            return apiResponse.Data;
+        }
+
+
 
     }
 }

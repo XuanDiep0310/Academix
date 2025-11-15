@@ -38,8 +38,6 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
-            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             guna2TextBox3 = new Guna.UI2.WinForms.Guna2TextBox();
             guna2TextBox2 = new Guna.UI2.WinForms.Guna2TextBox();
             guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
@@ -48,44 +46,14 @@
             guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            btnDoiMatKhau = new Guna.UI2.WinForms.Guna2Button();
+            btnHuy = new Guna.UI2.WinForms.Guna2Button();
             SuspendLayout();
-            // 
-            // guna2Button2
-            // 
-            guna2Button2.CustomizableEdges = customizableEdges1;
-            guna2Button2.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button2.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button2.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button2.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button2.Font = new Font("Segoe UI", 9F);
-            guna2Button2.ForeColor = Color.White;
-            guna2Button2.Location = new Point(432, 399);
-            guna2Button2.Name = "guna2Button2";
-            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2Button2.Size = new Size(105, 47);
-            guna2Button2.TabIndex = 19;
-            guna2Button2.Text = "guna2Button2";
-            // 
-            // guna2Button1
-            // 
-            guna2Button1.CustomizableEdges = customizableEdges3;
-            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button1.Font = new Font("Segoe UI", 9F);
-            guna2Button1.ForeColor = Color.White;
-            guna2Button1.Location = new Point(303, 399);
-            guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            guna2Button1.Size = new Size(105, 47);
-            guna2Button1.TabIndex = 18;
-            guna2Button1.Text = "guna2Button1";
             // 
             // guna2TextBox3
             // 
             guna2TextBox3.BorderRadius = 12;
-            guna2TextBox3.CustomizableEdges = customizableEdges5;
+            guna2TextBox3.CustomizableEdges = customizableEdges1;
             guna2TextBox3.DefaultText = "";
             guna2TextBox3.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             guna2TextBox3.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -99,14 +67,14 @@
             guna2TextBox3.Name = "guna2TextBox3";
             guna2TextBox3.PlaceholderText = "";
             guna2TextBox3.SelectedText = "";
-            guna2TextBox3.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            guna2TextBox3.ShadowDecoration.CustomizableEdges = customizableEdges2;
             guna2TextBox3.Size = new Size(476, 45);
             guna2TextBox3.TabIndex = 17;
             // 
             // guna2TextBox2
             // 
             guna2TextBox2.BorderRadius = 12;
-            guna2TextBox2.CustomizableEdges = customizableEdges7;
+            guna2TextBox2.CustomizableEdges = customizableEdges3;
             guna2TextBox2.DefaultText = "";
             guna2TextBox2.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             guna2TextBox2.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -120,14 +88,14 @@
             guna2TextBox2.Name = "guna2TextBox2";
             guna2TextBox2.PlaceholderText = "";
             guna2TextBox2.SelectedText = "";
-            guna2TextBox2.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            guna2TextBox2.ShadowDecoration.CustomizableEdges = customizableEdges4;
             guna2TextBox2.Size = new Size(476, 45);
             guna2TextBox2.TabIndex = 16;
             // 
             // guna2TextBox1
             // 
             guna2TextBox1.BorderRadius = 12;
-            guna2TextBox1.CustomizableEdges = customizableEdges9;
+            guna2TextBox1.CustomizableEdges = customizableEdges5;
             guna2TextBox1.DefaultText = "";
             guna2TextBox1.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             guna2TextBox1.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -141,7 +109,7 @@
             guna2TextBox1.Name = "guna2TextBox1";
             guna2TextBox1.PlaceholderText = "";
             guna2TextBox1.SelectedText = "";
-            guna2TextBox1.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            guna2TextBox1.ShadowDecoration.CustomizableEdges = customizableEdges6;
             guna2TextBox1.Size = new Size(476, 45);
             guna2TextBox1.TabIndex = 15;
             // 
@@ -150,53 +118,90 @@
             guna2HtmlLabel5.BackColor = Color.Transparent;
             guna2HtmlLabel5.Location = new Point(42, 303);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            guna2HtmlLabel5.Size = new Size(121, 22);
+            guna2HtmlLabel5.Size = new Size(125, 22);
             guna2HtmlLabel5.TabIndex = 14;
-            guna2HtmlLabel5.Text = "guna2HtmlLabel5";
+            guna2HtmlLabel5.Text = "Xác thực mật khẩu";
             // 
             // guna2HtmlLabel4
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
             guna2HtmlLabel4.Location = new Point(42, 208);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            guna2HtmlLabel4.Size = new Size(121, 22);
+            guna2HtmlLabel4.Size = new Size(94, 22);
             guna2HtmlLabel4.TabIndex = 13;
-            guna2HtmlLabel4.Text = "guna2HtmlLabel4";
+            guna2HtmlLabel4.Text = "Mật khâu mới";
             // 
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
             guna2HtmlLabel3.Location = new Point(42, 114);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            guna2HtmlLabel3.Size = new Size(121, 22);
+            guna2HtmlLabel3.Size = new Size(117, 22);
             guna2HtmlLabel3.TabIndex = 12;
-            guna2HtmlLabel3.Text = "guna2HtmlLabel3";
+            guna2HtmlLabel3.Text = "Mật khẩu hiện tại";
             // 
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
+            guna2HtmlLabel2.ForeColor = SystemColors.AppWorkspace;
             guna2HtmlLabel2.Location = new Point(33, 53);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(121, 22);
+            guna2HtmlLabel2.Size = new Size(327, 22);
             guna2HtmlLabel2.TabIndex = 11;
-            guna2HtmlLabel2.Text = "guna2HtmlLabel2";
+            guna2HtmlLabel2.Text = "Nhập mật khẩu hiện tại và mật khẩu mới của bạn";
             // 
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
             guna2HtmlLabel1.Location = new Point(33, 12);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(121, 22);
+            guna2HtmlLabel1.Size = new Size(92, 22);
             guna2HtmlLabel1.TabIndex = 10;
-            guna2HtmlLabel1.Text = "guna2HtmlLabel1";
+            guna2HtmlLabel1.Text = "Đổi mật khẩu";
+            // 
+            // btnDoiMatKhau
+            // 
+            btnDoiMatKhau.BorderRadius = 20;
+            btnDoiMatKhau.CustomizableEdges = customizableEdges7;
+            btnDoiMatKhau.DisabledState.BorderColor = Color.DarkGray;
+            btnDoiMatKhau.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnDoiMatKhau.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnDoiMatKhau.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnDoiMatKhau.Font = new Font("Segoe UI", 9F);
+            btnDoiMatKhau.ForeColor = Color.White;
+            btnDoiMatKhau.Location = new Point(362, 422);
+            btnDoiMatKhau.Name = "btnDoiMatKhau";
+            btnDoiMatKhau.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnDoiMatKhau.Size = new Size(162, 47);
+            btnDoiMatKhau.TabIndex = 21;
+            btnDoiMatKhau.Text = "Đổi mật khẩu";
+            // 
+            // btnHuy
+            // 
+            btnHuy.BorderRadius = 20;
+            btnHuy.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+            btnHuy.CustomizableEdges = customizableEdges9;
+            btnHuy.DisabledState.BorderColor = Color.DarkGray;
+            btnHuy.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnHuy.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnHuy.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnHuy.FillColor = Color.Silver;
+            btnHuy.Font = new Font("Segoe UI", 9F);
+            btnHuy.ForeColor = Color.White;
+            btnHuy.Location = new Point(230, 422);
+            btnHuy.Name = "btnHuy";
+            btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnHuy.Size = new Size(105, 47);
+            btnHuy.TabIndex = 20;
+            btnHuy.Text = "Hủy";
             // 
             // FormDoiMatKhau
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(567, 479);
-            Controls.Add(guna2Button2);
-            Controls.Add(guna2Button1);
+            ClientSize = new Size(567, 504);
+            Controls.Add(btnDoiMatKhau);
+            Controls.Add(btnHuy);
             Controls.Add(guna2TextBox3);
             Controls.Add(guna2TextBox2);
             Controls.Add(guna2TextBox1);
@@ -223,5 +228,7 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        private Guna.UI2.WinForms.Guna2Button btnDoiMatKhau;
+        private Guna.UI2.WinForms.Guna2Button btnHuy;
     }
 }
