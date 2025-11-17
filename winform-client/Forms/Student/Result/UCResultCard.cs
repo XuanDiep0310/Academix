@@ -8,18 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Academix.WinApp.Forms
+namespace Academix.WinApp.Forms.Student.Result
 {
-    public partial class FormSignUp : Form
+    public partial class UCResultCard : UserControl
     {
-        public FormSignUp()
+        public UCResultCard()
         {
             InitializeComponent();
-        }
-
-        private void FormSignUp_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
