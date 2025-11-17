@@ -20,8 +20,10 @@ const handleRefreshToken = async () => {
     const res = await instance.post("/api/Auth/refresh-token", {
       refreshToken: refreshToken,
     });
-    console.log(res);
-    if (res && res?.data) return res.data.accessToken;
+    if (res && res?.data) {
+      cookieStore.set("refresh_token", res.data.refreshToken);
+      return res.data.accessToken;
+    }
     return null;
   });
 };
