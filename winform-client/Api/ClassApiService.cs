@@ -1,7 +1,11 @@
+<<<<<<< HEAD
+﻿using Academix.WinApp.Models.Teacher;
+=======
 ﻿using Academix.WinApp.Models;
 using Academix.WinApp.Models.Classes;
 using Academix.WinApp.Models.Common;
 using Academix.WinApp.Models.Teacher;
+>>>>>>> 1c51b105e83d91cb367732955f16453246f4014a
 using Academix.WinApp.Utils;
 using System;
 using System.Collections.Generic;
