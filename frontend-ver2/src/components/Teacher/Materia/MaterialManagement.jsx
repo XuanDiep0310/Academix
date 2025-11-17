@@ -117,7 +117,7 @@ export default function MaterialManagement() {
     id: m.materialId,
     title: m.title,
     type: (m.materialType || "").toLowerCase(),
-    url: buildFileUrl(m.fileUrl), // 👈 GHÉP URL Ở ĐÂY
+    url: buildFileUrl(m.fileUrl),
     classId: m.classId,
     className: m.className,
     description: m.description,
@@ -317,30 +317,50 @@ export default function MaterialManagement() {
     setMaterials((prev) => prev.filter((m) => m.id !== id));
     message.success("Đã xóa tài liệu (local)");
   };
-  const handleDownload = async (id, classId, fileName) => {
+  const handleDownload = async (row) => {
     try {
-      const res = await callDownloadMaterialAPI(classId, id);
+      const res = await callDownloadMaterialAPI(row.classId, row.id);
 
-      // Nếu backend trả lỗi (404, 500, ...) thì axios sẽ throw, nên chỉ cần check thêm cho chắc
-      if (!res || res.status !== 200) {
-        message.error("Không thể tải file (trạng thái không thành công)");
-        return;
+      // if (!res || res.status !== 200) {
+      //   message.error("Không thể tải file");
+      //   return;
+      // }
+
+      // -------------------------
+      // ĐÂY LÀ CHỖ QUAN TRỌNG
+      // -------------------------
+      let blob;
+
+      // Nếu axios trả đúng blob
+      if (res.data instanceof Blob) {
+        blob = res.data;
+      } else if (res.request?.response instanceof Blob) {
+        // một số cấu hình axios gán blob ở request.response
+        blob = res.request.response;
+      } else {
+        // fallback: tạo Blob từ dữ liệu nhận được
+        const contentType =
+          res.headers && res.headers["content-type"]
+            ? res.headers["content-type"]
+            : "application/octet-stream";
+        blob = new Blob([res.data], { type: contentType });
       }
 
-      // bytes → Blob
-      const blob = new Blob([res.data]);
+      // Tên file
+      let downloadName = row.fileName || `material-${row.id}`;
+      const disposition = res.headers && res.headers["content-disposition"];
 
-      // Lấy tên file ưu tiên từ header nếu có
-      let downloadName = fileName || `material-${id}`;
-      const disposition = res.headers["content-disposition"];
       if (disposition) {
-        const match = /filename\*?=(?:UTF-8''|")?([^";]+)/i.exec(disposition);
+        let match =
+          /filename\*=(?:UTF-8''|)([^;]+)/i.exec(disposition) ||
+          /filename="?([^"]+)"?/i.exec(disposition);
+
         if (match && match[1]) {
-          downloadName = decodeURIComponent(match[1]);
+          downloadName = decodeURIComponent(match[1].trim());
         }
       }
 
-      // Tạo link ảo để browser bật hộp thoại lưu file
+      // Tạo URL và tải
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -427,7 +447,7 @@ export default function MaterialManagement() {
             </Button>
             <Button
               size="small"
-              onClick={() => handleDownload(row.id, row.classId, row.fileName)}
+              onClick={() => handleDownload(row)}
               icon={<Download size={16} />}
             >
               Tải
