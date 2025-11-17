@@ -38,7 +38,7 @@ namespace Academix.WinApp.Api
                     SessionManager.RefreshToken = apiResponse.Data.RefreshToken;
                     SessionManager.CurrentUser = new UserData
                     {
-                        Id = apiResponse.Data.User.UserId,
+                        UserId = apiResponse.Data.User.UserId,
                         Email = apiResponse.Data.User.Email,
                         FullName = apiResponse.Data.User.FullName,
                         Role = apiResponse.Data.User.Role

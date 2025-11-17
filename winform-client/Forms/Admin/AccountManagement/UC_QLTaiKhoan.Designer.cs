@@ -353,7 +353,7 @@
             btnThemHocSinh.Size = new Size(178, 38);
             btnThemHocSinh.TabIndex = 2;
             btnThemHocSinh.Text = "Thêm học sinh";
-            btnThemHocSinh.Click += btnThemHocSinh_Click;
+            btnThemHocSinh.Click += btnThemHocSinh_Click_1;
             // 
             // guna2HtmlLabel3
             // 
