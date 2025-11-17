@@ -330,7 +330,7 @@ namespace Academix.WinApp.Forms.Admin
         #endregion
 
         #region Button Handlers
-        private async void btnThemGiaoVien_Click(object sender, EventArgs e)
+        private async void btnThemGiaoVien_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -344,7 +344,7 @@ namespace Academix.WinApp.Forms.Admin
             }
         }
 
-        private async void btnThemHocSinh_Click(object sender, EventArgs e)
+        private async void btnThemHocSinh_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -369,6 +369,7 @@ namespace Academix.WinApp.Forms.Admin
             MessageBox.Show($"{message}: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         #endregion
+
     }
 }
 
