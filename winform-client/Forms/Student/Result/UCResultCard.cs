@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Academix.WinApp.Forms.Student
+namespace Academix.WinApp.Forms.Student.Result
 {
-    public partial class UC_MyClassCard : UserControl
+    public partial class UCResultCard : UserControl
     {
-        public UC_MyClassCard()
+        public UCResultCard()
         {
             InitializeComponent();
         }
