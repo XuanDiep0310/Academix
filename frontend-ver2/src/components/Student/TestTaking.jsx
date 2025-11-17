@@ -11,6 +11,7 @@ import {
   message,
   Select,
   Spin,
+  Modal,
 } from "antd";
 import { Clock, AlertCircle, Calendar } from "lucide-react";
 import styles from "../../assets/styles/TestTaking.module.scss";
@@ -20,6 +21,7 @@ import {
   callStudentStartExamAPI,
   callStudentSaveAnswerAPI,
   callStudentSubmitAttemptAPI,
+  callStudentGetAttemptResultAPI, // 👈 nhớ khai báo hàm này trong api.service
 } from "../../services/api.service";
 
 const { Title, Text } = Typography;
@@ -42,13 +44,16 @@ function getTestStatus(test) {
   const start = test.startTime ? new Date(test.startTime) : null;
   const end = test.endTime ? new Date(test.endTime) : null;
 
-  // client đánh dấu đã làm xong
+  // Đã làm (attemptCount > 0) => coi như completed
+  if (typeof test.attemptCount === "number" && test.attemptCount > 0) {
+    return "completed";
+  }
+
   if (test.status === "completed") return "completed";
 
   if (start && now < start) return "upcoming";
   if (end && now > end) return "closed";
 
-  // ưu tiên status từ backend
   if (test.status === "Available" || test.status === "available")
     return "available";
   if (test.status === "Closed" || test.status === "closed") return "closed";
@@ -88,6 +93,13 @@ export function TestTaking() {
 
   const [starting, setStarting] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  /** ====== KẾT QUẢ & MODAL ====== */
+  const [examResults, setExamResults] = useState({}); // examId -> result
+  const [attemptMap, setAttemptMap] = useState({}); // examId -> attemptId
+  const [resultModalOpen, setResultModalOpen] = useState(false);
+  const [selectedResult, setSelectedResult] = useState(null); // { test, result }
+  const [loadingResult, setLoadingResult] = useState(false);
 
   /* ================== FETCH LỚP ================== */
   const fetchClasses = async () => {
@@ -135,32 +147,31 @@ export function TestTaking() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /* ================== FETCH BÀI KIỂM TRA ================== */
   const fetchTests = async () => {
     if (!selectedClassId) return;
     try {
       setLoadingTests(true);
 
       const res = await callStudentListExamsByClassAPI(selectedClassId);
+      console.log("fetchTests res:", res);
+
       if (res && res.success) {
         const data = res.data;
-        const arr = Array.isArray(data)
-          ? data
-          : Array.isArray(data?.items)
-          ? data.items
-          : [];
+        const arr = Array.isArray(data) ? data : [];
 
-        const mapped =
-          arr.map((e) => ({
-            id: e.examId,
-            title: e.title,
-            classId: e.classId,
-            className: e.className,
-            subject: e.subject || e.className,
-            duration: e.duration,
-            startTime: e.startTime,
-            endTime: e.endTime,
-            status: e.status, // "Available", "Upcoming", "Closed"...
-          })) || [];
+        const mapped = arr.map((e) => ({
+          id: e.examId,
+          title: e.title,
+          classId: e.classId,
+          className: e.className,
+          subject: e.subject || e.className,
+          duration: e.duration,
+          startTime: e.startTime,
+          endTime: e.endTime,
+          attemptCount: typeof e.attemptCount === "number" ? e.attemptCount : 0,
+          status: e.status || null,
+        }));
 
         setTests(mapped);
       } else {
@@ -188,6 +199,7 @@ export function TestTaking() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedClassId]);
 
+  /* ================== ĐẾM NGƯỢC ================== */
   useEffect(() => {
     if (!activeTest || timeLeft <= 0) return;
 
@@ -207,6 +219,12 @@ export function TestTaking() {
 
   /* ================== START TEST ================== */
   const startTest = async (test) => {
+    // Không cho làm lại nếu đã có attempt
+    if (typeof test.attemptCount === "number" && test.attemptCount > 0) {
+      message.warning("Bạn đã làm bài kiểm tra này rồi, không thể làm lại.");
+      return;
+    }
+
     if (!canStartTest(test)) {
       message.warning("Bài kiểm tra chưa đến giờ hoặc đã hết hạn!");
       return;
@@ -225,21 +243,27 @@ export function TestTaking() {
 
       const mappedQuestions = (exam.questions || [])
         .map((q) => ({
-          id: q.questionId,
+          id: q.questionId || q.id,
           examQuestionId: q.examQuestionId,
-          text: q.questionText,
+          text: q.questionText || q.text || q.content,
           questionType: q.questionType,
-          order: q.questionOrder,
-          marks: q.marks,
-          options: (q.options || []).map((opt) => ({
-            id: opt.optionId,
-            text: opt.optionText,
-            order: opt.optionOrder,
+          order: q.questionOrder ?? q.order ?? 0,
+          marks: q.marks ?? q.point ?? 1,
+          options: (q.options || q.answers || []).map((opt) => ({
+            id: opt.optionId || opt.id,
+            text:
+              opt.optionText || opt.text || opt.content || opt.answerText || "",
+            order: opt.optionOrder ?? opt.order ?? 0,
           })),
         }))
         .sort((a, b) => a.order - b.order);
 
       setAttemptId(exam.attemptId);
+      setAttemptMap((prev) => ({
+        ...prev,
+        [exam.examId]: exam.attemptId,
+      }));
+
       setQuestions(mappedQuestions);
       setAnswers({});
 
@@ -271,7 +295,6 @@ export function TestTaking() {
     setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
 
     try {
-      // res ở đây cũng là { success, message, data }
       await callStudentSaveAnswerAPI(attemptId, {
         questionId,
         selectedOptionId: optionId,
@@ -307,7 +330,6 @@ export function TestTaking() {
     try {
       setSubmitting(true);
       const res = await callStudentSubmitAttemptAPI(attemptId, payload);
-      // res: { success, message, data: { ...result... } }
       if (!res || !res.success || !res.data) {
         message.error(res?.message || "Nộp bài thất bại");
         return;
@@ -319,11 +341,31 @@ export function TestTaking() {
         `Đã nộp bài! Bạn được ${result.totalScore}/${result.totalMarks} điểm (${result.percentage}%)`
       );
 
+      // cache kết quả & attemptId
+      setExamResults((prev) => ({
+        ...prev,
+        [activeTest.id]: result,
+      }));
+      setAttemptMap((prev) => ({
+        ...prev,
+        [activeTest.id]: result.attemptId || attemptId,
+      }));
+
+      // đánh dấu completed + tăng attemptCount
       setTests((prev) =>
         prev.map((t) =>
-          t.id === activeTest.id ? { ...t, status: "completed" } : t
+          t.id === activeTest.id
+            ? {
+                ...t,
+                status: "completed",
+                attemptCount: (t.attemptCount || 0) + 1,
+              }
+            : t
         )
       );
+
+      setSelectedResult({ test: { ...activeTest }, result });
+      setResultModalOpen(true);
     } catch (err) {
       console.error("submit exam error:", err);
       message.error("Có lỗi khi nộp bài");
@@ -334,6 +376,48 @@ export function TestTaking() {
       setAnswers({});
       setTimeLeft(0);
       setSubmitting(false);
+    }
+  };
+
+  /* ================== VIEW RESULT (GỌI API GET RESULT) ================== */
+  const handleViewResult = async (test) => {
+    // nếu trong cache đã có thì dùng luôn
+    const cached = examResults[test.id];
+    if (cached) {
+      setSelectedResult({ test, result: cached });
+      setResultModalOpen(true);
+      return;
+    }
+
+    const attemptIdForExam = attemptMap[test.id];
+    if (!attemptIdForExam) {
+      message.info(
+        "Không tìm thấy attemptId cho bài này. Bạn cần làm bài ít nhất 1 lần."
+      );
+      return;
+    }
+
+    try {
+      setLoadingResult(true);
+      const res = await callStudentGetAttemptResultAPI(attemptIdForExam);
+      if (!res || !res.success || !res.data) {
+        message.error(res?.message || "Không thể lấy kết quả bài kiểm tra");
+        return;
+      }
+
+      const result = res.data;
+      setExamResults((prev) => ({
+        ...prev,
+        [test.id]: result,
+      }));
+
+      setSelectedResult({ test, result });
+      setResultModalOpen(true);
+    } catch (err) {
+      console.error("get result error:", err);
+      message.error("Có lỗi khi tải kết quả");
+    } finally {
+      setLoadingResult(false);
     }
   };
 
@@ -429,141 +513,185 @@ export function TestTaking() {
 
   /* ================== VIEW DANH SÁCH BÀI KIỂM TRA ================== */
   return (
-    <div className={styles.wrap}>
-      {/* Header + chọn lớp */}
-      <div className={styles.headerRow}>
-        <div className={styles.headerCard}>
-          <Title level={4} className={styles.title}>
-            Bài kiểm tra
-          </Title>
-          <Text type="secondary">
-            Danh sách các bài kiểm tra trong các lớp bạn đang học
-          </Text>
+    <>
+      <div className={styles.wrap}>
+        {/* Header + chọn lớp */}
+        <div className={styles.headerRow}>
+          <div className={styles.headerCard}>
+            <Title level={4} className={styles.title}>
+              Bài kiểm tra
+            </Title>
+            <Text type="secondary">
+              Danh sách các bài kiểm tra trong các lớp bạn đang học
+            </Text>
+          </div>
+
+          <div className={styles.classSelect}>
+            <Select
+              loading={loadingClasses}
+              value={selectedClassId ?? undefined}
+              onChange={(v) => setSelectedClassId(v)}
+              placeholder="Chọn lớp"
+              style={{ minWidth: 260 }}
+              options={classes.map((c) => ({
+                value: c.id,
+                label: `${c.name} (${c.code})`,
+              }))}
+            />
+          </div>
         </div>
 
-        <div className={styles.classSelect}>
-          <Select
-            loading={loadingClasses}
-            value={selectedClassId ?? undefined}
-            onChange={(v) => setSelectedClassId(v)}
-            placeholder="Chọn lớp"
-            style={{ minWidth: 260 }}
-            options={classes.map((c) => ({
-              value: c.id,
-              label: `${c.name} (${c.code})`,
-            }))}
-          />
-        </div>
+        <Spin spinning={loadingTests}>
+          <div className={styles.list}>
+            {(!selectedClassId || classes.length === 0) && !loadingClasses ? (
+              <Card className={styles.item} bordered>
+                <Text type="secondary">
+                  Bạn chưa tham gia lớp nào nên chưa có bài kiểm tra.
+                </Text>
+              </Card>
+            ) : tests.length === 0 ? (
+              <Card className={styles.item} bordered>
+                <Text type="secondary">Chưa có bài kiểm tra nào.</Text>
+              </Card>
+            ) : (
+              tests.map((t) => {
+                const status = getTestStatus(t);
+                const now = new Date();
+                const start = t.startTime ? new Date(t.startTime) : null;
+                const canStart = canStartTest(t);
+                const hoursToStart =
+                  start && now < start
+                    ? Math.ceil(
+                        (start.getTime() - now.getTime()) / (1000 * 60 * 60)
+                      )
+                    : 0;
+
+                return (
+                  <Card key={t.id} className={styles.item} bordered>
+                    <div className={styles.itemHead}>
+                      <div className={styles.itemMeta}>
+                        <div className={styles.itemTitle}>{t.title}</div>
+                        <div className={styles.tags}>
+                          <Tag>{t.className}</Tag>
+                          <Tag>{t.subject}</Tag>
+                          <Tag
+                            color={
+                              status === "completed"
+                                ? "default"
+                                : status === "available"
+                                ? "green"
+                                : status === "upcoming"
+                                ? "blue"
+                                : "red"
+                            }
+                          >
+                            {status === "completed"
+                              ? "Đã hoàn thành"
+                              : status === "available"
+                              ? "Đang mở"
+                              : status === "upcoming"
+                              ? "Sắp mở"
+                              : "Đã đóng"}
+                          </Tag>
+                        </div>
+                      </div>
+
+                      {canStart ? (
+                        <Button
+                          type="primary"
+                          loading={starting}
+                          onClick={() => startTest(t)}
+                        >
+                          Bắt đầu làm bài
+                        </Button>
+                      ) : status === "completed" ? (
+                        <Space>
+                          <Button onClick={() => handleViewResult(t)}>
+                            Xem kết quả
+                          </Button>
+                          <Button disabled>Đã nộp</Button>
+                        </Space>
+                      ) : status === "upcoming" ? (
+                        <Button disabled>Chưa đến giờ</Button>
+                      ) : (
+                        <Button disabled>Đã hết hạn</Button>
+                      )}
+                    </div>
+
+                    <div className={styles.itemBody}>
+                      <div className={styles.inline}>
+                        <Clock size={16} />
+                        <span>Thời lượng: {t.duration} phút</span>
+                      </div>
+                      <div className={styles.inlineTop}>
+                        <Calendar size={16} />
+                        <div>
+                          <div>Bắt đầu: {formatDateTime(t.startTime)}</div>
+                          <div>Kết thúc: {formatDateTime(t.endTime)}</div>
+                        </div>
+                      </div>
+
+                      {status === "upcoming" && hoursToStart > 0 && (
+                        <Alert
+                          type="info"
+                          showIcon
+                          message={`Bài kiểm tra sẽ mở trong ${hoursToStart} giờ nữa`}
+                          className={styles.alert}
+                        />
+                      )}
+                      {status === "available" && (
+                        <Alert
+                          type="success"
+                          showIcon
+                          message="Bài kiểm tra đang mở. Bạn có thể làm bài ngay bây giờ!"
+                          className={styles.alert}
+                        />
+                      )}
+                    </div>
+                  </Card>
+                );
+              })
+            )}
+          </div>
+        </Spin>
       </div>
 
-      <Spin spinning={loadingTests}>
-        <div className={styles.list}>
-          {(!selectedClassId || classes.length === 0) && !loadingClasses ? (
-            <Card className={styles.item} bordered>
-              <Text type="secondary">
-                Bạn chưa tham gia lớp nào nên chưa có bài kiểm tra.
-              </Text>
-            </Card>
-          ) : tests.length === 0 ? (
-            <Card className={styles.item} bordered>
-              <Text type="secondary">Chưa có bài kiểm tra nào.</Text>
-            </Card>
-          ) : (
-            tests.map((t) => {
-              const status = getTestStatus(t);
-              const now = new Date();
-              const start = t.startTime ? new Date(t.startTime) : null;
-              const canStart = canStartTest(t);
-              const hoursToStart =
-                start && now < start
-                  ? Math.ceil(
-                      (start.getTime() - now.getTime()) / (1000 * 60 * 60)
-                    )
-                  : 0;
+      {/* MODAL KẾT QUẢ */}
+      <Modal
+        open={resultModalOpen}
+        onCancel={() => setResultModalOpen(false)}
+        footer={null}
+        confirmLoading={loadingResult}
+        title={
+          selectedResult
+            ? `Kết quả: ${selectedResult.test.title}`
+            : "Kết quả bài kiểm tra"
+        }
+      >
+        {selectedResult && (
+          <>
+            <p>
+              Điểm:{" "}
+              <strong>
+                {selectedResult.result.totalScore}/
+                {selectedResult.result.totalMarks} (
+                {selectedResult.result.percentage}%)
+              </strong>
+            </p>
+            <p>Trạng thái: {selectedResult.result.status}</p>
+            <p>
+              Thời gian làm: {formatDateTime(selectedResult.result.startTime)} -{" "}
+              {formatDateTime(selectedResult.result.submitTime)}
+            </p>
 
-              return (
-                <Card key={t.id} className={styles.item} bordered>
-                  <div className={styles.itemHead}>
-                    <div className={styles.itemMeta}>
-                      <div className={styles.itemTitle}>{t.title}</div>
-                      <div className={styles.tags}>
-                        <Tag>{t.className}</Tag>
-                        <Tag>{t.subject}</Tag>
-                        <Tag
-                          color={
-                            status === "completed"
-                              ? "default"
-                              : status === "available"
-                              ? "green"
-                              : status === "upcoming"
-                              ? "blue"
-                              : "red"
-                          }
-                        >
-                          {status === "completed"
-                            ? "Đã hoàn thành"
-                            : status === "available"
-                            ? "Đang mở"
-                            : status === "upcoming"
-                            ? "Sắp mở"
-                            : "Đã đóng"}
-                        </Tag>
-                      </div>
-                    </div>
-
-                    {canStart ? (
-                      <Button
-                        type="primary"
-                        loading={starting}
-                        onClick={() => startTest(t)}
-                      >
-                        Bắt đầu làm bài
-                      </Button>
-                    ) : status === "completed" ? (
-                      <Button disabled>Đã nộp</Button>
-                    ) : status === "upcoming" ? (
-                      <Button disabled>Chưa đến giờ</Button>
-                    ) : (
-                      <Button disabled>Đã hết hạn</Button>
-                    )}
-                  </div>
-
-                  <div className={styles.itemBody}>
-                    <div className={styles.inline}>
-                      <Clock size={16} />
-                      <span>Thời lượng: {t.duration} phút</span>
-                    </div>
-                    <div className={styles.inlineTop}>
-                      <Calendar size={16} />
-                      <div>
-                        <div>Bắt đầu: {formatDateTime(t.startTime)}</div>
-                        <div>Kết thúc: {formatDateTime(t.endTime)}</div>
-                      </div>
-                    </div>
-
-                    {status === "upcoming" && hoursToStart > 0 && (
-                      <Alert
-                        type="info"
-                        showIcon
-                        message={`Bài kiểm tra sẽ mở trong ${hoursToStart} giờ nữa`}
-                        className={styles.alert}
-                      />
-                    )}
-                    {status === "available" && (
-                      <Alert
-                        type="success"
-                        showIcon
-                        message="Bài kiểm tra đang mở. Bạn có thể làm bài ngay bây giờ!"
-                        className={styles.alert}
-                      />
-                    )}
-                  </div>
-                </Card>
-              );
-            })
-          )}
-        </div>
-      </Spin>
-    </div>
+            <p>
+              Số câu đúng: {selectedResult.result.correctAnswers} /{" "}
+              {selectedResult.result.totalQuestions}
+            </p>
+            {/* Nếu muốn, bạn có thể map selectedResult.result.answers để hiển thị từng câu */}
+          </>
+        )}
+      </Modal>
+    </>
   );
 }

@@ -33,6 +33,9 @@ export default function ClassList() {
 
   const [students, setStudents] = useState([]);
   const [loadingStudents, setLoadingStudents] = useState(false);
+
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const fetchMyClasses = async () => {
     try {
       setLoadingClasses(true);
@@ -72,6 +75,7 @@ export default function ClassList() {
     setSelected(cls);
     setOpen(true);
     setStudents([]);
+    setPage(1);
     try {
       setLoadingStudents(true);
       const res = await callListStudentOnClassesAPI(cls.id);
@@ -80,7 +84,6 @@ export default function ClassList() {
           id: m.userId,
           name: m.fullName,
           email: m.email,
-          // API chưa có status, tạm cho "active"
           status: "active",
         }));
         setStudents(mapped);
@@ -88,7 +91,6 @@ export default function ClassList() {
         setStudents([]);
       }
     } catch (err) {
-      console.error("fetch students error:", err);
       message.error("Không thể tải danh sách học sinh");
     } finally {
       setLoadingStudents(false);
@@ -103,7 +105,7 @@ export default function ClassList() {
         dataIndex: "index",
         key: "index",
         width: 70,
-        render: (_v, _r, i) => i + 1,
+        render: (_v, _r, i) => (page - 1) * pageSize + i + 1,
       },
       { title: "Họ và tên", dataIndex: "name", key: "name" },
       { title: "Email", dataIndex: "email", key: "email" },
@@ -120,7 +122,7 @@ export default function ClassList() {
           ),
       },
     ],
-    []
+    [page, pageSize]
   );
 
   return (
@@ -199,7 +201,15 @@ export default function ClassList() {
           columns={columns}
           loading={loadingStudents}
           locale={{ emptyText: "Chưa có học sinh trong lớp" }}
-          pagination={{ pageSize: 10 }}
+          pagination={{
+            current: page,
+            pageSize,
+            showSizeChanger: false, // nếu muốn cố định 10 / trang
+            onChange: (p, ps) => {
+              setPage(p);
+              setPageSize(ps);
+            },
+          }}
         />
       </Drawer>
     </div>
