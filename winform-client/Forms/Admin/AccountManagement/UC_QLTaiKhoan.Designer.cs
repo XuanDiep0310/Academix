@@ -333,7 +333,7 @@
             btnThemGiaoVien.Size = new Size(178, 38);
             btnThemGiaoVien.TabIndex = 3;
             btnThemGiaoVien.Text = "Thêm giáo viên";
-            btnThemGiaoVien.Click += btnThemGiaoVien_Click_1;
+            //btnThemGiaoVien.Click += btnThemGiaoVien_Click_1;
             // 
             // btnThemHocSinh
             // 
@@ -353,7 +353,7 @@
             btnThemHocSinh.Size = new Size(178, 38);
             btnThemHocSinh.TabIndex = 2;
             btnThemHocSinh.Text = "Thêm học sinh";
-            btnThemHocSinh.Click += btnThemHocSinh_Click;
+            //btnThemHocSinh.Click += btnThemHocSinh_Click;
             // 
             // guna2HtmlLabel3
             // 

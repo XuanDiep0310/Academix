@@ -6,6 +6,7 @@ using Academix.WinApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -128,6 +129,70 @@ namespace Academix.WinApp.Api
 
             return apiResponse.Data;
         }
+
+        // Lấy tất cả thành viên (học sinh + giáo viên) trong lớp
+        public async Task<List<ClassMember>> GetAllMembersAsync(string classId)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _token);
+
+            string url = $"{_baseUrl}/{classId}/members";
+
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<ClassMember>>>();
+            return result?.Data ?? new List<ClassMember>();
+        }
+
+        // Lấy danh sách học sinh trong lớp
+        public async Task<List<ClassMember>> GetStudentsAsync(string classId)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _token);
+
+            string url = $"{_baseUrl}/{classId}/students";
+
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<ClassMember>>>();
+            return result?.Data ?? new List<ClassMember>();
+        }
+
+        // Lấy danh sách giáo viên trong lớp
+        public async Task<List<ClassMember>> GetTeachersAsync(string classId)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _token);
+
+            string url = $"{_baseUrl}/{classId}/teachers";
+
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<ClassMember>>>();
+            return result?.Data ?? new List<ClassMember>();
+        }
+
 
 
 

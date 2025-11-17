@@ -82,6 +82,7 @@
             btnHuy.Size = new Size(105, 47);
             btnHuy.TabIndex = 18;
             btnHuy.Text = "Hủy";
+            btnHuy.Click += btnHuy_Click;
             // 
             // txtHoTen
             // 
