@@ -15,17 +15,12 @@ instance.defaults.headers.common = {
 };
 
 const handleRefreshToken = async () => {
-  // const res = await instance.get("/api/v1/auth/refresh");
-  // console.log(res);
-  // if (res && res?.data) return res.data.access_token;
-  // return null;
-
   return await mutex.runExclusive(async () => {
     const refreshToken = getCookie("refresh_token");
     const res = await instance.post("/api/Auth/refresh-token", {
       refreshToken: refreshToken,
     });
-
+    console.log(res);
     if (res && res?.data) return res.data.accessToken;
     return null;
   });

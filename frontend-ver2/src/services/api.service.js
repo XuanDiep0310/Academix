@@ -1,3 +1,4 @@
+import instance from "../utils/axios-customize";
 import axios from "../utils/axios-customize";
 import { getCookie } from "../utils/cookie";
 
@@ -198,9 +199,12 @@ export const callUploadMaterialAPI = (classId, formData) => {
   });
 };
 export const callDownloadMaterialAPI = (classId, materialId) => {
-  return axios.get(`/api/classes/${classId}/materials/${materialId}/download`, {
-    responseType: "blob", // để nhận bytes
-  });
+  return instance.get(
+    `/api/classes/${classId}/materials/${materialId}/download`,
+    {
+      responseType: "blob",
+    }
+  );
 };
 
 const callListMyClassesAPI = () => {
@@ -280,6 +284,7 @@ export const callStudentSubmitAttemptAPI = (attemptId, body) => {
 export const callStudentGetAttemptResultAPI = (attemptId) => {
   return axios.get(`/api/student/exams/attempts/${attemptId}/result`);
 };
+
 const callUpdateAvatar = (fileImg) => {
   const bodyFormData = new FormData();
   bodyFormData.append("fileImg", fileImg);
