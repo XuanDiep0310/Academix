@@ -175,6 +175,13 @@ const callCreateQuestionAPI = (payload) => {
   const URL_BACKEND = `/api/Questions`;
   return axios.post(URL_BACKEND, payload);
 };
+const callBulkCreateQuestionAPI = (payload) => {
+  const URL_BACKEND = `/api/Questions/bulk`;
+  const data = {
+    questions: payload,
+  };
+  return axios.post(URL_BACKEND, data);
+};
 const deleteQuestionAPI = (id) => {
   const URL_BACKEND = `/api/Questions/${id}`;
   const res = axios.delete(URL_BACKEND);
@@ -182,7 +189,6 @@ const deleteQuestionAPI = (id) => {
 };
 const editQuestionAPI = (id, payload) => {
   const URL_BACKEND = `/api/Questions/${id}`;
-
   const res = axios.put(URL_BACKEND, payload);
   return res;
 };
@@ -191,14 +197,14 @@ const callListMaterialsByClassAPI = (classId, query) => {
   const res = axios.get(URL_BACKEND);
   return res;
 };
-export const callUploadMaterialAPI = (classId, formData) => {
+const callUploadMaterialAPI = (classId, formData) => {
   return axios.post(`/api/classes/${classId}/materials/upload`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 };
-export const callDownloadMaterialAPI = (classId, materialId) => {
+const callDownloadMaterialAPI = (classId, materialId) => {
   return instance.get(
     `/api/classes/${classId}/materials/${materialId}/download`,
     {
@@ -252,10 +258,12 @@ const callDeleteExamQuestionAPI = (classId, examId, questionId) => {
   const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/questions/${questionId}`;
   return axios.delete(URL_BACKEND);
 };
+export const callMaterialsStatisticsGlobalAPI = () => {
+  return axios.get("/api/materials/statistics");
+};
 
-const callMaterialsStatisticsAPI = () => {
-  const URL_BACKEND = `/api/materials/statistics`;
-  return axios.get(URL_BACKEND);
+const callMaterialsStatisticsAPI = (classId) => {
+  return axios.get(`/api/classes/${classId}/materials/statistics`);
 };
 // Lấy danh sách bài kiểm tra mà học sinh được làm trong 1 lớp
 export const callStudentListExamsByClassAPI = (classId) => {
@@ -282,7 +290,13 @@ export const callStudentSubmitAttemptAPI = (attemptId, body) => {
 };
 
 export const callStudentGetAttemptResultAPI = (attemptId) => {
-  return axios.get(`/api/student/exams/attempts/${attemptId}/result`);
+  const URL_BACKEND = `/api/student/exams/attempts/${attemptId}/result`;
+  return axios.get(URL_BACKEND);
+};
+
+export const callGetExamResultsAPI = (classId, examId, query) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/results?${query}`;
+  return axios.get(URL_BACKEND);
 };
 
 const callUpdateAvatar = (fileImg) => {
@@ -374,4 +388,7 @@ export {
   callCreateExamAPI,
   callListExamsByClassAPI,
   callMaterialsStatisticsAPI,
+  callUploadMaterialAPI,
+  callDownloadMaterialAPI,
+  callBulkCreateQuestionAPI,
 };
