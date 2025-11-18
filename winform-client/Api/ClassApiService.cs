@@ -229,7 +229,26 @@ namespace Academix.WinApp.Api
             var result = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
             return result ?? new ApiResponse<object> { Success = false, Message = "Không có dữ liệu trả về" };
         }
+        // Lấy chi tiết 1 lớp (bao gồm giáo viên, học sinh)
+        public async Task<ClassDetailDto?> GetClassDetailAsync(int classId)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _token);
 
+            string url = $"{_baseUrl}/{classId}";
+
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<ClassDetailDto>>();
+            return result?.Data;
+        }
 
 
 
