@@ -184,6 +184,51 @@ namespace Academix.WinApp.Api
             var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<ClassMember>>>();
             return result?.Data ?? new List<ClassMember>();
         }
+        // Thêm học sinh vào lớp
+        public async Task<ApiResponse<object>> AddStudentsToClassAsync(int classId, List<int> userIds)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _token);
+
+            string url = $"{_baseUrl}/{classId}/members/students";
+
+            var payload = new { userIds };
+
+            var response = await client.PostAsJsonAsync(url, payload);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
+            return result ?? new ApiResponse<object> { Success = false, Message = "Không có dữ liệu trả về" };
+        }
+
+        // Thêm giáo viên vào lớp
+        public async Task<ApiResponse<object>> AddTeachersToClassAsync(int classId, List<int> userIds)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _token);
+
+            string url = $"{_baseUrl}/{classId}/members/teachers";
+
+            var payload = new { userIds };
+
+            var response = await client.PostAsJsonAsync(url, payload);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
+            return result ?? new ApiResponse<object> { Success = false, Message = "Không có dữ liệu trả về" };
+        }
 
 
 
