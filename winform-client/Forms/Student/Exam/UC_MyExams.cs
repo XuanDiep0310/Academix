@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Academix.WinApp.Api;
+using Academix.WinApp.Models.Teacher;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,11 +26,36 @@ namespace Academix.WinApp.Forms.Student.MyResult
 
         private async Task LoadExams()
         {
+            try
+            {
+                var examApi = new ExamApiService();
 
-            var card1 = new UC_ExamCard();
-            flowpanelExams.Controls.Add(card1);
-            var card2 = new UC_ExamCard();
-            flowpanelExams.Controls.Add(card2);
+                var allExams = await examApi.GetStudentExamsAsync();
+
+                // Sắp xếp theo thời gian (ưu tiên StartTime, fallback CreatedAt) giảm dần
+                var ordered = allExams
+                    .OrderByDescending(e => e.StartTime == default ? e.CreatedAt : e.StartTime)
+                    .ToList();
+
+                flowpanelExams.Controls.Clear();
+
+                foreach (var exam in ordered)
+                {
+                    var card = new UC_ExamCard();
+                    card.Bind(exam);
+                    card.Margin = new Padding(10);
+                    flowpanelExams.Controls.Add(card);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Không thể tải danh sách bài kiểm tra.\nChi tiết: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
     }
 }

@@ -3,21 +3,34 @@
   gap: 16px;
 }
 
-/* Header */
+/* ============ HEADER ============ */
 .header {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px 20px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 0 8px;
+  /* bỏ khung card to cho gọn giống hình */
+  background: transparent;
+  border: none;
 }
+
+.headerLeft {
+  min-width: 220px;
+}
+
 .title {
   margin: 0;
 }
 
-/* Grid cards */
+/* group filter bên phải */
+.headerRight {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ============ GRID CARDS ============ */
 .grid {
   display: grid;
   gap: 12px;
@@ -112,6 +125,7 @@
   display: flex;
   justify-content: center;
 }
+
 .answerInput {
   margin: 0;
 }
