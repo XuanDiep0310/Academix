@@ -4,11 +4,14 @@ using Academix.WinApp.Models.Teacher;
 using Academix.WinApp.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Academix.WinApp.Api
 {
@@ -19,26 +22,6 @@ namespace Academix.WinApp.Api
         {
             _baseUrl = Config.GetApiBaseUrl();
         }
-        //public async Task<List<MaterialResponseDto>> GetMaterialsAsync(int classId, string? typeFilter)
-        //{
-        //    using (var client = new HttpClient())
-        //    {
-        //        client.BaseAddress = new Uri(_baseUrl);
-        //        client.DefaultRequestHeaders.Authorization =
-        //            new AuthenticationHeaderValue("Bearer", SessionManager.Token);
-
-        //        string url = $"/api/classes/{classId}/materials";
-
-        //        if (!string.IsNullOrEmpty(typeFilter))
-        //            url += $"?type={typeFilter}";
-
-        //        var response = await client.GetAsync(url);
-        //        response.EnsureSuccessStatusCode();
-
-        //        var result = await response.Content.ReadFromJsonAsync<ApiResponse<MaterialListResponseDto>>();
-        //        return result?.Data?.Materials ?? new();
-        //    }
-        //}
         public async Task<MaterialPagedResult> GetMaterialsPagedAsync(int classId, string? typeFilter, int page, int pageSize)
         {
             using var client = new HttpClient();
@@ -98,28 +81,53 @@ namespace Academix.WinApp.Api
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> DownloadAsync(int classId, MaterialResponseDto m)
+        private HttpClient CreateClient()
         {
-            using var client = new HttpClient();
+            var client = new HttpClient();
             client.BaseAddress = new Uri(_baseUrl);
-
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", SessionManager.Token);
+            return client;
+        }
+
+        public async Task<byte[]> DownloadBytesAsync(int classId, int materialId)
+        {
+            using var client = CreateClient();
 
             var response = await client.GetAsync(
-                $"/api/classes/{classId}/materials/{m.MaterialId}/download");
+                $"/api/classes/{classId}/materials/{materialId}/download",
+                HttpCompletionOption.ResponseHeadersRead
+            );
 
-            if (!response.IsSuccessStatusCode) return false;
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {error}");
+            }
 
-            var bytes = await response.Content.ReadAsByteArrayAsync();
+            var mediaType = response.Content.Headers.ContentType?.MediaType ?? string.Empty;
+            if (mediaType.Contains("json"))
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR: {json}");
+            }
 
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = m.FileName;
-            dlg.Filter = "All files|*.*";
+            return await response.Content.ReadAsByteArrayAsync();
+        }
+
+        public async Task<bool> DownloadAsync(int classId, MaterialResponseDto m)
+        {
+            var bytes = await DownloadBytesAsync(classId, m.MaterialId);
+
+            using SaveFileDialog dlg = new SaveFileDialog
+            {
+                FileName = string.IsNullOrWhiteSpace(m.FileName) ? m.Title : m.FileName,
+                Filter = "All files|*.*"
+            };
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                System.IO.File.WriteAllBytes(dlg.FileName, bytes);
+                await File.WriteAllBytesAsync(dlg.FileName, bytes);
                 return true;
             }
 
@@ -158,10 +166,5 @@ namespace Academix.WinApp.Api
 
             return response.IsSuccessStatusCode;
         }
-
-        
-
-
-
     }
 }

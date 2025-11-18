@@ -14,14 +14,12 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     setLoading(true);
     const res = await loginUserAPI(values.email, values.password);
-    console.log("res login", res);
 
     if (res?.success === true) {
       localStorage.setItem("access_token", res.data.accessToken);
       cookieStore.set("refresh_token", res.data.refreshToken);
       dispatch(doLoginAction(res.data.user));
       notification.success({ message: "Đăng nhập thành công!" });
-      console.log(res);
       const role = res?.data?.user?.role;
       let redirectPath = "/";
 

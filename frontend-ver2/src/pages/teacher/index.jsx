@@ -10,9 +10,13 @@ import {
   Divider,
   List,
   Tag,
+  Select,
 } from "antd";
 import CountUp from "react-countup";
-import { callMaterialsStatisticsAPI } from "../../services/api.service";
+import {
+  callMaterialsStatisticsAPI,
+  callListMyClassesAPI,
+} from "../../services/api.service";
 
 const { Title, Text } = Typography;
 
@@ -28,56 +32,126 @@ const TeacherPage = () => {
     topUploaders: [],
   });
 
-  const [loading, setLoading] = useState(false);
+  const [classes, setClasses] = useState([]);
+  const [selectedClassId, setSelectedClassId] = useState(null);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        setLoading(true);
-        const res = await callMaterialsStatisticsAPI();
+  const [loadingStats, setLoadingStats] = useState(false);
+  const [loadingClasses, setLoadingClasses] = useState(false);
 
-        if (res && res.success && res.data) {
-          setStats({
-            totalMaterials: res.data.totalMaterials ?? 0,
-            materialsByType: res.data.materialsByType || {},
-            totalStorageUsed: res.data.totalStorageUsed ?? 0,
-            totalStorageUsedFormatted:
-              res.data.totalStorageUsedFormatted || "0 MB",
-            materialsUploadedToday: res.data.materialsUploadedToday ?? 0,
-            materialsUploadedThisWeek: res.data.materialsUploadedThisWeek ?? 0,
-            materialsUploadedThisMonth:
-              res.data.materialsUploadedThisMonth ?? 0,
-            topUploaders: Array.isArray(res.data.topUploaders)
-              ? res.data.topUploaders
-              : [],
-          });
-        }
-      } catch (e) {
-        console.error("fetch materials statistics error:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStats();
-  }, []);
-
+  // ---- formatter cho Statistic ----
   const formatter = (value) => <CountUp end={value || 0} separator="," />;
 
   const materialTypeEntries = Object.entries(stats.materialsByType || {});
 
+  // ================== LOAD DANH SÁCH LỚP CỦA GV ==================
+  const fetchClasses = async () => {
+    try {
+      setLoadingClasses(true);
+      const res = await callListMyClassesAPI();
+      if (res?.success && Array.isArray(res.data)) {
+        const mapped = res.data.map((c) => ({
+          id: c.classId,
+          name: c.className,
+          code: c.classCode,
+        }));
+        setClasses(mapped);
+
+        // auto chọn lớp đầu tiên nếu chưa chọn
+        if (!selectedClassId && mapped.length > 0) {
+          setSelectedClassId(mapped[0].id);
+        }
+      }
+    } catch (e) {
+      console.error("fetch classes error: ", e);
+    } finally {
+      setLoadingClasses(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchClasses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ================== LOAD STATISTICS THEO CLASS ==================
+  const fetchStats = async (classId) => {
+    if (!classId) return;
+    try {
+      setLoadingStats(true);
+      const res = await callMaterialsStatisticsAPI(classId);
+
+      if (res && res.success && res.data) {
+        setStats({
+          totalMaterials: res.data.totalMaterials ?? 0,
+          materialsByType: res.data.materialsByType || {},
+          totalStorageUsed: res.data.totalStorageUsed ?? 0,
+          totalStorageUsedFormatted:
+            res.data.totalStorageUsedFormatted || "0 MB",
+          materialsUploadedToday: res.data.materialsUploadedToday ?? 0,
+          materialsUploadedThisWeek: res.data.materialsUploadedThisWeek ?? 0,
+          materialsUploadedThisMonth: res.data.materialsUploadedThisMonth ?? 0,
+          topUploaders: Array.isArray(res.data.topUploaders)
+            ? res.data.topUploaders
+            : [],
+        });
+      } else {
+        // nếu muốn có message.error thì import message từ antd
+        setStats((prev) => ({
+          ...prev,
+          materialsByType: {},
+          topUploaders: [],
+        }));
+      }
+    } catch (e) {
+      console.error("fetch materials statistics error:", e);
+    } finally {
+      setLoadingStats(false);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedClassId) {
+      fetchStats(selectedClassId);
+    }
+  }, [selectedClassId]);
+
+  const currentClass = classes.find((c) => c.id === selectedClassId);
+
   return (
     <>
-      {/* PHẦN 1: TỔNG QUAN TÀI NGUYÊN */}
+      {/* HEADER + CHỌN LỚP */}
       <Title level={3} style={{ marginBottom: 16 }}>
         Tổng quan tài nguyên giảng dạy
       </Title>
-      <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
-        Thống kê tài liệu, bài giảng, file mà bạn (và các GV khác) đã tải lên hệ
-        thống
+      <Text type="secondary" style={{ display: "block", marginBottom: 8 }}>
+        Thống kê tài liệu, bài giảng, file mà bạn (và các GV khác) đã tải lên
+        cho từng lớp.
       </Text>
 
-      <Spin spinning={loading}>
+      <div
+        style={{ marginBottom: 24, display: "flex", gap: 12, flexWrap: "wrap" }}
+      >
+        <Text strong>Chọn lớp:</Text>
+        <Select
+          style={{ minWidth: 260 }}
+          loading={loadingClasses}
+          value={selectedClassId ?? undefined}
+          placeholder="Chọn lớp"
+          onChange={(v) => setSelectedClassId(v)}
+          options={classes.map((c) => ({
+            value: c.id,
+            label: `${c.name} (${c.code})`,
+          }))}
+        />
+        {currentClass && (
+          <Text type="secondary">
+            Đang xem thống kê cho lớp <Text strong>{currentClass.name}</Text>
+          </Text>
+        )}
+      </div>
+
+      <Spin spinning={loadingStats}>
+        {/* PHẦN 1: TỔNG QUAN */}
         <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
           <Col xs={24} md={12} lg={8}>
             <Card bordered={false}>
@@ -132,12 +206,12 @@ const TeacherPage = () => {
 
         <Divider />
 
-        {/* PHẦN 2: PHÂN BỔ THEO LOẠI TÀI LIỆU */}
+        {/* PHẦN 2: PHÂN LOẠI */}
         <Title level={4} style={{ marginBottom: 16 }}>
           Phân loại tài liệu
         </Title>
         <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
-          Thống kê số lượng tài liệu theo từng loại (PDF, video, bài giảng,…)
+          Thống kê số lượng tài liệu theo từng loại (PDF, video, hình ảnh,…)
         </Text>
 
         {materialTypeEntries.length === 0 ? (
@@ -156,12 +230,13 @@ const TeacherPage = () => {
 
         <Divider />
 
-        {/* PHẦN 3: TOP GIÁO VIÊN TẢI LÊN NHIỀU NHẤT */}
+        {/* PHẦN 3: TOP GIÁO VIÊN */}
         <Title level={4} style={{ marginBottom: 16 }}>
           Giáo viên tích cực tải tài liệu
         </Title>
         <Text type="secondary" style={{ display: "block", marginBottom: 16 }}>
-          Danh sách những giáo viên có số lượng tài liệu upload nhiều nhất
+          Danh sách giáo viên có số lượng tài liệu upload nhiều nhất trong lớp
+          này.
         </Text>
 
         {!stats.topUploaders || stats.topUploaders.length === 0 ? (
@@ -177,7 +252,7 @@ const TeacherPage = () => {
                     title={
                       <>
                         <Tag color="blue" style={{ marginRight: 8 }}>
-                          # {index + 1}
+                          #{index + 1}
                         </Tag>
                         {item.fullName || "Giáo viên không tên"}
                       </>

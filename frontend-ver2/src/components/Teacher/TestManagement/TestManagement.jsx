@@ -83,6 +83,29 @@ export default function TestManagement() {
     [bankQuestions]
   );
 
+  // Theo dõi danh sách câu hỏi đang chọn trong form
+  const selectedQuestionIds = Form.useWatch("questionIds", form) || [];
+
+  // Map sang đối tượng câu hỏi đầy đủ để hiển thị
+  const selectedQuestions = useMemo(
+    () =>
+      selectedQuestionIds
+        .map((id) => bankQuestions.find((q) => q.id === id))
+        .filter(Boolean),
+    [selectedQuestionIds, bankQuestions]
+  );
+
+  // Modal xem chi tiết câu hỏi
+  const [openQuestionPreview, setOpenQuestionPreview] = useState(false);
+
+  // Xoá 1 câu khỏi đề
+  const handleRemoveQuestion = (id) => {
+    const currentIds = form.getFieldValue("questionIds") || [];
+    form.setFieldsValue({
+      questionIds: currentIds.filter((qId) => qId !== id),
+    });
+  };
+
   /* ========================= FETCH LỚP HỌC ========================= */
 
   const fetchMyClasses = async () => {
@@ -310,19 +333,19 @@ export default function TestManagement() {
           return;
         }
 
-        // 2) set lại danh sách câu hỏi
-        const resQ = await callUpsertExamQuestionsAPI(
-          selectedClassId,
-          editing.id,
-          {
-            questions: questionsPayload,
-          }
-        );
+        // // 2) set lại danh sách câu hỏi
+        // const resQ = await callUpsertExamQuestionsAPI(
+        //   selectedClassId,
+        //   editing.id,
+        //   {
+        //     questions: questionsPayload,
+        //   }
+        // );
 
-        if (!resQ || !resQ.success) {
-          message.error(resQ?.message || "Cập nhật danh sách câu hỏi thất bại");
-          return;
-        }
+        // if (!resQ || !resQ.success) {
+        //   message.error(resQ?.message || "Cập nhật danh sách câu hỏi thất bại");
+        //   return;
+        // }
 
         message.success("Đã cập nhật bài kiểm tra");
       } else {
@@ -591,6 +614,8 @@ export default function TestManagement() {
           <div style={{ marginBottom: 8 }}>
             <Space wrap>
               <Text strong>Chọn câu hỏi cho bài kiểm tra</Text>
+
+              {/* Lọc theo môn trong ngân hàng câu hỏi */}
               <Select
                 size="small"
                 style={{ width: 220 }}
@@ -602,9 +627,22 @@ export default function TestManagement() {
                 ]}
                 placeholder="Lọc theo môn"
               />
+
+              {/* Nút mở modal xem chi tiết */}
+              <Button
+                size="small"
+                onClick={() => setOpenQuestionPreview(true)}
+                disabled={!selectedQuestions.length}
+              >
+                Xem câu hỏi đã chọn{" "}
+                {selectedQuestions.length
+                  ? `(${selectedQuestions.length})`
+                  : ""}
+              </Button>
             </Space>
           </div>
 
+          {/* Select dùng để chọn câu hỏi (nhiều lựa chọn) */}
           <Form.Item name="questionIds">
             <Select
               mode="multiple"
@@ -621,11 +659,68 @@ export default function TestManagement() {
             />
           </Form.Item>
 
-          <Text type="secondary" style={{ display: "block" }}>
-            Thứ tự câu hỏi trong đề sẽ theo thứ tự bạn chọn trong danh sách
-            trên. Mỗi câu mặc định 1 điểm (totalMarks = số câu hỏi).
+          <Text type="secondary" style={{ display: "block", marginTop: 4 }}>
+            Thứ tự câu hỏi trong đề sẽ theo thứ tự bạn chọn trong danh sách. Mỗi
+            câu mặc định 1 điểm (totalMarks = số câu hỏi).
           </Text>
         </Form>
+      </Modal>
+      {/* Modal xem chi tiết câu hỏi đã chọn */}
+      <Modal
+        open={openQuestionPreview}
+        title={`Danh sách câu hỏi đã chọn (${selectedQuestions.length})`}
+        footer={null}
+        onCancel={() => setOpenQuestionPreview(false)}
+        width={800}
+        destroyOnClose
+      >
+        {selectedQuestions.length === 0 ? (
+          <Empty description="Chưa chọn câu hỏi nào" />
+        ) : (
+          <div
+            style={{
+              maxHeight: 400,
+              overflowY: "auto",
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+            }}
+          >
+            {selectedQuestions.map((q, idx) => (
+              <Card
+                key={q.id}
+                size="small"
+                style={{ borderRadius: 10 }}
+                bodyStyle={{ padding: 12 }}
+              >
+                <Space
+                  align="start"
+                  style={{ width: "100%", justifyContent: "space-between" }}
+                >
+                  <div style={{ flex: 1, paddingRight: 12 }}>
+                    <Space size={6} style={{ marginBottom: 4 }}>
+                      <Tag color="blue">#{idx + 1}</Tag>
+                      <Tag>{q.subject}</Tag>
+                      <Tag color="default">{q.questionType}</Tag>
+                    </Space>
+                    <div style={{ fontSize: 14, lineHeight: 1.5 }}>
+                      {q.text}
+                    </div>
+                  </div>
+
+                  <Button
+                    danger
+                    type="text"
+                    size="small"
+                    onClick={() => handleRemoveQuestion(q.id)}
+                  >
+                    Bỏ khỏi đề
+                  </Button>
+                </Space>
+              </Card>
+            ))}
+          </div>
+        )}
       </Modal>
     </div>
   );

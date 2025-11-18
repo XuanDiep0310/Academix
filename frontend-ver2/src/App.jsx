@@ -15,7 +15,7 @@ import LayoutTeacher from "./components/Teacher/LayoutTeacher";
 import ClassList from "./components/Teacher/Classes/ClassList";
 import MaterialManagement from "./components/Teacher/Materia/MaterialManagement";
 import QuestionBank from "./components/Teacher/QuestionBank/QuestionBank";
-import ResultsView from "./components/Teacher/ResultsView";
+import ResultsView from "./components/Teacher/Result/ResultsView";
 import TestManagement from "./components/Teacher/TestManagement/TestManagement";
 import LayoutStudent from "./components/Student/LayoutStudent";
 import { StudentClassList } from "./components/Student/StudentClassList";

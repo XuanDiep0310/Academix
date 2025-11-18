@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Academix.WinApp.Api;
+using Academix.WinApp.Models.Teacher;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +14,8 @@ namespace Academix.WinApp.Forms.Student
 {
     public partial class UC_MyMaterials : UserControl
     {
+        private List<MyClassResponseDto> _myClasses = new();
+
         public UC_MyMaterials()
         {
             InitializeComponent();
@@ -19,27 +23,108 @@ namespace Academix.WinApp.Forms.Student
 
         private async void UC_MyMaterials_Load(object sender, EventArgs e)
         {
-            await LoadMaterials();
+            InitializeMaterialTypeFilter();
+            await LoadClassesAsync();
         }
 
-        private async Task LoadMaterials()
+        private void InitializeMaterialTypeFilter()
         {
-            //var classApi = new ClassApiService();
-            //var classes = await classApi.GetMyClassesAsync();
+            cmbLoaiTaiLieu.Items.Clear();
+            cmbLoaiTaiLieu.Items.Add("Tất cả");
+            cmbLoaiTaiLieu.Items.Add("PDF");
+            cmbLoaiTaiLieu.Items.Add("Video");
+            cmbLoaiTaiLieu.Items.Add("Image");
+            cmbLoaiTaiLieu.Items.Add("Link");
+            cmbLoaiTaiLieu.SelectedIndex = 0;
 
-            //layoutMyCard.Controls.Clear();
+            cmbLoaiTaiLieu.SelectedIndexChanged -= cmbLoaiTaiLieu_SelectedIndexChanged;
+            cmbLoaiTaiLieu.SelectedIndexChanged += cmbLoaiTaiLieu_SelectedIndexChanged;
+        }
 
-            //foreach (var c in classes)
-            //{
-            //    var card = new UC_ClassCard(c.ClassId, c.ClassName, c.ClassCode);
-            //    card.Margin = new Padding(10);
-            //    layoutMyCard.Controls.Add(card);
-            //}
+        private async void cmbLoaiTaiLieu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbLopHoc.SelectedValue is int classId)
+            {
+                await LoadMaterialsForClass(classId);
+            }
+        }
 
-            var card1 = new UC_MaterialCard();
-            flowpanelMaterial.Controls.Add(card1);
-            var card2 = new UC_MaterialCard();
-            flowpanelMaterial.Controls.Add(card2);
+        private async Task LoadClassesAsync()
+        {
+            try
+            {
+                var classApi = new ClassApiService();
+                _myClasses = await classApi.GetMyClassesAsync();
+
+                cmbLopHoc.DataSource = _myClasses;
+                cmbLopHoc.DisplayMember = "ClassName";
+                cmbLopHoc.ValueMember = "ClassId";
+
+                cmbLopHoc.SelectedIndexChanged -= cmbLopHoc_SelectedIndexChanged;
+                cmbLopHoc.SelectedIndexChanged += cmbLopHoc_SelectedIndexChanged;
+
+                if (_myClasses.Any())
+                {
+                    await LoadMaterialsForClass(_myClasses.First().ClassId);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Không thể tải danh sách lớp.\nChi tiết: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private async void cmbLopHoc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbLopHoc.SelectedValue is int classId)
+            {
+                await LoadMaterialsForClass(classId);
+            }
+        }
+
+        private async Task LoadMaterialsForClass(int classId)
+        {
+            try
+            {
+                // Lấy loại tài liệu đã chọn từ combobox
+                string? typeFilter = null;
+                if (cmbLoaiTaiLieu.SelectedItem is string selectedType && selectedType != "Tất cả")
+                {
+                    typeFilter = selectedType;
+                }
+
+                var materialApi = new MaterialApiService();
+                var paged = await materialApi.GetMaterialsPagedAsync(
+                    classId,
+                    typeFilter: typeFilter,
+                    page: 1,
+                    pageSize: 50
+                );
+
+                flowpanelMaterial.Controls.Clear();
+
+                foreach (var m in paged.Materials)
+                {
+                    var card = new UC_MaterialCard();
+                    card.Bind(m);
+                    card.Margin = new Padding(10);
+                    flowpanelMaterial.Controls.Add(card);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Không thể tải tài liệu cho lớp.\nChi tiết: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
 
     }
