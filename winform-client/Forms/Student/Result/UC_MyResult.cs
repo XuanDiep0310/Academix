@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Academix.WinApp.Api;
+using Academix.WinApp.Forms.Student.Result;
+using Academix.WinApp.Models.Student;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,11 +27,47 @@ namespace Academix.WinApp.Forms.Student.MyResult
 
         private async Task LoadResults()
         {
+            try
+            {
+                var examApi = new ExamApiService();
+                var history = await examApi.GetStudentExamHistoryAsync();
 
-            var card1 = new UC_ExamCard();
-            flowpanelResult.Controls.Add(card1);
-            var card2 = new UC_ExamCard();
-            flowpanelResult.Controls.Add(card2);
+                var ordered = history
+                    .OrderByDescending(r => r.StartTime)
+                    .ToList();
+
+                flowpanelResult.Controls.Clear();
+
+                if (!ordered.Any())
+                {
+                    var emptyLabel = new Label
+                    {
+                        Text = "Bạn chưa có bài kiểm tra nào.",
+                        AutoSize = true,
+                        ForeColor = Color.DimGray,
+                        Font = new Font("Segoe UI", 10, FontStyle.Italic),
+                        Margin = new Padding(10)
+                    };
+                    flowpanelResult.Controls.Add(emptyLabel);
+                    return;
+                }
+
+                foreach (var result in ordered)
+                {
+                    var card = new UCResultCard();
+                    card.Bind(result);
+                    flowpanelResult.Controls.Add(card);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Không thể tải kết quả bài kiểm tra.\nChi tiết: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
     }
 }

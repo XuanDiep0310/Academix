@@ -1,21 +1,9 @@
-<<<<<<< HEAD
-﻿using Academix.WinApp.Models.Teacher;
-=======
-﻿using Academix.WinApp.Models;
-using Academix.WinApp.Models.Classes;
-using Academix.WinApp.Models.Common;
+﻿using Academix.WinApp.Models.Classes;
 using Academix.WinApp.Models.Teacher;
->>>>>>> 1c51b105e83d91cb367732955f16453246f4014a
+using Academix.WinApp.Models.Common;
 using Academix.WinApp.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace Academix.WinApp.Api
 {
@@ -197,8 +185,25 @@ namespace Academix.WinApp.Api
             return result?.Data ?? new List<ClassMember>();
         }
 
+        // Lấy chi tiết 1 lớp (bao gồm giáo viên, học sinh)
+        public async Task<ClassDetailDto?> GetClassDetailAsync(int classId)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _token);
 
+            string url = $"{_baseUrl}/{classId}";
 
+            var response = await client.GetAsync(url);
 
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<ClassDetailDto>>();
+            return result?.Data;
+        }
     }
 }

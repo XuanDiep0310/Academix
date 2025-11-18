@@ -170,21 +170,13 @@ namespace Academix.WinApp.Api
                 };
             }
 
-            return JsonConvert.DeserializeObject<ApiResponse<string>>(body)
-                   ?? new ApiResponse<string>
-                   {
-                       Success = true,
-                       Message = "User deleted successfully",
-                       Data = "OK",
-                       Errors = null
-                   };
+            return JsonConvert.DeserializeObject<ApiResponse<string>>(body) ?? new ApiResponse<string>
+            {
+                Success = true,
+                Message = "User deleted successfully",
+                Data = "OK",
+                Errors = null
+            };
         }
-
-
-
-
-
-
-
     }
 }

@@ -27,22 +27,29 @@ namespace Academix.WinApp.Forms.Student
 
         private async Task LoadStudentClasses()
         {
-            //var classApi = new ClassApiService();
-            //var classes = await classApi.GetMyClassesAsync();
+            try
+            {
+                var classApi = new ClassApiService();
+                var classes = await classApi.GetMyClassesAsync();
 
-            //layoutMyCard.Controls.Clear();
+                layoutMyCard.Controls.Clear();
 
-            //foreach (var c in classes)
-            //{
-            //    var card = new UC_ClassCard(c.ClassId, c.ClassName, c.ClassCode);
-            //    card.Margin = new Padding(10);
-            //    layoutMyCard.Controls.Add(card);
-            //}
-
-            var UC_MyClassCard = new UC_MyClassCard(1, "Lập trình nâng cao", "CS202");
-            layoutMyCard.Controls.Add(UC_MyClassCard);
-            var UC_MyClassCard2 = new UC_MyClassCard(2, "Lập trình nâng cao2", "CS203");
-            layoutMyCard.Controls.Add(UC_MyClassCard2);
+                foreach (var c in classes)
+                {
+                    var card = new UC_MyClassCard(c.ClassId, c.ClassName, c.ClassCode);
+                    card.Margin = new Padding(10);
+                    layoutMyCard.Controls.Add(card);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Không thể tải danh sách lớp của bạn.\nChi tiết: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
     }
 }

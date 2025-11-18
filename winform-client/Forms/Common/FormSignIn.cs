@@ -6,6 +6,7 @@ using Academix.WinApp.Models.Academix.WinApp.Models;
 using Academix.WinApp.Utils;
 using System;
 using System.Windows.Forms;
+using Academix.WinApp.Forms.Student;
 
 namespace Academix.WinApp.Forms
 {
@@ -107,9 +108,9 @@ namespace Academix.WinApp.Forms
                 case "Teacher":
                     mainForm = new FormMainTeacher();
                     break;
-                //case "student":
-                //mainForm = new StudentForm();
-                //break;
+                case "Student":
+                    mainForm = new FormMainStudent();
+                    break;
                 default:
                     MessageBox.Show("Role không hợp lệ!", "Lỗi");
                     return;
