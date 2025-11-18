@@ -22,7 +22,7 @@ namespace Academix.WinApp.Forms.Admin.ClassManagement
         {
             InitializeComponent();
             _classId = classId;
-            //_classApi = new ClassApiService("YOUR_BEARER_TOKEN"); // gán token
+            _classApi = new ClassApiService(); 
 
             //this.Load += FormAddStudentClass_Load;
         }
