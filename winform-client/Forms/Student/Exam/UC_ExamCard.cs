@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Academix.WinApp.Forms.Student.Exam;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,23 @@ namespace Academix.WinApp.Forms.Student.MyResult
         public UC_ExamCard()
         {
             InitializeComponent();
+        }
+
+        private void btnBatDauLamBai_Click(object sender, EventArgs e)
+        {
+            FormMainStudent frm = Application.OpenForms["FormMainStudent"] as FormMainStudent;
+
+            if (frm != null)
+            {
+                frm.mainPanel.Controls.Clear();
+                UC_DoExam uc = new UC_DoExam();
+                uc.Dock = DockStyle.Fill;
+                frm.mainPanel.Controls.Add(uc);
+            }
+            else
+            {
+                MessageBox.Show("FormMainStudent chưa mở!");
+            }
         }
     }
 }

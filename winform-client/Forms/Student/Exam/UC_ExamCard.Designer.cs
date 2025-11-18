@@ -61,6 +61,7 @@
             btnBatDauLamBai.Size = new Size(159, 36);
             btnBatDauLamBai.TabIndex = 18;
             btnBatDauLamBai.Text = "Bắt đầu làm bài";
+            btnBatDauLamBai.Click += btnBatDauLamBai_Click;
             // 
             // lblTrangThai
             // 
