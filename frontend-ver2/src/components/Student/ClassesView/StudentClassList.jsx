@@ -9,7 +9,14 @@ import {
   Empty,
   message,
 } from "antd";
-import { Users, BookOpen } from "lucide-react";
+import {
+  Users,
+  BookOpen,
+  GraduationCap,
+  Calendar,
+  FileText,
+  CheckCircle2,
+} from "lucide-react";
 import styles from "../../../assets/styles/StudentClassList.module.scss";
 import { callListMyClassesAPI } from "../../../services/api.service";
 
@@ -41,7 +48,12 @@ export function StudentClassList() {
           id: c.classId || c.id,
           name: c.className || c.name,
           code: c.classCode || c.code,
+          description: c.description || "",
           teacherName: c.teacherName || c.ownerName || "Chưa có GV",
+          teacherCount: c.teacherCount ?? 0,
+          studentCount: c.studentCount ?? 0,
+          joinedAt: c.joinedAt || "",
+          isActive: c.isActive ?? true,
           progress: c.progress ?? 0,
           materialsCount: c.materialsCount ?? 0,
           testsCount: c.testsCount ?? 0,
@@ -78,7 +90,7 @@ export function StudentClassList() {
   };
 
   return (
-    <div className={styles.wrap}>
+    <div>
       <Card className={styles.containerCard} bordered={false}>
         {/* Header */}
         <div className={styles.header}>
@@ -99,45 +111,84 @@ export function StudentClassList() {
             <>
               {/* Grid */}
               <div className={styles.grid}>
-                {pagedClasses.map((c) => (
-                  <Card key={c.id} className={styles.card} bordered>
-                    <div className={styles.cardHeader}>
-                      <div className={styles.meta}>
-                        <div className={styles.cardTitle}>{c.name}</div>
-                        {c.code && (
-                          <Tag className={styles.tagCode}>{c.code}</Tag>
-                        )}
-                      </div>
-                    </div>
+                {pagedClasses.map((c) => {
+                  const formatDate = (dateString) => {
+                    if (!dateString) return "";
+                    const date = new Date(dateString);
+                    return date.toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    });
+                  };
 
-                    <div className={styles.section}>
-                      <div className={styles.rowBetween}>
-                        <Text type="secondary">Tiến độ học tập</Text>
-                        <Text strong>{c.progress}%</Text>
+                  return (
+                    <Card key={c.id} className={styles.card} bordered>
+                      <div className={styles.cardHeader}>
+                        <div className={styles.meta}>
+                          <div className={styles.titleRow}>
+                            <div className={styles.cardTitle}>{c.name}</div>
+                            {c.isActive && (
+                              <Tag
+                                color="success"
+                                className={styles.activeTag}
+                                icon={<CheckCircle2 size={12} />}
+                              >
+                                Đang hoạt động
+                              </Tag>
+                            )}
+                          </div>
+                          {c.code && (
+                            <Tag className={styles.tagCode}>{c.code}</Tag>
+                          )}
+                          {c.description && (
+                            <Text
+                              className={styles.description}
+                              type="secondary"
+                            >
+                              {c.description}
+                            </Text>
+                          )}
+                        </div>
                       </div>
-                      <Progress
-                        percent={c.progress}
-                        size="small"
-                        showInfo={false}
-                      />
-                    </div>
 
-                    <div className={styles.inline}>
-                      <Users size={16} />
-                      <span>Giáo viên: {c.teacherName}</span>
-                    </div>
+                      <div className={styles.statsGrid}>
+                        <div className={styles.statItem}>
+                          <GraduationCap
+                            size={18}
+                            className={styles.statIcon}
+                          />
+                          <div className={styles.statContent}>
+                            <Text className={styles.statLabel} type="secondary">
+                              Giáo viên
+                            </Text>
+                            <Text className={styles.statValue} strong>
+                              {c.teacherCount}
+                            </Text>
+                          </div>
+                        </div>
+                        <div className={styles.statItem}>
+                          <Users size={18} className={styles.statIcon} />
+                          <div className={styles.statContent}>
+                            <Text className={styles.statLabel} type="secondary">
+                              Học sinh
+                            </Text>
+                            <Text className={styles.statValue} strong>
+                              {c.studentCount}
+                            </Text>
+                          </div>
+                        </div>
+                      </div>
 
-                    <div className={styles.footer}>
-                      <div className={styles.inlineMuted}>
-                        <BookOpen size={16} />
-                        <span>{c.materialsCount} tài liệu</span>
-                      </div>
-                      <div className={styles.inlineMuted}>
-                        <span>{c.testsCount} bài kiểm tra</span>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
+                      {c.joinedAt && (
+                        <div className={styles.inline}>
+                          <Calendar size={16} />
+                          <span>Tham gia: {formatDate(c.joinedAt)}</span>
+                        </div>
+                      )}
+                    </Card>
+                  );
+                })}
               </div>
 
               {/* Pagination – chỉ hiện khi cần */}

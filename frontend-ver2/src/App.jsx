@@ -118,10 +118,7 @@ let router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <>Hihi</>,
-      },
-      {
-        path: "classes",
+        // path: "classes",
         element: <StudentClassList />,
       },
       {

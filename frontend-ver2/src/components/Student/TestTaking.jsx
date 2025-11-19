@@ -21,7 +21,8 @@ import {
   callStudentStartExamAPI,
   callStudentSaveAnswerAPI,
   callStudentSubmitAttemptAPI,
-  callStudentGetAttemptResultAPI, // 👈 nhớ khai báo hàm này trong api.service
+  callStudentGetAttemptResultAPI,
+  callStudentGetExamHistoryAPI,
 } from "../../services/api.service";
 
 const { Title, Text } = Typography;
@@ -30,7 +31,9 @@ const { Title, Text } = Typography;
 function formatDateTime(dt) {
   const d = new Date(dt);
   if (Number.isNaN(d.getTime())) return "-";
-  return d.toLocaleString("vi-VN", {
+  // Cộng thêm 7 giờ (7 * 60 * 60 * 1000 milliseconds) để điều chỉnh timezone
+  const adjustedDate = new Date(d.getTime() + 7 * 60 * 60 * 1000);
+  return adjustedDate.toLocaleString("vi-VN", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
@@ -95,13 +98,50 @@ export function TestTaking() {
   const [submitting, setSubmitting] = useState(false);
 
   /** ====== KẾT QUẢ & MODAL ====== */
-  const [examResults, setExamResults] = useState({}); // examId -> result
-  const [attemptMap, setAttemptMap] = useState({}); // examId -> attemptId
+  const [examResults, setExamResults] = useState({}); // examId -> latest result
+  const [attemptMap, setAttemptMap] = useState({}); // examId -> latest attemptId
   const [resultModalOpen, setResultModalOpen] = useState(false);
   const [selectedResult, setSelectedResult] = useState(null); // { test, result }
   const [loadingResult, setLoadingResult] = useState(false);
 
-  /* ================== FETCH LỚP ================== */
+  const fetchExamHistory = async (classId) => {
+    if (!classId) return;
+    try {
+      const res = await callStudentGetExamHistoryAPI(classId);
+      console.log("fetchExamHistory res:", res);
+
+      if (res && res.success && Array.isArray(res.data)) {
+        const history = res.data;
+
+        const resultMap = {};
+        const attemptMapLocal = {};
+
+        history.forEach((h) => {
+          const existing = resultMap[h.examId];
+          if (!existing) {
+            resultMap[h.examId] = h;
+            attemptMapLocal[h.examId] = h.attemptId;
+          } else {
+            const prevTime = new Date(
+              existing.submitTime || existing.startTime || 0
+            ).getTime();
+            const curTime = new Date(
+              h.submitTime || h.startTime || 0
+            ).getTime();
+            if (curTime >= prevTime) {
+              resultMap[h.examId] = h;
+              attemptMapLocal[h.examId] = h.attemptId;
+            }
+          }
+        });
+
+        setExamResults(resultMap);
+        setAttemptMap(attemptMapLocal);
+      }
+    } catch (err) {
+      console.error("fetchExamHistory error:", err);
+    }
+  };
   const fetchClasses = async () => {
     try {
       setLoadingClasses(true);
@@ -154,7 +194,6 @@ export function TestTaking() {
       setLoadingTests(true);
 
       const res = await callStudentListExamsByClassAPI(selectedClassId);
-      console.log("fetchTests res:", res);
 
       if (res && res.success) {
         const data = res.data;
@@ -195,6 +234,7 @@ export function TestTaking() {
       setAnswers({});
       setTimeLeft(0);
       fetchTests();
+      fetchExamHistory(selectedClassId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedClassId]);
@@ -293,7 +333,6 @@ export function TestTaking() {
     if (!attemptId) return;
 
     setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
-
     try {
       await callStudentSaveAnswerAPI(attemptId, {
         questionId,
@@ -326,7 +365,6 @@ export function TestTaking() {
         selectedOptionId: optId,
       })),
     };
-
     try {
       setSubmitting(true);
       const res = await callStudentSubmitAttemptAPI(attemptId, payload);
@@ -379,9 +417,9 @@ export function TestTaking() {
     }
   };
 
-  /* ================== VIEW RESULT (GỌI API GET RESULT) ================== */
+  // test: object trong mảng tests (1 bài kiểm tra)
   const handleViewResult = async (test) => {
-    // nếu trong cache đã có thì dùng luôn
+    // 1. Nếu đã cache trong examResults (từ history hoặc vừa nộp) -> dùng luôn
     const cached = examResults[test.id];
     if (cached) {
       setSelectedResult({ test, result: cached });
@@ -389,11 +427,10 @@ export function TestTaking() {
       return;
     }
 
+    // 2. Nếu không có cached nhưng có attemptId (fallback)
     const attemptIdForExam = attemptMap[test.id];
     if (!attemptIdForExam) {
-      message.info(
-        "Không tìm thấy attemptId cho bài này. Bạn cần làm bài ít nhất 1 lần."
-      );
+      message.info("Bạn chưa làm bài kiểm tra này nên chưa có kết quả.");
       return;
     }
 
@@ -406,6 +443,8 @@ export function TestTaking() {
       }
 
       const result = res.data;
+
+      // cache lại để lần sau bấm nhanh
       setExamResults((prev) => ({
         ...prev,
         [test.id]: result,
@@ -511,7 +550,6 @@ export function TestTaking() {
     );
   }
 
-  /* ================== VIEW DANH SÁCH BÀI KIỂM TRA ================== */
   return (
     <>
       <div className={styles.wrap}>
