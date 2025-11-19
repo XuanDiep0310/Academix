@@ -58,6 +58,7 @@ namespace Academix.WinApp.Forms.Admin
                 string response = await _userBulkApi.AddUsersBulkAsync(users);
 
                 MessageBox.Show("Thêm học sinh thành công!\n\nKết quả:\n" + response, "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;   
                 this.Close();
             }
             catch (Exception ex)

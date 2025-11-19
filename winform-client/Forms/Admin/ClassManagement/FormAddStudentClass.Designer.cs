@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             btnLuu = new Guna.UI2.WinForms.Guna2Button();
             btnHuy = new Guna.UI2.WinForms.Guna2Button();
             dgvDSHocSinh = new Guna.UI2.WinForms.Guna2DataGridView();
@@ -45,7 +45,7 @@
             // btnLuu
             // 
             btnLuu.BorderRadius = 20;
-            btnLuu.CustomizableEdges = customizableEdges5;
+            btnLuu.CustomizableEdges = customizableEdges1;
             btnLuu.DisabledState.BorderColor = Color.DarkGray;
             btnLuu.DisabledState.CustomBorderColor = Color.DarkGray;
             btnLuu.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -54,17 +54,17 @@
             btnLuu.ForeColor = Color.White;
             btnLuu.Location = new Point(519, 414);
             btnLuu.Name = "btnLuu";
-            btnLuu.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnLuu.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnLuu.Size = new Size(162, 47);
             btnLuu.TabIndex = 27;
             btnLuu.Text = "Lưu thay đổi";
-            //btnLuu.Click += btnLuu_Click;
+            btnLuu.Click += btnLuu_Click_1;
             // 
             // btnHuy
             // 
             btnHuy.BorderRadius = 20;
             btnHuy.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-            btnHuy.CustomizableEdges = customizableEdges7;
+            btnHuy.CustomizableEdges = customizableEdges3;
             btnHuy.DisabledState.BorderColor = Color.DarkGray;
             btnHuy.DisabledState.CustomBorderColor = Color.DarkGray;
             btnHuy.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -74,36 +74,36 @@
             btnHuy.ForeColor = Color.White;
             btnHuy.Location = new Point(387, 414);
             btnHuy.Name = "btnHuy";
-            btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnHuy.Size = new Size(105, 47);
             btnHuy.TabIndex = 26;
             btnHuy.Text = "Hủy";
-            //btnHuy.Click += btnHuy_Click;
+            btnHuy.Click += btnHuy_Click_1;
             // 
             // dgvDSHocSinh
             // 
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dgvDSHocSinh.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(100, 88, 255);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvDSHocSinh.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            dgvDSHocSinh.ColumnHeadersHeight = 4;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dgvDSHocSinh.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvDSHocSinh.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvDSHocSinh.ColumnHeadersHeight = 40;
             dgvDSHocSinh.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvDSHocSinh.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvDSHocSinh.DefaultCellStyle = dataGridViewCellStyle3;
             dgvDSHocSinh.GridColor = Color.FromArgb(231, 229, 255);
-            dgvDSHocSinh.Location = new Point(54, 71);
+            dgvDSHocSinh.Location = new Point(54, 82);
             dgvDSHocSinh.Name = "dgvDSHocSinh";
             dgvDSHocSinh.RowHeadersVisible = false;
             dgvDSHocSinh.RowHeadersWidth = 51;
@@ -121,7 +121,7 @@
             dgvDSHocSinh.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
             dgvDSHocSinh.ThemeStyle.HeaderStyle.ForeColor = Color.White;
             dgvDSHocSinh.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dgvDSHocSinh.ThemeStyle.HeaderStyle.Height = 4;
+            dgvDSHocSinh.ThemeStyle.HeaderStyle.Height = 40;
             dgvDSHocSinh.ThemeStyle.ReadOnly = false;
             dgvDSHocSinh.ThemeStyle.RowsStyle.BackColor = Color.White;
             dgvDSHocSinh.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -134,10 +134,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(54, 23);
+            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(54, 28);
             label1.Name = "label1";
-            label1.Size = new Size(222, 28);
+            label1.Size = new Size(252, 31);
             label1.TabIndex = 24;
             label1.Text = "Chọn học sinh cho lớp";
             // 
@@ -145,7 +145,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(737, 504);
+            ClientSize = new Size(722, 504);
             Controls.Add(btnLuu);
             Controls.Add(btnHuy);
             Controls.Add(dgvDSHocSinh);

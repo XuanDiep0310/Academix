@@ -46,35 +46,34 @@ namespace Academix.WinApp.Forms.Admin
             await LoadTaiKhoanAsync();
         }
 
+        private int _currentPage = 1;
+        private int _pageSize = 20;
+        private int _totalPages = 1;
+
+
         private async Task LoadTaiKhoanAsync()
         {
             try
             {
                 Cursor = Cursors.WaitCursor;
 
-                // Gọi API thay vì dùng demo data
-                var users = await _userApi.GetAllUsersAsync();
+                var result = await _userApi.GetAllUsersAsync(
+                    page: _currentPage,
+                    pageSize: _pageSize,
+                    sortBy: "CreatedAt",
+                    sortOrder: "desc"
+                );
 
-                Debug.WriteLine($"Loaded {users.Count} users from API");
+                _totalPages = result.TotalPages > 0 ? result.TotalPages : 1;
 
-                // DEBUG: Kiểm tra dữ liệu
-                foreach (var user in users.Take(3))
-                {
-                    Debug.WriteLine($"User: {user.FullName}, UserId: {user.UserId}, Id: {user.UserId}");
-                }
+                dgvTaiKhoan.DataSource = new BindingList<UserData>(result.Users);
 
-                if (users.Count > 0)
-                {
-                    _currentUsers = users;
-                    dgvTaiKhoan.DataSource = new BindingList<UserData>(users);
-                    ConfigureColumns();
-                    AddActionColumns();
-                }
-                else
-                {
-                    dgvTaiKhoan.DataSource = null;
-                    ShowInfo("Không có dữ liệu tài khoản.");
-                }
+                ConfigureColumns();
+                AddActionColumns();
+
+                lblPageInfo.Text = $"Trang {_currentPage}/{_totalPages}";
+
+                UpdateButtons();
             }
             catch (Exception ex)
             {
@@ -85,6 +84,32 @@ namespace Academix.WinApp.Forms.Admin
                 Cursor = Cursors.Default;
             }
         }
+        private void UpdateButtons()
+        {
+            btnPrevious.Enabled = _currentPage > 1;
+            btnNext.Enabled = _currentPage < _totalPages;
+        }
+
+
+        private async void btnNext_Click(object sender, EventArgs e)
+        {
+            if (_currentPage < _totalPages)
+            {
+                _currentPage++;
+                await LoadTaiKhoanAsync();
+            }
+        }
+
+
+        private async void btnPrevious_Click(object sender, EventArgs e)
+        {
+            if (_currentPage > 1)
+            {
+                _currentPage--;
+                await LoadTaiKhoanAsync();
+            }
+        }
+
         #endregion
 
         #region Configure DataGridView
@@ -370,6 +395,7 @@ namespace Academix.WinApp.Forms.Admin
         }
         #endregion
 
+        
     }
 }
 

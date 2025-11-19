@@ -31,8 +31,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
-            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2Panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -48,16 +48,6 @@
             guna2Panel1.Size = new Size(1165, 166);
             guna2Panel1.TabIndex = 0;
             // 
-            // guna2HtmlLabel1
-            // 
-            guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2HtmlLabel1.Location = new Point(76, 31);
-            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(173, 33);
-            guna2HtmlLabel1.TabIndex = 0;
-            guna2HtmlLabel1.Text = "Cài đặt hệ thống";
-            // 
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
@@ -67,6 +57,16 @@
             guna2HtmlLabel2.Size = new Size(179, 22);
             guna2HtmlLabel2.TabIndex = 1;
             guna2HtmlLabel2.Text = "Chức năng đang phát triển";
+            // 
+            // guna2HtmlLabel1
+            // 
+            guna2HtmlLabel1.BackColor = Color.Transparent;
+            guna2HtmlLabel1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            guna2HtmlLabel1.Location = new Point(76, 31);
+            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            guna2HtmlLabel1.Size = new Size(181, 33);
+            guna2HtmlLabel1.TabIndex = 0;
+            guna2HtmlLabel1.Text = "Cài đặt hệ thống";
             // 
             // UC_CaiDat
             // 
