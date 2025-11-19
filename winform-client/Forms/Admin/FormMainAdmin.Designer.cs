@@ -146,7 +146,7 @@
             btnCaiDat.FillColor = Color.LightSkyBlue;
             btnCaiDat.Font = new Font("Segoe UI", 9F);
             btnCaiDat.ForeColor = Color.White;
-            btnCaiDat.Location = new Point(21, 305);
+            btnCaiDat.Location = new Point(21, 281);
             btnCaiDat.Name = "btnCaiDat";
             btnCaiDat.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnCaiDat.Size = new Size(178, 38);
@@ -165,7 +165,7 @@
             btnQLLopHoc.FillColor = Color.LightSkyBlue;
             btnQLLopHoc.Font = new Font("Segoe UI", 9F);
             btnQLLopHoc.ForeColor = Color.White;
-            btnQLLopHoc.Location = new Point(21, 225);
+            btnQLLopHoc.Location = new Point(21, 212);
             btnQLLopHoc.Name = "btnQLLopHoc";
             btnQLLopHoc.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnQLLopHoc.Size = new Size(178, 38);

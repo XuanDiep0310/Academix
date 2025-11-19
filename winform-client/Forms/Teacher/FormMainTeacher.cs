@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Academix.WinApp.Forms.Admin;
+using Academix.WinApp.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +22,33 @@ namespace Academix.WinApp.Forms.Teacher
             InitializeComponent();
         }
 
+        private void ResetTabButtons()
+        {
+            Color defaultColor = Color.LightSkyBlue; // Xanh dương mặc định
+            Color defaultTextColor = Color.White;
+
+            btnLopHocCuaToi.FillColor = defaultColor;
+            btnLopHocCuaToi.ForeColor = defaultTextColor;
+
+            btnTaiLieu.FillColor = defaultColor;
+            btnTaiLieu.ForeColor = defaultTextColor;
+
+            btnNganHangCauHoi.FillColor = defaultColor;
+            btnNganHangCauHoi.ForeColor = defaultTextColor;
+
+            btnBaiKiemTra.FillColor = defaultColor;
+            btnBaiKiemTra.ForeColor = defaultTextColor;
+
+            btnKetQua.FillColor = defaultColor;
+            btnKetQua.ForeColor = defaultTextColor;
+
+            btnDoiMatKhau.FillColor = defaultColor;
+            btnDoiMatKhau.ForeColor = defaultTextColor;
+
+            btnDangXuat.FillColor = defaultColor;
+            btnDangXuat.ForeColor = defaultTextColor;
+        }
+
         private void ShowUserControl(UserControl uc)
         {
             if (currentControl != null)
@@ -37,6 +66,10 @@ namespace Academix.WinApp.Forms.Teacher
 
         private void btnLopHocCuaToi_Click(object sender, EventArgs e)
         {
+            ResetTabButtons();
+
+            btnLopHocCuaToi.FillColor = Color.White;
+            btnLopHocCuaToi.ForeColor = Color.LightSkyBlue;
             ShowUserControl(new UC_MyClasses());
         }
 
@@ -44,22 +77,77 @@ namespace Academix.WinApp.Forms.Teacher
 
         private void btnTaiLieu_Click(object sender, EventArgs e)
         {
+            ResetTabButtons();
+
+            btnTaiLieu.FillColor = Color.White;
+            btnTaiLieu.ForeColor = Color.LightSkyBlue;
             ShowUserControl(new UC_Materials());
         }
 
         private void btnNganHangCauHoi_Click(object sender, EventArgs e)
         {
+            ResetTabButtons();
+
+            btnNganHangCauHoi.FillColor = Color.White;
+            btnNganHangCauHoi.ForeColor = Color.LightSkyBlue;
             ShowUserControl(new UC_Questions());
         }
 
         private void btnBaiKiemTra_Click(object sender, EventArgs e)
         {
+            ResetTabButtons();
+
+            btnBaiKiemTra.FillColor = Color.White;
+            btnBaiKiemTra.ForeColor = Color.LightSkyBlue;
             ShowUserControl(new UC_Exams());
         }
 
         private void btnKetQua_Click(object sender, EventArgs e)
         {
+            ResetTabButtons();
+
+            btnKetQua.FillColor = Color.White;
+            btnKetQua.ForeColor = Color.LightSkyBlue;
             ShowUserControl(new UC_Result());
+        }
+
+        private void btnDangXuat_Click(object sender, EventArgs e)
+        {
+            // Hiển thị hộp thoại xác nhận
+            var result = MessageBox.Show(
+                "Bạn có chắc muốn đăng xuất không?",
+                "Xác nhận đăng xuất",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                // Xóa session
+                SessionManager.ClearSession();
+
+                // Reset màu tab
+                ResetTabButtons();
+                btnDangXuat.FillColor = Color.White;
+                btnDangXuat.ForeColor = Color.LightSkyBlue;
+
+                // Ẩn form hiện tại và mở FormSignIn
+                this.FindForm().Hide();
+                using var loginForm = new FormSignIn();
+                loginForm.ShowDialog();
+
+                this.FindForm().Close();
+            }        
+        }
+
+        private void btnDoiMatKhau_Click(object sender, EventArgs e)
+        {
+            ResetTabButtons();
+            btnDoiMatKhau.FillColor = Color.White; // Tab được chọn -> trắng
+            btnDoiMatKhau.ForeColor = Color.LightSkyBlue; // Chữ xanh
+            FormDoiMatKhau form = new FormDoiMatKhau();
+            form.ShowDialog();
+
         }
     }
 }

@@ -47,6 +47,7 @@ namespace Academix.WinApp.Forms.Admin
                 {
                     MessageBox.Show($"Tạo tài khoản thành công cho giáo viên: {request.FullName}",
                         "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;   
                     this.Close();
                 }
                 else
