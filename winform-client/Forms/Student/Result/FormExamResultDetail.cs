@@ -128,11 +128,20 @@ namespace Academix.WinApp.Forms.Student.Result
 
             foreach (var ans in _result.Answers)
             {
+                // Convert isCorrect (object) to bool? an toàn
+                bool? isCorrectVal = null;
+                if (ans.IsCorrect is bool b) isCorrectVal = b;
+                else if (ans.IsCorrect is int i) isCorrectVal = i != 0;
+                else if (ans.IsCorrect is string s) {
+                    if (string.Equals(s, "true", StringComparison.OrdinalIgnoreCase) || s == "1") isCorrectVal = true;
+                    else if (string.Equals(s, "false", StringComparison.OrdinalIgnoreCase) || s == "0") isCorrectVal = false;
+                }
+                string statusText = isCorrectVal == true ? "Đúng" : (isCorrectVal == false ? "Sai" : "?");
                 dgvAnswers.Rows.Add(
                     ans.QuestionText,
                     ans.SelectedOptionText ?? "(Chưa chọn)",
                     ans.CorrectOptionText,
-                    ans.IsCorrect ? "Đúng" : "Sai",
+                    statusText,
                     $"{ans.MarksObtained:0.##}/{ans.TotalMarks:0.##}"
                 );
             }
