@@ -22,7 +22,12 @@ namespace Academix.WinApp.Api
         {
             _baseUrl = Config.GetApiBaseUrl();
         }
-        public async Task<MaterialPagedResult> GetMaterialsPagedAsync(int classId, string? typeFilter, int page, int pageSize)
+        public async Task<MaterialPagedResult> GetMaterialsPagedAsync(
+            int classId,
+            string? typeFilter,
+            int page,
+            int pageSize,
+            string? search = null)
         {
             using var client = new HttpClient();
             client.BaseAddress = new Uri(_baseUrl);
@@ -33,6 +38,9 @@ namespace Academix.WinApp.Api
 
             if (!string.IsNullOrEmpty(typeFilter))
                 url += $"&type={typeFilter}";
+
+            if (!string.IsNullOrWhiteSpace(search))
+                url += $"&search={Uri.EscapeDataString(search)}";
 
             var response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();

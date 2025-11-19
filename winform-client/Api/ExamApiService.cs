@@ -59,14 +59,20 @@ namespace Academix.WinApp.Api
         }
 
         // Danh sách bài kiểm tra của student (tất cả lớp mà student tham gia)
-        public async Task<List<ExamDto>> GetStudentExamsAsync()
+        public async Task<List<ExamDto>> GetStudentExamsAsync(int? classId = null)
         {
             using var client = new HttpClient();
             client.BaseAddress = new Uri(_baseUrl);
             client.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", SessionManager.Token);
 
-            var response = await client.GetAsync("/api/student/exams");
+            var endpoint = "/api/student/exams";
+            if (classId.HasValue)
+            {
+                endpoint += $"?classId={classId.Value}";
+            }
+
+            var response = await client.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
 
             var result =
