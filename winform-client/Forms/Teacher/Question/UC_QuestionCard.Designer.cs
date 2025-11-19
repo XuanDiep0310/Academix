@@ -35,12 +35,13 @@
             lblCauHoi = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblMon = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblDoKho = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2RadioButton1 = new Guna.UI2.WinForms.Guna2RadioButton();
-            guna2RadioButton2 = new Guna.UI2.WinForms.Guna2RadioButton();
-            guna2RadioButton3 = new Guna.UI2.WinForms.Guna2RadioButton();
-            guna2RadioButton4 = new Guna.UI2.WinForms.Guna2RadioButton();
+            radDapAn1 = new Guna.UI2.WinForms.Guna2RadioButton();
+            radDapAn3 = new Guna.UI2.WinForms.Guna2RadioButton();
+            radDapAn2 = new Guna.UI2.WinForms.Guna2RadioButton();
+            radDapAn4 = new Guna.UI2.WinForms.Guna2RadioButton();
             btnSua = new Guna.UI2.WinForms.Guna2Button();
             btnXoa = new Guna.UI2.WinForms.Guna2Button();
+            lblLoaiCauHoi = new Guna.UI2.WinForms.Guna2HtmlLabel();
             SuspendLayout();
             // 
             // lblCauHoi
@@ -57,7 +58,7 @@
             // 
             lblMon.BackColor = Color.Transparent;
             lblMon.BorderStyle = BorderStyle.FixedSingle;
-            lblMon.Location = new Point(38, 72);
+            lblMon.Location = new Point(37, 72);
             lblMon.Name = "lblMon";
             lblMon.Size = new Size(35, 24);
             lblMon.TabIndex = 1;
@@ -67,96 +68,100 @@
             // 
             lblDoKho.BackColor = Color.Transparent;
             lblDoKho.BorderStyle = BorderStyle.FixedSingle;
-            lblDoKho.Location = new Point(90, 72);
+            lblDoKho.Location = new Point(266, 72);
             lblDoKho.Name = "lblDoKho";
             lblDoKho.Size = new Size(53, 24);
             lblDoKho.TabIndex = 2;
             lblDoKho.Text = "Độ khó";
             // 
-            // guna2RadioButton1
+            // radDapAn1
             // 
-            guna2RadioButton1.AutoSize = true;
-            guna2RadioButton1.BackColor = SystemColors.ControlLight;
-            guna2RadioButton1.CheckedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2RadioButton1.CheckedState.BorderThickness = 0;
-            guna2RadioButton1.CheckedState.FillColor = Color.FromArgb(94, 148, 255);
-            guna2RadioButton1.CheckedState.InnerColor = Color.White;
-            guna2RadioButton1.CheckedState.InnerOffset = -4;
-            guna2RadioButton1.Font = new Font("Segoe UI", 10.8F);
-            guna2RadioButton1.Location = new Point(38, 139);
-            guna2RadioButton1.Name = "guna2RadioButton1";
-            guna2RadioButton1.Size = new Size(107, 29);
-            guna2RadioButton1.TabIndex = 3;
-            guna2RadioButton1.Text = "Đáp án A";
-            guna2RadioButton1.UncheckedState.BorderColor = Color.FromArgb(125, 137, 149);
-            guna2RadioButton1.UncheckedState.BorderThickness = 2;
-            guna2RadioButton1.UncheckedState.FillColor = Color.Transparent;
-            guna2RadioButton1.UncheckedState.InnerColor = Color.Transparent;
-            guna2RadioButton1.UseVisualStyleBackColor = false;
+            radDapAn1.AutoSize = true;
+            radDapAn1.BackColor = Color.Transparent;
+            radDapAn1.CheckedState.BorderColor = Color.FromArgb(94, 148, 255);
+            radDapAn1.CheckedState.BorderThickness = 0;
+            radDapAn1.CheckedState.FillColor = Color.FromArgb(94, 148, 255);
+            radDapAn1.CheckedState.InnerColor = Color.White;
+            radDapAn1.CheckedState.InnerOffset = -4;
+            radDapAn1.Enabled = false;
+            radDapAn1.Font = new Font("Segoe UI", 10.8F);
+            radDapAn1.Location = new Point(38, 139);
+            radDapAn1.Name = "radDapAn1";
+            radDapAn1.Size = new Size(107, 29);
+            radDapAn1.TabIndex = 3;
+            radDapAn1.Text = "Đáp án A";
+            radDapAn1.UncheckedState.BorderColor = Color.FromArgb(125, 137, 149);
+            radDapAn1.UncheckedState.BorderThickness = 2;
+            radDapAn1.UncheckedState.FillColor = Color.Transparent;
+            radDapAn1.UncheckedState.InnerColor = Color.Transparent;
+            radDapAn1.UseVisualStyleBackColor = false;
             // 
-            // guna2RadioButton2
+            // radDapAn3
             // 
-            guna2RadioButton2.AutoSize = true;
-            guna2RadioButton2.BackColor = SystemColors.ControlLight;
-            guna2RadioButton2.CheckedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2RadioButton2.CheckedState.BorderThickness = 0;
-            guna2RadioButton2.CheckedState.FillColor = Color.FromArgb(94, 148, 255);
-            guna2RadioButton2.CheckedState.InnerColor = Color.White;
-            guna2RadioButton2.CheckedState.InnerOffset = -4;
-            guna2RadioButton2.Font = new Font("Segoe UI", 10.8F);
-            guna2RadioButton2.Location = new Point(38, 260);
-            guna2RadioButton2.Name = "guna2RadioButton2";
-            guna2RadioButton2.Size = new Size(106, 29);
-            guna2RadioButton2.TabIndex = 4;
-            guna2RadioButton2.Text = "Đáp án C";
-            guna2RadioButton2.UncheckedState.BorderColor = Color.FromArgb(125, 137, 149);
-            guna2RadioButton2.UncheckedState.BorderThickness = 2;
-            guna2RadioButton2.UncheckedState.FillColor = Color.Transparent;
-            guna2RadioButton2.UncheckedState.InnerColor = Color.Transparent;
-            guna2RadioButton2.UseVisualStyleBackColor = false;
+            radDapAn3.AutoSize = true;
+            radDapAn3.BackColor = Color.Transparent;
+            radDapAn3.CheckedState.BorderColor = Color.FromArgb(94, 148, 255);
+            radDapAn3.CheckedState.BorderThickness = 0;
+            radDapAn3.CheckedState.FillColor = Color.FromArgb(94, 148, 255);
+            radDapAn3.CheckedState.InnerColor = Color.White;
+            radDapAn3.CheckedState.InnerOffset = -4;
+            radDapAn3.Enabled = false;
+            radDapAn3.Font = new Font("Segoe UI", 10.8F);
+            radDapAn3.Location = new Point(38, 260);
+            radDapAn3.Name = "radDapAn3";
+            radDapAn3.Size = new Size(106, 29);
+            radDapAn3.TabIndex = 4;
+            radDapAn3.Text = "Đáp án C";
+            radDapAn3.UncheckedState.BorderColor = Color.FromArgb(125, 137, 149);
+            radDapAn3.UncheckedState.BorderThickness = 2;
+            radDapAn3.UncheckedState.FillColor = Color.Transparent;
+            radDapAn3.UncheckedState.InnerColor = Color.Transparent;
+            radDapAn3.UseVisualStyleBackColor = false;
             // 
-            // guna2RadioButton3
+            // radDapAn2
             // 
-            guna2RadioButton3.AutoSize = true;
-            guna2RadioButton3.BackColor = SystemColors.ControlLight;
-            guna2RadioButton3.CheckedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2RadioButton3.CheckedState.BorderThickness = 0;
-            guna2RadioButton3.CheckedState.FillColor = Color.FromArgb(94, 148, 255);
-            guna2RadioButton3.CheckedState.InnerColor = Color.White;
-            guna2RadioButton3.CheckedState.InnerOffset = -4;
-            guna2RadioButton3.Font = new Font("Segoe UI", 10.8F);
-            guna2RadioButton3.Location = new Point(38, 200);
-            guna2RadioButton3.Name = "guna2RadioButton3";
-            guna2RadioButton3.Size = new Size(105, 29);
-            guna2RadioButton3.TabIndex = 5;
-            guna2RadioButton3.Text = "Đáp án B";
-            guna2RadioButton3.UncheckedState.BorderColor = Color.FromArgb(125, 137, 149);
-            guna2RadioButton3.UncheckedState.BorderThickness = 2;
-            guna2RadioButton3.UncheckedState.FillColor = Color.Transparent;
-            guna2RadioButton3.UncheckedState.InnerColor = Color.Transparent;
-            guna2RadioButton3.UseVisualStyleBackColor = false;
+            radDapAn2.AutoSize = true;
+            radDapAn2.BackColor = Color.Transparent;
+            radDapAn2.CheckedState.BorderColor = Color.FromArgb(94, 148, 255);
+            radDapAn2.CheckedState.BorderThickness = 0;
+            radDapAn2.CheckedState.FillColor = Color.FromArgb(94, 148, 255);
+            radDapAn2.CheckedState.InnerColor = Color.White;
+            radDapAn2.CheckedState.InnerOffset = -4;
+            radDapAn2.Enabled = false;
+            radDapAn2.Font = new Font("Segoe UI", 10.8F);
+            radDapAn2.Location = new Point(38, 200);
+            radDapAn2.Name = "radDapAn2";
+            radDapAn2.Size = new Size(105, 29);
+            radDapAn2.TabIndex = 5;
+            radDapAn2.Text = "Đáp án B";
+            radDapAn2.UncheckedState.BorderColor = Color.FromArgb(125, 137, 149);
+            radDapAn2.UncheckedState.BorderThickness = 2;
+            radDapAn2.UncheckedState.FillColor = Color.Transparent;
+            radDapAn2.UncheckedState.InnerColor = Color.Transparent;
+            radDapAn2.UseVisualStyleBackColor = false;
             // 
-            // guna2RadioButton4
+            // radDapAn4
             // 
-            guna2RadioButton4.AutoSize = true;
-            guna2RadioButton4.BackColor = SystemColors.ControlLight;
-            guna2RadioButton4.BackgroundImageLayout = ImageLayout.None;
-            guna2RadioButton4.CheckedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2RadioButton4.CheckedState.BorderThickness = 0;
-            guna2RadioButton4.CheckedState.FillColor = Color.FromArgb(94, 148, 255);
-            guna2RadioButton4.CheckedState.InnerColor = Color.White;
-            guna2RadioButton4.CheckedState.InnerOffset = -4;
-            guna2RadioButton4.Font = new Font("Segoe UI", 10.8F);
-            guna2RadioButton4.Location = new Point(37, 317);
-            guna2RadioButton4.Name = "guna2RadioButton4";
-            guna2RadioButton4.Size = new Size(108, 29);
-            guna2RadioButton4.TabIndex = 6;
-            guna2RadioButton4.Text = "Đáp án D";
-            guna2RadioButton4.UncheckedState.BorderColor = Color.FromArgb(125, 137, 149);
-            guna2RadioButton4.UncheckedState.BorderThickness = 2;
-            guna2RadioButton4.UncheckedState.FillColor = Color.Transparent;
-            guna2RadioButton4.UncheckedState.InnerColor = Color.Transparent;
-            guna2RadioButton4.UseVisualStyleBackColor = false;
+            radDapAn4.AutoSize = true;
+            radDapAn4.BackColor = Color.Transparent;
+            radDapAn4.BackgroundImageLayout = ImageLayout.None;
+            radDapAn4.CheckedState.BorderColor = Color.FromArgb(94, 148, 255);
+            radDapAn4.CheckedState.BorderThickness = 0;
+            radDapAn4.CheckedState.FillColor = Color.FromArgb(94, 148, 255);
+            radDapAn4.CheckedState.InnerColor = Color.White;
+            radDapAn4.CheckedState.InnerOffset = -4;
+            radDapAn4.Enabled = false;
+            radDapAn4.Font = new Font("Segoe UI", 10.8F);
+            radDapAn4.Location = new Point(37, 317);
+            radDapAn4.Name = "radDapAn4";
+            radDapAn4.Size = new Size(108, 29);
+            radDapAn4.TabIndex = 6;
+            radDapAn4.Text = "Đáp án D";
+            radDapAn4.UncheckedState.BorderColor = Color.FromArgb(125, 137, 149);
+            radDapAn4.UncheckedState.BorderThickness = 2;
+            radDapAn4.UncheckedState.FillColor = Color.Transparent;
+            radDapAn4.UncheckedState.InnerColor = Color.Transparent;
+            radDapAn4.UseVisualStyleBackColor = false;
             // 
             // btnSua
             // 
@@ -192,20 +197,33 @@
             btnXoa.Size = new Size(59, 35);
             btnXoa.TabIndex = 8;
             btnXoa.Text = "Xóa";
+            btnXoa.Click += btnXoa_Click;
+            // 
+            // lblLoaiCauHoi
+            // 
+            lblLoaiCauHoi.BackColor = Color.Transparent;
+            lblLoaiCauHoi.BorderStyle = BorderStyle.FixedSingle;
+            lblLoaiCauHoi.Location = new Point(394, 72);
+            lblLoaiCauHoi.Name = "lblLoaiCauHoi";
+            lblLoaiCauHoi.Size = new Size(85, 24);
+            lblLoaiCauHoi.TabIndex = 9;
+            lblLoaiCauHoi.Text = "Loại câu hỏi";
             // 
             // UC_QuestionCard
             // 
             AutoScaleMode = AutoScaleMode.None;
+            AutoSize = true;
             BackColor = Color.White;
             BorderStyle = BorderStyle.FixedSingle;
-            Controls.Add(btnXoa);
-            Controls.Add(btnSua);
-            Controls.Add(guna2RadioButton4);
-            Controls.Add(guna2RadioButton3);
-            Controls.Add(guna2RadioButton2);
-            Controls.Add(guna2RadioButton1);
+            Controls.Add(lblLoaiCauHoi);
             Controls.Add(lblDoKho);
             Controls.Add(lblMon);
+            Controls.Add(btnXoa);
+            Controls.Add(btnSua);
+            Controls.Add(radDapAn4);
+            Controls.Add(radDapAn2);
+            Controls.Add(radDapAn3);
+            Controls.Add(radDapAn1);
             Controls.Add(lblCauHoi);
             Name = "UC_QuestionCard";
             Size = new Size(1133, 369);
@@ -218,11 +236,12 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel lblCauHoi;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblMon;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblDoKho;
-        private Guna.UI2.WinForms.Guna2RadioButton guna2RadioButton1;
-        private Guna.UI2.WinForms.Guna2RadioButton guna2RadioButton2;
-        private Guna.UI2.WinForms.Guna2RadioButton guna2RadioButton3;
-        private Guna.UI2.WinForms.Guna2RadioButton guna2RadioButton4;
+        private Guna.UI2.WinForms.Guna2RadioButton radDapAn1;
+        private Guna.UI2.WinForms.Guna2RadioButton radDapAn3;
+        private Guna.UI2.WinForms.Guna2RadioButton radDapAn2;
+        private Guna.UI2.WinForms.Guna2RadioButton radDapAn4;
         private Guna.UI2.WinForms.Guna2Button btnSua;
         private Guna.UI2.WinForms.Guna2Button btnXoa;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblLoaiCauHoi;
     }
 }
