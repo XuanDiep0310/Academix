@@ -10,8 +10,8 @@ import {
   message,
 } from "antd";
 import { Users, BookOpen } from "lucide-react";
-import styles from "../../assets/styles/StudentClassList.module.scss";
-import { callListMyClassesAPI } from "../../services/api.service";
+import styles from "../../../assets/styles/StudentClassList.module.scss";
+import { callListMyClassesAPI } from "../../../services/api.service";
 
 const { Title, Text } = Typography;
 

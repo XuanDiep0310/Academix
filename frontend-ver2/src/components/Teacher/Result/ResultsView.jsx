@@ -7,7 +7,6 @@ import {
   Card,
   Tag,
   Button,
-  Pagination,
   message,
   Empty,
 } from "antd";
@@ -18,6 +17,7 @@ import {
   callListMyClassesAPI,
   callListExamsByClassAPI,
   callGetExamResultsAPI,
+  callListStudentOnClassesAPI,
 } from "../../../services/api.service";
 
 const { Title, Text } = Typography;
@@ -26,7 +26,7 @@ const { Title, Text } = Typography;
 const STATUS_TEXT = {
   Completed: "Đã nộp",
   InProgress: "Đang làm",
-  NotStarted: "Chưa bắt đầu",
+  NotStarted: "Chưa nộp bài",
   Graded: "Đã chấm",
 };
 
@@ -38,7 +38,9 @@ const STATUS_COLOR = {
 };
 
 export default function ResultsView() {
-  /* =================== STATE: lớp & bài kiểm tra =================== */
+  /* =================== STATE =================== */
+  const [students, setStudents] = useState([]);
+
   const [classes, setClasses] = useState([]);
   const [loadingClasses, setLoadingClasses] = useState(false);
   const [selectedClassId, setSelectedClassId] = useState(null);
@@ -47,22 +49,40 @@ export default function ResultsView() {
   const [loadingExams, setLoadingExams] = useState(false);
   const [selectedExamId, setSelectedExamId] = useState(null);
 
-  /* =================== STATE: kết quả =================== */
   const [results, setResults] = useState([]);
   const [stats, setStats] = useState(null);
   const [loadingResults, setLoadingResults] = useState(false);
 
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [total, setTotal] = useState(0);
+  /* =================== FETCH STUDENTS =================== */
+  const fetchStudents = async (classId) => {
+    if (!classId) return;
+    try {
+      const qs = new URLSearchParams();
+      qs.set("page", "1");
+      qs.set("pageSize", "1000"); // đủ lớn cho 1 lớp
 
-  const averageScore = useMemo(() => {
-    const valid = results.filter((r) => r.totalQuestions > 0);
-    if (!valid.length) return 0;
+      const res = await callListStudentOnClassesAPI(classId, qs.toString());
+      console.log("check Student >>> ", res);
 
-    const sum = valid.reduce((acc, r) => acc + (r.score100 || 0), 0);
-    return Number((sum / valid.length).toFixed(1)); // vd: 73.3
-  }, [results]);
+      if (res?.success && Array.isArray(res.data)) {
+        const mapped = res.data.map((s) => ({
+          id: s.classMemberId,
+          userId: s.userId,
+          name: s.fullName,
+          email: s.email,
+        }));
+        setStudents(mapped);
+      } else {
+        message.error("Không thể tải danh sách học sinh");
+        setStudents([]);
+      }
+    } catch (err) {
+      console.error("fetchStudents error:", err);
+      message.error("Có lỗi khi tải danh sách học sinh");
+      setStudents([]);
+    }
+  };
+
   /* =================== FETCH LỚP HỌC =================== */
   const fetchClasses = async () => {
     try {
@@ -120,7 +140,6 @@ export default function ResultsView() {
 
         setExams(mapped);
 
-        // nếu chưa chọn bài kiểm tra → chọn exam đầu tiên
         if (!selectedExamId && mapped.length > 0) {
           setSelectedExamId(mapped[0].id);
         }
@@ -139,13 +158,13 @@ export default function ResultsView() {
     setSelectedExamId(null);
     if (selectedClassId) {
       fetchExams(selectedClassId);
+      fetchStudents(selectedClassId);
     } else {
       setExams([]);
+      setStudents([]);
     }
     setResults([]);
     setStats(null);
-    setTotal(0);
-    setPage(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedClassId]);
 
@@ -156,9 +175,10 @@ export default function ResultsView() {
     try {
       setLoadingResults(true);
 
+      // luôn lấy full kết quả, không phân trang
       const qs = new URLSearchParams();
-      qs.set("page", String(page));
-      qs.set("pageSize", String(pageSize));
+      qs.set("page", "1");
+      qs.set("pageSize", "1000");
 
       const res = await callGetExamResultsAPI(
         selectedClassId,
@@ -173,16 +193,14 @@ export default function ResultsView() {
           api.results?.map((r) => {
             const correct = r.correctAnswers ?? 0;
             const totalQ = r.totalQuestions ?? r.totalMarks ?? 0;
-
-            // Điểm tính theo % số câu đúng, scale 0–100
             const score100 =
               totalQ > 0 ? Number(((correct * 100) / totalQ).toFixed(1)) : 0;
 
             return {
               id: r.attemptId,
+              studentId: r.studentId,
               studentName: r.studentName,
               email: r.studentEmail,
-              // dùng score100 thay vì totalScore từ API
               score100,
               correctAnswers: correct,
               totalQuestions: totalQ,
@@ -192,10 +210,7 @@ export default function ResultsView() {
           }) || [];
 
         setResults(mapped);
-
-        // nếu muốn cũng có thể tự tính stats, nhưng tạm thời giữ stats API
         setStats(api.statistics || null);
-        setTotal(api.totalResultsCount ?? api.totalAttempts ?? mapped.length);
       } else {
         message.error("Không thể tải kết quả bài kiểm tra");
       }
@@ -210,16 +225,54 @@ export default function ResultsView() {
   useEffect(() => {
     fetchResults();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedClassId, selectedExamId, page, pageSize]);
+  }, [selectedClassId, selectedExamId]);
 
-  /* =================== DERIVED =================== */
+  /* =================== MERGE STUDENTS + RESULTS =================== */
+  const mergedRows = useMemo(() => {
+    if (!students.length) return results;
 
-  const totalStudents = stats?.totalAttempts ?? results.length;
-  const submittedCount = stats?.completedAttempts ?? 0;
+    return students.map((s) => {
+      const r =
+        results.find(
+          (x) =>
+            x.studentId === s.userId ||
+            x.email?.toLowerCase() === s.email?.toLowerCase()
+        ) || null;
 
-  // export toàn bộ dữ liệu hiện có (trang đang xem)
+      if (r) return r; // đã nộp
+
+      // chưa có attempt → chưa nộp bài
+      return {
+        id: `no_attempt_${s.id}`,
+        studentId: s.userId,
+        studentName: s.name,
+        email: s.email,
+        score100: null,
+        correctAnswers: 0,
+        totalQuestions: 0,
+        status: "NotStarted",
+        submittedAt: null,
+      };
+    });
+  }, [students, results]);
+
+  // điểm trung bình chỉ tính học sinh đã làm bài
+  const averageScore = useMemo(() => {
+    const valid = mergedRows.filter((r) => r.totalQuestions > 0);
+    if (!valid.length) return 0;
+
+    const sum = valid.reduce((acc, r) => acc + (r.score100 || 0), 0);
+    return Number((sum / valid.length).toFixed(1));
+  }, [mergedRows]);
+
+  const totalStudents = students.length || mergedRows.length;
+  const submittedCount = mergedRows.filter((r) =>
+    ["Completed", "Graded"].includes(r.status)
+  ).length;
+
+  /* =================== EXPORT =================== */
   const handleExport = () => {
-    if (!results.length) {
+    if (!mergedRows.length) {
       message.warning("Không có dữ liệu để xuất");
       return;
     }
@@ -234,9 +287,9 @@ export default function ResultsView() {
       "Thời gian nộp",
     ];
 
-    const rows = results.map((r) => {
+    const rows = mergedRows.map((r) => {
       const scoreText =
-        r.totalMarks > 0 ? `${r.totalScore}/${r.totalMarks}` : "";
+        r.totalQuestions > 0 && r.score100 != null ? `${r.score100}/100` : "";
       return [
         r.studentName,
         r.email,
@@ -276,7 +329,6 @@ export default function ResultsView() {
   };
 
   /* =================== COLUMNS =================== */
-
   const columns = [
     { title: "Học sinh", dataIndex: "studentName", key: "studentName" },
     { title: "Email", dataIndex: "email", key: "email" },
@@ -291,7 +343,6 @@ export default function ResultsView() {
           <span className={styles.muted}>-</span>
         ),
     },
-
     {
       title: "Số câu đúng",
       key: "correct",
@@ -332,7 +383,6 @@ export default function ResultsView() {
   const currentExam = exams.find((e) => e.id === selectedExamId);
 
   /* =================== RENDER =================== */
-
   return (
     <div className={styles.wrap}>
       {/* Header */}
@@ -350,7 +400,7 @@ export default function ResultsView() {
           type="primary"
           icon={<Download size={16} />}
           onClick={handleExport}
-          disabled={!results.length}
+          disabled={!mergedRows.length}
         >
           Xuất Excel
         </Button>
@@ -368,7 +418,6 @@ export default function ResultsView() {
               style={{ minWidth: 260 }}
               onChange={(v) => {
                 setSelectedClassId(v);
-                setPage(1);
               }}
               options={classes.map((c) => ({
                 value: c.id,
@@ -387,7 +436,6 @@ export default function ResultsView() {
               disabled={!selectedClassId}
               onChange={(v) => {
                 setSelectedExamId(v);
-                setPage(1);
               }}
               options={exams.map((e) => ({
                 value: e.id,
@@ -421,10 +469,6 @@ export default function ResultsView() {
             <div className={styles.kpiValue}>{submittedCount}</div>
           </Card>
 
-          {/* <Card className={styles.kpiCard}>
-            <Text type="secondary">Điểm TB</Text>
-            <div className={styles.kpiValue}>{averageScore}</div>
-          </Card> */}
           <Card className={styles.kpiCard}>
             <Text type="secondary">Điểm trung bình</Text>
             <div className={styles.kpiValue}>{averageScore}/100</div>
@@ -440,33 +484,15 @@ export default function ResultsView() {
           </div>
         ) : !selectedExamId ? (
           <Empty description="Hãy chọn lớp và bài kiểm tra để xem kết quả" />
-        ) : results.length === 0 ? (
-          <Empty description="Chưa có kết quả nào" />
+        ) : mergedRows.length === 0 ? (
+          <Empty description="Chưa có học sinh / kết quả nào" />
         ) : (
-          <>
-            <Table
-              rowKey="id"
-              dataSource={results}
-              columns={columns}
-              pagination={false}
-            />
-
-            {total > pageSize && (
-              <div className={styles.pagination}>
-                <Pagination
-                  current={page}
-                  pageSize={pageSize}
-                  total={total}
-                  showSizeChanger
-                  pageSizeOptions={[10, 20, 50]}
-                  onChange={(p, ps) => {
-                    setPage(p);
-                    setPageSize(ps);
-                  }}
-                />
-              </div>
-            )}
-          </>
+          <Table
+            rowKey="id"
+            dataSource={mergedRows}
+            columns={columns}
+            pagination={false}
+          />
         )}
       </div>
     </div>
