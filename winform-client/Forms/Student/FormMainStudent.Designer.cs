@@ -149,6 +149,7 @@
             btnDangXuat.Size = new Size(178, 38);
             btnDangXuat.TabIndex = 6;
             btnDangXuat.Text = "Đăng xuất";
+            btnDangXuat.Click += btnDangXuat_Click;
             // 
             // btnDoiMatKhau
             // 
@@ -167,6 +168,7 @@
             btnDoiMatKhau.Size = new Size(178, 38);
             btnDoiMatKhau.TabIndex = 5;
             btnDoiMatKhau.Text = "Đổi mật khẩu";
+            btnDoiMatKhau.Click += btnDoiMatKhau_Click;
             // 
             // btnBaiKiemTra
             // 
@@ -302,7 +304,7 @@
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private Guna.UI2.WinForms.Guna2Button btnMyResult;
-        private Panel mainPanel;
+        public Panel mainPanel;
         private Guna.UI2.WinForms.Guna2CirclePictureBox guna2CirclePictureBox2;
     }
 }

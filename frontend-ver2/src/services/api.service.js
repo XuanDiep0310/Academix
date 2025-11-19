@@ -1,3 +1,4 @@
+import instance from "../utils/axios-customize";
 import axios from "../utils/axios-customize";
 import { getCookie } from "../utils/cookie";
 
@@ -174,6 +175,13 @@ const callCreateQuestionAPI = (payload) => {
   const URL_BACKEND = `/api/Questions`;
   return axios.post(URL_BACKEND, payload);
 };
+const callBulkCreateQuestionAPI = (payload) => {
+  const URL_BACKEND = `/api/Questions/bulk`;
+  const data = {
+    questions: payload,
+  };
+  return axios.post(URL_BACKEND, data);
+};
 const deleteQuestionAPI = (id) => {
   const URL_BACKEND = `/api/Questions/${id}`;
   const res = axios.delete(URL_BACKEND);
@@ -181,7 +189,6 @@ const deleteQuestionAPI = (id) => {
 };
 const editQuestionAPI = (id, payload) => {
   const URL_BACKEND = `/api/Questions/${id}`;
-
   const res = axios.put(URL_BACKEND, payload);
   return res;
 };
@@ -190,10 +197,20 @@ const callListMaterialsByClassAPI = (classId, query) => {
   const res = axios.get(URL_BACKEND);
   return res;
 };
+const callUploadMaterialAPI = (classId, formData) => {
+  return axios.post(`/api/classes/${classId}/materials/upload`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
 const callDownloadMaterialAPI = (classId, materialId) => {
-  const URL_BACKEND = `/api/classes/${classId}/materials/${materialId}/download`;
-  const res = axios.get(URL_BACKEND, { responseType: "blob" });
-  return res;
+  return instance.get(
+    `/api/classes/${classId}/materials/${materialId}/download`,
+    {
+      responseType: "blob",
+    }
+  );
 };
 
 const callListMyClassesAPI = () => {
@@ -241,9 +258,44 @@ const callDeleteExamQuestionAPI = (classId, examId, questionId) => {
   const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/questions/${questionId}`;
   return axios.delete(URL_BACKEND);
 };
+export const callMaterialsStatisticsGlobalAPI = () => {
+  return axios.get("/api/materials/statistics");
+};
 
-const callMaterialsStatisticsAPI = () => {
-  const URL_BACKEND = `/api/materials/statistics`;
+const callMaterialsStatisticsAPI = (classId) => {
+  return axios.get(`/api/classes/${classId}/materials/statistics`);
+};
+// Lấy danh sách bài kiểm tra mà học sinh được làm trong 1 lớp
+export const callStudentListExamsByClassAPI = (classId) => {
+  const URL_BACKEND = `/api/student/exams?classId=${classId}`;
+  return axios.get(URL_BACKEND);
+};
+
+// Đã gửi ở trên nhưng nhắc lại cho đủ bộ:
+export const callStudentStartExamAPI = (examId) => {
+  const URL_BACKEND = `/api/student/exams/${examId}/start`;
+  return axios.post(URL_BACKEND);
+};
+
+export const callStudentSaveAnswerAPI = (attemptId, body) => {
+  // body: { questionId, selectedOptionId }
+  const URL_BACKEND = `/api/student/exams/attempts/${attemptId}/answer`;
+  return axios.post(URL_BACKEND, body);
+};
+
+export const callStudentSubmitAttemptAPI = (attemptId, body) => {
+  // body: { answers: [{questionId, selectedOptionId}] }
+  const URL_BACKEND = `/api/student/exams/attempts/${attemptId}/submit`;
+  return axios.post(URL_BACKEND, body);
+};
+
+export const callStudentGetAttemptResultAPI = (attemptId) => {
+  const URL_BACKEND = `/api/student/exams/attempts/${attemptId}/result`;
+  return axios.get(URL_BACKEND);
+};
+
+export const callGetExamResultsAPI = (classId, examId, query) => {
+  const URL_BACKEND = `/api/classes/${classId}/exams/${examId}/results?${query}`;
   return axios.get(URL_BACKEND);
 };
 
@@ -323,7 +375,6 @@ export {
   editClassesAPI,
   callListMyClassesAPI,
   callListMaterialsByClassAPI,
-  callDownloadMaterialAPI,
   callListQuestionBankAPI,
   callCreateQuestionAPI,
   deleteQuestionAPI,
@@ -337,4 +388,7 @@ export {
   callCreateExamAPI,
   callListExamsByClassAPI,
   callMaterialsStatisticsAPI,
+  callUploadMaterialAPI,
+  callDownloadMaterialAPI,
+  callBulkCreateQuestionAPI,
 };

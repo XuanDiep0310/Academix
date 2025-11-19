@@ -604,10 +604,13 @@ namespace Academix.Infrastructure.Services
                     return ApiResponse<StartExamResponseDto>.ErrorResponse("Exam has ended");
                 }
 
-                // Check if student already has an active attempt
-                if (await HasActiveAttemptAsync(examId, studentId))
+                // IMPORTANT: Check if student has already attempted this exam (one attempt per student)
+                var existingAttempt = await _context.StudentExamAttempts
+                    .AnyAsync(a => a.ExamId == examId && a.StudentId == studentId);
+
+                if (existingAttempt)
                 {
-                    return ApiResponse<StartExamResponseDto>.ErrorResponse("You already have an active attempt for this exam");
+                    return ApiResponse<StartExamResponseDto>.ErrorResponse("You have already taken this exam. Each student can only take an exam once.");
                 }
 
                 // Check if student can take exam
@@ -982,6 +985,92 @@ namespace Academix.Infrastructure.Services
             }
         }
 
+        public async Task<ApiResponse<List<ExamResultResponseDto>>> GetMyExamHistoryAsync(int studentId, int? classId = null)
+        {
+            try
+            {
+                var query = _context.StudentExamAttempts
+                    .Include(a => a.Exam)
+                        .ThenInclude(e => e.Class)
+                    .Include(a => a.Student)
+                    .Include(a => a.StudentAnswers)
+                        .ThenInclude(sa => sa.Question)
+                            .ThenInclude(q => q.QuestionOptions)
+                    .Include(a => a.StudentAnswers)
+                        .ThenInclude(sa => sa.SelectedOption)
+                    .Where(a => a.StudentId == studentId)
+                    .AsQueryable();
+
+                if (classId.HasValue)
+                {
+                    query = query.Where(a => a.Exam.ClassId == classId.Value);
+                }
+
+                var attempts = await query
+                    .OrderByDescending(a => a.StartTime)
+                    .ToListAsync();
+
+                var results = new List<ExamResultResponseDto>();
+
+                foreach (var attempt in attempts)
+                {
+                    var examQuestions = await _context.ExamQuestions
+                        .Where(eq => eq.ExamId == attempt.ExamId)
+                        .ToListAsync();
+
+                    var answers = attempt.StudentAnswers.Select(sa =>
+                    {
+                        var correctOption = sa.Question.QuestionOptions.FirstOrDefault(o => o.IsCorrect);
+                        var examQuestion = examQuestions.FirstOrDefault(eq => eq.QuestionId == sa.QuestionId);
+
+                        return new StudentAnswerDetailDto
+                        {
+                            QuestionId = sa.QuestionId,
+                            QuestionText = sa.Question.QuestionText,
+                            SelectedOptionId = sa.SelectedOptionId,
+                            SelectedOptionText = sa.SelectedOption?.OptionText,
+                            CorrectOptionId = correctOption?.OptionId,
+                            CorrectOptionText = correctOption?.OptionText,
+                            IsCorrect = sa.IsCorrect,
+                            MarksObtained = sa.MarksObtained ?? 0,
+                            TotalMarks = examQuestion?.Marks ?? 0
+                        };
+                    }).ToList();
+
+                    var correctAnswers = answers.Count(a => a.IsCorrect == true);
+                    var wrongAnswers = answers.Count(a => a.IsCorrect == false);
+
+                    results.Add(new ExamResultResponseDto
+                    {
+                        AttemptId = attempt.AttemptId,
+                        ExamId = attempt.ExamId,
+                        ExamTitle = attempt.Exam.Title,
+                        StudentId = attempt.StudentId,
+                        StudentName = attempt.Student.FullName,
+                        StartTime = attempt.StartTime,
+                        SubmitTime = attempt.SubmitTime,
+                        TotalScore = attempt.TotalScore ?? 0,
+                        TotalMarks = attempt.Exam.TotalMarks,
+                        Percentage = attempt.TotalScore.HasValue
+                            ? Math.Round((attempt.TotalScore.Value / attempt.Exam.TotalMarks) * 100, 2)
+                            : null,
+                        Status = attempt.Status,
+                        TotalQuestions = answers.Count,
+                        CorrectAnswers = correctAnswers,
+                        WrongAnswers = wrongAnswers,
+                        Answers = answers
+                    });
+                }
+
+                return ApiResponse<List<ExamResultResponseDto>>.SuccessResponse(results, "Exam history retrieved successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error getting student exam history: {ex.Message}");
+                return ApiResponse<List<ExamResultResponseDto>>.ErrorResponse("Failed to retrieve exam history");
+            }
+        }
+
         public async Task<ApiResponse<ExamResultsListResponseDto>> GetExamResultsAsync(int examId, int page = 1, int pageSize = 10)
         {
             try
@@ -1183,8 +1272,10 @@ namespace Academix.Infrastructure.Services
 
         public async Task<bool> HasActiveAttemptAsync(int examId, int studentId)
         {
+            // Changed: Check if student has ANY attempt (not just active ones)
+            // One attempt per student rule
             return await _context.StudentExamAttempts
-                .AnyAsync(a => a.ExamId == examId && a.StudentId == studentId && a.Status == ExamStatus.InProgress);
+                .AnyAsync(a => a.ExamId == examId && a.StudentId == studentId);
         }
     }
 }

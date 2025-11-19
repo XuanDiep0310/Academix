@@ -319,6 +319,7 @@
             btnThem.Size = new Size(141, 37);
             btnThem.TabIndex = 33;
             btnThem.Text = "Tạo bài kiểm tra";
+            btnThem.Click += btnThem_Click;
             // 
             // txtMonHoc
             // 

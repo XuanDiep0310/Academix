@@ -26,7 +26,7 @@ namespace Academix.WinApp.Forms.Teacher
 
         private async void btnSua_Click(object sender, EventArgs e)
         {
-            Form_AddUpdateExam frm = new Form_AddUpdateExam(_exam);
+            Form_AddUpdateExam frm = new Form_AddUpdateExam(_exam.ClassId, _exam.ExamId);
 
             // Gọi callback khi form lưu
             frm.OnSaved += async () =>

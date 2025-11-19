@@ -1,6 +1,7 @@
 ﻿using Academix.WinApp.Api;
 using Academix.WinApp.Forms.Teacher.Exam;
 using Academix.WinApp.Forms.Teacher.Question;
+using Academix.WinApp.Models.Teacher;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -71,11 +72,7 @@ namespace Academix.WinApp.Forms.Teacher
 
                 var result = await api.GetExamsByClassAsync(
                         classId: _classId,
-                        isPublished: null,
-                        page: _page,
-                        pageSize: 6,
-                        sortBy: "CreatedAt",
-                        sortOrder: "desc"
+                        page: _page
                     );
 
                 if (result?.Data?.Exams == null || result.Data.Exams.Count == 0)
@@ -93,16 +90,29 @@ namespace Academix.WinApp.Forms.Teacher
                 _totalPages = result.Data.TotalPages;
 
                 // Add vào flow panel
+                // Giả sử result.Data.Exams là List<ExamDto>
                 foreach (var exam in result.Data.Exams)
                 {
-                    var card = new UC_ExamCard(exam);   // Dùng ExamCard, KHÔNG phải QuestionCard
+                    // Chuyển ExamDto -> ExamResponseDto
+                    var examResponse = new ExamResponseDto
+                    {
+                        ExamId = exam.ExamId,
+                        Title = exam.Title,
+                        Description = exam.Description,
+                        Duration = exam.Duration,
+                        TotalMarks = exam.TotalMarks,
+                        StartTime = exam.StartTime,
+                        EndTime = exam.EndTime,
+                        CreatedBy = exam.CreatedBy
+                        // ... copy các field cần thiết
+                    };
 
-                    // Khi exam được cập nhật -> reload lại danh sách
+                    var card = new UC_ExamCard(examResponse);
                     card.OnUpdated += async () => await LoadExamsAsync();
-
                     card.Margin = new Padding(10);
                     flowPanelExams.Controls.Add(card);
                 }
+
 
                 BuildPaginationUI();
             }

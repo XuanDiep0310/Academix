@@ -38,7 +38,7 @@ namespace Academix.WinApp.Api
                     SessionManager.RefreshToken = apiResponse.Data.RefreshToken;
                     SessionManager.CurrentUser = new UserData
                     {
-                        Id = apiResponse.Data.User.UserId,
+                        UserId = apiResponse.Data.User.UserId,
                         Email = apiResponse.Data.User.Email,
                         FullName = apiResponse.Data.User.FullName,
                         Role = apiResponse.Data.User.Role
@@ -75,5 +75,47 @@ namespace Academix.WinApp.Api
                 };
             }
         }
+
+        public async Task<ChangePasswordResponse> ChangePasswordAsync(ChangePasswordRequest request)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _client.PostAsync("api/Auth/change-password", content);
+                var body = await response.Content.ReadAsStringAsync();
+
+                Debug.WriteLine("ChangePassword Status: " + response.StatusCode);
+                Debug.WriteLine("ChangePassword Body: " + body);
+
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<string>>(body);
+
+                if (apiResponse == null)
+                    return new ChangePasswordResponse
+                    {
+                        Success = false,
+                        Message = "Không nhận được phản hồi từ server"
+                    };
+
+                return new ChangePasswordResponse
+                {
+                    Success = apiResponse.Success,
+                    Message = apiResponse.Message
+                };
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Change password error: " + ex);
+                return new ChangePasswordResponse
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+       
+
     }
 }

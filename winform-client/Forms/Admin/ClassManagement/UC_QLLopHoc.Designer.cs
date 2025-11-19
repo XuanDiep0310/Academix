@@ -1,0 +1,291 @@
+﻿namespace Academix.WinApp.Forms.Admin
+{
+    partial class UC_QLLopHoc
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            guna2Panel5 = new Guna.UI2.WinForms.Guna2Panel();
+            guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
+            dgvClasses = new Guna.UI2.WinForms.Guna2DataGridView();
+            guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
+            lblPageInfo = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            btnPrevious = new Guna.UI2.WinForms.Guna2Button();
+            btnNext = new Guna.UI2.WinForms.Guna2Button();
+            guna2Panel6 = new Guna.UI2.WinForms.Guna2Panel();
+            btnTaoLopHoc = new Guna.UI2.WinForms.Guna2Button();
+            guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            guna2Panel5.SuspendLayout();
+            guna2Panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvClasses).BeginInit();
+            guna2Panel1.SuspendLayout();
+            guna2Panel6.SuspendLayout();
+            SuspendLayout();
+            // 
+            // guna2Panel5
+            // 
+            guna2Panel5.AutoScroll = true;
+            guna2Panel5.BorderRadius = 12;
+            guna2Panel5.Controls.Add(guna2Panel2);
+            guna2Panel5.Controls.Add(guna2Panel1);
+            guna2Panel5.Controls.Add(guna2Panel6);
+            guna2Panel5.CustomizableEdges = customizableEdges13;
+            guna2Panel5.Dock = DockStyle.Fill;
+            guna2Panel5.Location = new Point(0, 0);
+            guna2Panel5.Name = "guna2Panel5";
+            guna2Panel5.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            guna2Panel5.Size = new Size(1097, 701);
+            guna2Panel5.TabIndex = 2;
+            // 
+            // guna2Panel2
+            // 
+            guna2Panel2.Controls.Add(dgvClasses);
+            guna2Panel2.CustomizableEdges = customizableEdges1;
+            guna2Panel2.Dock = DockStyle.Fill;
+            guna2Panel2.Location = new Point(0, 109);
+            guna2Panel2.Name = "guna2Panel2";
+            guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            guna2Panel2.Size = new Size(1097, 533);
+            guna2Panel2.TabIndex = 5;
+            // 
+            // dgvClasses
+            // 
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dgvClasses.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvClasses.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvClasses.ColumnHeadersHeight = 40;
+            dgvClasses.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvClasses.DefaultCellStyle = dataGridViewCellStyle3;
+            dgvClasses.Dock = DockStyle.Fill;
+            dgvClasses.GridColor = Color.FromArgb(231, 229, 255);
+            dgvClasses.Location = new Point(0, 0);
+            dgvClasses.Name = "dgvClasses";
+            dgvClasses.RowHeadersVisible = false;
+            dgvClasses.RowHeadersWidth = 51;
+            dgvClasses.Size = new Size(1097, 533);
+            dgvClasses.TabIndex = 1;
+            dgvClasses.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
+            dgvClasses.ThemeStyle.AlternatingRowsStyle.Font = null;
+            dgvClasses.ThemeStyle.AlternatingRowsStyle.ForeColor = Color.Empty;
+            dgvClasses.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = Color.Empty;
+            dgvClasses.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = Color.Empty;
+            dgvClasses.ThemeStyle.BackColor = Color.White;
+            dgvClasses.ThemeStyle.GridColor = Color.FromArgb(231, 229, 255);
+            dgvClasses.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(100, 88, 255);
+            dgvClasses.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvClasses.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
+            dgvClasses.ThemeStyle.HeaderStyle.ForeColor = Color.White;
+            dgvClasses.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dgvClasses.ThemeStyle.HeaderStyle.Height = 40;
+            dgvClasses.ThemeStyle.ReadOnly = false;
+            dgvClasses.ThemeStyle.RowsStyle.BackColor = Color.White;
+            dgvClasses.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvClasses.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9F);
+            dgvClasses.ThemeStyle.RowsStyle.ForeColor = Color.FromArgb(71, 69, 94);
+            dgvClasses.ThemeStyle.RowsStyle.Height = 29;
+            dgvClasses.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dgvClasses.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            // 
+            // guna2Panel1
+            // 
+            guna2Panel1.Controls.Add(lblPageInfo);
+            guna2Panel1.Controls.Add(btnPrevious);
+            guna2Panel1.Controls.Add(btnNext);
+            guna2Panel1.CustomizableEdges = customizableEdges7;
+            guna2Panel1.Dock = DockStyle.Bottom;
+            guna2Panel1.Location = new Point(0, 642);
+            guna2Panel1.Name = "guna2Panel1";
+            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            guna2Panel1.Size = new Size(1097, 59);
+            guna2Panel1.TabIndex = 4;
+            // 
+            // lblPageInfo
+            // 
+            lblPageInfo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            lblPageInfo.BackColor = Color.Transparent;
+            lblPageInfo.ForeColor = Color.Black;
+            lblPageInfo.Location = new Point(488, 16);
+            lblPageInfo.Name = "lblPageInfo";
+            lblPageInfo.Size = new Size(121, 22);
+            lblPageInfo.TabIndex = 32;
+            lblPageInfo.Text = "guna2HtmlLabel1";
+            // 
+            // btnPrevious
+            // 
+            btnPrevious.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            btnPrevious.CustomizableEdges = customizableEdges3;
+            btnPrevious.DisabledState.BorderColor = Color.DarkGray;
+            btnPrevious.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnPrevious.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnPrevious.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnPrevious.FillColor = Color.LightSkyBlue;
+            btnPrevious.Font = new Font("Segoe UI", 9F);
+            btnPrevious.ForeColor = Color.White;
+            btnPrevious.Location = new Point(318, 8);
+            btnPrevious.Name = "btnPrevious";
+            btnPrevious.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnPrevious.Size = new Size(119, 40);
+            btnPrevious.TabIndex = 30;
+            btnPrevious.Text = "Previous";
+            btnPrevious.Click += btnPrevious_Click;
+            // 
+            // btnNext
+            // 
+            btnNext.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            btnNext.CustomizableEdges = customizableEdges5;
+            btnNext.DisabledState.BorderColor = Color.DarkGray;
+            btnNext.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnNext.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnNext.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnNext.FillColor = Color.LightSkyBlue;
+            btnNext.Font = new Font("Segoe UI", 9F);
+            btnNext.ForeColor = Color.White;
+            btnNext.Location = new Point(642, 8);
+            btnNext.Name = "btnNext";
+            btnNext.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnNext.Size = new Size(119, 40);
+            btnNext.TabIndex = 31;
+            btnNext.Text = "Next";
+            btnNext.Click += btnNext_Click;
+            // 
+            // guna2Panel6
+            // 
+            guna2Panel6.Controls.Add(btnTaoLopHoc);
+            guna2Panel6.Controls.Add(guna2HtmlLabel3);
+            guna2Panel6.Controls.Add(guna2HtmlLabel2);
+            guna2Panel6.CustomizableEdges = customizableEdges11;
+            guna2Panel6.Dock = DockStyle.Top;
+            guna2Panel6.Location = new Point(0, 0);
+            guna2Panel6.Name = "guna2Panel6";
+            guna2Panel6.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            guna2Panel6.Size = new Size(1097, 109);
+            guna2Panel6.TabIndex = 0;
+            // 
+            // btnTaoLopHoc
+            // 
+            btnTaoLopHoc.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnTaoLopHoc.BorderRadius = 20;
+            btnTaoLopHoc.CustomizableEdges = customizableEdges9;
+            btnTaoLopHoc.DisabledState.BorderColor = Color.DarkGray;
+            btnTaoLopHoc.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnTaoLopHoc.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnTaoLopHoc.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnTaoLopHoc.FillColor = Color.LightSkyBlue;
+            btnTaoLopHoc.Font = new Font("Segoe UI", 9F);
+            btnTaoLopHoc.ForeColor = Color.White;
+            btnTaoLopHoc.Location = new Point(901, 28);
+            btnTaoLopHoc.Name = "btnTaoLopHoc";
+            btnTaoLopHoc.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnTaoLopHoc.Size = new Size(178, 38);
+            btnTaoLopHoc.TabIndex = 2;
+            btnTaoLopHoc.Text = "Tạo lớp học";
+            btnTaoLopHoc.Click += btnTaoLopHoc_Click;
+            // 
+            // guna2HtmlLabel3
+            // 
+            guna2HtmlLabel3.BackColor = Color.Transparent;
+            guna2HtmlLabel3.ForeColor = SystemColors.AppWorkspace;
+            guna2HtmlLabel3.Location = new Point(36, 54);
+            guna2HtmlLabel3.Name = "guna2HtmlLabel3";
+            guna2HtmlLabel3.Size = new Size(560, 22);
+            guna2HtmlLabel3.TabIndex = 1;
+            guna2HtmlLabel3.Text = "Tạo và quản lý các lớp học trong hệ thống (Tối đa 2 giáo viên, 100 học sinh mỗi lớp)";
+            // 
+            // guna2HtmlLabel2
+            // 
+            guna2HtmlLabel2.BackColor = Color.Transparent;
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            guna2HtmlLabel2.Location = new Point(34, 18);
+            guna2HtmlLabel2.Name = "guna2HtmlLabel2";
+            guna2HtmlLabel2.Size = new Size(141, 30);
+            guna2HtmlLabel2.TabIndex = 0;
+            guna2HtmlLabel2.Text = "Quản lý lớp học";
+            // 
+            // UC_QLLopHoc
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            Controls.Add(guna2Panel5);
+            Name = "UC_QLLopHoc";
+            Size = new Size(1097, 701);
+            guna2Panel5.ResumeLayout(false);
+            guna2Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvClasses).EndInit();
+            guna2Panel1.ResumeLayout(false);
+            guna2Panel1.PerformLayout();
+            guna2Panel6.ResumeLayout(false);
+            guna2Panel6.PerformLayout();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel5;
+        private Guna.UI2.WinForms.Guna2DataGridView dgvClasses;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel6;
+        private Guna.UI2.WinForms.Guna2Button btnTaoLopHoc;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
+        private Guna.UI2.WinForms.Guna2Button btnPrevious;
+        private Guna.UI2.WinForms.Guna2Button btnNext;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblPageInfo;
+    }
+}

@@ -14,7 +14,7 @@ namespace Academix.WinApp.Models.Teacher
         public string Title { get; set; } = string.Empty;
         public string? Description { get; set; }
         public int Duration { get; set; }
-        public decimal TotalMarks { get; set; }
+        public double TotalMarks { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int CreatedBy { get; set; }

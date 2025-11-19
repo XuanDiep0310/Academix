@@ -15,7 +15,7 @@ import LayoutTeacher from "./components/Teacher/LayoutTeacher";
 import ClassList from "./components/Teacher/Classes/ClassList";
 import MaterialManagement from "./components/Teacher/Materia/MaterialManagement";
 import QuestionBank from "./components/Teacher/QuestionBank/QuestionBank";
-import ResultsView from "./components/Teacher/ResultsView";
+import ResultsView from "./components/Teacher/Result/ResultsView";
 import TestManagement from "./components/Teacher/TestManagement/TestManagement";
 import LayoutStudent from "./components/Student/LayoutStudent";
 import { StudentClassList } from "./components/Student/StudentClassList";
@@ -26,6 +26,7 @@ import AdminPage from "./pages/admin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RoleRedirect from "./components/RoleRedirect";
 import TeacherPage from "./pages/teacher";
+import MaterialPreview from "./components/Teacher/Materia/MaterialPreview";
 
 const Layout = () => {
   return (
@@ -87,6 +88,10 @@ let router = createBrowserRouter([
       {
         path: "materials",
         element: <MaterialManagement />,
+      },
+      {
+        path: "materials/:id",
+        element: <MaterialPreview />,
       },
       {
         path: "questions",

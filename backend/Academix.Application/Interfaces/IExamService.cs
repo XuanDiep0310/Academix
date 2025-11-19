@@ -45,6 +45,7 @@ namespace Academix.Application.Interfaces
         Task<ApiResponse<ExamResultResponseDto>> GetMyExamResultAsync(int attemptId, int studentId);
 
         Task<ApiResponse<List<ExamResponseDto>>> GetMyExamsAsync(int studentId, int? classId = null);
+        Task<ApiResponse<List<ExamResultResponseDto>>> GetMyExamHistoryAsync(int studentId, int? classId = null);
 
         // Teacher Results Review
         Task<ApiResponse<ExamResultsListResponseDto>> GetExamResultsAsync(
@@ -57,6 +58,6 @@ namespace Academix.Application.Interfaces
         // Validation
         Task<bool> CanAccessExamAsync(int examId, int userId, string role);
         Task<bool> CanTakeExamAsync(int examId, int studentId);
-        Task<bool> HasActiveAttemptAsync(int examId, int studentId);
+        Task<bool> HasActiveAttemptAsync(int examId, int studentId); // Returns true if student has ANY attempt (one attempt per exam rule)
     }
 }

@@ -1,5 +1,16 @@
-import { useMemo, useState } from "react";
-import { Card, Typography, Tag, Button, Select, Modal, Empty } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Card,
+  Typography,
+  Tag,
+  Button,
+  Select,
+  Modal,
+  Empty,
+  Spin,
+  Pagination,
+  message,
+} from "antd";
 import {
   FileText,
   Link as LinkIcon,
@@ -9,89 +20,190 @@ import {
   Download,
 } from "lucide-react";
 import styles from "../../assets/styles/MaterialView.module.scss";
+import {
+  callListMyClassesAPI,
+  callListMaterialsByClassAPI,
+} from "../../services/api.service";
 
 const { Title, Text } = Typography;
 
-/* ====================== BASE DATA (no API) ====================== */
-const MATERIALS = [
-  {
-    id: "1",
-    title: "Bài giảng chương 1",
-    type: "pdf",
-    url: "https://example.com/document.pdf",
-    classId: "1",
-    className: "Toán cao cấp 1",
-    description: "Giới thiệu về đạo hàm và các quy tắc tính đạo hàm cơ bản",
-    uploadedAt: "2024-03-01",
-  },
-  {
-    id: "2",
-    title: "Video hướng dẫn giải bài tập",
-    type: "video",
-    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    classId: "1",
-    className: "Toán cao cấp 1",
-    description: "Hướng dẫn chi tiết cách giải các dạng bài tập về đạo hàm",
-    uploadedAt: "2024-03-05",
-  },
-  {
-    id: "3",
-    title: "Tài liệu tham khảo",
-    type: "link",
-    url: "https://www.example.com",
-    classId: "2",
-    className: "Lập trình C++",
-    description: "Link đến tài liệu C++ trực tuyến",
-    uploadedAt: "2024-03-03",
-  },
-  {
-    id: "4",
-    title: "Bài tập thực hành",
-    type: "pdf",
-    url: "https://example.com/exercises.pdf",
-    classId: "2",
-    className: "Lập trình C++",
-    description: "Tập hợp bài tập lập trình C++",
-    uploadedAt: "2024-03-07",
-  },
-];
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "";
+
+const buildFileUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  return `${API_BASE_URL}${path}`;
+};
 
 const MATERIAL_ICONS = {
   pdf: FileText,
   link: LinkIcon,
   image: Image,
   video: Video,
+  file: FileText,
 };
+
 const MATERIAL_LABELS = {
   pdf: "PDF",
   link: "Liên kết",
   image: "Hình ảnh",
   video: "Video",
+  file: "Tập tin",
 };
-/* =============================================================== */
+
+// Chuẩn hóa kiểu materialType backend -> key ở trên
+const mapMaterialType = (materialType) => {
+  const t = (materialType || "").toLowerCase();
+  if (t.includes("pdf")) return "pdf";
+  if (t.includes("video")) return "video";
+  if (t.includes("image") || t.includes("img")) return "image";
+  if (t.includes("link") || t.includes("url")) return "link";
+  return "file";
+};
+
+/* ========================================================= */
 
 export default function MaterialView() {
-  const [selectedClassId, setSelectedClassId] = useState("all");
+  /* ------ lớp của student ------ */
+  const [classes, setClasses] = useState([]);
+  const [selectedClassId, setSelectedClassId] = useState(null);
+  const [loadingClasses, setLoadingClasses] = useState(false);
+
+  /* ------ materials ------ */
+  const [materials, setMaterials] = useState([]);
+  const [loadingMaterials, setLoadingMaterials] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
+  const [total, setTotal] = useState(0);
+
+  /* ------ modal xem chi tiết ------ */
   const [viewing, setViewing] = useState(null);
 
-  const classes = useMemo(() => {
-    const map = new Map();
-    MATERIALS.forEach((m) => map.set(m.classId, m.className));
-    return Array.from(map, ([value, label]) => ({ value, label }));
+  /* ================== FETCH LỚP CỦA STUDENT ================== */
+
+  const fetchMyClasses = async () => {
+    try {
+      setLoadingClasses(true);
+      const res = await callListMyClassesAPI();
+
+      if (res && res.success && res.data) {
+        const arr = Array.isArray(res.data) ? res.data : res.data.data || [];
+        const mapped = arr.map((c) => ({
+          value: c.classId ?? c.id,
+          label: `${c.className || c.name} (${c.classCode || c.code})`,
+        }));
+
+        setClasses(mapped);
+        if (!selectedClassId && mapped.length > 0) {
+          setSelectedClassId(mapped[0].value);
+        }
+      } else {
+        message.error("Không thể tải danh sách lớp học");
+      }
+    } catch (err) {
+      console.error("fetchMyClasses error:", err);
+      message.error("Có lỗi khi tải danh sách lớp học");
+    } finally {
+      setLoadingClasses(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMyClasses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const list = useMemo(() => {
-    return selectedClassId === "all"
-      ? MATERIALS
-      : MATERIALS.filter((m) => m.classId === selectedClassId);
-  }, [selectedClassId]);
+  /* ================== FETCH MATERIALS THEO LỚP ================== */
+
+  const fetchMaterials = async () => {
+    if (!selectedClassId) return;
+
+    try {
+      setLoadingMaterials(true);
+      const qs = new URLSearchParams();
+      qs.set("page", String(page));
+      qs.set("pageSize", String(pageSize));
+      qs.set("sortBy", "CreatedAt");
+      qs.set("sortOrder", "desc");
+
+      const res = await callListMaterialsByClassAPI(
+        selectedClassId,
+        qs.toString()
+      );
+
+      if (res && res.success && res.data) {
+        const api = res.data;
+        const arr = Array.isArray(api.materials) ? api.materials : [];
+
+        const mapped = arr.map((m) => {
+          const type = mapMaterialType(m.materialType);
+          return {
+            id: m.materialId,
+            title: m.title,
+            type,
+            url: buildFileUrl(m.fileUrl), // 👈 GHÉP URL ĐẦY ĐỦ Ở ĐÂY
+            classId: m.classId,
+            className: m.className,
+            description: m.description,
+            uploadedAt: m.createdAt,
+            uploadedByName: m.uploadedByName,
+            fileSizeFormatted: m.fileSizeFormatted,
+          };
+        });
+
+        setMaterials(mapped);
+        setTotal(api.totalCount ?? mapped.length);
+      } else {
+        message.error("Không thể tải danh sách tài liệu");
+      }
+    } catch (err) {
+      console.error("fetchMaterials error:", err);
+      message.error("Có lỗi khi tải tài liệu");
+    } finally {
+      setLoadingMaterials(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMaterials();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedClassId, page, pageSize]);
+
+  /* ================== HANDLER / HELPERS ================== */
+
+  const handleChangeClass = (value) => {
+    setSelectedClassId(value);
+    setPage(1);
+  };
+
+  const handleChangePage = (p, ps) => {
+    if (ps !== pageSize) {
+      setPageSize(ps);
+      setPage(1);
+    } else {
+      setPage(p);
+    }
+  };
 
   const handleView = (m) => setViewing(m);
-  const handleDownload = (m) => window.open(m.url, "_blank");
+
+  const handleDownload = (m) => {
+    if (m.url) {
+      // giờ m.url đã là URL đầy đủ tới backend, mở tab mới để tải/xem
+      window.open(m.url, "_blank", "noopener,noreferrer");
+    }
+  };
 
   // Build video embed url if YouTube
   const toEmbed = (url) =>
     url.includes("watch?v=") ? url.replace("watch?v=", "embed/") : url;
+
+  const selectedClassLabel = useMemo(() => {
+    const found = classes.find((c) => c.value === selectedClassId);
+    return found?.label || "";
+  }, [classes, selectedClassId]);
+
+  /* ================== RENDER ================== */
 
   return (
     <div className={styles.wrap}>
@@ -101,67 +213,98 @@ export default function MaterialView() {
           <Title level={4} className={styles.title}>
             Tài liệu học tập
           </Title>
-          <Text type="secondary">Tài liệu và học liệu từ các lớp học</Text>
+          <Text type="secondary">
+            Tài liệu và học liệu từ các lớp bạn đang tham gia
+          </Text>
         </div>
         <div className={styles.filters}>
           <Select
-            value={selectedClassId}
-            onChange={setSelectedClassId}
-            style={{ width: 220 }}
-            options={[{ value: "all", label: "Tất cả lớp" }, ...classes]}
+            loading={loadingClasses}
+            value={selectedClassId ?? undefined}
+            onChange={handleChangeClass}
+            style={{ width: 260 }}
+            placeholder="Chọn lớp"
+            options={classes}
           />
         </div>
       </div>
 
-      {/* List */}
-      {list.length === 0 ? (
-        <Card className={styles.card}>
-          <Empty description="Không có tài liệu nào" />
-        </Card>
-      ) : (
-        <div className={styles.grid}>
-          {list.map((m) => {
-            const Icon = MATERIAL_ICONS[m.type];
-            return (
-              <Card key={m.id} className={styles.card} bordered>
-                <div className={styles.cardHeader}>
-                  <div className={styles.iconBox}>
-                    <Icon size={18} />
-                  </div>
-                  <div className={styles.meta}>
-                    <div className={styles.cardTitle}>{m.title}</div>
-                    <div className={styles.tags}>
-                      <Tag>{m.className}</Tag>
-                      <Tag color="default">{MATERIAL_LABELS[m.type]}</Tag>
+      <Spin spinning={loadingMaterials}>
+        {/* List */}
+        {materials.length === 0 ? (
+          <Card className={styles.card}>
+            <Empty description="Không có tài liệu nào trong lớp này" />
+          </Card>
+        ) : (
+          <>
+            <div className={styles.grid}>
+              {materials.map((m) => {
+                const Icon = MATERIAL_ICONS[m.type] || FileText;
+                return (
+                  <Card key={m.id} className={styles.card} bordered>
+                    <div className={styles.cardHeader}>
+                      <div className={styles.iconBox}>
+                        <Icon size={18} />
+                      </div>
+                      <div className={styles.meta}>
+                        <div className={styles.cardTitle}>{m.title}</div>
+                        <div className={styles.tags}>
+                          <Tag>{m.className}</Tag>
+                          <Tag color="default">
+                            {MATERIAL_LABELS[m.type] || "Tài liệu"}
+                          </Tag>
+                        </div>
+                      </div>
+                      <div className={styles.actions}>
+                        <Button
+                          size="small"
+                          icon={<Download size={16} />}
+                          onClick={() => handleDownload(m)}
+                        >
+                          Tải về
+                        </Button>
+                        <Button
+                          size="small"
+                          type="primary"
+                          icon={<Eye size={16} />}
+                          onClick={() => handleView(m)}
+                        >
+                          Xem
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                  <div className={styles.actions}>
-                    <Button
-                      size="small"
-                      icon={<Download size={16} />}
-                      onClick={() => handleDownload(m)}
-                    >
-                      Tải về
-                    </Button>
-                    <Button
-                      size="small"
-                      type="primary"
-                      icon={<Eye size={16} />}
-                      onClick={() => handleView(m)}
-                    >
-                      Xem
-                    </Button>
-                  </div>
-                </div>
-                <div className={styles.desc}>{m.description}</div>
-                <div className={styles.footer}>
-                  <Text type="secondary">Đăng ngày: {m.uploadedAt}</Text>
-                </div>
-              </Card>
-            );
-          })}
-        </div>
-      )}
+                    <div className={styles.desc}>{m.description}</div>
+                    <div className={styles.footer}>
+                      <Text type="secondary">
+                        {m.uploadedByName ? `GV: ${m.uploadedByName} • ` : ""}
+                        Đăng ngày:{" "}
+                        {m.uploadedAt
+                          ? new Date(m.uploadedAt).toLocaleString("vi-VN")
+                          : "-"}
+                      </Text>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+
+            {/* Pagination */}
+            {total > pageSize && (
+              <div className={styles.pagination}>
+                <Pagination
+                  current={page}
+                  pageSize={pageSize}
+                  total={total}
+                  showSizeChanger
+                  pageSizeOptions={[6, 10, 20]}
+                  onChange={handleChangePage}
+                  onShowSizeChange={handleChangePage}
+                />
+              </div>
+            )}
+          </>
+        )}
+      </Spin>
 
       {/* Viewer */}
       <Modal
@@ -179,10 +322,11 @@ export default function MaterialView() {
               type="secondary"
               style={{ display: "block", marginBottom: 8 }}
             >
-              {viewing.className} • {MATERIAL_LABELS[viewing.type]}
+              {selectedClassLabel} •{" "}
+              {MATERIAL_LABELS[viewing.type] || "Tài liệu"}
             </Text>
 
-            {viewing.type === "pdf" && (
+            {viewing.type === "pdf" && viewing.url && (
               <iframe
                 src={viewing.url}
                 className={styles.iframe}
@@ -190,7 +334,7 @@ export default function MaterialView() {
               />
             )}
 
-            {viewing.type === "video" && (
+            {viewing.type === "video" && viewing.url && (
               <div className={styles.aspect}>
                 <iframe
                   src={toEmbed(viewing.url)}
@@ -201,7 +345,7 @@ export default function MaterialView() {
               </div>
             )}
 
-            {viewing.type === "image" && (
+            {viewing.type === "image" && viewing.url && (
               <img
                 src={viewing.url}
                 alt={viewing.title}
@@ -209,7 +353,7 @@ export default function MaterialView() {
               />
             )}
 
-            {viewing.type === "link" && (
+            {viewing.type === "link" && viewing.url && (
               <div className={styles.linkBox}>
                 <p className={styles.linkHint}>Tài liệu liên kết bên ngoài</p>
                 <Button type="primary">

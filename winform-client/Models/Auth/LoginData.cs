@@ -10,7 +10,7 @@ namespace Academix.WinApp.Models.Auth
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
-        public UserDto User { get; set; }
+        public UserData User { get; set; }
         public DateTime ExpiresAt { get; set; }
     }
 }
