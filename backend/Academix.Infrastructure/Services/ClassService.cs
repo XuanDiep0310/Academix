@@ -473,6 +473,12 @@ namespace Academix.Infrastructure.Services
         {
             try
             {
+                var classExists = await _context.Classes.AnyAsync(c => c.ClassId == classId);
+                if (!classExists)
+                {
+                    return ApiResponse<List<ClassMemberDto>>.ErrorResponse("Class not found");
+                }
+
                 var query = _context.ClassMembers
                     .Include(cm => cm.User)
                     .Where(cm => cm.ClassId == classId);
