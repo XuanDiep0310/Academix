@@ -45,6 +45,7 @@ namespace Academix.Application.Interfaces
         Task<ApiResponse<ExamResultResponseDto>> GetMyExamResultAsync(int attemptId, int studentId);
 
         Task<ApiResponse<List<ExamResponseDto>>> GetMyExamsAsync(int studentId, int? classId = null);
+        Task<ApiResponse<List<ExamResultResponseDto>>> GetMyExamHistoryAsync(int studentId, int? classId = null);
 
         // Teacher Results Review
         Task<ApiResponse<ExamResultsListResponseDto>> GetExamResultsAsync(

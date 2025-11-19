@@ -139,5 +139,28 @@ namespace Academix.API.Controllers
 
             return Ok(result);
         }
+
+        /// <summary>
+        /// Get my exam history - List of all exams I've taken (Students)
+        /// </summary>
+        [HttpGet("history")]
+        [ProducesResponseType(typeof(ApiResponse<List<ExamResultResponseDto>>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetMyExamHistory([FromQuery] int? classId = null)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out var studentId))
+            {
+                return Unauthorized(ApiResponse<List<ExamResultResponseDto>>.ErrorResponse("Invalid user"));
+            }
+
+            var result = await _examService.GetMyExamHistoryAsync(studentId, classId);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
     }
 }
