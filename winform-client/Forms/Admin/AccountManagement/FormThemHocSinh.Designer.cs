@@ -53,7 +53,7 @@
             btnTao.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnTao.Font = new Font("Segoe UI", 9F);
             btnTao.ForeColor = Color.White;
-            btnTao.Location = new Point(366, 426);
+            btnTao.Location = new Point(384, 428);
             btnTao.Name = "btnTao";
             btnTao.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnTao.Size = new Size(162, 47);
@@ -73,7 +73,7 @@
             btnHuy.FillColor = Color.Silver;
             btnHuy.Font = new Font("Segoe UI", 9F);
             btnHuy.ForeColor = Color.White;
-            btnHuy.Location = new Point(230, 426);
+            btnHuy.Location = new Point(248, 428);
             btnHuy.Name = "btnHuy";
             btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnHuy.Size = new Size(105, 47);
@@ -109,7 +109,7 @@
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
             guna2HtmlLabel4.ForeColor = SystemColors.ActiveBorder;
-            guna2HtmlLabel4.Location = new Point(37, 372);
+            guna2HtmlLabel4.Location = new Point(37, 366);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
             guna2HtmlLabel4.Size = new Size(508, 22);
             guna2HtmlLabel4.TabIndex = 13;
@@ -137,10 +137,10 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            guna2HtmlLabel1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             guna2HtmlLabel1.Location = new Point(37, 31);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(216, 30);
+            guna2HtmlLabel1.Size = new Size(267, 33);
             guna2HtmlLabel1.TabIndex = 10;
             guna2HtmlLabel1.Text = "Thêm học sinh hàng loạt";
             // 

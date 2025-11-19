@@ -179,6 +179,7 @@
             btnDangXuat.Size = new Size(178, 38);
             btnDangXuat.TabIndex = 6;
             btnDangXuat.Text = "Đăng xuất";
+            btnDangXuat.Click += btnDangXuat_Click;
             // 
             // btnDoiMatKhau
             // 
@@ -197,6 +198,7 @@
             btnDoiMatKhau.Size = new Size(178, 38);
             btnDoiMatKhau.TabIndex = 5;
             btnDoiMatKhau.Text = "Đổi mật khẩu";
+            btnDoiMatKhau.Click += btnDoiMatKhau_Click;
             // 
             // guna2Panel4
             // 

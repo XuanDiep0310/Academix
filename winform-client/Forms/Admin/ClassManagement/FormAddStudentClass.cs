@@ -1,5 +1,7 @@
 ﻿using Academix.WinApp.Api;
 using Academix.WinApp.Models.Classes;
+using Academix.WinApp.Models.Users;
+using Academix.WinApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,93 +14,132 @@ namespace Academix.WinApp.Forms.Admin.ClassManagement
     {
         private readonly int _classId;
         private readonly ClassApiService _classApi;
-        private List<ClassMember> _allStudents;
+        private readonly UserApi _userApi;
+
+        private List<UserData> _allStudents;  // danh sách tất cả học sinh
 
         public FormAddStudentClass(int classId)
         {
             InitializeComponent();
             _classId = classId;
-            //_classApi = new ClassApiService("YOUR_BEARER_TOKEN"); // gán token
+
+            _classApi = new ClassApiService();
+            _userApi = new UserApi(Config.Get("ApiSettings:BaseUrl"));
 
             this.Load += FormAddStudentClass_Load;
         }
 
         private async void FormAddStudentClass_Load(object sender, EventArgs e)
         {
-            //await LoadStudentsAsync();
+            InitializeStudentGrid();
+            await LoadStudentsAsync();
         }
 
-        //private async Task LoadStudentsAsync()
-        //{
-        //    try
-        //    {
-        //        // Lấy danh sách tất cả học sinh (từ API hoặc giả lập)
-        //        _allStudents = await _classApi.GetAllStudentsAsync(); // API trả về tất cả học sinh chưa vào lớp
+        #region Khởi tạo DataGridView
+        private void InitializeStudentGrid()
+        {
+            dgvDSHocSinh.AutoGenerateColumns = false;
+            dgvDSHocSinh.Columns.Clear();
 
-        //        dgvStudents.Rows.Clear();
-        //        dgvStudents.Columns.Clear();
+            // Checkbox column
+            DataGridViewCheckBoxColumn chkCol = new DataGridViewCheckBoxColumn();
+            chkCol.HeaderText = "Chọn";
+            chkCol.Width = 50;
+            dgvDSHocSinh.Columns.Add(chkCol);
 
-        //        dgvStudents.Columns.Add(new DataGridViewCheckBoxColumn() { HeaderText = "Chọn" });
-        //        dgvStudents.Columns.Add("UserId", "ID");
-        //        dgvStudents.Columns.Add("FullName", "Họ và tên");
-        //        dgvStudents.Columns.Add("Email", "Email");
+            // Name column
+            DataGridViewTextBoxColumn nameCol = new DataGridViewTextBoxColumn();
+            nameCol.HeaderText = "Tên học sinh";
+            nameCol.DataPropertyName = "FullName";
+            nameCol.Width = 200;
+            dgvDSHocSinh.Columns.Add(nameCol);
 
-        //        foreach (var s in _allStudents)
-        //        {
-        //            dgvStudents.Rows.Add(false, s.UserId, s.FullName, s.Email);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Lỗi load danh sách học sinh: " + ex.Message);
-        //    }
-        //}
+            // Email column
+            DataGridViewTextBoxColumn emailCol = new DataGridViewTextBoxColumn();
+            emailCol.HeaderText = "Email";
+            emailCol.DataPropertyName = "Email";
+            emailCol.Width = 200;
+            dgvDSHocSinh.Columns.Add(emailCol);
 
-        //private void btnHuy_Click(object sender, EventArgs e)
-        //{
-        //    this.DialogResult = DialogResult.Cancel;
-        //    this.Close();
-        //}
+            dgvDSHocSinh.AllowUserToAddRows = false;
 
-        //private async void btnLuu_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        // Lấy danh sách UserId đã chọn
-        //        var selectedIds = new List<int>();
-        //        for (int i = 0; i < dgvStudents.Rows.Count; i++)
-        //        {
-        //            bool isChecked = Convert.ToBoolean(dgvStudents.Rows[i].Cells[0].Value);
-        //            if (isChecked)
-        //            {
-        //                selectedIds.Add(Convert.ToInt32(dgvStudents.Rows[i].Cells["UserId"].Value));
-        //            }
-        //        }
+        }
+        #endregion
 
-        //        if (!selectedIds.Any())
-        //        {
-        //            MessageBox.Show("Vui lòng chọn ít nhất 1 học sinh!");
-        //            return;
-        //        }
+        #region Load danh sách học sinh
+        private async Task LoadStudentsAsync()
+        {
+            try
+            {
+                // Gọi API lấy danh sách user (đã phân trang hoặc nhiều trang)
+                var allUserResult = await _userApi.GetAllUsersAsync();
+                var allUsers = allUserResult.Users;  // LẤY DANH SÁCH USERS
 
-        //        // Gọi API thêm học sinh vào lớp
-        //        var result = await _classApi.AddStudentsAsync(_classId, selectedIds);
+                // Lấy danh sách học sinh của lớp
+                var classStudents = await _classApi.GetStudentsAsync(_classId);
 
-        //        if (result.Success)
-        //        {
-        //            MessageBox.Show("Thêm học sinh thành công!");
-        //            this.DialogResult = DialogResult.OK;
-        //            this.Close();
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Thêm học sinh thất bại: " + result.Message);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Lỗi khi thêm học sinh: " + ex.Message);
-        //    }
-        //}
+                // Lọc role Student
+                _allStudents = allUsers.Where(u => u.Role == "Student").ToList();
+
+                dgvDSHocSinh.Rows.Clear();
+
+                foreach (var student in _allStudents)
+                {
+                    bool isInClass = classStudents.Any(s => s.UserId == student.UserId);
+
+                    dgvDSHocSinh.Rows.Add(
+                        isInClass,
+                        student.FullName,
+                        student.Email
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải danh sách học sinh: {ex.Message}");
+            }
+        }
+
+        #endregion
+
+        #region Lưu danh sách đã chọn
+        private async void btnLuu_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                List<int> selectedIds = new List<int>();
+
+                for (int i = 0; i < dgvDSHocSinh.Rows.Count; i++)
+                {
+                    bool isChecked = Convert.ToBoolean(dgvDSHocSinh.Rows[i].Cells[0].Value);
+                    if (isChecked)
+                    {
+                        var student = _allStudents.First(s =>
+                            s.FullName == dgvDSHocSinh.Rows[i].Cells[1].Value.ToString()
+                        );
+
+                        selectedIds.Add(student.UserId);
+                    }
+                }
+
+                // Gọi API 
+                await _classApi.AddStudentsToClassAsync(_classId, selectedIds);
+
+                MessageBox.Show("Cập nhật học sinh thành công!");
+                this.DialogResult = DialogResult.OK;   
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi lưu danh sách học sinh: {ex.Message}");
+            }
+        }
+        #endregion
+
+        private void btnHuy_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }
