@@ -45,10 +45,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(34, 23);
+            label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(38, 31);
             label1.Name = "label1";
-            label1.Size = new Size(230, 28);
+            label1.Size = new Size(260, 31);
             label1.TabIndex = 0;
             label1.Text = "Chọn giáo viên cho lớp";
             // 
@@ -64,7 +64,8 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvDSGiaoVien.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dgvDSGiaoVien.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDSGiaoVien.ColumnHeadersHeight = 40;
+            dgvDSGiaoVien.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
@@ -91,8 +92,8 @@
             dgvDSGiaoVien.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvDSGiaoVien.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
             dgvDSGiaoVien.ThemeStyle.HeaderStyle.ForeColor = Color.White;
-            dgvDSGiaoVien.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDSGiaoVien.ThemeStyle.HeaderStyle.Height = 4;
+            dgvDSGiaoVien.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dgvDSGiaoVien.ThemeStyle.HeaderStyle.Height = 40;
             dgvDSGiaoVien.ThemeStyle.ReadOnly = false;
             dgvDSGiaoVien.ThemeStyle.RowsStyle.BackColor = Color.White;
             dgvDSGiaoVien.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -112,7 +113,7 @@
             btnLuu.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnLuu.Font = new Font("Segoe UI", 9F);
             btnLuu.ForeColor = Color.White;
-            btnLuu.Location = new Point(502, 399);
+            btnLuu.Location = new Point(504, 379);
             btnLuu.Name = "btnLuu";
             btnLuu.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnLuu.Size = new Size(162, 47);
@@ -132,7 +133,7 @@
             btnHuy.FillColor = Color.Silver;
             btnHuy.Font = new Font("Segoe UI", 9F);
             btnHuy.ForeColor = Color.White;
-            btnHuy.Location = new Point(370, 399);
+            btnHuy.Location = new Point(372, 379);
             btnHuy.Name = "btnHuy";
             btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnHuy.Size = new Size(105, 47);
@@ -144,7 +145,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(708, 516);
+            ClientSize = new Size(708, 482);
             Controls.Add(btnLuu);
             Controls.Add(btnHuy);
             Controls.Add(dgvDSGiaoVien);

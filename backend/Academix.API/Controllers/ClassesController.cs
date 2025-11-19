@@ -236,7 +236,7 @@ namespace Academix.API.Controllers
         /// Get class members (Admin and Teachers)
         /// </summary>
         [HttpGet("{classId}/members")]
-        [Authorize(Roles = $"{UserRoles.Admin},{UserRoles.Teacher}")]
+        [Authorize(Roles = $"{UserRoles.Admin},{UserRoles.Teacher}, {UserRoles.Student}")]
         [ProducesResponseType(typeof(ApiResponse<List<ClassMemberDto>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetClassMembers(int classId, [FromQuery] string? role = null)
         {

@@ -26,37 +26,28 @@ namespace Academix.WinApp.Api
         //    SetAuthToken(token);          // set vào HttpClient
         //}
 
-        public async Task<List<UserData>> GetAllUsersAsync(
+        public async Task<UserListData> GetAllUsersAsync(
              int page = 1,
-             int pageSize = 100,
+             int pageSize = 20,
              string sortBy = "CreatedAt",
              string sortOrder = "desc")
         {
-            if (!SessionManager.IsAuthenticated)
-                throw new Exception("Chưa đăng nhập hoặc token không hợp lệ.");
-
             EnsureAuthToken();
 
-            string endpoint = $"api/Users?page={page}&pageSize={pageSize}&sortBy={sortBy}&sortOrder={sortOrder}";
-
-            Debug.WriteLine("=== REQUEST INFO ===");
-            Debug.WriteLine("Full URL: " + new Uri(_client.BaseAddress, endpoint));
+            string endpoint =
+                $"api/Users?page={page}&pageSize={pageSize}&sortBy={sortBy}&sortOrder={sortOrder}";
 
             var response = await _client.GetAsync(endpoint);
             var content = await response.Content.ReadAsStringAsync();
 
-            Debug.WriteLine("HTTP Status: " + response.StatusCode);
-            Debug.WriteLine("Response Body: " + content);
-
             if (!response.IsSuccessStatusCode)
-            {
-                Debug.WriteLine("ERROR: Request failed!");
-                return new List<UserData>();
-            }
+                throw new Exception("API Error: " + content);
 
             var apiResponse = JsonConvert.DeserializeObject<ApiResponse<UserListData>>(content);
-            return apiResponse?.Data?.Users ?? new List<UserData>();
+
+            return apiResponse?.Data ?? new UserListData();
         }
+
 
         public async Task<ApiResponse<UserData>> CreateUserAsync(UserCreateRequest request)
         {

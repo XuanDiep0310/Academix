@@ -60,7 +60,7 @@
             btnTao.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnTao.Font = new Font("Segoe UI", 9F);
             btnTao.ForeColor = Color.White;
-            btnTao.Location = new Point(421, 431);
+            btnTao.Location = new Point(404, 423);
             btnTao.Name = "btnTao";
             btnTao.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnTao.Size = new Size(105, 47);
@@ -80,7 +80,7 @@
             btnHuy.FillColor = Color.Silver;
             btnHuy.Font = new Font("Segoe UI", 9F);
             btnHuy.ForeColor = Color.White;
-            btnHuy.Location = new Point(292, 431);
+            btnHuy.Location = new Point(275, 423);
             btnHuy.Name = "btnHuy";
             btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnHuy.Size = new Size(105, 47);
@@ -100,7 +100,7 @@
             txtMoTa.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtMoTa.Font = new Font("Segoe UI", 9F);
             txtMoTa.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtMoTa.Location = new Point(50, 365);
+            txtMoTa.Location = new Point(35, 358);
             txtMoTa.Margin = new Padding(3, 4, 3, 4);
             txtMoTa.Name = "txtMoTa";
             txtMoTa.PlaceholderText = "";
@@ -121,7 +121,7 @@
             txtMaLop.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtMaLop.Font = new Font("Segoe UI", 9F);
             txtMaLop.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtMaLop.Location = new Point(50, 261);
+            txtMaLop.Location = new Point(35, 254);
             txtMaLop.Margin = new Padding(3, 4, 3, 4);
             txtMaLop.Name = "txtMaLop";
             txtMaLop.PlaceholderText = "";
@@ -142,7 +142,7 @@
             txtTenLop.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtTenLop.Font = new Font("Segoe UI", 9F);
             txtTenLop.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtTenLop.Location = new Point(50, 169);
+            txtTenLop.Location = new Point(35, 160);
             txtTenLop.Margin = new Padding(3, 4, 3, 4);
             txtTenLop.Name = "txtTenLop";
             txtTenLop.PlaceholderText = "";
@@ -154,7 +154,7 @@
             // guna2HtmlLabel5
             // 
             guna2HtmlLabel5.BackColor = Color.Transparent;
-            guna2HtmlLabel5.Location = new Point(44, 327);
+            guna2HtmlLabel5.Location = new Point(35, 320);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
             guna2HtmlLabel5.Size = new Size(42, 22);
             guna2HtmlLabel5.TabIndex = 14;
@@ -163,7 +163,7 @@
             // guna2HtmlLabel4
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
-            guna2HtmlLabel4.Location = new Point(44, 232);
+            guna2HtmlLabel4.Location = new Point(35, 225);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
             guna2HtmlLabel4.Size = new Size(50, 22);
             guna2HtmlLabel4.TabIndex = 13;
@@ -172,7 +172,7 @@
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.Location = new Point(44, 138);
+            guna2HtmlLabel3.Location = new Point(35, 131);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             guna2HtmlLabel3.Size = new Size(81, 22);
             guna2HtmlLabel3.TabIndex = 12;
@@ -191,10 +191,10 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            guna2HtmlLabel1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             guna2HtmlLabel1.Location = new Point(35, 36);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(145, 30);
+            guna2HtmlLabel1.Size = new Size(176, 33);
             guna2HtmlLabel1.TabIndex = 10;
             guna2HtmlLabel1.Text = "Tạo lớp học mới";
             // 
@@ -202,7 +202,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(579, 529);
+            ClientSize = new Size(556, 529);
             Controls.Add(btnTao);
             Controls.Add(btnHuy);
             Controls.Add(txtMoTa);

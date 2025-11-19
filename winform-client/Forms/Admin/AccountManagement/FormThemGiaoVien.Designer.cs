@@ -73,7 +73,7 @@
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.Location = new Point(30, 132);
+            guna2HtmlLabel3.Location = new Point(21, 125);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             guna2HtmlLabel3.Size = new Size(40, 22);
             guna2HtmlLabel3.TabIndex = 2;
@@ -82,7 +82,7 @@
             // guna2HtmlLabel4
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
-            guna2HtmlLabel4.Location = new Point(30, 226);
+            guna2HtmlLabel4.Location = new Point(21, 219);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
             guna2HtmlLabel4.Size = new Size(67, 22);
             guna2HtmlLabel4.TabIndex = 3;
@@ -91,7 +91,7 @@
             // guna2HtmlLabel5
             // 
             guna2HtmlLabel5.BackColor = Color.Transparent;
-            guna2HtmlLabel5.Location = new Point(30, 321);
+            guna2HtmlLabel5.Location = new Point(21, 314);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
             guna2HtmlLabel5.Size = new Size(64, 22);
             guna2HtmlLabel5.TabIndex = 4;
@@ -109,7 +109,7 @@
             txtEmail.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtEmail.Font = new Font("Segoe UI", 9F);
             txtEmail.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtEmail.Location = new Point(36, 163);
+            txtEmail.Location = new Point(21, 154);
             txtEmail.Margin = new Padding(3, 4, 3, 4);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderText = "";
@@ -130,7 +130,7 @@
             txtHoTen.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtHoTen.Font = new Font("Segoe UI", 9F);
             txtHoTen.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtHoTen.Location = new Point(36, 255);
+            txtHoTen.Location = new Point(21, 248);
             txtHoTen.Margin = new Padding(3, 4, 3, 4);
             txtHoTen.Name = "txtHoTen";
             txtHoTen.PlaceholderText = "";
@@ -151,7 +151,7 @@
             txtMatKhau.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtMatKhau.Font = new Font("Segoe UI", 9F);
             txtMatKhau.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtMatKhau.Location = new Point(36, 359);
+            txtMatKhau.Location = new Point(21, 343);
             txtMatKhau.Margin = new Padding(3, 4, 3, 4);
             txtMatKhau.Name = "txtMatKhau";
             txtMatKhau.PlaceholderText = "";
@@ -172,7 +172,7 @@
             btnHuy.FillColor = Color.Silver;
             btnHuy.Font = new Font("Segoe UI", 9F);
             btnHuy.ForeColor = Color.White;
-            btnHuy.Location = new Point(278, 425);
+            btnHuy.Location = new Point(266, 417);
             btnHuy.Name = "btnHuy";
             btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnHuy.Size = new Size(105, 47);
@@ -190,7 +190,7 @@
             btnTao.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnTao.Font = new Font("Segoe UI", 9F);
             btnTao.ForeColor = Color.White;
-            btnTao.Location = new Point(407, 425);
+            btnTao.Location = new Point(395, 417);
             btnTao.Name = "btnTao";
             btnTao.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnTao.Size = new Size(105, 47);
@@ -202,7 +202,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(547, 498);
+            ClientSize = new Size(532, 498);
             Controls.Add(btnTao);
             Controls.Add(btnHuy);
             Controls.Add(txtMatKhau);

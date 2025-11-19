@@ -56,7 +56,7 @@
             btnCapNhat.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnCapNhat.Font = new Font("Segoe UI", 9F);
             btnCapNhat.ForeColor = Color.White;
-            btnCapNhat.Location = new Point(446, 337);
+            btnCapNhat.Location = new Point(404, 325);
             btnCapNhat.Name = "btnCapNhat";
             btnCapNhat.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnCapNhat.Size = new Size(105, 47);
@@ -76,7 +76,7 @@
             btnHuy.FillColor = Color.Silver;
             btnHuy.Font = new Font("Segoe UI", 9F);
             btnHuy.ForeColor = Color.White;
-            btnHuy.Location = new Point(317, 337);
+            btnHuy.Location = new Point(275, 325);
             btnHuy.Name = "btnHuy";
             btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnHuy.Size = new Size(105, 47);
@@ -96,7 +96,7 @@
             txtHoTen.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtHoTen.Font = new Font("Segoe UI", 9F);
             txtHoTen.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtHoTen.Location = new Point(67, 250);
+            txtHoTen.Location = new Point(36, 240);
             txtHoTen.Margin = new Padding(3, 4, 3, 4);
             txtHoTen.Name = "txtHoTen";
             txtHoTen.PlaceholderText = "";
@@ -117,7 +117,7 @@
             txtEmail.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtEmail.Font = new Font("Segoe UI", 9F);
             txtEmail.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtEmail.Location = new Point(67, 158);
+            txtEmail.Location = new Point(36, 146);
             txtEmail.Margin = new Padding(3, 4, 3, 4);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderText = "";
@@ -129,7 +129,7 @@
             // guna2HtmlLabel4
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
-            guna2HtmlLabel4.Location = new Point(61, 221);
+            guna2HtmlLabel4.Location = new Point(36, 211);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
             guna2HtmlLabel4.Size = new Size(67, 22);
             guna2HtmlLabel4.TabIndex = 13;
@@ -138,7 +138,7 @@
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.Location = new Point(61, 127);
+            guna2HtmlLabel3.Location = new Point(36, 117);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             guna2HtmlLabel3.Size = new Size(40, 22);
             guna2HtmlLabel3.TabIndex = 12;
@@ -148,7 +148,7 @@
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
             guna2HtmlLabel2.ForeColor = SystemColors.ActiveBorder;
-            guna2HtmlLabel2.Location = new Point(52, 66);
+            guna2HtmlLabel2.Location = new Point(36, 72);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
             guna2HtmlLabel2.Size = new Size(130, 22);
             guna2HtmlLabel2.TabIndex = 11;
@@ -157,10 +157,10 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2HtmlLabel1.Location = new Point(52, 25);
+            guna2HtmlLabel1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            guna2HtmlLabel1.Location = new Point(36, 31);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(88, 30);
+            guna2HtmlLabel1.Size = new Size(109, 33);
             guna2HtmlLabel1.TabIndex = 10;
             guna2HtmlLabel1.Text = "Chỉnh sửa";
             // 
@@ -168,7 +168,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(613, 484);
+            ClientSize = new Size(561, 420);
             Controls.Add(btnCapNhat);
             Controls.Add(btnHuy);
             Controls.Add(txtHoTen);

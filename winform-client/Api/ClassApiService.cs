@@ -4,6 +4,7 @@ using Academix.WinApp.Models.Common;
 using Academix.WinApp.Utils;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Academix.WinApp.Models.Classes.Responses;
 
 namespace Academix.WinApp.Api
 {
@@ -249,8 +250,101 @@ namespace Academix.WinApp.Api
             var result = await response.Content.ReadFromJsonAsync<ApiResponse<ClassDetailDto>>();
             return result?.Data;
         }
+        public async Task RemoveMemberAsync(int classId, int userId)
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", _token);
 
+            string url = $"{_baseUrl}/{classId}/members/{userId}";
 
+            var response = await client.DeleteAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+        }
+
+        public async Task UpdateClassAsync(int classId, string className, string description, bool isActive)
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+            var payload = new
+            {
+                className = className,
+                description = description,
+                isActive = isActive
+            };
+
+            string url = $"{_baseUrl}/{classId}";
+            var response = await client.PutAsJsonAsync(url, payload);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+        }
+
+        // Lấy thông tin lớp theo id
+        public async Task<ClassDto> GetClassByIdAsync(int classId)
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+            string url = $"{_baseUrl}/{classId}";
+
+            // Gọi GET API
+            var response = await client.GetAsync(url);
+
+            // Nếu API trả về lỗi HTTP
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            // Deserialize JSON về ApiResponse<ClassData>
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<ClassDto>>();
+
+            if (result == null)
+                throw new Exception("API trả về dữ liệu null.");
+
+            if (!result.Success)
+                throw new Exception($"API lỗi: {result.Message}");
+
+            if (result.Data == null)
+                throw new Exception("Không lấy được dữ liệu lớp từ API.");
+
+            return result.Data;
+        }
+
+        public async Task DeleteClassAsync(int classId)
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+
+            string url = $"{_baseUrl}/{classId}";
+
+            var response = await client.DeleteAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new Exception($"API ERROR {response.StatusCode}: {err}");
+            }
+
+            // Nếu muốn, có thể đọc JSON trả về
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<string>>();
+            if (result == null)
+                throw new Exception("API trả về dữ liệu null khi xóa lớp.");
+
+            if (!result.Success)
+                throw new Exception($"Xóa lớp thất bại: {result.Message}");
+        }
 
     }
 }

@@ -55,7 +55,7 @@ namespace Academix.WinApp.Forms
                     Password = txtMatKhau.Text
                 };
 
-                 var loginResult = await _authApi.LoginAsync(loginRequest);
+                var loginResult = await _authApi.LoginAsync(loginRequest);
 
                 if (loginResult.Success)
                 {
@@ -119,5 +119,11 @@ namespace Academix.WinApp.Forms
             mainForm.FormClosed += (s, e) => this.Close();
             mainForm.Show();
         }
+
+        private async void btnForgotPassWord_Click(object sender, EventArgs e)
+        {
+            
+        }
+
     }
 }

@@ -1,7 +1,4 @@
 ﻿using Academix.WinApp.Api;
-using Academix.WinApp.Forms.Teacher.Class;
-using Academix.WinApp.Models.Classes;
-using Academix.WinApp.Models.Teacher;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,39 +44,23 @@ namespace Academix.WinApp.Forms.Student
                 var materialApi = new MaterialApiService();
                 var examApi = new ExamApiService();
 
-                // Lấy thông tin giáo viên
-                ClassDetailDto? detail = await classApi.GetClassDetailAsync(ClassId);
-                int teacherCount = 0;
+                // Lấy thông tin giáo viên từ API members
+                var members = await classApi.GetAllMembersAsync(ClassId);
+                var teacherMembers = members
+                    .Where(m => string.Equals(m.Role, "Teacher", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
 
-                if (detail != null)
+                int teacherCount = teacherMembers.Count;
+                var teacherNames = teacherMembers
+                    .Select(m => m.FullName)
+                    .Where(name => !string.IsNullOrWhiteSpace(name))
+                    .Take(2)
+                    .ToList();
+
+                if (teacherNames.Count > 0)
                 {
-                    // ưu tiên TeacherCount nếu API cung cấp
-                    teacherCount = detail.TeacherCount > 0
-                        ? detail.TeacherCount
-                        : (detail.Teachers?.Count ?? 0);
-
-                    if (detail.Teachers != null && detail.Teachers.Count > 0)
-                    {
-                        var teachers = detail.Teachers
-                            .Take(2)
-                            .Select(t => t.FullName)
-                            .Where(name => !string.IsNullOrWhiteSpace(name))
-                            .ToList();
-
-                        if (teachers.Count > 0)
-                        {
-                            var countText = teacherCount > 0 ? $" ({teacherCount} GV)" : string.Empty;
-                            lblTenGiaoVien.Text = string.Join(", ", teachers) + countText;
-                        }
-                        else
-                        {
-                            lblTenGiaoVien.Text = "Chưa có giáo viên";
-                        }
-                    }
-                    else
-                    {
-                        lblTenGiaoVien.Text = "Chưa có giáo viên";
-                    }
+                    var countText = teacherCount > 0 ? $" ({teacherCount} GV)" : string.Empty;
+                    lblTenGiaoVien.Text = string.Join(", ", teacherNames) + countText;
                 }
                 else
                 {
@@ -96,13 +77,8 @@ namespace Academix.WinApp.Forms.Student
                 lblSoTaiLieu.Text = materialPaged.TotalCount.ToString();
 
                 // Đếm số bài kiểm tra
-                var examsPaged = await examApi.GetExamsByClassAsync(
-                    ClassId,
-                    isPublished: null,
-                    page: 1,
-                    pageSize: 1
-                );
-                lblSoBaiKiemTra.Text = examsPaged.TotalCount.ToString();
+                var studentExams = await examApi.GetStudentExamsAsync(ClassId);
+                lblSoBaiKiemTra.Text = studentExams.Count.ToString();
             }
             catch (Exception ex)
             {

@@ -49,8 +49,9 @@
             guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
             dgvClasses = new Guna.UI2.WinForms.Guna2DataGridView();
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
-            guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
-            guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
+            lblPageInfo = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            btnPrevious = new Guna.UI2.WinForms.Guna2Button();
+            btnNext = new Guna.UI2.WinForms.Guna2Button();
             guna2Panel6 = new Guna.UI2.WinForms.Guna2Panel();
             btnTaoLopHoc = new Guna.UI2.WinForms.Guna2Button();
             guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -100,7 +101,7 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvClasses.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dgvClasses.ColumnHeadersHeight = 4;
+            dgvClasses.ColumnHeadersHeight = 40;
             dgvClasses.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
@@ -130,7 +131,7 @@
             dgvClasses.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
             dgvClasses.ThemeStyle.HeaderStyle.ForeColor = Color.White;
             dgvClasses.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dgvClasses.ThemeStyle.HeaderStyle.Height = 4;
+            dgvClasses.ThemeStyle.HeaderStyle.Height = 40;
             dgvClasses.ThemeStyle.ReadOnly = false;
             dgvClasses.ThemeStyle.RowsStyle.BackColor = Color.White;
             dgvClasses.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -142,8 +143,9 @@
             // 
             // guna2Panel1
             // 
-            guna2Panel1.Controls.Add(guna2Button4);
-            guna2Panel1.Controls.Add(guna2Button3);
+            guna2Panel1.Controls.Add(lblPageInfo);
+            guna2Panel1.Controls.Add(btnPrevious);
+            guna2Panel1.Controls.Add(btnNext);
             guna2Panel1.CustomizableEdges = customizableEdges7;
             guna2Panel1.Dock = DockStyle.Bottom;
             guna2Panel1.Location = new Point(0, 642);
@@ -152,39 +154,54 @@
             guna2Panel1.Size = new Size(1097, 59);
             guna2Panel1.TabIndex = 4;
             // 
-            // guna2Button4
+            // lblPageInfo
             // 
-            guna2Button4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            guna2Button4.CustomizableEdges = customizableEdges3;
-            guna2Button4.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button4.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button4.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button4.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button4.Font = new Font("Segoe UI", 9F);
-            guna2Button4.ForeColor = Color.White;
-            guna2Button4.Location = new Point(668, 7);
-            guna2Button4.Name = "guna2Button4";
-            guna2Button4.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            guna2Button4.Size = new Size(71, 38);
-            guna2Button4.TabIndex = 3;
-            guna2Button4.Text = "next >";
+            lblPageInfo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            lblPageInfo.BackColor = Color.Transparent;
+            lblPageInfo.ForeColor = Color.Black;
+            lblPageInfo.Location = new Point(488, 16);
+            lblPageInfo.Name = "lblPageInfo";
+            lblPageInfo.Size = new Size(121, 22);
+            lblPageInfo.TabIndex = 32;
+            lblPageInfo.Text = "guna2HtmlLabel1";
             // 
-            // guna2Button3
+            // btnPrevious
             // 
-            guna2Button3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            guna2Button3.CustomizableEdges = customizableEdges5;
-            guna2Button3.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button3.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button3.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button3.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button3.Font = new Font("Segoe UI", 9F);
-            guna2Button3.ForeColor = Color.White;
-            guna2Button3.Location = new Point(378, 7);
-            guna2Button3.Name = "guna2Button3";
-            guna2Button3.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2Button3.Size = new Size(106, 38);
-            guna2Button3.TabIndex = 2;
-            guna2Button3.Text = "< previous";
+            btnPrevious.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            btnPrevious.CustomizableEdges = customizableEdges3;
+            btnPrevious.DisabledState.BorderColor = Color.DarkGray;
+            btnPrevious.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnPrevious.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnPrevious.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnPrevious.FillColor = Color.LightSkyBlue;
+            btnPrevious.Font = new Font("Segoe UI", 9F);
+            btnPrevious.ForeColor = Color.White;
+            btnPrevious.Location = new Point(318, 8);
+            btnPrevious.Name = "btnPrevious";
+            btnPrevious.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnPrevious.Size = new Size(119, 40);
+            btnPrevious.TabIndex = 30;
+            btnPrevious.Text = "Previous";
+            btnPrevious.Click += btnPrevious_Click;
+            // 
+            // btnNext
+            // 
+            btnNext.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            btnNext.CustomizableEdges = customizableEdges5;
+            btnNext.DisabledState.BorderColor = Color.DarkGray;
+            btnNext.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnNext.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnNext.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnNext.FillColor = Color.LightSkyBlue;
+            btnNext.Font = new Font("Segoe UI", 9F);
+            btnNext.ForeColor = Color.White;
+            btnNext.Location = new Point(642, 8);
+            btnNext.Name = "btnNext";
+            btnNext.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnNext.Size = new Size(119, 40);
+            btnNext.TabIndex = 31;
+            btnNext.Text = "Next";
+            btnNext.Click += btnNext_Click;
             // 
             // guna2Panel6
             // 
@@ -251,6 +268,7 @@
             guna2Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvClasses).EndInit();
             guna2Panel1.ResumeLayout(false);
+            guna2Panel1.PerformLayout();
             guna2Panel6.ResumeLayout(false);
             guna2Panel6.PerformLayout();
             ResumeLayout(false);
@@ -259,8 +277,6 @@
         #endregion
 
         private Guna.UI2.WinForms.Guna2Panel guna2Panel5;
-        private Guna.UI2.WinForms.Guna2Button guna2Button4;
-        private Guna.UI2.WinForms.Guna2Button guna2Button3;
         private Guna.UI2.WinForms.Guna2DataGridView dgvClasses;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel6;
         private Guna.UI2.WinForms.Guna2Button btnTaoLopHoc;
@@ -268,5 +284,8 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
+        private Guna.UI2.WinForms.Guna2Button btnPrevious;
+        private Guna.UI2.WinForms.Guna2Button btnNext;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblPageInfo;
     }
 }
