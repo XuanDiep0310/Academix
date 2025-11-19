@@ -1,4 +1,5 @@
-﻿using Academix.WinApp.Models.Teacher;
+using Academix.WinApp.Models.Teacher;
+using Academix.WinApp.Forms.Student.Exam;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,6 +70,23 @@ namespace Academix.WinApp.Forms.Student.MyResult
                 BackColor = Color.FromArgb(245, 245, 245); // Nền xám nhạt
                 btnBatDauLamBai.Visible = false;
                 btnBatDauLamBai.Enabled = false;
+            }
+        }
+
+        private void btnBatDauLamBai_Click(object sender, EventArgs e)
+        {
+            FormMainStudent frm = Application.OpenForms["FormMainStudent"] as FormMainStudent;
+
+            if (frm != null)
+            {
+                frm.mainPanel.Controls.Clear();
+                UC_DoExam uc = new UC_DoExam();
+                uc.Dock = DockStyle.Fill;
+                frm.mainPanel.Controls.Add(uc);
+            }
+            else
+            {
+                MessageBox.Show("FormMainStudent chưa mở!");
             }
         }
     }

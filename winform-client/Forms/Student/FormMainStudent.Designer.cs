@@ -302,7 +302,7 @@
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private Guna.UI2.WinForms.Guna2Button btnMyResult;
-        private Panel mainPanel;
+        public Panel mainPanel;
         private Guna.UI2.WinForms.Guna2CirclePictureBox guna2CirclePictureBox2;
     }
 }
