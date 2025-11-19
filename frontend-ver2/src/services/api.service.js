@@ -98,7 +98,10 @@ const callListTeacherAPI = () => {
   const res = axios.get(URL_BACKEND);
   return res;
 };
-const callListStudentAPI = () => {
+const callListStudentAPI = (query) => {
+  if (query) {
+    return axios.get(`/api/Users?role=Student&${query}`);
+  }
   const URL_BACKEND = `/api/Users?role=Student`;
   const res = axios.get(URL_BACKEND);
   return res;
@@ -145,6 +148,7 @@ const callListTeacherOnClassesAPI = (id) => {
   const res = axios.get(URL_BACKEND);
   return res;
 };
+
 const callListStudentOnClassesAPI = (id) => {
   const URL_BACKEND = `/api/Classes/${id}/students`;
   const res = axios.get(URL_BACKEND);
@@ -299,6 +303,12 @@ export const callGetExamResultsAPI = (classId, examId, query) => {
   return axios.get(URL_BACKEND);
 };
 
+export const callStudentGetExamHistoryAPI = (classId) => {
+  return axios.get("/api/student/exams/history", {
+    params: { classId },
+  });
+};
+
 const callUpdateAvatar = (fileImg) => {
   const bodyFormData = new FormData();
   bodyFormData.append("fileImg", fileImg);
@@ -323,12 +333,12 @@ const callUpdateUserInfo = (_id, phone, fullName, avatarUser) => {
   const res = axios.put(URL_BACKEND, data);
   return res;
 };
-const callOnChangePassWord = (email, oldpass, newpass) => {
-  const URL_BACKEND = `/api/v1/user/change-password`;
+const callOnChangePassWord = (oldPassword, newPassword, confirmPassword) => {
+  const URL_BACKEND = `/api/Auth/change-password`;
   const data = {
-    email,
-    oldpass,
-    newpass,
+    oldPassword,
+    newPassword,
+    confirmPassword,
   };
   const res = axios.post(URL_BACKEND, data);
   return res;
