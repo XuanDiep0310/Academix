@@ -11,7 +11,7 @@ namespace Academix.WinApp.Models.Student
         public string? SelectedOptionText { get; set; }
         public int CorrectOptionId { get; set; }
         public string CorrectOptionText { get; set; } = string.Empty;
-        public bool IsCorrect { get; set; }
+        public object? IsCorrect { get; set; }   // đổi từ bool sang object để parse mọi kiểu dữ liệu
         public double MarksObtained { get; set; }
         public double TotalMarks { get; set; }
     }

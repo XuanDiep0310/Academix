@@ -18,7 +18,7 @@ import QuestionBank from "./components/Teacher/QuestionBank/QuestionBank";
 import ResultsView from "./components/Teacher/Result/ResultsView";
 import TestManagement from "./components/Teacher/TestManagement/TestManagement";
 import LayoutStudent from "./components/Student/LayoutStudent";
-import { StudentClassList } from "./components/Student/StudentClassList";
+import { StudentClassList } from "./components/Student/ClassesView/StudentClassList";
 import MaterialView from "./components/Student/MaterialView";
 import { StudentResults } from "./components/Student/StudentResults";
 import { TestTaking } from "./components/Student/TestTaking";
@@ -27,6 +27,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import RoleRedirect from "./components/RoleRedirect";
 import TeacherPage from "./pages/teacher";
 import MaterialPreview from "./components/Teacher/Materia/MaterialPreview";
+import "nprogress/nprogress.css";
 
 const Layout = () => {
   return (
@@ -117,10 +118,7 @@ let router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <>Hihi</>,
-      },
-      {
-        path: "classes",
+        // path: "classes",
         element: <StudentClassList />,
       },
       {
