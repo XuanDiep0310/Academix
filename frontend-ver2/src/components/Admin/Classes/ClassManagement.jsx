@@ -129,7 +129,8 @@ export default function ClassManagement() {
 
   const fetchStudents = async () => {
     try {
-      const res = await callListStudentAPI();
+      const query = `page=1&pageSize=1000000&sortBy=CreatedAt&sortOrder=desc`;
+      const res = await callListStudentAPI(query);
       if (res && res.success === true) {
         const mapped =
           res.data.users?.map((u) => ({
@@ -660,10 +661,7 @@ export default function ClassManagement() {
             <Title level={4} className={styles.title}>
               Quản lý lớp học
             </Title>
-            <Text type="secondary">
-              Kết nối API lớp học + quản lý giáo viên / học sinh trong lớp (demo
-              local)
-            </Text>
+            <Text type="secondary">Quản lý tài khoản lớp học</Text>
           </div>
 
           <Space>

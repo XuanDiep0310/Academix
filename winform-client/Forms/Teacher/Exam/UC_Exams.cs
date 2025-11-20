@@ -1,5 +1,7 @@
-﻿using Academix.WinApp.Forms.Teacher.Exam;
+﻿using Academix.WinApp.Api;
+using Academix.WinApp.Forms.Teacher.Exam;
 using Academix.WinApp.Forms.Teacher.Question;
+using Academix.WinApp.Models.Teacher;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,44 +16,174 @@ namespace Academix.WinApp.Forms.Teacher
 {
     public partial class UC_Exams : UserControl
     {
+        private int _classId;
+        private int _page = 1;
+        private int _totalPages = 1;
+
         public UC_Exams()
         {
             InitializeComponent();
         }
-
-        private void LoadExams()
+        private async void UC_Exams_Load(object sender, EventArgs e)
         {
-            flowPanelExams.Controls.Clear();
+            await LoadClassesAsync(); 
+            await LoadExamsAsync();      
+        }
+        private async Task LoadClassesAsync()
+        {
+            try
+            {
+                ClassApiService api = new ClassApiService();
+                var myClasses = await api.GetMyClassesAsync();
 
-            var card = new UC_ExamCard();
-            card.Dock = DockStyle.Fill;
+                cmbLopHoc.DataSource = myClasses;
+                cmbLopHoc.DisplayMember = "ClassName";
+                cmbLopHoc.ValueMember = "ClassId";
 
-            var card1 = new UC_ExamCard();
-            var card2 = new UC_ExamCard();
-            var card3 = new UC_ExamCard();
-            var card4 = new UC_ExamCard();
-            var card5 = new UC_ExamCard();
-            //var card = new UC_ClassCard(classId, name, code, studentCount);
+                if (myClasses.Count > 0)
+                {
+                    cmbLopHoc.SelectedIndex = 0;
+                    _classId = myClasses[0].ClassId;
+                }
 
-            card.Margin = new Padding(10);
-            flowPanelExams.Controls.Add(card);
-            flowPanelExams.Controls.Add(card1);
-            flowPanelExams.Controls.Add(card2);
-            flowPanelExams.Controls.Add(card3);
-            flowPanelExams.Controls.Add(card4);
-            flowPanelExams.Controls.Add(card5);
-
+                cmbLopHoc.SelectedIndexChanged += async (s, e) =>
+                {
+                    _classId = (int)cmbLopHoc.SelectedValue;
+                    _page = 1;
+                    await LoadExamsAsync();
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi load danh sách lớp: " + ex.Message);
+            }
         }
 
-        private void UC_Exams_Load(object sender, EventArgs e)
+        private async Task LoadExamsAsync()
         {
-            LoadExams();
+            try
+            {
+                if (_classId <= 0)
+                    return;
+
+                flowPanelExams.Controls.Clear();
+
+                var api = new ExamApiService();
+
+                var result = await api.GetExamsByClassAsync(
+                        classId: _classId,
+                        page: _page
+                    );
+
+                if (result?.Data?.Exams == null || result.Data.Exams.Count == 0)
+                {
+                    flowPanelExams.Controls.Add(new Label()
+                    {
+                        Text = "Không có bài kiểm tra nào!",
+                        AutoSize = true,
+                        ForeColor = Color.Gray,
+                        Font = new Font("Segoe UI", 11, FontStyle.Italic)
+                    });
+                    return;
+                }
+
+                _totalPages = result.Data.TotalPages;
+
+                // Add vào flow panel
+                // Giả sử result.Data.Exams là List<ExamDto>
+                foreach (var exam in result.Data.Exams)
+                {
+                    // Chuyển ExamDto -> ExamResponseDto
+                    var examResponse = new ExamResponseDto
+                    {
+                        ExamId = exam.ExamId,
+                        Title = exam.Title,
+                        Description = exam.Description,
+                        Duration = exam.Duration,
+                        TotalMarks = exam.TotalMarks,
+                        StartTime = exam.StartTime,
+                        EndTime = exam.EndTime,
+                        CreatedBy = exam.CreatedBy
+                        // ... copy các field cần thiết
+                    };
+
+                    var card = new UC_ExamCard(examResponse);
+                    card.OnUpdated += async () => await LoadExamsAsync();
+                    card.Margin = new Padding(10);
+                    flowPanelExams.Controls.Add(card);
+                }
+
+
+                BuildPaginationUI();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi load bài kiểm tra: " + ex.Message);
+            }
         }
+
+
 
         private void btnTaoBaiKiemTra_Click(object sender, EventArgs e)
         {
-            Form_AddUpdateExam frm = new Form_AddUpdateExam();
-            frm.Show();
+            var frm = new Form_AddUpdateExam(_classId);
+            frm.OnSaved += async () => await LoadExamsAsync();
+            frm.ShowDialog();
+        }
+
+
+        private void BuildPaginationUI()
+        {
+            flowpnlBottom.Controls.Clear();
+
+            // Prev
+            var btnPrev = new Button
+            {
+                Text = "Prev",
+                Height = 40,
+                Enabled = _page > 1
+            };
+            btnPrev.Click += async (s, e) =>
+            {
+                _page--;
+                await LoadExamsAsync();
+            };
+            flowpnlBottom.Controls.Add(btnPrev);
+
+            // Page numbers
+            for (int i = 1; i <= _totalPages; i++)
+            {
+                var btn = new Button
+                {
+                    Text = i.ToString(),
+                    Width = 40,
+                    Height = 40,
+                    BackColor = (i == _page) ? Color.LightSkyBlue : Color.White
+                };
+                int pageNum = i;
+
+                btn.Click += async (s, e) =>
+                {
+                    _page = pageNum;
+                    await LoadExamsAsync();
+                };
+
+                flowpnlBottom.Controls.Add(btn);
+            }
+
+            // Next
+            var btnNext = new Button
+            {
+                Text = "Next",
+                Height = 40,
+                Enabled = _page < _totalPages
+            };
+            btnNext.Click += async (s, e) =>
+            {
+                _page++;
+                await LoadExamsAsync();
+            };
+            flowpnlBottom.Controls.Add(btnNext);
         }
     }
 }

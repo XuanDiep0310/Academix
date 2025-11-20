@@ -14,6 +14,30 @@
   margin: 0 0 4px 0;
 }
 
+.filters {
+  background: #fff;
+  border: 1px solid #edf0f3;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filterControl {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
 /* KPIs */
 .kpis {
   display: grid;
@@ -57,8 +81,9 @@
   gap: 6px;
 }
 .itemTitle {
-  font-size: 16px;
+  font-size: 20px;
   color: #111827;
+  font-weight: 600;
 }
 .itemDesc {
   display: inline-flex;
@@ -68,26 +93,28 @@
 }
 .time {
   color: #6b7280;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .scoreBox {
   text-align: right;
 }
 .score {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 32px;
+  font-weight: 700;
   line-height: 1;
 }
 .scoreDenom {
-  font-size: 14px;
+  font-size: 18px;
   color: #6b7280;
   margin-left: 4px;
+  font-weight: 500;
 }
 .sub {
   color: #6b7280;
-  font-size: 12px;
-  margin-top: 2px;
+  font-size: 14px;
+  margin-top: 4px;
+  font-weight: 500;
 }
 
 /* Details */
@@ -129,14 +156,18 @@
   gap: 6px;
 }
 .question {
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
 }
 .answers {
   display: grid;
-  gap: 2px;
+  gap: 4px;
+  margin-top: 8px;
 }
 .answerRow {
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 1.6;
 }
 .muted {
   color: #6b7280;
