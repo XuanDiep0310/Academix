@@ -45,7 +45,7 @@
             // 
             lblTenTaiLieu.BackColor = Color.Transparent;
             lblTenTaiLieu.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblTenTaiLieu.Location = new Point(71, 28);
+            lblTenTaiLieu.Location = new Point(34, 34);
             lblTenTaiLieu.Name = "lblTenTaiLieu";
             lblTenTaiLieu.Size = new Size(176, 30);
             lblTenTaiLieu.TabIndex = 0;
@@ -55,7 +55,7 @@
             // 
             lblLopHoc.BackColor = Color.Transparent;
             lblLopHoc.BorderStyle = BorderStyle.FixedSingle;
-            lblLopHoc.Location = new Point(73, 74);
+            lblLopHoc.Location = new Point(36, 80);
             lblLopHoc.Name = "lblLopHoc";
             lblLopHoc.Size = new Size(106, 24);
             lblLopHoc.TabIndex = 1;
@@ -65,7 +65,7 @@
             // 
             lblLoaiTaiLieu.BackColor = Color.SkyBlue;
             lblLoaiTaiLieu.BorderStyle = BorderStyle.FixedSingle;
-            lblLoaiTaiLieu.Location = new Point(196, 74);
+            lblLoaiTaiLieu.Location = new Point(340, 80);
             lblLoaiTaiLieu.Name = "lblLoaiTaiLieu";
             lblLoaiTaiLieu.Size = new Size(31, 24);
             lblLoaiTaiLieu.TabIndex = 2;
@@ -134,6 +134,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(btnTaiVe);
             Controls.Add(btnXemTaiLieu);
@@ -142,6 +143,7 @@
             Controls.Add(lblLoaiTaiLieu);
             Controls.Add(lblLopHoc);
             Controls.Add(lblTenTaiLieu);
+            ForeColor = Color.Black;
             Name = "UC_MaterialCard";
             Size = new Size(1068, 213);
             ResumeLayout(false);

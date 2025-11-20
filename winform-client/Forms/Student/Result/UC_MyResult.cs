@@ -69,5 +69,15 @@ namespace Academix.WinApp.Forms.Student.MyResult
                 );
             }
         }
+
+        private void guna2Panel6_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void guna2Panel6_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

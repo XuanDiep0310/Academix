@@ -43,7 +43,7 @@
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
             guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            guna2HtmlLabel1.Location = new Point(33, 36);
+            guna2HtmlLabel1.Location = new Point(33, 24);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
             guna2HtmlLabel1.Size = new Size(290, 33);
             guna2HtmlLabel1.TabIndex = 0;
@@ -51,7 +51,7 @@
             // 
             // guna2HtmlLabel2
             // 
-            guna2HtmlLabel2.BackColor = Color.Transparent;
+            guna2HtmlLabel2.BackColor = Color.White;
             guna2HtmlLabel2.BorderStyle = BorderStyle.FixedSingle;
             guna2HtmlLabel2.Location = new Point(33, 81);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
@@ -63,7 +63,7 @@
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
             guna2HtmlLabel3.ForeColor = SystemColors.ControlDarkDark;
-            guna2HtmlLabel3.Location = new Point(158, 81);
+            guna2HtmlLabel3.Location = new Point(233, 83);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             guna2HtmlLabel3.Size = new Size(118, 22);
             guna2HtmlLabel3.TabIndex = 2;
@@ -71,6 +71,7 @@
             // 
             // guna2Button1
             // 
+            guna2Button1.BackColor = Color.CornflowerBlue;
             guna2Button1.CustomizableEdges = customizableEdges1;
             guna2Button1.DisabledState.BorderColor = Color.DarkGray;
             guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
@@ -79,10 +80,10 @@
             guna2Button1.FillColor = Color.Transparent;
             guna2Button1.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 163);
             guna2Button1.ForeColor = Color.Black;
-            guna2Button1.Location = new Point(18, 139);
+            guna2Button1.Location = new Point(33, 141);
             guna2Button1.Name = "guna2Button1";
             guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2Button1.Size = new Size(197, 30);
+            guna2Button1.Size = new Size(185, 30);
             guna2Button1.TabIndex = 3;
             guna2Button1.Text = "Xem chi tiết đáp án";
             // 
@@ -100,7 +101,7 @@
             // 
             guna2HtmlLabel5.BackColor = Color.Transparent;
             guna2HtmlLabel5.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel5.Location = new Point(936, 33);
+            guna2HtmlLabel5.Location = new Point(921, 29);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
             guna2HtmlLabel5.Size = new Size(42, 43);
             guna2HtmlLabel5.TabIndex = 5;
@@ -108,10 +109,11 @@
             // 
             // guna2HtmlLabel6
             // 
+            guna2HtmlLabel6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             guna2HtmlLabel6.BackColor = Color.Transparent;
             guna2HtmlLabel6.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 163);
             guna2HtmlLabel6.ForeColor = SystemColors.ControlDarkDark;
-            guna2HtmlLabel6.Location = new Point(888, 75);
+            guna2HtmlLabel6.Location = new Point(889, 78);
             guna2HtmlLabel6.Name = "guna2HtmlLabel6";
             guna2HtmlLabel6.Size = new Size(119, 27);
             guna2HtmlLabel6.TabIndex = 6;
@@ -121,6 +123,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(guna2HtmlLabel6);
             Controls.Add(guna2HtmlLabel5);

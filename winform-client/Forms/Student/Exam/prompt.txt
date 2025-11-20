@@ -1,0 +1,224 @@
+GET
+/api/student/exams (parameter có thể truyền classId hoặc không)
+response:
+{
+  "success": true,
+  "message": "string",
+  "data": [
+    {
+      "examId": 0,
+      "classId": 0,
+      "className": "string",
+      "title": "string",
+      "description": "string",
+      "duration": 0,
+      "totalMarks": 0,
+      "startTime": "2025-11-20T11:15:15.148Z",
+      "endTime": "2025-11-20T11:15:15.148Z",
+      "createdBy": 0,
+      "createdByName": "string",
+      "isPublished": true,
+      "questionCount": 0,
+      "attemptCount": 0,
+      "createdAt": "2025-11-20T11:15:15.148Z",
+      "updatedAt": "2025-11-20T11:15:15.148Z"
+    }
+  ],
+  "errors": [
+    "string"
+  ],
+  "timestamp": "2025-11-20T11:15:15.148Z"
+}
+
+POST
+/api/student/exams/{examId}/start (parameter yêu cầu truyền examId )
+Responses
+{
+  "success": true,
+  "message": "string",
+  "data": {
+    "attemptId": 0,
+    "examId": 0,
+    "title": "string",
+    "description": "string",
+    "duration": 0,
+    "startTime": "2025-11-20T11:25:48.894Z",
+    "endTime": "2025-11-20T11:25:48.894Z",
+    "questions": [
+      {
+        "examQuestionId": 0,
+        "questionId": 0,
+        "questionText": "string",
+        "questionType": "string",
+        "questionOrder": 0,
+        "marks": 0,
+        "options": [
+          {
+            "optionId": 0,
+            "optionText": "string",
+            "isCorrect": true,
+            "optionOrder": 0
+          }
+        ]
+      }
+    ]
+  },
+  "errors": [
+    "string"
+  ],
+  "timestamp": "2025-11-20T11:25:48.894Z"
+}
+
+
+POST
+/api/student/exams/attempts/{attemptId}/answer (parameter  yêu cầu truyền  attemptId)
+Request body
+{
+  "questionId": 0,
+  "selectedOptionId": 0
+}
+Responses
+{
+  "success": true,
+  "message": "string",
+  "data": "string",
+  "errors": [
+    "string"
+  ],
+  "timestamp": "2025-11-20T11:26:19.293Z"
+}
+
+POST
+/api/student/exams/attempts/{attemptId}/submit (parameter  yêu cầu truyền  attemptId)
+Request body
+{
+  "answers": [
+    {
+      "questionId": 0,
+      "selectedOptionId": 0
+    }
+  ]
+}
+Responses
+{
+  "success": true,
+  "message": "string",
+  "data": {
+    "attemptId": 0,
+    "examId": 0,
+    "examTitle": "string",
+    "studentId": 0,
+    "studentName": "string",
+    "startTime": "2025-11-20T11:28:47.043Z",
+    "submitTime": "2025-11-20T11:28:47.043Z",
+    "totalScore": 0,
+    "totalMarks": 0,
+    "percentage": 0,
+    "status": "string",
+    "totalQuestions": 0,
+    "correctAnswers": 0,
+    "wrongAnswers": 0,
+    "answers": [
+      {
+        "questionId": 0,
+        "questionText": "string",
+        "selectedOptionId": 0,
+        "selectedOptionText": "string",
+        "correctOptionId": 0,
+        "correctOptionText": "string",
+        "isCorrect": true,
+        "marksObtained": 0,
+        "totalMarks": 0
+      }
+    ]
+  },
+  "errors": [
+    "string"
+  ],
+  "timestamp": "2025-11-20T11:28:47.043Z"
+}
+
+GET
+/api/student/exams/attempts/{attemptId}/result (parameter  yêu cầu truyền  attemptId)
+Responses
+{
+  "success": true,
+  "message": "string",
+  "data": {
+    "attemptId": 0,
+    "examId": 0,
+    "examTitle": "string",
+    "studentId": 0,
+    "studentName": "string",
+    "startTime": "2025-11-20T11:30:07.062Z",
+    "submitTime": "2025-11-20T11:30:07.062Z",
+    "totalScore": 0,
+    "totalMarks": 0,
+    "percentage": 0,
+    "status": "string",
+    "totalQuestions": 0,
+    "correctAnswers": 0,
+    "wrongAnswers": 0,
+    "answers": [
+      {
+        "questionId": 0,
+        "questionText": "string",
+        "selectedOptionId": 0,
+        "selectedOptionText": "string",
+        "correctOptionId": 0,
+        "correctOptionText": "string",
+        "isCorrect": true,
+        "marksObtained": 0,
+        "totalMarks": 0
+      }
+    ]
+  },
+  "errors": [
+    "string"
+  ],
+  "timestamp": "2025-11-20T11:30:07.062Z"
+}
+
+GET
+/api/student/exams/history (parameter có thể truyền classId hoặc không)
+Responses
+{
+  "success": true,
+  "message": "string",
+  "data": [
+    {
+      "attemptId": 0,
+      "examId": 0,
+      "examTitle": "string",
+      "studentId": 0,
+      "studentName": "string",
+      "startTime": "2025-11-20T11:30:51.960Z",
+      "submitTime": "2025-11-20T11:30:51.960Z",
+      "totalScore": 0,
+      "totalMarks": 0,
+      "percentage": 0,
+      "status": "string",
+      "totalQuestions": 0,
+      "correctAnswers": 0,
+      "wrongAnswers": 0,
+      "answers": [
+        {
+          "questionId": 0,
+          "questionText": "string",
+          "selectedOptionId": 0,
+          "selectedOptionText": "string",
+          "correctOptionId": 0,
+          "correctOptionText": "string",
+          "isCorrect": true,
+          "marksObtained": 0,
+          "totalMarks": 0
+        }
+      ]
+    }
+  ],
+  "errors": [
+    "string"
+  ],
+  "timestamp": "2025-11-20T11:30:51.960Z"
+}
+

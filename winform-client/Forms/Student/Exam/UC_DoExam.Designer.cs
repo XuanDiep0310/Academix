@@ -65,9 +65,10 @@
             // 
             lblClock.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblClock.BackColor = Color.Transparent;
-            lblClock.Location = new Point(1027, 49);
+            lblClock.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblClock.Location = new Point(999, 37);
             lblClock.Name = "lblClock";
-            lblClock.Size = new Size(61, 22);
+            lblClock.Size = new Size(91, 33);
             lblClock.TabIndex = 2;
             lblClock.Text = "Đồng hồ";
             // 
@@ -128,7 +129,7 @@
             // 
             lblSoCauDaTraLoi.BackColor = Color.Transparent;
             lblSoCauDaTraLoi.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblSoCauDaTraLoi.Location = new Point(29, 49);
+            lblSoCauDaTraLoi.Location = new Point(40, 49);
             lblSoCauDaTraLoi.Name = "lblSoCauDaTraLoi";
             lblSoCauDaTraLoi.Size = new Size(157, 30);
             lblSoCauDaTraLoi.TabIndex = 0;

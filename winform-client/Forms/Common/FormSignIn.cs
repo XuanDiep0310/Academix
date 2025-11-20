@@ -122,8 +122,22 @@ namespace Academix.WinApp.Forms
 
         private async void btnForgotPassWord_Click(object sender, EventArgs e)
         {
-            
+
         }
 
+        private void btnEye_Click(object sender, EventArgs e)
+        {
+            // Toggle mật khẩu cho txtMatKhau
+            txtMatKhau.UseSystemPasswordChar = !txtMatKhau.UseSystemPasswordChar;
+
+            btnEye.Image = txtMatKhau.UseSystemPasswordChar
+                            ? Properties.Resources.eye_closed
+                            : Properties.Resources.eye_open;
+        }
+
+        private void FormSignIn_Load(object sender, EventArgs e)
+        {
+            txtMatKhau.UseSystemPasswordChar = true;
+        }
     }
 }
