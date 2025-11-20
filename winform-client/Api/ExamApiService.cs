@@ -104,6 +104,35 @@ namespace Academix.WinApp.Api
             return await response.Content.ReadFromJsonAsync<ApiResponse<string>>() ?? new ApiResponse<string>();
         }
 
+        public async Task<ApiResponse<string>> DeleteExamAsync(int classId, int examId)
+        {
+            using var client = CreateClient();
+            var response = await client.DeleteAsync($"{classId}/exams/{examId}");
+            if (!response.IsSuccessStatusCode)
+                return new ApiResponse<string> { Success = false, Message = $"API Error {response.StatusCode}" };
+            return await response.Content.ReadFromJsonAsync<ApiResponse<string>>() ?? new ApiResponse<string>();
+        }
+
+        public async Task<ApiResponse<string>> PublishExamAsync(int classId, int examId)
+        {
+            using var client = CreateClient();
+
+            var httpReq = new HttpRequestMessage(HttpMethod.Patch, $"{classId}/exams/{examId}/publish");
+
+            var response = await client.SendAsync(httpReq);
+
+            if (!response.IsSuccessStatusCode)
+                return new ApiResponse<string>
+                {
+                    Success = false,
+                    Message = $"API Error {response.StatusCode}"
+                };
+
+            return await response.Content.ReadFromJsonAsync<ApiResponse<string>>()
+                   ?? new ApiResponse<string>();
+        }
+
+
         public async Task<ApiResponse<ExamResultsResponseDto>> GetExamResultsAsync(
             int classId,
             int examId,

@@ -44,7 +44,11 @@ namespace Academix.WinApp.Forms.Teacher.Exam
             {
                 await LoadCauHoiAsync();
             };
+            dtpThoiGianBatDau.Value = DateTime.Now;
+            dtpThoiGianKetThuc.Value = DateTime.Now.AddHours(1);
+
         }
+
         private async Task LoadClassesAsync()
         {
             ClassApiService api = new ClassApiService();
@@ -71,8 +75,8 @@ namespace Academix.WinApp.Forms.Teacher.Exam
 
             txtTieuDe.Text = exam.Title;
             nmbThoiLuongLamBai.Value = exam.Duration;
-            dtpThoiGianBatDau.Value = exam.StartTime ?? DateTime.Now;
-            dtpThoiGianKetThuc.Value = exam.EndTime ?? DateTime.Now.AddHours(1);
+            dtpThoiGianBatDau.Value = exam.StartTime?.ToLocalTime() ?? DateTime.Now;
+            dtpThoiGianKetThuc.Value = exam.EndTime?.ToLocalTime() ?? DateTime.Now.AddHours(1);
             ckbCauHoi.Checked = exam.IsPublished;
 
             await LoadCauHoiAsync();
@@ -94,20 +98,31 @@ namespace Academix.WinApp.Forms.Teacher.Exam
         {
             pnlCauHoi.Controls.Clear();
 
-            // Load tất cả câu hỏi 
-            var questions = await _api.GetExamQuestionsAsync(_classId, _examId);
+            // Lọc danh sách câu hỏi theo môn học (nếu có)
+            string? subject = string.IsNullOrWhiteSpace(txtMonHoc.Text)
+                ? null
+                : txtMonHoc.Text.Trim();
+
+            var questionApi = new QuestionApiService();
+            var questionsResponse = await questionApi.GetMyQuestionsPagedAsync(
+                subject: subject,
+                page: 1,
+                pageSize: 100);
 
             int y = 5;
-            foreach (var q in questions.Data ?? new List<ExamQuestionDetailDto>())
+            foreach (var q in questionsResponse.Data?.Questions ?? new List<QuestionResponseDto>())
             {
                 var chk = new Guna2CheckBox
                 {
-                    Text = q.QuestionOrder.ToString(), 
+                    Text = q.QuestionText,
                     Tag = q.QuestionId,
                     Checked = false,
                     Location = new Point(5, y),
                     AutoSize = true
                 };
+
+                chk.CheckedChanged += (s, e) => UpdateSoLuongCauHoi();
+
                 pnlCauHoi.Controls.Add(chk);
                 y += 25;
             }
@@ -126,6 +141,7 @@ namespace Academix.WinApp.Forms.Teacher.Exam
                     }
                 }
             }
+            UpdateSoLuongCauHoi();
         }
 
 
@@ -145,12 +161,26 @@ namespace Academix.WinApp.Forms.Teacher.Exam
 
         private async Task CreateExamAsync()
         {
+            // Lấy danh sách câu hỏi được chọn
+            var selectedQuestions = pnlCauHoi.Controls.OfType<Guna2CheckBox>()
+                .Where(c => c.Checked)
+                .Select((c, index) => new ExamQuestionDto
+                {
+                    QuestionId = (int)c.Tag,
+                    QuestionOrder = index + 1,
+                    Marks = 1
+                })
+                .ToList();
+
             var request = new CreateExamRequestDto
             {
                 Title = txtTieuDe.Text.Trim(),
+                Description = lblMoTa.Text.Trim(),
                 Duration = (int)nmbThoiLuongLamBai.Value,
+                TotalMarks = selectedQuestions.Sum(q => q.Marks),
                 StartTime = dtpThoiGianBatDau.Value,
-                EndTime = dtpThoiGianKetThuc.Value
+                EndTime = dtpThoiGianKetThuc.Value,
+                Questions = selectedQuestions 
             };
 
             var result = await _api.CreateExamAsync(_classId, request);
@@ -161,61 +191,62 @@ namespace Academix.WinApp.Forms.Teacher.Exam
                 return;
             }
 
-            int newExamId = result.Data!.ExamId;
-
-            // Thêm câu hỏi đã chọn
-            var selectedQuestions = pnlCauHoi.Controls.OfType<Guna2CheckBox>()
-                .Where(c => c.Checked)
-                .Select(c => new ExamQuestionDto { QuestionId = (int)c.Tag, Marks = 1 })
-                .ToList();
-
-            if (selectedQuestions.Count > 0)
-            {
-                var addReq = new AddQuestionsToExamRequestDto { Questions = selectedQuestions };
-                await _api.AddQuestionsToExamAsync(_classId, newExamId, addReq);
-            }
-
             MessageBox.Show("Tạo bài kiểm tra thành công!", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             if (OnSaved != null) await OnSaved();
             Close();
         }
 
+
         private async Task UpdateExamAsync()
         {
+            // Lấy danh sách câu hỏi mới được chọn
+            var selectedQuestions = pnlCauHoi.Controls.OfType<Guna2CheckBox>()
+                .Where(c => c.Checked)
+                .Select((c, index) => new ExamQuestionDto
+                {
+                    QuestionId = (int)c.Tag,
+                    QuestionOrder = index + 1,
+                    Marks = 1
+                })
+                .ToList();
+
             var request = new UpdateExamRequestDto
             {
                 Title = txtTieuDe.Text.Trim(),
+                Description = txtMoTa.Text.Trim(),
                 Duration = (int)nmbThoiLuongLamBai.Value,
+                TotalMarks = selectedQuestions.Sum(q => q.Marks),
                 StartTime = dtpThoiGianBatDau.Value,
                 EndTime = dtpThoiGianKetThuc.Value
             };
 
             var result = await _api.UpdateExamAsync(_classId, _examId, request);
+
             if (!result.Success)
             {
                 MessageBox.Show(result.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // Xoá câu hỏi cũ, thêm câu hỏi mới
-            var existingQuestionsResp = await _api.GetExamQuestionsAsync(_classId, _examId);
-            if (existingQuestionsResp.Success && existingQuestionsResp.Data != null)
+            // Xoá câu hỏi cũ
+            var existing = await _api.GetExamQuestionsAsync(_classId, _examId);
+            if (existing.Success && existing.Data != null)
             {
-                var oldIds = existingQuestionsResp.Data.Select(q => q.QuestionId).ToList();
-                foreach (var qid in oldIds)
+                foreach (var q in existing.Data)
                 {
-                    await _api.RemoveQuestionFromExamAsync(_classId, _examId, qid);
+                    await _api.RemoveQuestionFromExamAsync(_classId, _examId, q.QuestionId);
                 }
             }
 
-            var selectedQuestions = pnlCauHoi.Controls.OfType<Guna2CheckBox>()
-                .Where(c => c.Checked)
-                .Select(c => new ExamQuestionDto { QuestionId = (int)c.Tag, Marks = 1 })
-                .ToList();
-
+            // Thêm câu hỏi mới
             if (selectedQuestions.Count > 0)
             {
-                var addReq = new AddQuestionsToExamRequestDto { Questions = selectedQuestions };
+                var addReq = new AddQuestionsToExamRequestDto
+                {
+                    Questions = selectedQuestions
+                };
+
                 await _api.AddQuestionsToExamAsync(_classId, _examId, addReq);
             }
 
@@ -223,6 +254,13 @@ namespace Academix.WinApp.Forms.Teacher.Exam
             if (OnSaved != null) await OnSaved();
             Close();
         }
+        private void UpdateSoLuongCauHoi()
+        {
+            int count = pnlCauHoi.Controls.OfType<Guna2CheckBox>().Count(c => c.Checked);
+            lblSoLuongCauHoi.Text = $"Đã chọn: {count} câu hỏi";
+        }
+
+
 
         private bool ValidateForm()
         {
