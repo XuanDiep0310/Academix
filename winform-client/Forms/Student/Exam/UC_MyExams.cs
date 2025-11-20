@@ -1,4 +1,5 @@
 ﻿using Academix.WinApp.Api;
+using Academix.WinApp.Models.Student;
 using Academix.WinApp.Models.Teacher;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,21 @@ namespace Academix.WinApp.Forms.Student.MyResult
             {
                 var examApi = new ExamApiService();
 
-                var allExams = await examApi.GetStudentExamsAsync();
+                var examsTask = examApi.GetStudentExamsAsync();
+                var historyTask = examApi.GetStudentExamHistoryAsync();
+
+                await Task.WhenAll(examsTask, historyTask);
+
+                var allExams = examsTask.Result;
+                var history = historyTask.Result;
+
+                var attemptsByExam = history
+                    .GroupBy(h => h.ExamId)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g
+                            .OrderByDescending(a => a.SubmitTime ?? a.StartTime)
+                            .First());
 
                 // Sắp xếp theo thời gian (ưu tiên StartTime, fallback CreatedAt) giảm dần
                 var ordered = allExams
@@ -42,7 +57,8 @@ namespace Academix.WinApp.Forms.Student.MyResult
                 foreach (var exam in ordered)
                 {
                     var card = new UC_ExamCard();
-                    card.Bind(exam);
+                    attemptsByExam.TryGetValue(exam.ExamId, out var attempt);
+                    card.Bind(exam, attempt);
                     card.Margin = new Padding(10);
                     flowpanelExams.Controls.Add(card);
                 }

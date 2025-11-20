@@ -14,6 +14,7 @@ namespace Academix.WinApp.Forms.Admin
         {
             InitializeComponent();
             _authApi = new AuthApi(Config.GetApiBaseUrl());
+
         }
 
         private void btnHuy_Click(object sender, EventArgs e)
@@ -70,6 +71,49 @@ namespace Academix.WinApp.Forms.Admin
             {
                 btnDoiMatKhau.Enabled = true;
             }
+        }
+
+        private void btnEye1_Click(object sender, EventArgs e)
+        {
+            // Toggle mật khẩu cho txtOldPassword
+            txtOldPassword.UseSystemPasswordChar = !txtOldPassword.UseSystemPasswordChar;
+
+            // Thay đổi icon nút nếu bạn đã thêm vào Resources
+            btnEye1.Image = txtOldPassword.UseSystemPasswordChar
+                            ? Properties.Resources.eye_closed
+                            : Properties.Resources.eye_open;
+        }
+
+        private void btnEye2_Click(object sender, EventArgs e)
+        {
+            // Toggle mật khẩu cho txtNewPassword
+            txtNewPassword.UseSystemPasswordChar = !txtNewPassword.UseSystemPasswordChar;
+
+            btnEye2.Image = txtNewPassword.UseSystemPasswordChar
+                            ? Properties.Resources.eye_closed
+                            : Properties.Resources.eye_open;
+        }
+
+        private void btnEye3_Click(object sender, EventArgs e)
+        {
+            // Toggle mật khẩu cho txtConfirmPassword
+            txtConfirmPassword.UseSystemPasswordChar = !txtConfirmPassword.UseSystemPasswordChar;
+
+            btnEye3.Image = txtConfirmPassword.UseSystemPasswordChar
+                            ? Properties.Resources.eye_closed
+                            : Properties.Resources.eye_open;
+        }
+
+        private void txtOldPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormDoiMatKhau_Load(object sender, EventArgs e)
+        {
+            txtOldPassword.UseSystemPasswordChar = true;
+            txtNewPassword.UseSystemPasswordChar = true;
+            txtConfirmPassword.UseSystemPasswordChar = true;
         }
     }
 }

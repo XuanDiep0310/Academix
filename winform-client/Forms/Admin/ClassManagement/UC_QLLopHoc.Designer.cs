@@ -239,7 +239,7 @@
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.ForeColor = SystemColors.AppWorkspace;
+            guna2HtmlLabel3.ForeColor = SystemColors.ActiveCaptionText;
             guna2HtmlLabel3.Location = new Point(36, 54);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             guna2HtmlLabel3.Size = new Size(560, 22);
@@ -249,10 +249,10 @@
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             guna2HtmlLabel2.Location = new Point(34, 18);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(141, 30);
+            guna2HtmlLabel2.Size = new Size(171, 33);
             guna2HtmlLabel2.TabIndex = 0;
             guna2HtmlLabel2.Text = "Quản lý lớp học";
             // 
