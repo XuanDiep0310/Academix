@@ -67,7 +67,7 @@
             // 
             lblTrangThai.BackColor = Color.SkyBlue;
             lblTrangThai.BorderStyle = BorderStyle.FixedSingle;
-            lblTrangThai.Location = new Point(286, 65);
+            lblTrangThai.Location = new Point(565, 65);
             lblTrangThai.Name = "lblTrangThai";
             lblTrangThai.Size = new Size(67, 24);
             lblTrangThai.TabIndex = 15;
@@ -97,7 +97,7 @@
             // 
             lblMonHoc.BackColor = Color.Transparent;
             lblMonHoc.BorderStyle = BorderStyle.FixedSingle;
-            lblMonHoc.Location = new Point(161, 65);
+            lblMonHoc.Location = new Point(284, 65);
             lblMonHoc.Name = "lblMonHoc";
             lblMonHoc.Size = new Size(106, 24);
             lblMonHoc.TabIndex = 20;
@@ -174,6 +174,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
             BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(lblThoiGianKetThuc);
             Controls.Add(lblThoiGianBatDau);

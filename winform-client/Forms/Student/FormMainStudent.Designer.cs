@@ -261,13 +261,14 @@
             // guna2CirclePictureBox2
             // 
             guna2CirclePictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
+            guna2CirclePictureBox2.Dock = DockStyle.Fill;
             guna2CirclePictureBox2.Image = Properties.Resources.Logo;
             guna2CirclePictureBox2.ImageRotate = 0F;
-            guna2CirclePictureBox2.Location = new Point(25, 15);
+            guna2CirclePictureBox2.Location = new Point(0, 0);
             guna2CirclePictureBox2.Name = "guna2CirclePictureBox2";
             guna2CirclePictureBox2.ShadowDecoration.CustomizableEdges = customizableEdges20;
             guna2CirclePictureBox2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            guna2CirclePictureBox2.Size = new Size(962, 557);
+            guna2CirclePictureBox2.Size = new Size(1013, 586);
             guna2CirclePictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             guna2CirclePictureBox2.TabIndex = 5;
             guna2CirclePictureBox2.TabStop = false;

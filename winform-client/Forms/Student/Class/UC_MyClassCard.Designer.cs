@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             lblTienDoHocTap = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblMaLop = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblTenLop = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -70,19 +70,19 @@
             // lblTenLop
             // 
             lblTenLop.BackColor = Color.Transparent;
-            lblTenLop.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblTenLop.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
             lblTenLop.Location = new Point(23, 23);
             lblTenLop.Name = "lblTenLop";
-            lblTenLop.Size = new Size(80, 33);
+            lblTenLop.Size = new Size(83, 33);
             lblTenLop.TabIndex = 4;
             lblTenLop.Text = "Tên lớp";
             // 
             // guna2ProgressBar1
             // 
-            guna2ProgressBar1.CustomizableEdges = customizableEdges5;
+            guna2ProgressBar1.CustomizableEdges = customizableEdges1;
             guna2ProgressBar1.Location = new Point(23, 149);
             guna2ProgressBar1.Name = "guna2ProgressBar1";
-            guna2ProgressBar1.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            guna2ProgressBar1.ShadowDecoration.CustomizableEdges = customizableEdges2;
             guna2ProgressBar1.Size = new Size(547, 10);
             guna2ProgressBar1.TabIndex = 7;
             guna2ProgressBar1.Text = "guna2ProgressBar1";
