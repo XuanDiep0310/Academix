@@ -9,16 +9,12 @@ namespace Academix.WinApp.Models.Teacher
 {
     public class UpdateExamRequestDto
     {
-        [MaxLength(255)]
         public string? Title { get; set; }
 
-        [MaxLength(1000)]
         public string? Description { get; set; }
 
-        [Range(1, 1440)]
         public int? Duration { get; set; }
 
-        [Range(0.01, 1000)]
         public decimal? TotalMarks { get; set; }
 
         public DateTime? StartTime { get; set; }

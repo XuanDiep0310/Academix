@@ -280,7 +280,6 @@ export function TestTaking() {
       }
 
       const exam = res.data;
-
       const mappedQuestions = (exam.questions || [])
         .map((q) => ({
           id: q.questionId || q.id,
@@ -305,6 +304,7 @@ export function TestTaking() {
       }));
 
       setQuestions(mappedQuestions);
+      console.log(">>> question", mappedQuestions);
       setAnswers({});
 
       const durationMinutes = exam.duration ?? test.duration ?? 0;
@@ -483,7 +483,6 @@ export function TestTaking() {
           </Title>
           <Space size={12} className={styles.badges}>
             <Tag>{activeTest.className}</Tag>
-            <Tag>{activeTest.subject}</Tag>
           </Space>
 
           <div
@@ -501,7 +500,7 @@ export function TestTaking() {
             type="error"
             showIcon
             icon={<AlertCircle size={16} />}
-            message="Còn lại ít hơn 5 phút! Hãy kiểm tra lại các câu trả lời."
+            message="Còn lại khá ít! Hãy kiểm tra lại các câu trả lời."
             className={styles.alert}
           />
         )}
@@ -509,9 +508,12 @@ export function TestTaking() {
         <div className={styles.questions}>
           {questions.map((q, idx) => (
             <Card key={q.id} className={styles.qCard} bordered>
-              <div className={styles.qTitle}>
-                Câu {idx + 1}: {q.text}
-              </div>
+              <div
+                className={styles.qTitle}
+                dangerouslySetInnerHTML={{
+                  __html: `Câu ${idx + 1}: ${q.text}`,
+                }}
+              />
 
               <Radio.Group
                 className={styles.qOptions}
@@ -521,9 +523,13 @@ export function TestTaking() {
                 {q.options.map((opt, i) => (
                   <div key={opt.id} className={styles.optionRow}>
                     <Radio value={opt.id} />
-                    <label className={styles.optionLabel}>
-                      {String.fromCharCode(65 + i)}. {opt.text}
-                    </label>
+                    <label
+                      className={styles.optionLabel}
+                      style={{}}
+                      dangerouslySetInnerHTML={{
+                        __html: `${String.fromCharCode(65 + i)}. ${opt.text}`,
+                      }}
+                    />
                   </div>
                 ))}
               </Radio.Group>
@@ -553,7 +559,6 @@ export function TestTaking() {
   return (
     <>
       <div className={styles.wrap}>
-        {/* Header + chọn lớp */}
         <div className={styles.headerRow}>
           <div className={styles.headerCard}>
             <Title level={4} className={styles.title}>
