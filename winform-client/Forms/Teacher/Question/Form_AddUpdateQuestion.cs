@@ -159,7 +159,7 @@ namespace Academix.WinApp.Forms.Teacher.Question
                     QuestionText = txtCauHoi.Text.Trim(),
                     Subject = txtMonHoc.Text.Trim(),
                     DifficultyLevel = cmbDoKho.Text,
-                    QuestionType = "MultipleChoice",
+                    QuestionType = "SingleChoice",
                     Options = options
                 };
 
