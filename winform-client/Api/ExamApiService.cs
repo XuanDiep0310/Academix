@@ -104,6 +104,23 @@ namespace Academix.WinApp.Api
             return await response.Content.ReadFromJsonAsync<ApiResponse<string>>() ?? new ApiResponse<string>();
         }
 
+        public async Task<ApiResponse<ExamResultsResponseDto>> GetExamResultsAsync(
+            int classId,
+            int examId,
+            int page = 1,
+            int pageSize = 10)
+        {
+            using var client = CreateClient();
+            var url = $"{classId}/exams/{examId}/results?page={page}&pageSize={pageSize}";
+            var response = await client.GetAsync(url);
+            
+            if (!response.IsSuccessStatusCode)
+                return new ApiResponse<ExamResultsResponseDto> { Success = false, Message = $"API Error {response.StatusCode}" };
+            
+            return await response.Content.ReadFromJsonAsync<ApiResponse<ExamResultsResponseDto>>() 
+                ?? new ApiResponse<ExamResultsResponseDto>();
+        }
+
 
         #endregion
 
