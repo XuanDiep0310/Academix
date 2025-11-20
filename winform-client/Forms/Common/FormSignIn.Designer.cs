@@ -41,6 +41,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             guna2GroupBox1 = new Guna.UI2.WinForms.Guna2GroupBox();
             btnEye = new Guna.UI2.WinForms.Guna2Button();
             guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -51,8 +53,10 @@
             txtEmail = new Guna.UI2.WinForms.Guna2TextBox();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2CirclePictureBox1 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             guna2GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).BeginInit();
+            guna2Panel1.SuspendLayout();
             SuspendLayout();
             // 
             // guna2GroupBox1
@@ -68,7 +72,7 @@
             guna2GroupBox1.CustomizableEdges = customizableEdges11;
             guna2GroupBox1.Font = new Font("Segoe UI", 9F);
             guna2GroupBox1.ForeColor = Color.Black;
-            guna2GroupBox1.Location = new Point(776, 125);
+            guna2GroupBox1.Location = new Point(118, 110);
             guna2GroupBox1.Name = "guna2GroupBox1";
             guna2GroupBox1.ShadowDecoration.CustomizableEdges = customizableEdges12;
             guna2GroupBox1.Size = new Size(401, 489);
@@ -200,15 +204,27 @@
             // 
             // guna2CirclePictureBox1
             // 
+            guna2CirclePictureBox1.Dock = DockStyle.Left;
             guna2CirclePictureBox1.Image = Properties.Resources.Logo;
             guna2CirclePictureBox1.ImageRotate = 0F;
-            guna2CirclePictureBox1.Location = new Point(58, 38);
+            guna2CirclePictureBox1.Location = new Point(0, 0);
             guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
             guna2CirclePictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges13;
             guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            guna2CirclePictureBox1.Size = new Size(646, 637);
+            guna2CirclePictureBox1.Size = new Size(646, 701);
             guna2CirclePictureBox1.TabIndex = 1;
             guna2CirclePictureBox1.TabStop = false;
+            // 
+            // guna2Panel1
+            // 
+            guna2Panel1.Controls.Add(guna2GroupBox1);
+            guna2Panel1.CustomizableEdges = customizableEdges14;
+            guna2Panel1.Dock = DockStyle.Fill;
+            guna2Panel1.Location = new Point(646, 0);
+            guna2Panel1.Name = "guna2Panel1";
+            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges15;
+            guna2Panel1.Size = new Size(666, 701);
+            guna2Panel1.TabIndex = 2;
             // 
             // FormSignIn
             // 
@@ -216,14 +232,15 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightSkyBlue;
             ClientSize = new Size(1312, 701);
+            Controls.Add(guna2Panel1);
             Controls.Add(guna2CirclePictureBox1);
-            Controls.Add(guna2GroupBox1);
             Name = "FormSignIn";
             Text = "FormSignIn";
             Load += FormSignIn_Load;
             guna2GroupBox1.ResumeLayout(false);
             guna2GroupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).EndInit();
+            guna2Panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -239,5 +256,6 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
         private Guna.UI2.WinForms.Guna2CirclePictureBox guna2CirclePictureBox1;
         private Guna.UI2.WinForms.Guna2Button btnEye;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
     }
 }

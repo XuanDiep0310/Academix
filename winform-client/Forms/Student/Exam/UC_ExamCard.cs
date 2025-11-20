@@ -1,13 +1,10 @@
-using Academix.WinApp.Models.Teacher;
+using Academix.WinApp.Api;
+using Academix.WinApp.Forms.Student;
 using Academix.WinApp.Forms.Student.Exam;
+using Academix.WinApp.Models.Student;
+using Academix.WinApp.Models.Teacher;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Academix.WinApp.Forms.Student.MyResult
@@ -15,15 +12,18 @@ namespace Academix.WinApp.Forms.Student.MyResult
     public partial class UC_ExamCard : UserControl
     {
         private ExamDto? _exam;
+        private StudentExamResultDto? _attemptResult;
+        private bool _isLoading;
 
         public UC_ExamCard()
         {
             InitializeComponent();
         }
 
-        public void Bind(ExamDto exam)
+        public void Bind(ExamDto exam, StudentExamResultDto? attemptResult = null)
         {
             _exam = exam;
+            _attemptResult = attemptResult;
 
             lblTenBaiKiemTra.Text = exam.Title;
             lblLopHoc.Text = exam.ClassName;
@@ -31,6 +31,25 @@ namespace Academix.WinApp.Forms.Student.MyResult
             lblThoiLuong.Text = $"{exam.Duration} phút";
             lblThoiGianBatDau.Text = exam.StartTime.ToString("HH:mm dd/MM/yyyy");
             lblThoiGianKetThuc.Text = exam.EndTime.ToString("HH:mm dd/MM/yyyy");
+
+            if (_attemptResult != null)
+            {
+                lblTrangThai.Text = "Đã hoàn thành";
+                lblTrangThai.BackColor = Color.MediumSeaGreen;
+                lblTrangThai.ForeColor = Color.White;
+
+                var submittedAt = _attemptResult.SubmitTime?.ToLocalTime() ?? _attemptResult.StartTime.ToLocalTime();
+                var percentageText = _attemptResult.Percentage.HasValue
+                    ? $"{Math.Round(_attemptResult.Percentage.Value, 2)}%"
+                    : "N/A";
+
+                lblTrangThaiDangMo.Text = $"Bạn đã nộp lúc {submittedAt:HH:mm dd/MM/yyyy}. Điểm: {_attemptResult.TotalScore}/{_attemptResult.TotalMarks} ({percentageText}).";
+                lblTrangThaiDangMo.ForeColor = Color.DimGray;
+                BackColor = Color.FromArgb(240, 250, 240);
+                btnBatDauLamBai.Visible = false;
+                btnBatDauLamBai.Enabled = false;
+                return;
+            }
 
             var now = DateTime.Now;
             var isOpen = exam.IsPublished
@@ -73,20 +92,51 @@ namespace Academix.WinApp.Forms.Student.MyResult
             }
         }
 
-        private void btnBatDauLamBai_Click(object sender, EventArgs e)
+        private async void btnBatDauLamBai_Click(object sender, EventArgs e)
         {
-            FormMainStudent frm = Application.OpenForms["FormMainStudent"] as FormMainStudent;
+            if (_exam == null || _isLoading)
+                return;
 
-            if (frm != null)
+            if (_attemptResult != null)
             {
-                frm.mainPanel.Controls.Clear();
-                UC_DoExam uc = new UC_DoExam();
-                uc.Dock = DockStyle.Fill;
-                frm.mainPanel.Controls.Add(uc);
+                MessageBox.Show("Bạn đã hoàn thành bài kiểm tra này và không thể làm lại.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
-            else
+
+            var frm = Application.OpenForms["FormMainStudent"] as FormMainStudent;
+            if (frm == null)
             {
                 MessageBox.Show("FormMainStudent chưa mở!");
+                return;
+            }
+
+            try
+            {
+                _isLoading = true;
+                btnBatDauLamBai.Enabled = false;
+                var examApi = new ExamApiService();
+                var attempt = await examApi.StartExamAsync(_exam.ExamId);
+
+                if (attempt == null)
+                {
+                    MessageBox.Show("Không thể bắt đầu bài kiểm tra. Vui lòng thử lại sau.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                frm.mainPanel.Controls.Clear();
+                var uc = new UC_DoExam();
+                uc.Dock = DockStyle.Fill;
+                uc.BindAttempt(attempt, _exam);
+                frm.mainPanel.Controls.Add(uc);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Không thể bắt đầu bài kiểm tra.\nChi tiết: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _isLoading = false;
+                btnBatDauLamBai.Enabled = true;
             }
         }
     }
