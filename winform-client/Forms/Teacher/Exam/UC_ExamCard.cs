@@ -1,4 +1,5 @@
-﻿using Academix.WinApp.Forms.Teacher.Exam;
+﻿using Academix.WinApp.Api;
+using Academix.WinApp.Forms.Teacher.Exam;
 using Academix.WinApp.Models.Teacher;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,36 @@ namespace Academix.WinApp.Forms.Teacher
         {
             InitializeComponent();
             _exam = exam;
+
+            // Bind dữ liệu bài kiểm tra lên UI
+            lblKiemTra.Text = _exam.Title;
+            lblLop.Text = _exam.ClassName;
+            lblTrangThai.Text = _exam.IsPublished ? "Đã công bố" : "Bản nháp";
+            
+
+            // Nếu đã công bố thì không cho sửa / xóa / công bố lại
+            if (_exam.IsPublished)
+            {
+                lblTrangThai.ForeColor = Color.LightGreen;
+                btnSua.Visible = false;
+                btnXoa.Visible = false; // Xóa
+                btnCongBo.Visible = false;
+            }
+
+            lblThoiGian.Text = $"Thời lượng: {_exam.Duration} phút";
+            lblSoLuong.Text = $"Số câu hỏi: {_exam.QuestionCount}";
+            lblBatDau.Text = $"Bắt đầu: {_exam.StartTime}";
+            lblKetThuc.Text = $"Kết thúc: {_exam.EndTime}";
         }
 
         private async void btnSua_Click(object sender, EventArgs e)
         {
+            if (_exam.IsPublished)
+            {
+                MessageBox.Show("Bài kiểm tra đã được công bố, không thể chỉnh sửa.", "Không thể sửa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             Form_AddUpdateExam frm = new Form_AddUpdateExam(_exam.ClassId, _exam.ExamId);
 
             // Gọi callback khi form lưu
@@ -36,6 +63,75 @@ namespace Academix.WinApp.Forms.Teacher
             };
 
             frm.Show();
+        }
+
+        private async void btnCongBo_Click(object sender, EventArgs e)
+        {
+            // Công bố bài kiểm tra
+            if (_exam.IsPublished)
+            {
+                MessageBox.Show("Bài kiểm tra đã được công bố trước đó.", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var confirm = MessageBox.Show("Bạn có chắc muốn công bố bài kiểm tra này không?",
+                "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes) return;
+
+            var api = new ExamApiService();
+            var resp = await api.PublishExamAsync(_exam.ClassId, _exam.ExamId);
+
+            if (!resp.Success)
+            {
+                MessageBox.Show(resp.Message ?? "Không thể công bố bài kiểm tra.", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Cập nhật trạng thái local
+            _exam.IsPublished = true;
+
+
+            // ẩn các nút sau khi công bố
+            btnSua.Visible = false;
+            btnXoa.Visible = false; 
+            btnCongBo.Visible = false;
+
+
+            MessageBox.Show("Công bố bài kiểm tra thành công.", "Thành công",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            if (OnUpdated != null)
+                await OnUpdated();
+        }
+
+
+        private async void guna2Button1_Click(object sender, EventArgs e)
+        {
+            // Xóa bài kiểm tra (chỉ cho phép khi chưa công bố)
+            if (_exam.IsPublished)
+            {
+                MessageBox.Show("Không thể xóa bài kiểm tra đã công bố.", "Không thể xóa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show("Bạn có chắc chắn muốn xóa bài kiểm tra này không?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm != DialogResult.Yes) return;
+
+            var api = new ExamApiService();
+            var resp = await api.DeleteExamAsync(_exam.ClassId, _exam.ExamId);
+            if (!resp.Success)
+            {
+                MessageBox.Show(resp.Message ?? "Không thể xóa bài kiểm tra.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show("Xóa bài kiểm tra thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            if (OnUpdated != null)
+                await OnUpdated();
         }
     }
 

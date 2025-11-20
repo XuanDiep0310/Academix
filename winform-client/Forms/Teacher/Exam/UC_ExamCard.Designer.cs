@@ -35,16 +35,15 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             btnSua = new Guna.UI2.WinForms.Guna2Button();
-            lblDoKho = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblLop = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblKiemTra = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            lblTrangThai = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblThoiGian = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblSoLuong = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
-            guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
+            lblKetThuc = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            lblBatDau = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            btnXoa = new Guna.UI2.WinForms.Guna2Button();
+            btnCongBo = new Guna.UI2.WinForms.Guna2Button();
             SuspendLayout();
             // 
             // btnSua
@@ -67,16 +66,6 @@
             btnSua.Text = "Sửa";
             btnSua.Click += btnSua_Click;
             // 
-            // lblDoKho
-            // 
-            lblDoKho.BackColor = Color.Transparent;
-            lblDoKho.BorderStyle = BorderStyle.FixedSingle;
-            lblDoKho.Location = new Point(97, 67);
-            lblDoKho.Name = "lblDoKho";
-            lblDoKho.Size = new Size(53, 24);
-            lblDoKho.TabIndex = 11;
-            lblDoKho.Text = "Độ khó";
-            // 
             // lblLop
             // 
             lblLop.BackColor = Color.Transparent;
@@ -97,15 +86,15 @@
             lblKiemTra.TabIndex = 9;
             lblKiemTra.Text = "Kiểm tra Đại số tuyến tính - Chương 1";
             // 
-            // guna2HtmlLabel1
+            // lblTrangThai
             // 
-            guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.BorderStyle = BorderStyle.FixedSingle;
-            guna2HtmlLabel1.Location = new Point(168, 67);
-            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(72, 24);
-            guna2HtmlLabel1.TabIndex = 14;
-            guna2HtmlLabel1.Text = "Trạng thái";
+            lblTrangThai.BackColor = Color.Transparent;
+            lblTrangThai.BorderStyle = BorderStyle.FixedSingle;
+            lblTrangThai.Location = new Point(331, 67);
+            lblTrangThai.Name = "lblTrangThai";
+            lblTrangThai.Size = new Size(72, 24);
+            lblTrangThai.TabIndex = 14;
+            lblTrangThai.Text = "Trạng thái";
             // 
             // lblThoiGian
             // 
@@ -129,65 +118,67 @@
             lblSoLuong.TabIndex = 16;
             lblSoLuong.Text = "Số câu hỏi";
             // 
-            // guna2HtmlLabel2
+            // lblKetThuc
             // 
-            guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI", 10.8F);
-            guna2HtmlLabel2.ForeColor = SystemColors.ButtonShadow;
-            guna2HtmlLabel2.Location = new Point(44, 218);
-            guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(67, 27);
-            guna2HtmlLabel2.TabIndex = 17;
-            guna2HtmlLabel2.Text = "Kết thúc";
+            lblKetThuc.BackColor = Color.Transparent;
+            lblKetThuc.Font = new Font("Segoe UI", 10.8F);
+            lblKetThuc.ForeColor = SystemColors.ButtonShadow;
+            lblKetThuc.Location = new Point(44, 218);
+            lblKetThuc.Name = "lblKetThuc";
+            lblKetThuc.Size = new Size(67, 27);
+            lblKetThuc.TabIndex = 17;
+            lblKetThuc.Text = "Kết thúc";
             // 
-            // guna2HtmlLabel3
+            // lblBatDau
             // 
-            guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.Font = new Font("Segoe UI", 10.8F);
-            guna2HtmlLabel3.ForeColor = SystemColors.ButtonShadow;
-            guna2HtmlLabel3.Location = new Point(44, 181);
-            guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            guna2HtmlLabel3.Size = new Size(67, 27);
-            guna2HtmlLabel3.TabIndex = 18;
-            guna2HtmlLabel3.Text = "Bắt đầu:";
+            lblBatDau.BackColor = Color.Transparent;
+            lblBatDau.Font = new Font("Segoe UI", 10.8F);
+            lblBatDau.ForeColor = SystemColors.ButtonShadow;
+            lblBatDau.Location = new Point(44, 181);
+            lblBatDau.Name = "lblBatDau";
+            lblBatDau.Size = new Size(67, 27);
+            lblBatDau.TabIndex = 18;
+            lblBatDau.Text = "Bắt đầu:";
             // 
-            // guna2Button1
+            // btnXoa
             // 
-            guna2Button1.BorderRadius = 15;
-            guna2Button1.BorderThickness = 1;
-            guna2Button1.CustomizableEdges = customizableEdges3;
-            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button1.FillColor = Color.Transparent;
-            guna2Button1.Font = new Font("Segoe UI", 9F);
-            guna2Button1.ForeColor = Color.Black;
-            guna2Button1.Location = new Point(1036, 28);
-            guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            guna2Button1.Size = new Size(91, 35);
-            guna2Button1.TabIndex = 19;
-            guna2Button1.Text = "Đóng bài";
+            btnXoa.BorderRadius = 15;
+            btnXoa.BorderThickness = 1;
+            btnXoa.CustomizableEdges = customizableEdges3;
+            btnXoa.DisabledState.BorderColor = Color.DarkGray;
+            btnXoa.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnXoa.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnXoa.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnXoa.FillColor = Color.Transparent;
+            btnXoa.Font = new Font("Segoe UI", 9F);
+            btnXoa.ForeColor = Color.Black;
+            btnXoa.Location = new Point(1036, 28);
+            btnXoa.Name = "btnXoa";
+            btnXoa.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnXoa.Size = new Size(91, 35);
+            btnXoa.TabIndex = 19;
+            btnXoa.Text = "Xóa";
+            btnXoa.Click += guna2Button1_Click;
             // 
-            // guna2Button2
+            // btnCongBo
             // 
-            guna2Button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            guna2Button2.BorderRadius = 15;
-            guna2Button2.CustomizableEdges = customizableEdges5;
-            guna2Button2.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button2.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button2.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button2.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button2.FillColor = Color.DodgerBlue;
-            guna2Button2.Font = new Font("Segoe UI", 9F);
-            guna2Button2.ForeColor = Color.White;
-            guna2Button2.Location = new Point(936, 28);
-            guna2Button2.Name = "guna2Button2";
-            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2Button2.Size = new Size(94, 36);
-            guna2Button2.TabIndex = 20;
-            guna2Button2.Text = "Công bố";
+            btnCongBo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnCongBo.BorderRadius = 15;
+            btnCongBo.CustomizableEdges = customizableEdges5;
+            btnCongBo.DisabledState.BorderColor = Color.DarkGray;
+            btnCongBo.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnCongBo.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnCongBo.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnCongBo.FillColor = Color.DodgerBlue;
+            btnCongBo.Font = new Font("Segoe UI", 9F);
+            btnCongBo.ForeColor = Color.White;
+            btnCongBo.Location = new Point(936, 28);
+            btnCongBo.Name = "btnCongBo";
+            btnCongBo.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnCongBo.Size = new Size(94, 36);
+            btnCongBo.TabIndex = 20;
+            btnCongBo.Text = "Công bố";
+            btnCongBo.Click += btnCongBo_Click;
             // 
             // UC_ExamCard
             // 
@@ -195,15 +186,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             BorderStyle = BorderStyle.FixedSingle;
-            Controls.Add(guna2Button2);
-            Controls.Add(guna2Button1);
-            Controls.Add(guna2HtmlLabel3);
-            Controls.Add(guna2HtmlLabel2);
+            Controls.Add(btnCongBo);
+            Controls.Add(btnXoa);
+            Controls.Add(lblBatDau);
+            Controls.Add(lblKetThuc);
             Controls.Add(lblSoLuong);
             Controls.Add(lblThoiGian);
-            Controls.Add(guna2HtmlLabel1);
+            Controls.Add(lblTrangThai);
             Controls.Add(btnSua);
-            Controls.Add(lblDoKho);
             Controls.Add(lblLop);
             Controls.Add(lblKiemTra);
             Name = "UC_ExamCard";
@@ -214,15 +204,14 @@
 
         #endregion
         private Guna.UI2.WinForms.Guna2Button btnSua;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblDoKho;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblLop;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblKiemTra;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblTrangThai;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblThoiGian;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblSoLuong;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
-        private Guna.UI2.WinForms.Guna2Button guna2Button1;
-        private Guna.UI2.WinForms.Guna2Button guna2Button2;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblKetThuc;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblBatDau;
+        private Guna.UI2.WinForms.Guna2Button btnXoa;
+        private Guna.UI2.WinForms.Guna2Button btnCongBo;
     }
 }

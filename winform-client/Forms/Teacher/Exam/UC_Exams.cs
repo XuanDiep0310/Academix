@@ -90,21 +90,22 @@ namespace Academix.WinApp.Forms.Teacher
                 _totalPages = result.Data.TotalPages;
 
                 // Add vào flow panel
-                // Giả sử result.Data.Exams là List<ExamDto>
                 foreach (var exam in result.Data.Exams)
                 {
-                    // Chuyển ExamDto -> ExamResponseDto
                     var examResponse = new ExamResponseDto
                     {
                         ExamId = exam.ExamId,
+                        ClassId = exam.ClassId,
+                        ClassName = exam.ClassName,
                         Title = exam.Title,
                         Description = exam.Description,
                         Duration = exam.Duration,
                         TotalMarks = exam.TotalMarks,
                         StartTime = exam.StartTime,
                         EndTime = exam.EndTime,
+                        IsPublished = exam.IsPublished,
+                        QuestionCount = exam.QuestionCount,
                         CreatedBy = exam.CreatedBy
-                        // ... copy các field cần thiết
                     };
 
                     var card = new UC_ExamCard(examResponse);
