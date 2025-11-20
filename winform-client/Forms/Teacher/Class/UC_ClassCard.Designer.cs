@@ -98,7 +98,7 @@
             Controls.Add(lblSoLuong);
             Controls.Add(lblMaLop);
             Controls.Add(lblTenLop);
-            Margin = new Padding(30);
+            Margin = new Padding(0);
             Name = "UC_ClassCard";
             Size = new Size(458, 252);
             ResumeLayout(false);

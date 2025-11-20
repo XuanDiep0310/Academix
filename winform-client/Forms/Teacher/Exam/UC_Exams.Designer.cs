@@ -56,8 +56,8 @@
             // 
             // flowPanelExams
             // 
+            flowPanelExams.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             flowPanelExams.AutoScroll = true;
-            flowPanelExams.Dock = DockStyle.Fill;
             flowPanelExams.Location = new Point(0, 0);
             flowPanelExams.Name = "flowPanelExams";
             flowPanelExams.Size = new Size(1219, 472);
@@ -172,7 +172,7 @@
             // 
             // flowpnlBottom
             // 
-            flowpnlBottom.Dock = DockStyle.Fill;
+            flowpnlBottom.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             flowpnlBottom.Location = new Point(0, 0);
             flowpnlBottom.Name = "flowpnlBottom";
             flowpnlBottom.Size = new Size(1219, 86);
