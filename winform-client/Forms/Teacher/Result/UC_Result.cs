@@ -1,5 +1,8 @@
 ﻿using Academix.WinApp.Api;
 using Academix.WinApp.Models.Teacher;
+using ClosedXML.Excel;
+using System.Diagnostics;
+using DocumentFormat.OpenXml.VariantTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,39 +21,32 @@ namespace Academix.WinApp.Forms.Teacher
         private int _examId = 0;
         private int _page = 1;
         private int _totalPages = 1;
-        private ExamApiService _examApi;
-        private ClassApiService _classApi;
+        private ExamApiService _examApi = new ExamApiService();
+        private ClassApiService _classApi = new ClassApiService();
 
         public UC_Result()
         {
             InitializeComponent();
-            _examApi = new ExamApiService();
-            _classApi = new ClassApiService();
-            
+
             // Wire up events
             this.Load += UC_Result_Load;
-            btnPrevious.Click += btnPrevious_Click;
-            btnNext.Click += btnNext_Click;
-            guna2Button3.Click += guna2Button3_Click;
-            guna2Button4.Click += guna2Button4_Click;
-            guna2Button5.Click += guna2Button5_Click;
-            guna2Button6.Click += guna2Button6_Click;
-            guna2Button7.Click += guna2Button7_Click;
         }
 
         private async void UC_Result_Load(object sender, EventArgs e)
         {
+            ClearResults();
             SetupDataGridView();
             await LoadClassesAsync();
+            await LoadExamsAsync();
         }
 
         private void SetupDataGridView()
         {
-            guna2DataGridView1.AutoGenerateColumns = false;
-            guna2DataGridView1.Columns.Clear();
-            guna2DataGridView1.CellFormatting += Guna2DataGridView1_CellFormatting;
+            dgvHocSinh.AutoGenerateColumns = false;
+            dgvHocSinh.Columns.Clear();
+            dgvHocSinh.CellFormatting += Guna2DataGridView1_CellFormatting;
 
-            guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            dgvHocSinh.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "StudentName",
                 HeaderText = "Họ tên",
@@ -58,7 +54,7 @@ namespace Academix.WinApp.Forms.Teacher
                 Width = 200
             });
 
-            guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            dgvHocSinh.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "StudentEmail",
                 HeaderText = "Email",
@@ -66,7 +62,7 @@ namespace Academix.WinApp.Forms.Teacher
                 Width = 200
             });
 
-            guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            dgvHocSinh.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "TotalScore",
                 HeaderText = "Điểm số",
@@ -74,7 +70,7 @@ namespace Academix.WinApp.Forms.Teacher
                 Width = 100
             });
 
-            guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            dgvHocSinh.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "Percentage",
                 HeaderText = "Phần trăm",
@@ -83,7 +79,7 @@ namespace Academix.WinApp.Forms.Teacher
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "F2" }
             });
 
-            guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            dgvHocSinh.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "CorrectAnswers",
                 HeaderText = "Câu đúng",
@@ -91,7 +87,7 @@ namespace Academix.WinApp.Forms.Teacher
                 Width = 100
             });
 
-            guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            dgvHocSinh.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "TotalQuestions",
                 HeaderText = "Tổng câu",
@@ -99,7 +95,7 @@ namespace Academix.WinApp.Forms.Teacher
                 Width = 100
             });
 
-            guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            dgvHocSinh.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "Status",
                 HeaderText = "Trạng thái",
@@ -107,7 +103,7 @@ namespace Academix.WinApp.Forms.Teacher
                 Width = 120
             });
 
-            guna2DataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            dgvHocSinh.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "StartTime",
                 HeaderText = "Bắt đầu",
@@ -124,12 +120,12 @@ namespace Academix.WinApp.Forms.Teacher
                 Width = 150,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy HH:mm" }
             };
-            guna2DataGridView1.Columns.Add(submitTimeColumn);
+            dgvHocSinh.Columns.Add(submitTimeColumn);
         }
 
         private void Guna2DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (guna2DataGridView1.Columns[e.ColumnIndex].Name == "SubmitTime" && e.Value == null)
+            if (dgvHocSinh.Columns[e.ColumnIndex].Name == "SubmitTime" && e.Value == null)
             {
                 e.Value = "Chưa nộp";
                 e.FormattingApplied = true;
@@ -167,7 +163,7 @@ namespace Academix.WinApp.Forms.Teacher
                 {
                     try
                     {
-                        var result = await _examApi.GetExamsByClassAsync(classItem.ClassId, page: 1, pageSize: 100);
+                        var result = await _examApi.GetExamsByClassAsync(classItem.ClassId, isPublished: true);
                         if (result?.Data?.Exams != null)
                         {
                             foreach (var exam in result.Data.Exams)
@@ -189,18 +185,18 @@ namespace Academix.WinApp.Forms.Teacher
 
                 if (examList.Count == 0)
                 {
-                    guna2ComboBox1.DataSource = null;
-                    guna2ComboBox1.Items.Clear();
+                    cmbBaiKT.DataSource = null;
+                    cmbBaiKT.Items.Clear();
                     MessageBox.Show("Không có bài kiểm tra nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
-                guna2ComboBox1.DataSource = examList;
-                guna2ComboBox1.DisplayMember = "DisplayText";
-                guna2ComboBox1.ValueMember = "Key";
+                cmbBaiKT.DataSource = examList;
+                cmbBaiKT.DisplayMember = "DisplayText";
+                cmbBaiKT.ValueMember = "Key";
 
-                guna2ComboBox1.SelectedIndexChanged -= ComboBox_SelectedIndexChanged;
-                guna2ComboBox1.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
+                cmbBaiKT.SelectedIndexChanged -= ComboBox_SelectedIndexChanged;
+                cmbBaiKT.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             }
             catch (Exception ex)
             {
@@ -210,7 +206,7 @@ namespace Academix.WinApp.Forms.Teacher
 
         private async void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (guna2ComboBox1.SelectedValue != null && guna2ComboBox1.SelectedItem is ExamComboItem item)
+            if (cmbBaiKT.SelectedValue != null && cmbBaiKT.SelectedItem is ExamComboItem item)
             {
                 _classId = item.ClassId;
                 _examId = item.ExamId;
@@ -237,7 +233,12 @@ namespace Academix.WinApp.Forms.Teacher
                     return;
                 }
 
-                var result = await _examApi.GetExamResultsAsync(_classId, _examId, _page, 10);
+                // Lấy tổng số học viên của lớp
+                var classInfo = await _classApi.GetClassByIdAsync(_classId);
+                lblSoLuongHocSinh.Text = classInfo?.StudentCount.ToString() ?? "0";
+
+                // Lấy kết quả bài kiểm tra
+                var result = await _examApi.GetExamResultsAsync(_classId, _examId);
 
                 if (!result.Success || result.Data == null)
                 {
@@ -252,11 +253,14 @@ namespace Academix.WinApp.Forms.Teacher
                 UpdateStatistics(data.Statistics, data.TotalCount);
 
                 // Update DataGridView
-                guna2DataGridView1.DataSource = data.Results;
+                dgvHocSinh.DataSource = data.Results;
 
                 // Update pagination
                 _totalPages = data.TotalPages;
-                UpdatePaginationUI();
+
+                BuildPaginationUI();
+
+
             }
             catch (Exception ex)
             {
@@ -266,92 +270,162 @@ namespace Academix.WinApp.Forms.Teacher
 
         private void UpdateStatistics(ExamStatisticsDto stats, int totalCount)
         {
-            lblSoLuongHocSinh.Text = totalCount.ToString();
             lblSLDaNop.Text = stats.CompletedAttempts.ToString();
             lblSLChuaNop.Text = (stats.TotalAttempts - stats.CompletedAttempts).ToString();
-            lblDiemTrungBinh.Text = stats.AverageScore.ToString("F2");
+            lblDiemTrungBinh.Text = stats.AverageScore?.ToString("F2") ?? "0";
         }
 
         private void ClearResults()
         {
-            guna2DataGridView1.DataSource = null;
+            dgvHocSinh.DataSource = null;
             lblSoLuongHocSinh.Text = "0";
             lblSLDaNop.Text = "0";
             lblSLChuaNop.Text = "0";
             lblDiemTrungBinh.Text = "0";
         }
 
-        private void UpdatePaginationUI()
+        private void BuildPaginationUI()
         {
-            btnPrevious.Enabled = _page > 1;
-            btnNext.Enabled = _page < _totalPages;
+            flowpnlPagination.Controls.Clear();
 
-            // Update page number buttons
-            guna2Button3.Text = "1";
-            guna2Button3.Enabled = _page != 1;
-            guna2Button4.Text = "2";
-            guna2Button4.Enabled = _page != 2;
-            guna2Button5.Text = "3";
-            guna2Button5.Enabled = _page != 3;
-            guna2Button6.Text = "4";
-            guna2Button6.Enabled = _page != 4;
-            guna2Button7.Text = "5";
-            guna2Button7.Enabled = _page != 5;
+            // Prev button
+            var btnPrev = new Button
+            {
+                Text = "Prev",
+                Height = 40,
+                Width = 50,
+                Enabled = _page > 1
+            };
+            btnPrev.Click += async (s, e) =>
+            {
+                if (_page > 1)
+                {
+                    _page--;
+                    await LoadResultsAsync();
+                }
+            };
+            flowpnlPagination.Controls.Add(btnPrev);
 
-            // Show/hide buttons based on total pages
-            guna2Button3.Visible = _totalPages >= 1;
-            guna2Button4.Visible = _totalPages >= 2;
-            guna2Button5.Visible = _totalPages >= 3;
-            guna2Button6.Visible = _totalPages >= 4;
-            guna2Button7.Visible = _totalPages >= 5;
+            // Page buttons (hiển thị tối đa 5 page như trước)
+            int maxPagesToShow = 5;
+            int start = Math.Max(1, _page - 2);
+            int end = Math.Min(_totalPages, start + maxPagesToShow - 1);
+
+            for (int i = start; i <= end; i++)
+            {
+                var btnPage = new Button
+                {
+                    Text = i.ToString(),
+                    Width = 40,
+                    Height = 40,
+                    BackColor = (i == _page) ? Color.LightSkyBlue : Color.White
+                };
+                int pageNum = i; // tránh closure
+                btnPage.Click += async (s, e) =>
+                {
+                    _page = pageNum;
+                    await LoadResultsAsync();
+                };
+                flowpnlPagination.Controls.Add(btnPage);
+            }
+
+            // Next button
+            var btnNext = new Button
+            {
+                Text = "Next",
+                Height = 40,
+                Width = 50,
+                Enabled = _page < _totalPages
+            };
+            btnNext.Click += async (s, e) =>
+            {
+                if (_page < _totalPages)
+                {
+                    _page++;
+                    await LoadResultsAsync();
+                }
+            };
+            flowpnlPagination.Controls.Add(btnNext);
         }
 
-        private async void btnPrevious_Click(object sender, EventArgs e)
+
+
+
+
+        private void btnXuatExcel_Click(object sender, EventArgs e)
+    {
+        if (_examId <= 0 || _classId <= 0)
         {
-            if (_page > 1)
+            MessageBox.Show("Vui lòng chọn bài kiểm tra!", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        if (dgvHocSinh.Rows.Count == 0)
+        {
+            MessageBox.Show("Không có dữ liệu để xuất!", "Thông báo",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        using (SaveFileDialog saveDialog = new SaveFileDialog())
+        {
+            saveDialog.Filter = "Excel File|*.xlsx";
+            saveDialog.Title = "Xuất bảng điểm";
+            saveDialog.FileName = $"BangDiem_Exam_{_examId}.xlsx";
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                _page--;
-                await LoadResultsAsync();
+                try
+                {
+                    using (var workbook = new XLWorkbook())
+                    {
+                        var ws = workbook.Worksheets.Add("BangDiem");
+
+                        // Header
+                        for (int i = 0; i < dgvHocSinh.Columns.Count; i++)
+                        {
+                            ws.Cell(1, i + 1).Value = dgvHocSinh.Columns[i].HeaderText;
+                            ws.Cell(1, i + 1).Style.Font.Bold = true;
+                        }
+
+                        // Data
+                        for (int i = 0; i < dgvHocSinh.Rows.Count; i++)
+                        {
+                            for (int j = 0; j < dgvHocSinh.Columns.Count; j++)
+                            {
+                                ws.Cell(i + 2, j + 1).Value =
+                                    dgvHocSinh.Rows[i].Cells[j].Value?.ToString();
+                            }
+                        }
+
+                        ws.Columns().AdjustToContents();
+
+                        // Save file
+                        workbook.SaveAs(saveDialog.FileName);
+                    }
+
+                    MessageBox.Show("Xuất Excel thành công!", "Thành công",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Mở file Excel vừa xuất
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = saveDialog.FileName,
+                        UseShellExecute = true // dùng shell để mở bằng ứng dụng mặc định
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xuất Excel: " + ex.Message, "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
-        private async void btnNext_Click(object sender, EventArgs e)
-        {
-            if (_page < _totalPages)
-            {
-                _page++;
-                await LoadResultsAsync();
-            }
-        }
 
-        private async void guna2Button3_Click(object sender, EventArgs e)
-        {
-            _page = 1;
-            await LoadResultsAsync();
-        }
-
-        private async void guna2Button4_Click(object sender, EventArgs e)
-        {
-            _page = 2;
-            await LoadResultsAsync();
-        }
-
-        private async void guna2Button5_Click(object sender, EventArgs e)
-        {
-            _page = 3;
-            await LoadResultsAsync();
-        }
-
-        private async void guna2Button6_Click(object sender, EventArgs e)
-        {
-            _page = 4;
-            await LoadResultsAsync();
-        }
-
-        private async void guna2Button7_Click(object sender, EventArgs e)
-        {
-            _page = 5;
-            await LoadResultsAsync();
-        }
     }
+
+
+}
 }

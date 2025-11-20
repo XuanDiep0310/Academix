@@ -20,6 +20,8 @@ namespace Academix.WinApp.Forms.Teacher
         public FormMainTeacher()
         {
             InitializeComponent();
+            lblHoTen.Text = SessionManager.CurrentUser.FullName;
+
         }
 
         private void ResetTabButtons()

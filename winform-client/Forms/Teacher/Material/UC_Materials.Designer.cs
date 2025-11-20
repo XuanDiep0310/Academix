@@ -55,18 +55,20 @@
             btnThemTaiLieu = new Guna.UI2.WinForms.Guna2Button();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            pnlPagination = new Guna.UI2.WinForms.Guna2Panel();
+            pnlBottom = new Guna.UI2.WinForms.Guna2Panel();
+            pnlPagination = new FlowLayoutPanel();
             guna2Panel1.SuspendLayout();
             guna2Panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTaiLieu).BeginInit();
             guna2Panel3.SuspendLayout();
+            pnlBottom.SuspendLayout();
             SuspendLayout();
             // 
             // guna2Panel1
             // 
             guna2Panel1.Controls.Add(guna2Panel4);
             guna2Panel1.Controls.Add(guna2Panel3);
-            guna2Panel1.Controls.Add(pnlPagination);
+            guna2Panel1.Controls.Add(pnlBottom);
             guna2Panel1.CustomizableEdges = customizableEdges13;
             guna2Panel1.Dock = DockStyle.Fill;
             guna2Panel1.Location = new Point(0, 0);
@@ -88,56 +90,57 @@
             // 
             // dgvTaiLieu
             // 
-            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(194, 224, 244);
             dgvTaiLieu.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvTaiLieu.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvTaiLieu.BorderStyle = BorderStyle.FixedSingle;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
             dataGridViewCellStyle2.ForeColor = Color.White;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvTaiLieu.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dgvTaiLieu.ColumnHeadersHeight = 4;
+            dgvTaiLieu.ColumnHeadersHeight = 40;
             dgvTaiLieu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(214, 234, 247);
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(119, 186, 231);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvTaiLieu.DefaultCellStyle = dataGridViewCellStyle3;
-            dgvTaiLieu.GridColor = Color.FromArgb(231, 229, 255);
+            dgvTaiLieu.GridColor = Color.FromArgb(187, 220, 242);
             dgvTaiLieu.Location = new Point(72, 9);
             dgvTaiLieu.Name = "dgvTaiLieu";
             dgvTaiLieu.RowHeadersVisible = false;
             dgvTaiLieu.RowHeadersWidth = 51;
             dgvTaiLieu.Size = new Size(1092, 440);
             dgvTaiLieu.TabIndex = 13;
-            dgvTaiLieu.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
+            dgvTaiLieu.Theme = Guna.UI2.WinForms.Enums.DataGridViewPresetThemes.FeterRiver;
+            dgvTaiLieu.ThemeStyle.AlternatingRowsStyle.BackColor = Color.FromArgb(194, 224, 244);
             dgvTaiLieu.ThemeStyle.AlternatingRowsStyle.Font = null;
             dgvTaiLieu.ThemeStyle.AlternatingRowsStyle.ForeColor = Color.Empty;
             dgvTaiLieu.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = Color.Empty;
             dgvTaiLieu.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = Color.Empty;
             dgvTaiLieu.ThemeStyle.BackColor = Color.White;
-            dgvTaiLieu.ThemeStyle.GridColor = Color.FromArgb(231, 229, 255);
-            dgvTaiLieu.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(100, 88, 255);
+            dgvTaiLieu.ThemeStyle.GridColor = Color.FromArgb(187, 220, 242);
+            dgvTaiLieu.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(52, 152, 219);
             dgvTaiLieu.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvTaiLieu.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
             dgvTaiLieu.ThemeStyle.HeaderStyle.ForeColor = Color.White;
             dgvTaiLieu.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dgvTaiLieu.ThemeStyle.HeaderStyle.Height = 4;
+            dgvTaiLieu.ThemeStyle.HeaderStyle.Height = 40;
             dgvTaiLieu.ThemeStyle.ReadOnly = false;
-            dgvTaiLieu.ThemeStyle.RowsStyle.BackColor = Color.White;
+            dgvTaiLieu.ThemeStyle.RowsStyle.BackColor = Color.FromArgb(214, 234, 247);
             dgvTaiLieu.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvTaiLieu.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9F);
-            dgvTaiLieu.ThemeStyle.RowsStyle.ForeColor = Color.FromArgb(71, 69, 94);
+            dgvTaiLieu.ThemeStyle.RowsStyle.ForeColor = Color.Black;
             dgvTaiLieu.ThemeStyle.RowsStyle.Height = 29;
-            dgvTaiLieu.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dgvTaiLieu.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dgvTaiLieu.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(119, 186, 231);
+            dgvTaiLieu.ThemeStyle.RowsStyle.SelectionForeColor = Color.Black;
             dgvTaiLieu.CellContentClick += dgvTaiLieu_CellContentClick;
             // 
             // guna2Panel3
@@ -242,15 +245,24 @@
             guna2HtmlLabel1.TabIndex = 8;
             guna2HtmlLabel1.Text = "Tài liệu học tập";
             // 
+            // pnlBottom
+            // 
+            pnlBottom.Controls.Add(pnlPagination);
+            pnlBottom.CustomizableEdges = customizableEdges11;
+            pnlBottom.Dock = DockStyle.Bottom;
+            pnlBottom.Location = new Point(0, 633);
+            pnlBottom.Name = "pnlBottom";
+            pnlBottom.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            pnlBottom.Size = new Size(1219, 75);
+            pnlBottom.TabIndex = 30;
+            // 
             // pnlPagination
             // 
-            pnlPagination.CustomizableEdges = customizableEdges11;
             pnlPagination.Dock = DockStyle.Bottom;
-            pnlPagination.Location = new Point(0, 633);
+            pnlPagination.Location = new Point(0, 3);
             pnlPagination.Name = "pnlPagination";
-            pnlPagination.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            pnlPagination.Size = new Size(1219, 75);
-            pnlPagination.TabIndex = 30;
+            pnlPagination.Size = new Size(1219, 72);
+            pnlPagination.TabIndex = 0;
             // 
             // UC_Materials
             // 
@@ -265,6 +277,7 @@
             ((System.ComponentModel.ISupportInitialize)dgvTaiLieu).EndInit();
             guna2Panel3.ResumeLayout(false);
             guna2Panel3.PerformLayout();
+            pnlBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -278,8 +291,9 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private Guna.UI2.WinForms.Guna2Separator guna2Separator1;
-        private Guna.UI2.WinForms.Guna2Panel pnlPagination;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel4;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel3;
+        private Guna.UI2.WinForms.Guna2Panel pnlBottom;
+        private FlowLayoutPanel pnlPagination;
     }
 }
