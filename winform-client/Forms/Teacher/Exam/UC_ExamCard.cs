@@ -1,4 +1,5 @@
 ﻿using Academix.WinApp.Forms.Teacher.Exam;
+using Academix.WinApp.Models.Teacher;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,15 +14,29 @@ namespace Academix.WinApp.Forms.Teacher
 {
     public partial class UC_ExamCard : UserControl
     {
-        public UC_ExamCard()
+        public event Func<Task>? OnUpdated; // callback reload
+
+        private ExamResponseDto _exam;
+
+        public UC_ExamCard(ExamResponseDto exam)
         {
             InitializeComponent();
+            _exam = exam;
         }
 
-        private void btnSua_Click(object sender, EventArgs e)
+        private async void btnSua_Click(object sender, EventArgs e)
         {
-            Form_AddUpdateExam frm = new Form_AddUpdateExam();
+            Form_AddUpdateExam frm = new Form_AddUpdateExam(_exam.ClassId, _exam.ExamId);
+
+            // Gọi callback khi form lưu
+            frm.OnSaved += async () =>
+            {
+                if (OnUpdated != null)
+                    await OnUpdated();
+            };
+
             frm.Show();
         }
     }
+
 }
