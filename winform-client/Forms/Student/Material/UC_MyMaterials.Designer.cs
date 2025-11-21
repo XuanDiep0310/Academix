@@ -160,12 +160,14 @@
             // 
             // flowpanelMaterial
             // 
-            flowpanelMaterial.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             flowpanelMaterial.AutoScroll = true;
+            flowpanelMaterial.AutoSize = true;
+            flowpanelMaterial.Dock = DockStyle.Fill;
             flowpanelMaterial.Location = new Point(0, 0);
             flowpanelMaterial.Name = "flowpanelMaterial";
             flowpanelMaterial.Size = new Size(1105, 511);
             flowpanelMaterial.TabIndex = 0;
+            flowpanelMaterial.SizeChanged += flowpanelMaterial_SizeChanged;
             // 
             // UC_MyMaterials
             // 
@@ -178,6 +180,7 @@
             guna2Panel2.ResumeLayout(false);
             guna2Panel2.PerformLayout();
             guna2Panel3.ResumeLayout(false);
+            guna2Panel3.PerformLayout();
             ResumeLayout(false);
         }
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;

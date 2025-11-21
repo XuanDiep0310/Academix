@@ -236,6 +236,7 @@ namespace Academix.WinApp.Forms.Teacher
                 // Lấy tổng số học viên của lớp
                 var classInfo = await _classApi.GetClassByIdAsync(_classId);
                 lblSoLuongHocSinh.Text = classInfo?.StudentCount.ToString() ?? "0";
+                
 
                 // Lấy kết quả bài kiểm tra
                 var result = await _examApi.GetExamResultsAsync(_classId, _examId);
@@ -248,6 +249,7 @@ namespace Academix.WinApp.Forms.Teacher
                 }
 
                 var data = result.Data;
+                data.TotalCount = classInfo.StudentCount;
 
                 // Update statistics
                 UpdateStatistics(data.Statistics, data.TotalCount);
@@ -271,7 +273,7 @@ namespace Academix.WinApp.Forms.Teacher
         private void UpdateStatistics(ExamStatisticsDto stats, int totalCount)
         {
             lblSLDaNop.Text = stats.CompletedAttempts.ToString();
-            lblSLChuaNop.Text = (stats.TotalAttempts - stats.CompletedAttempts).ToString();
+            lblSLChuaNop.Text = (totalCount - stats.CompletedAttempts).ToString();
             lblDiemTrungBinh.Text = stats.AverageScore?.ToString("F2") ?? "0";
         }
 

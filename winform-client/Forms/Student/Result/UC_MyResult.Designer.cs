@@ -92,7 +92,7 @@
             guna2Panel5.Controls.Add(guna2HtmlLabel7);
             guna2Panel5.CustomizableEdges = customizableEdges3;
             guna2Panel5.FillColor = Color.WhiteSmoke;
-            guna2Panel5.Location = new Point(753, 112);
+            guna2Panel5.Location = new Point(772, 112);
             guna2Panel5.Name = "guna2Panel5";
             guna2Panel5.ShadowDecoration.CustomizableEdges = customizableEdges4;
             guna2Panel5.Size = new Size(360, 161);
@@ -150,7 +150,7 @@
             guna2Panel3.Controls.Add(guna2HtmlLabel3);
             guna2Panel3.CustomizableEdges = customizableEdges7;
             guna2Panel3.FillColor = Color.WhiteSmoke;
-            guna2Panel3.Location = new Point(1, 112);
+            guna2Panel3.Location = new Point(20, 112);
             guna2Panel3.Name = "guna2Panel3";
             guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges8;
             guna2Panel3.Size = new Size(354, 161);
@@ -210,7 +210,7 @@
             guna2Panel4.CustomizableEdges = customizableEdges9;
             guna2Panel4.FillColor = Color.WhiteSmoke;
             guna2Panel4.ForeColor = Color.WhiteSmoke;
-            guna2Panel4.Location = new Point(382, 112);
+            guna2Panel4.Location = new Point(401, 112);
             guna2Panel4.Name = "guna2Panel4";
             guna2Panel4.ShadowDecoration.CustomizableEdges = customizableEdges10;
             guna2Panel4.Size = new Size(346, 161);
@@ -251,13 +251,15 @@
             // 
             // flowpanelResult
             // 
-            flowpanelResult.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             flowpanelResult.AutoScroll = true;
+            flowpanelResult.AutoSize = true;
+            flowpanelResult.Dock = DockStyle.Fill;
             flowpanelResult.Location = new Point(0, 0);
             flowpanelResult.Name = "flowpanelResult";
             flowpanelResult.Padding = new Padding(20, 0, 0, 0);
             flowpanelResult.Size = new Size(1164, 343);
             flowpanelResult.TabIndex = 3;
+            flowpanelResult.SizeChanged += flowpanelResult_SizeChanged;
             // 
             // guna2Panel2
             // 
@@ -289,6 +291,7 @@
             guna2Panel4.ResumeLayout(false);
             guna2Panel4.PerformLayout();
             guna2Panel2.ResumeLayout(false);
+            guna2Panel2.PerformLayout();
             ResumeLayout(false);
         }
 
