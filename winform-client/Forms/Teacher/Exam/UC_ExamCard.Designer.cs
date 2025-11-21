@@ -48,6 +48,7 @@
             // 
             // btnSua
             // 
+            btnSua.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnSua.BorderRadius = 15;
             btnSua.BorderThickness = 1;
             btnSua.CustomizableEdges = customizableEdges1;
@@ -142,6 +143,7 @@
             // 
             // btnXoa
             // 
+            btnXoa.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnXoa.BorderRadius = 15;
             btnXoa.BorderThickness = 1;
             btnXoa.CustomizableEdges = customizableEdges3;

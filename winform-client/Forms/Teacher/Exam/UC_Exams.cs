@@ -26,8 +26,8 @@ namespace Academix.WinApp.Forms.Teacher
         }
         private async void UC_Exams_Load(object sender, EventArgs e)
         {
-            await LoadClassesAsync(); 
-            await LoadExamsAsync();      
+            await LoadClassesAsync();
+            await LoadExamsAsync();
         }
         private async Task LoadClassesAsync()
         {
@@ -109,6 +109,8 @@ namespace Academix.WinApp.Forms.Teacher
                     };
 
                     var card = new UC_ExamCard(examResponse);
+                    card.Width = flowPanelExams.ClientSize.Width - 20;
+
                     card.OnUpdated += async () => await LoadExamsAsync();
                     card.Margin = new Padding(10);
                     flowPanelExams.Controls.Add(card);
@@ -140,7 +142,7 @@ namespace Academix.WinApp.Forms.Teacher
             // Prev
             var btnPrev = new Button
             {
-                Text = "Prev",
+                Text = "Trước",
                 Height = 40,
                 Enabled = _page > 1
             };
@@ -175,7 +177,7 @@ namespace Academix.WinApp.Forms.Teacher
             // Next
             var btnNext = new Button
             {
-                Text = "Next",
+                Text = "Sau",
                 Height = 40,
                 Enabled = _page < _totalPages
             };
@@ -186,5 +188,18 @@ namespace Academix.WinApp.Forms.Teacher
             };
             flowpnlBottom.Controls.Add(btnNext);
         }
+
+        private void flowPanelExams_SizeChanged(object sender, EventArgs e)
+        {
+            ResizeCards();
+        }
+        private void ResizeCards()
+        {
+            foreach (Control c in flowPanelExams.Controls)
+            {
+                c.Width = flowPanelExams.ClientSize.Width - 20; // trừ margin
+            }
+        }
+
     }
 }

@@ -56,12 +56,13 @@
             // 
             // flowPanelExams
             // 
-            flowPanelExams.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             flowPanelExams.AutoScroll = true;
+            flowPanelExams.Dock = DockStyle.Fill;
             flowPanelExams.Location = new Point(0, 0);
             flowPanelExams.Name = "flowPanelExams";
             flowPanelExams.Size = new Size(1219, 472);
             flowPanelExams.TabIndex = 11;
+            flowPanelExams.SizeChanged += flowPanelExams_SizeChanged;
             // 
             // groupBox1
             // 
