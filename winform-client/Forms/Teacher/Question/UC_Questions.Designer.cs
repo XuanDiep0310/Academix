@@ -63,6 +63,7 @@
             flowPanelQuestion.Name = "flowPanelQuestion";
             flowPanelQuestion.Size = new Size(1219, 472);
             flowPanelQuestion.TabIndex = 11;
+            flowPanelQuestion.SizeChanged += flowPanelQuestion_SizeChanged;
             // 
             // groupBox1
             // 

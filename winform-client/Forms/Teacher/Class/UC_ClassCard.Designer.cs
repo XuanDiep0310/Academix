@@ -39,10 +39,10 @@
             // lblTenLop
             // 
             lblTenLop.BackColor = Color.Transparent;
-            lblTenLop.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblTenLop.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
             lblTenLop.Location = new Point(31, 32);
             lblTenLop.Name = "lblTenLop";
-            lblTenLop.Size = new Size(68, 30);
+            lblTenLop.Size = new Size(75, 30);
             lblTenLop.TabIndex = 0;
             lblTenLop.Text = "Tên lớp";
             // 
@@ -51,6 +51,7 @@
             lblMaLop.BackColor = Color.Transparent;
             lblMaLop.BorderStyle = BorderStyle.FixedSingle;
             lblMaLop.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblMaLop.ForeColor = Color.Blue;
             lblMaLop.Location = new Point(31, 78);
             lblMaLop.Name = "lblMaLop";
             lblMaLop.Size = new Size(58, 27);
@@ -93,6 +94,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
             BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(btnXemDSHS);
             Controls.Add(lblSoLuong);
