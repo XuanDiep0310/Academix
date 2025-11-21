@@ -81,6 +81,7 @@ namespace Academix.WinApp.Forms.Student.MyResult
                 foreach (var result in ordered)
                 {
                     var card = new UCResultCard();
+                    card.Width = flowpanelResult.ClientSize.Width - 20;
                     card.Bind(result);
                     flowpanelResult.Controls.Add(card);
                 }
@@ -127,30 +128,34 @@ namespace Academix.WinApp.Forms.Student.MyResult
             double averageScore = completedExams.Average(r => r.TotalScore);
             double averageTotalMarks = completedExams.Average(r => r.TotalMarks);
             lblDiemtrungBinh.Text = $"{averageScore:F1}/{averageTotalMarks:F1}";
-            
+
             // Cập nhật progress bar cho điểm trung bình (tính theo phần trăm)
             double averagePercentage = averageTotalMarks > 0 ? (averageScore / averageTotalMarks) * 100 : 0;
             guna2ProgressBar1.Value = (int)Math.Round(averagePercentage);
             guna2ProgressBar1.Text = $"{averagePercentage:F1}%";
 
             // Tính tỷ lệ chính xác (trung bình của tỷ lệ đúng/tổng câu hỏi)
-            double averageAccuracy = completedExams.Average(r => 
+            double averageAccuracy = completedExams.Average(r =>
                 r.TotalQuestions > 0 ? (double)r.CorrectAnswers / r.TotalQuestions * 100 : 0);
             lblTyLeChinhXac.Text = $"{averageAccuracy:F0}%";
-            
+
             // Cập nhật progress bar cho tỷ lệ chính xác
             guna2ProgressBar2.Value = (int)Math.Round(averageAccuracy);
             guna2ProgressBar2.Text = $"{averageAccuracy:F1}%";
         }
 
-        private void guna2Panel6_Paint(object sender, PaintEventArgs e)
+
+        private void flowpanelResult_SizeChanged(object sender, EventArgs e)
         {
-
+            ResizeCards();
         }
-
-        private void guna2Panel6_Paint_1(object sender, PaintEventArgs e)
+        private void ResizeCards()
         {
-
+            foreach (Control c in flowpanelResult.Controls)
+            {
+                c.Width = flowpanelResult.ClientSize.Width - 20; // trừ margin
+            }
         }
+    
     }
 }

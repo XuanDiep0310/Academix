@@ -165,6 +165,9 @@
             // 
             // btnSua
             // 
+            btnSua.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSua.BorderRadius = 15;
+            btnSua.BorderThickness = 1;
             btnSua.CustomizableEdges = customizableEdges1;
             btnSua.DisabledState.BorderColor = Color.DarkGray;
             btnSua.DisabledState.CustomBorderColor = Color.DarkGray;
@@ -183,6 +186,9 @@
             // 
             // btnXoa
             // 
+            btnXoa.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnXoa.BorderRadius = 15;
+            btnXoa.BorderThickness = 1;
             btnXoa.CustomizableEdges = customizableEdges3;
             btnXoa.DisabledState.BorderColor = Color.DarkGray;
             btnXoa.DisabledState.CustomBorderColor = Color.DarkGray;

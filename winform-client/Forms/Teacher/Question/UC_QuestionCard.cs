@@ -2,60 +2,51 @@
 using Academix.WinApp.Forms.Teacher.Question;
 using Academix.WinApp.Models.Teacher;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Academix.WinApp.Forms.Teacher
 {
-
     public partial class UC_QuestionCard : UserControl
     {
-        public event Func<Task>? OnUpdated; 
+        public event Func<Task>? OnUpdated;  // Dùng chung cho sửa & xóa
 
         [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int _questionId { get; set; }
-
+        public int QuestionId { get; private set; }
 
         public UC_QuestionCard(QuestionResponseDto data)
         {
             InitializeComponent();
             LoadData(data);
         }
+
         private void LoadData(QuestionResponseDto data)
         {
-            _questionId = data.QuestionId;
+            QuestionId = data.QuestionId;
 
             lblCauHoi.Text = data.QuestionText;
             lblMon.Text = data.Subject ?? "";
-            lblDoKho.Text = data.DifficultyLevel ?? "";
-            lblLoaiCauHoi.Text = data.QuestionType ?? "";
+            lblDoKho.Text = ConvertDifficulty(data.DifficultyLevel);
+            lblLoaiCauHoi.Text = ConvertQuestionType(data.QuestionType);
 
-            // Lấy danh sách đáp án theo thứ tự
             var answers = data.Options
                               .OrderBy(o => o.OptionOrder)
                               .Select(o => o.OptionText)
                               .ToList();
 
-            // Gán đáp án vào các radio button
             radDapAn1.Text = answers.ElementAtOrDefault(0) ?? "";
             radDapAn2.Text = answers.ElementAtOrDefault(1) ?? "";
             radDapAn3.Text = answers.ElementAtOrDefault(2) ?? "";
             radDapAn4.Text = answers.ElementAtOrDefault(3) ?? "";
 
-            // Tìm đáp án đúng
             var correctIndex = data.Options
                                    .OrderBy(o => o.OptionOrder)
                                    .Select((o, idx) => new { o, idx })
                                    .FirstOrDefault(x => x.o.IsCorrect)?.idx ?? -1;
 
-            // Check đáp án đúng
             radDapAn1.Checked = correctIndex == 0;
             radDapAn2.Checked = correctIndex == 1;
             radDapAn3.Checked = correctIndex == 2;
@@ -69,31 +60,24 @@ namespace Academix.WinApp.Forms.Teacher
 
         private void SetCorrectColor(RadioButton rdo, bool isCorrect)
         {
-            if (isCorrect)
-                rdo.BackColor = Color.Aquamarine;
+            rdo.BackColor = isCorrect ? Color.Aquamarine : Color.Transparent;
         }
-
-
-        public event EventHandler? OnDataChanged;
 
         private async void btnSua_Click(object sender, EventArgs e)
         {
-            if (_questionId <= 0)
-                return;
+            if (QuestionId <= 0) return;
 
-            using var frm = new Form_AddUpdateQuestion(_questionId);
-            var dialogResult = frm.ShowDialog();
-
-            if (dialogResult == DialogResult.OK)
+            using var frm = new Form_AddUpdateQuestion(QuestionId);
+            if (frm.ShowDialog() == DialogResult.OK)
             {
                 if (OnUpdated != null)
-                    await OnUpdated.Invoke(); // Gọi callback
+                    await OnUpdated.Invoke();
             }
         }
+
         private async void btnXoa_Click(object sender, EventArgs e)
         {
-            if (_questionId <= 0)
-                return;
+            if (QuestionId <= 0) return;
 
             var confirm = MessageBox.Show(
                 "Bạn có chắc muốn xóa không?",
@@ -102,18 +86,18 @@ namespace Academix.WinApp.Forms.Teacher
                 MessageBoxIcon.Warning
             );
 
-            if (confirm != DialogResult.Yes)
-                return;
+            if (confirm != DialogResult.Yes) return;
 
             try
             {
                 var api = new QuestionApiService();
-                var result = await api.DeleteQuestionAsync(_questionId);
+                var result = await api.DeleteQuestionAsync(QuestionId);
 
                 if (result.Success)
                 {
                     MessageBox.Show("Xóa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    OnDataChanged?.Invoke(this, EventArgs.Empty);
+                    if (OnUpdated != null)
+                        await OnUpdated.Invoke();
                 }
                 else
                 {
@@ -126,5 +110,19 @@ namespace Academix.WinApp.Forms.Teacher
             }
         }
 
+        private string ConvertDifficulty(string level) => level switch
+        {
+            "Easy" => "Dễ",
+            "Medium" => "Trung bình",
+            "Hard" => "Khó",
+            _ => "Không rõ"
+        };
+
+        private string ConvertQuestionType(string type) => type switch
+        {
+            "SingleChoice" => "Một đáp án",
+            "MultipleChoice" => "Nhiều đáp án",
+            _ => "Không rõ"
+        };
     }
 }
