@@ -27,7 +27,7 @@ namespace Academix.WinApp.Forms.Student.MyResult
 
             lblTenBaiKiemTra.Text = exam.Title;
             lblLopHoc.Text = exam.ClassName;
-            lblMonHoc.Text = exam.ClassName;
+            //lblMonHoc.Text = exam.ClassName;
             lblThoiLuong.Text = $"{exam.Duration} phút";
             lblThoiGianBatDau.Text = exam.StartTime.ToString("HH:mm dd/MM/yyyy");
             lblThoiGianKetThuc.Text = exam.EndTime.ToString("HH:mm dd/MM/yyyy");

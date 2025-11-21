@@ -68,6 +68,7 @@
             // 
             // guna2Panel1
             // 
+            guna2Panel1.BackColor = Color.Transparent;
             guna2Panel1.Controls.Add(guna2Panel5);
             guna2Panel1.Controls.Add(guna2HtmlLabel1);
             guna2Panel1.Controls.Add(guna2Panel3);
@@ -84,14 +85,14 @@
             // guna2Panel5
             // 
             guna2Panel5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            guna2Panel5.BackColor = Color.Transparent;
+            guna2Panel5.BackColor = Color.White;
             guna2Panel5.BorderRadius = 20;
             guna2Panel5.BorderThickness = 1;
             guna2Panel5.Controls.Add(guna2ProgressBar2);
             guna2Panel5.Controls.Add(lblTyLeChinhXac);
             guna2Panel5.Controls.Add(guna2HtmlLabel7);
             guna2Panel5.CustomizableEdges = customizableEdges3;
-            guna2Panel5.FillColor = Color.WhiteSmoke;
+            guna2Panel5.FillColor = Color.White;
             guna2Panel5.Location = new Point(753, 112);
             guna2Panel5.Name = "guna2Panel5";
             guna2Panel5.ShadowDecoration.CustomizableEdges = customizableEdges4;
@@ -143,13 +144,14 @@
             // guna2Panel3
             // 
             guna2Panel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            guna2Panel3.BackColor = Color.White;
             guna2Panel3.BorderRadius = 20;
             guna2Panel3.BorderThickness = 1;
             guna2Panel3.Controls.Add(guna2ProgressBar1);
             guna2Panel3.Controls.Add(lblDiemtrungBinh);
             guna2Panel3.Controls.Add(guna2HtmlLabel3);
             guna2Panel3.CustomizableEdges = customizableEdges7;
-            guna2Panel3.FillColor = Color.WhiteSmoke;
+            guna2Panel3.FillColor = Color.White;
             guna2Panel3.Location = new Point(1, 112);
             guna2Panel3.Name = "guna2Panel3";
             guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges8;
@@ -202,13 +204,14 @@
             // guna2Panel4
             // 
             guna2Panel4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            guna2Panel4.BackColor = Color.White;
             guna2Panel4.BorderRadius = 20;
             guna2Panel4.BorderThickness = 1;
             guna2Panel4.Controls.Add(guna2HtmlLabel4);
             guna2Panel4.Controls.Add(lblTongSoBaiDaLam);
             guna2Panel4.Controls.Add(guna2HtmlLabel6);
             guna2Panel4.CustomizableEdges = customizableEdges9;
-            guna2Panel4.FillColor = Color.WhiteSmoke;
+            guna2Panel4.FillColor = Color.White;
             guna2Panel4.ForeColor = Color.WhiteSmoke;
             guna2Panel4.Location = new Point(382, 112);
             guna2Panel4.Name = "guna2Panel4";
@@ -253,17 +256,20 @@
             // 
             flowpanelResult.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             flowpanelResult.AutoScroll = true;
+            flowpanelResult.BackColor = Color.WhiteSmoke;
             flowpanelResult.Location = new Point(0, 0);
             flowpanelResult.Name = "flowpanelResult";
-            flowpanelResult.Padding = new Padding(20, 0, 0, 0);
+            flowpanelResult.Padding = new Padding(30, 20, 20, 20);
             flowpanelResult.Size = new Size(1164, 343);
             flowpanelResult.TabIndex = 3;
             // 
             // guna2Panel2
             // 
+            guna2Panel2.BackColor = Color.FromArgb(249, 250, 251);
             guna2Panel2.Controls.Add(flowpanelResult);
             guna2Panel2.CustomizableEdges = customizableEdges13;
             guna2Panel2.Dock = DockStyle.Fill;
+            guna2Panel2.FillColor = Color.FromArgb(249, 250, 251);
             guna2Panel2.Location = new Point(0, 316);
             guna2Panel2.Name = "guna2Panel2";
             guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges14;

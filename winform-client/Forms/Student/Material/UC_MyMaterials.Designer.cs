@@ -149,9 +149,11 @@
             // 
             // guna2Panel3
             // 
+            guna2Panel3.BackColor = Color.FromArgb(249, 250, 251);
             guna2Panel3.Controls.Add(flowpanelMaterial);
             guna2Panel3.CustomizableEdges = customizableEdges9;
             guna2Panel3.Dock = DockStyle.Fill;
+            guna2Panel3.FillColor = Color.FromArgb(249, 250, 251);
             guna2Panel3.Location = new Point(0, 125);
             guna2Panel3.Name = "guna2Panel3";
             guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges10;
@@ -162,8 +164,10 @@
             // 
             flowpanelMaterial.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             flowpanelMaterial.AutoScroll = true;
+            flowpanelMaterial.BackColor = Color.White;
             flowpanelMaterial.Location = new Point(0, 0);
             flowpanelMaterial.Name = "flowpanelMaterial";
+            flowpanelMaterial.Padding = new Padding(30, 20, 20, 20);
             flowpanelMaterial.Size = new Size(1105, 511);
             flowpanelMaterial.TabIndex = 0;
             // 

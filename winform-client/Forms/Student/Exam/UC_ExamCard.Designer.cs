@@ -34,7 +34,6 @@
             lblTrangThai = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblLopHoc = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblTenBaiKiemTra = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblMonHoc = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblTrangThaiDangMo = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -46,62 +45,57 @@
             // btnBatDauLamBai
             // 
             btnBatDauLamBai.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnBatDauLamBai.BorderRadius = 15;
+            btnBatDauLamBai.BorderRadius = 10;
             btnBatDauLamBai.CustomizableEdges = customizableEdges1;
             btnBatDauLamBai.DisabledState.BorderColor = Color.DarkGray;
             btnBatDauLamBai.DisabledState.CustomBorderColor = Color.DarkGray;
             btnBatDauLamBai.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnBatDauLamBai.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnBatDauLamBai.FillColor = Color.RoyalBlue;
-            btnBatDauLamBai.Font = new Font("Segoe UI", 9F);
+            btnBatDauLamBai.FillColor = Color.FromArgb(34, 197, 94);
+            btnBatDauLamBai.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBatDauLamBai.ForeColor = Color.White;
-            btnBatDauLamBai.Location = new Point(841, 39);
+            btnBatDauLamBai.Location = new Point(826, 28);
             btnBatDauLamBai.Name = "btnBatDauLamBai";
             btnBatDauLamBai.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnBatDauLamBai.Size = new Size(159, 36);
+            btnBatDauLamBai.Size = new Size(170, 45);
             btnBatDauLamBai.TabIndex = 18;
             btnBatDauLamBai.Text = "Bắt đầu làm bài";
             btnBatDauLamBai.Click += btnBatDauLamBai_Click;
             // 
             // lblTrangThai
             // 
-            lblTrangThai.BackColor = Color.SkyBlue;
-            lblTrangThai.BorderStyle = BorderStyle.FixedSingle;
-            lblTrangThai.Location = new Point(565, 65);
+            lblTrangThai.BackColor = Color.FromArgb(220, 252, 231);
+            lblTrangThai.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblTrangThai.ForeColor = Color.FromArgb(22, 163, 74);
+            lblTrangThai.Location = new Point(473, 75);
             lblTrangThai.Name = "lblTrangThai";
-            lblTrangThai.Size = new Size(67, 24);
+            lblTrangThai.Padding = new Padding(8, 4, 8, 4);
+            lblTrangThai.Size = new Size(90, 33);
             lblTrangThai.TabIndex = 15;
             lblTrangThai.Text = "Đang mở";
             // 
             // lblLopHoc
             // 
-            lblLopHoc.BackColor = Color.Transparent;
-            lblLopHoc.BorderStyle = BorderStyle.FixedSingle;
-            lblLopHoc.Location = new Point(39, 65);
+            lblLopHoc.BackColor = Color.FromArgb(238, 242, 255);
+            lblLopHoc.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblLopHoc.ForeColor = Color.FromArgb(99, 102, 241);
+            lblLopHoc.Location = new Point(30, 75);
             lblLopHoc.Name = "lblLopHoc";
-            lblLopHoc.Size = new Size(106, 24);
+            lblLopHoc.Padding = new Padding(8, 4, 8, 4);
+            lblLopHoc.Size = new Size(135, 33);
             lblLopHoc.TabIndex = 14;
             lblLopHoc.Text = "Toán cao cấp 1";
             // 
             // lblTenBaiKiemTra
             // 
             lblTenBaiKiemTra.BackColor = Color.Transparent;
-            lblTenBaiKiemTra.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblTenBaiKiemTra.Location = new Point(35, 22);
+            lblTenBaiKiemTra.Font = new Font("Segoe UI Semibold", 15F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblTenBaiKiemTra.ForeColor = Color.FromArgb(30, 41, 59);
+            lblTenBaiKiemTra.Location = new Point(30, 25);
             lblTenBaiKiemTra.Name = "lblTenBaiKiemTra";
-            lblTenBaiKiemTra.Size = new Size(257, 30);
+            lblTenBaiKiemTra.Size = new Size(322, 37);
             lblTenBaiKiemTra.TabIndex = 13;
             lblTenBaiKiemTra.Text = "Kiểm tra giữa kỳ - Chương 1";
-            // 
-            // lblMonHoc
-            // 
-            lblMonHoc.BackColor = Color.Transparent;
-            lblMonHoc.BorderStyle = BorderStyle.FixedSingle;
-            lblMonHoc.Location = new Point(284, 65);
-            lblMonHoc.Name = "lblMonHoc";
-            lblMonHoc.Size = new Size(106, 24);
-            lblMonHoc.TabIndex = 20;
-            lblMonHoc.Text = "Toán cao cấp 1";
             // 
             // guna2HtmlLabel2
             // 
@@ -174,21 +168,21 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.WhiteSmoke;
-            BorderStyle = BorderStyle.FixedSingle;
+            BackColor = Color.White;
             Controls.Add(lblThoiGianKetThuc);
             Controls.Add(lblThoiGianBatDau);
             Controls.Add(lblThoiLuong);
             Controls.Add(lblTrangThaiDangMo);
             Controls.Add(guna2HtmlLabel3);
             Controls.Add(guna2HtmlLabel2);
-            Controls.Add(lblMonHoc);
             Controls.Add(btnBatDauLamBai);
             Controls.Add(lblTrangThai);
             Controls.Add(lblLopHoc);
             Controls.Add(lblTenBaiKiemTra);
+            Margin = new Padding(15);
             Name = "UC_ExamCard";
-            Size = new Size(1024, 292);
+            Padding = new Padding(25);
+            Size = new Size(1024, 300);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -199,7 +193,6 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel lblTrangThai;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblLopHoc;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblTenBaiKiemTra;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblMonHoc;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblTrangThaiDangMo;

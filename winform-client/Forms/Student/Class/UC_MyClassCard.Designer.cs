@@ -58,22 +58,25 @@
             // 
             // lblMaLop
             // 
-            lblMaLop.BackColor = Color.Transparent;
-            lblMaLop.BorderStyle = BorderStyle.FixedSingle;
+            lblMaLop.BackColor = Color.FromArgb(238, 242, 255);
+            lblMaLop.BorderStyle = BorderStyle.None;
             lblMaLop.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            lblMaLop.Location = new Point(23, 69);
+            lblMaLop.ForeColor = Color.FromArgb(99, 102, 241);
+            lblMaLop.Location = new Point(20, 70);
             lblMaLop.Name = "lblMaLop";
-            lblMaLop.Size = new Size(58, 27);
+            lblMaLop.Padding = new Padding(8, 4, 8, 4);
+            lblMaLop.Size = new Size(80, 28);
             lblMaLop.TabIndex = 5;
             lblMaLop.Text = "Mã lớp";
             // 
             // lblTenLop
             // 
             lblTenLop.BackColor = Color.Transparent;
-            lblTenLop.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblTenLop.Location = new Point(23, 23);
+            lblTenLop.Font = new Font("Segoe UI Semibold", 15F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblTenLop.ForeColor = Color.FromArgb(30, 41, 59);
+            lblTenLop.Location = new Point(20, 20);
             lblTenLop.Name = "lblTenLop";
-            lblTenLop.Size = new Size(83, 33);
+            lblTenLop.Size = new Size(200, 35);
             lblTenLop.TabIndex = 4;
             lblTenLop.Text = "Tên lớp";
             // 
@@ -187,7 +190,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BorderStyle = BorderStyle.FixedSingle;
+            BackColor = Color.White;
             Controls.Add(guna2Separator1);
             Controls.Add(guna2HtmlLabel6);
             Controls.Add(guna2HtmlLabel5);
@@ -201,8 +204,10 @@
             Controls.Add(lblTienDoHocTap);
             Controls.Add(lblMaLop);
             Controls.Add(lblTenLop);
+            Margin = new Padding(15);
             Name = "UC_MyClassCard";
-            Size = new Size(592, 272);
+            Padding = new Padding(20);
+            Size = new Size(592, 280);
             ResumeLayout(false);
             PerformLayout();
         }
