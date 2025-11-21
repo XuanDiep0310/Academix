@@ -28,6 +28,8 @@ import RoleRedirect from "./components/RoleRedirect";
 import TeacherPage from "./pages/teacher";
 import MaterialPreview from "./components/Teacher/Materia/MaterialPreview";
 import "nprogress/nprogress.css";
+import ForgotPasswordPage from "./pages/forgotPassword";
+import ResetPasswordPage from "./pages/resetPassword";
 
 const Layout = () => {
   return (
@@ -143,6 +145,8 @@ let router = createBrowserRouter([
     path: "/register",
     element: <RegisterPage />,
   },
+  { path: "/forgot-password", element: <ForgotPasswordPage /> },
+  { path: "/reset-password", element: <ResetPasswordPage /> },
 ]);
 const App = () => {
   const dispatch = useDispatch();
@@ -166,6 +170,7 @@ const App = () => {
       {isLoading === false ||
       window.location.pathname === "/login" ||
       window.location.pathname === "/register" ||
+      window.location.pathname === "/reset-password" ||
       window.location.pathname === "/" ? (
         <RouterProvider router={router} />
       ) : (
