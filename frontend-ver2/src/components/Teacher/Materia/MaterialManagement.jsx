@@ -10,10 +10,8 @@ import {
   Tag,
   Typography,
   Space,
-  Pagination,
   Upload,
   message,
-  Divider,
   Empty,
 } from "antd";
 import {
@@ -34,6 +32,8 @@ import {
   callListMaterialsByClassAPI,
   callDownloadMaterialAPI,
   callUploadMaterialAPI,
+  deleteMaterialAPI,
+  callCreateLinkMaterialAPI,
 } from "../../../services/api.service";
 
 const { Title, Text } = Typography;
@@ -59,6 +59,7 @@ const buildFileUrl = (path) => {
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
   return `${API_BASE_URL}${path}`;
 };
+
 export default function MaterialManagement() {
   const [classes, setClasses] = useState([]);
   const [loadingClasses, setLoadingClasses] = useState(false);
@@ -81,6 +82,9 @@ export default function MaterialManagement() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [filePreviewUrl, setFilePreviewUrl] = useState("");
   const navigate = useNavigate();
+
+  // watch type để render form động
+  const typeWatch = Form.useWatch("type", form);
 
   /* ====================== GỌI API LỚP CỦA TÔI ====================== */
   const fetchMyClasses = async () => {
@@ -109,10 +113,12 @@ export default function MaterialManagement() {
       setLoadingClasses(false);
     }
   };
+
   useEffect(() => {
     fetchMyClasses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const mapApiMaterial = (m) => ({
     id: m.materialId,
     title: m.title,
@@ -129,8 +135,11 @@ export default function MaterialManagement() {
     uploadedBy: m.uploadedBy,
     uploadedByName: m.uploadedByName,
   });
+
   const fetchMaterials = async () => {
     try {
+      if (!selectedClassId) return;
+
       setLoadingMaterials(true);
 
       const qs = new URLSearchParams();
@@ -162,10 +171,11 @@ export default function MaterialManagement() {
       setLoadingMaterials(false);
     }
   };
+
   useEffect(() => {
     if (!selectedClassId) return;
-
     fetchMaterials();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedClassId, current, pageSize, filterType, search]);
 
   const handleOnChangePagi = (pagination) => {
@@ -186,6 +196,7 @@ export default function MaterialManagement() {
   /* ====================== UPLOAD & FORM LOGIC (LOCAL) ====================== */
   const beforeUpload = (file) => {
     const type = form.getFieldValue("type");
+
     if (type === "pdf" && file.type !== "application/pdf") {
       message.error("Vui lòng chọn file PDF");
       return Upload.LIST_IGNORE;
@@ -202,17 +213,21 @@ export default function MaterialManagement() {
       message.error("Kích thước file không vượt quá 50MB");
       return Upload.LIST_IGNORE;
     }
+
     const url = URL.createObjectURL(file);
     setUploadedFile(file);
     setFilePreviewUrl(url);
     message.success(`Đã chọn file: ${file.name}`);
-    return Upload.LIST_IGNORE;
+    return Upload.LIST_IGNORE; // không upload auto, chỉ chọn local
   };
 
   const onTypeChange = (value) => {
     setUploadedFile(null);
     setFilePreviewUrl("");
     form.setFieldValue("type", value);
+    if (value !== "link") {
+      form.setFieldValue("url", undefined);
+    }
   };
 
   const openCreate = () => {
@@ -236,55 +251,61 @@ export default function MaterialManagement() {
   const handleCreate = async () => {
     try {
       const values = await form.validateFields();
-
-      const type = values.type;
-
-      // ---- TRƯỜNG HỢP LINK: hiện tại chưa có API riêng, bạn có thể xử lý sau ----
-      if (type === "link") {
-        const classInfo = classes.find((c) => c.id === values.classId);
-
-        const newItem = {
-          id: Date.now().toString(),
-          title: values.title,
-          type: "link",
-          url: values.url, // dùng URL người dùng nhập
-          classId: values.classId,
-          className: classInfo?.name || "",
-          description: values.description,
-          uploadedAt: new Date().toISOString(),
-        };
-
-        setMaterials((prev) => [newItem, ...prev]);
-        setOpenEditor(false);
-        form.resetFields();
-        setCurrent(1);
-        message.success(
-          "Đã thêm tài liệu liên kết (local – hãy nối API link sau)"
-        );
-        return;
-      }
-
-      // ---- TRƯỜNG HỢP FILE (pdf / image / video) → upload multipart như WinForms ----
-      if (!uploadedFile) {
-        message.error("Vui lòng chọn file để upload");
-        return;
-      }
+      const type = values.type; // pdf | image | video | link
 
       if (!values.classId) {
         message.error("Chưa chọn lớp");
         return;
       }
 
+      // ========== TRƯỜNG HỢP LIÊN KẾT ==========
+      if (type === "link") {
+        // Form đã validate url bắt buộc rồi
+        const payload = {
+          title: values.title,
+          description: values.description || "",
+          materialType: "link", // quan trọng
+          fileUrl: values.url, // URL người dùng nhập
+          fileName: "", // link nên có thể để rỗng
+          fileSize: 0, // 0 hoặc null tùy BE, ở đây cho 0
+        };
+
+        const hide = message.loading("Đang tạo tài liệu liên kết...", 0);
+        const res = await callCreateLinkMaterialAPI(values.classId, payload);
+        hide();
+
+        if (res && res.success === true) {
+          const apiMaterial = res.data;
+          const newItem = mapApiMaterial(apiMaterial);
+          setMaterials((prev) => [newItem, ...prev]);
+
+          message.success("Đã thêm tài liệu liên kết");
+          setOpenEditor(false);
+          setUploadedFile(null);
+          setFilePreviewUrl("");
+          form.resetFields();
+          setCurrent(1);
+        } else {
+          console.error("Create link material error:", res);
+          message.error("Thêm tài liệu liên kết thất bại");
+        }
+        return;
+      }
+
+      // ========== TRƯỜNG HỢP FILE: PDF / IMAGE / VIDEO ==========
+      if (!uploadedFile) {
+        message.error("Vui lòng chọn file để upload");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("Title", values.title);
       formData.append("Description", values.description || "");
+      formData.append("MaterialType", type); // cho BE biết loại
       formData.append("File", uploadedFile, uploadedFile.name);
 
       const hide = message.loading("Đang upload tài liệu...", 0);
-
       const res = await callUploadMaterialAPI(values.classId, formData);
-      console.log(res);
-
       hide();
 
       if (res && res.success === true) {
@@ -293,7 +314,6 @@ export default function MaterialManagement() {
         setMaterials((prev) => [newItem, ...prev]);
 
         message.success("Upload tài liệu thành công");
-
         setOpenEditor(false);
         setUploadedFile(null);
         setFilePreviewUrl("");
@@ -306,39 +326,51 @@ export default function MaterialManagement() {
     } catch (error) {
       console.error("handleCreate error:", error);
       message.destroy();
-      // Nếu là lỗi validate của Form thì không cần báo thêm
-      if (error?.errorFields) return;
-      message.error("Có lỗi xảy ra khi upload tài liệu");
+      if (error?.errorFields) return; // lỗi validate form
+      message.error("Có lỗi xảy ra khi lưu tài liệu");
     }
   };
 
-  const handleDelete = (id) => {
-    // Tạm thời xóa local
-    setMaterials((prev) => prev.filter((m) => m.id !== id));
-    message.success("Đã xóa tài liệu (local)");
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const handleDelete = (id, classId) => {
+    Modal.confirm({
+      title: "Xác nhận xóa",
+      content: "Bạn có chắc muốn xóa tài liệu này?",
+      okText: "Xóa",
+      okType: "danger",
+      cancelText: "Hủy",
+      onOk: async () => {
+        try {
+          const hide = message.loading("Đang xóa...", 0);
+          const res = await deleteMaterialAPI(id, classId);
+          await delay(500);
+          hide();
+
+          if (res && res.success) {
+            setMaterials((prev) => prev.filter((m) => m.id !== id));
+            message.success("Đã xóa tài liệu");
+          } else {
+            message.error("Xóa tài liệu thất bại");
+          }
+        } catch (err) {
+          message.error("Có lỗi xảy ra khi xóa tài liệu");
+        }
+      },
+    });
   };
+
   const handleDownload = async (row) => {
     try {
       const res = await callDownloadMaterialAPI(row.classId, row.id);
 
-      // if (!res || res.status !== 200) {
-      //   message.error("Không thể tải file");
-      //   return;
-      // }
-
-      // -------------------------
-      // ĐÂY LÀ CHỖ QUAN TRỌNG
-      // -------------------------
       let blob;
 
-      // Nếu axios trả đúng blob
       if (res.data instanceof Blob) {
         blob = res.data;
       } else if (res.request?.response instanceof Blob) {
-        // một số cấu hình axios gán blob ở request.response
         blob = res.request.response;
       } else {
-        // fallback: tạo Blob từ dữ liệu nhận được
         const contentType =
           res.headers && res.headers["content-type"]
             ? res.headers["content-type"]
@@ -346,7 +378,6 @@ export default function MaterialManagement() {
         blob = new Blob([res.data], { type: contentType });
       }
 
-      // Tên file
       let downloadName = row.fileName || `material-${row.id}`;
       const disposition = res.headers && res.headers["content-disposition"];
 
@@ -360,7 +391,6 @@ export default function MaterialManagement() {
         }
       }
 
-      // Tạo URL và tải
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -408,7 +438,6 @@ export default function MaterialManagement() {
         title: "Mô tả",
         dataIndex: "description",
         key: "description",
-        // giới hạn chiều rộng + tự chấm ...
         width: 400,
         ellipsis: true,
         render: (text) => (
@@ -435,7 +464,6 @@ export default function MaterialManagement() {
           <Space>
             <Button
               size="small"
-              // onClick={() => setViewing(row)}
               onClick={() =>
                 navigate(`/teacher/materials/${row.id}`, {
                   state: { material: row },
@@ -455,7 +483,7 @@ export default function MaterialManagement() {
             <Button
               size="small"
               danger
-              onClick={() => handleDelete(row.id)}
+              onClick={() => handleDelete(row.id, row.classId)}
               icon={<Trash2 size={16} />}
             >
               Xóa
@@ -464,7 +492,7 @@ export default function MaterialManagement() {
         ),
       },
     ],
-    []
+    [navigate]
   );
 
   /* ====================== RENDER ====================== */
@@ -621,82 +649,91 @@ export default function MaterialManagement() {
           </Form.Item>
 
           {/* Upload file cho pdf/image/video */}
-          {["pdf", "image", "video"].includes(form.getFieldValue("type")) && (
-            <>
-              <Form.Item label="Upload file">
-                <Upload
-                  beforeUpload={beforeUpload}
-                  showUploadList={!!uploadedFile}
-                  maxCount={1}
-                  itemRender={() =>
-                    uploadedFile ? (
-                      <Tag icon={<UploadIcon size={14} />}>
-                        {uploadedFile.name.length > 24
-                          ? uploadedFile.name.slice(0, 24) + "..."
-                          : uploadedFile.name}
-                      </Tag>
-                    ) : null
-                  }
-                >
-                  <Button icon={<UploadIcon size={16} />}>Chọn file</Button>
-                </Upload>
+          {["pdf", "image", "video"].includes(typeWatch) && (
+            <Form.Item label="Upload file">
+              <Upload
+                beforeUpload={beforeUpload}
+                showUploadList={false}
+                maxCount={1}
+              >
+                <Button icon={<UploadIcon size={16} />}>Chọn file</Button>
+              </Upload>
 
-                {uploadedFile &&
-                  form.getFieldValue("type") === "image" &&
-                  filePreviewUrl && (
-                    <div className={styles.previewImg}>
-                      <img src={filePreviewUrl} alt="Preview" />
+              {/* Preview PDF */}
+              {uploadedFile && typeWatch === "pdf" && (
+                <div className={styles.filePreview}>
+                  <div className={styles.filePreviewContent}>
+                    <FileText className={styles.fileIcon} size={32} />
+                    <div className={styles.fileInfo}>
+                      <span className={styles.fileName}>
+                        {uploadedFile.name}
+                      </span>
+                      <span className={styles.fileSize}>
+                        {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
+                      </span>
                     </div>
-                  )}
+                  </div>
+                </div>
+              )}
 
-                <Text
-                  type="secondary"
-                  style={{ display: "block", marginTop: 8 }}
-                >
-                  {form.getFieldValue("type") === "pdf" &&
-                    "Chấp nhận file PDF, tối đa 50MB"}
-                  {form.getFieldValue("type") === "image" &&
-                    "Chấp nhận JPG, PNG, GIF, tối đa 50MB"}
-                  {form.getFieldValue("type") === "video" &&
-                    "Chấp nhận MP4, AVI, MOV, tối đa 50MB"}
-                </Text>
+              {/* Preview IMAGE */}
+              {uploadedFile && typeWatch === "image" && filePreviewUrl && (
+                <div className={styles.imagePreview}>
+                  <img src={filePreviewUrl} alt={uploadedFile.name} />
+                  <div className={styles.imageOverlay}>
+                    <span className={styles.imageName}>
+                      {uploadedFile.name}
+                    </span>
+                    <Tag icon={<ImageIcon size={14} />}>
+                      {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
+                    </Tag>
+                  </div>
+                </div>
+              )}
 
-                <Divider plain>Hoặc</Divider>
-              </Form.Item>
-            </>
+              {/* Preview VIDEO */}
+              {uploadedFile && typeWatch === "video" && filePreviewUrl && (
+                <div className={styles.videoPreview}>
+                  <video src={filePreviewUrl} controls />
+                  <div className={styles.videoInfo}>
+                    <span>{uploadedFile.name}</span>
+                    <Tag icon={<VideoIcon size={14} />}>
+                      {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
+                    </Tag>
+                  </div>
+                </div>
+              )}
+
+              <Text type="secondary" style={{ display: "block", marginTop: 8 }}>
+                {typeWatch === "pdf" && "Chấp nhận file PDF, tối đa 50MB"}
+                {typeWatch === "image" &&
+                  "Chấp nhận JPG, PNG, GIF, tối đa 50MB"}
+                {typeWatch === "video" &&
+                  "Chấp nhận MP4, AVI, MOV, tối đa 50MB"}
+              </Text>
+            </Form.Item>
           )}
 
-          <Form.Item
-            label={
-              form.getFieldValue("type") === "link"
-                ? "URL"
-                : "URL tài liệu (tùy chọn)"
-            }
-            name="url"
-            rules={[
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  const t = getFieldValue("type");
-
-                  // Nếu là link → bắt buộc URL
-                  if (t === "link") {
-                    if (!value) return Promise.reject("Vui lòng nhập URL");
-                    if (value && !/^https?:\/\//i.test(value))
+          {/* Chỉ loại LIÊN KẾT mới có URL */}
+          {typeWatch === "link" && (
+            <Form.Item
+              label="URL"
+              name="url"
+              rules={[
+                { required: true, message: "Vui lòng nhập URL" },
+                () => ({
+                  validator(_, value) {
+                    if (value && !/^https?:\/\//i.test(value)) {
                       return Promise.reject("URL không hợp lệ");
+                    }
                     return Promise.resolve();
-                  }
-
-                  // Nếu là pdf/image/video → URL là tùy chọn
-                  if (value && !/^https?:\/\//i.test(value))
-                    return Promise.reject("URL không hợp lệ");
-
-                  return Promise.resolve();
-                },
-              }),
-            ]}
-          >
-            <Input placeholder="https://..." />
-          </Form.Item>
+                  },
+                }),
+              ]}
+            >
+              <Input placeholder="https://..." />
+            </Form.Item>
+          )}
 
           <Form.Item label="Mô tả" name="description">
             <Input.TextArea rows={3} placeholder="Mô tả ngắn..." />

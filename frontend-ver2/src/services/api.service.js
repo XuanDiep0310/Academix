@@ -215,6 +215,9 @@ const callListMaterialsByClassAPI = (classId, query) => {
   const res = axios.get(URL_BACKEND);
   return res;
 };
+export const callCreateLinkMaterialAPI = (classId, data) => {
+  return instance.post(`/api/classes/${classId}/materials`, data);
+};
 const callUploadMaterialAPI = (classId, formData) => {
   return axios.post(`/api/classes/${classId}/materials/upload`, formData, {
     headers: {
@@ -230,7 +233,10 @@ const callDownloadMaterialAPI = (classId, materialId) => {
     }
   );
 };
-
+const deleteMaterialAPI = (id, classId) => {
+  const URL_BACKEND = `/api/classes/${classId}/materials/${id}`;
+  return axios.delete(URL_BACKEND);
+};
 const callListMyClassesAPI = () => {
   const URL_BACKEND = `/api/Classes/my-classes`;
   const res = axios.get(URL_BACKEND);
@@ -283,7 +289,7 @@ export const callMaterialsStatisticsGlobalAPI = () => {
 const callMaterialsStatisticsAPI = (classId) => {
   return axios.get(`/api/classes/${classId}/materials/statistics`);
 };
-// Lấy danh sách bài kiểm tra mà học sinh được làm trong 1 lớp
+
 export const callStudentListExamsByClassAPI = (classId) => {
   const URL_BACKEND = `/api/student/exams?classId=${classId}`;
   return axios.get(URL_BACKEND);
@@ -417,4 +423,5 @@ export {
   callBulkCreateQuestionAPI,
   forgotPasswordAPI,
   resetPasswordAPI,
+  deleteMaterialAPI,
 };
