@@ -57,6 +57,8 @@ namespace Academix.WinApp.Forms.Student.MyResult
                 foreach (var exam in ordered)
                 {
                     var card = new UC_ExamCard();
+                    card.Width = flowpanelExams.ClientSize.Width - 20;
+
                     attemptsByExam.TryGetValue(exam.ExamId, out var attempt);
                     card.Bind(exam, attempt);
                     card.Margin = new Padding(10);
@@ -73,5 +75,18 @@ namespace Academix.WinApp.Forms.Student.MyResult
                 );
             }
         }
+
+        private void flowpanelExams_SizeChanged(object sender, EventArgs e)
+        {
+            ResizeCards();
+        }
+        private void ResizeCards()
+        {
+            foreach (Control c in flowpanelExams.Controls)
+            {
+                c.Width = flowpanelExams.ClientSize.Width - 20; // trừ margin
+            }
+        }
+    
     }
 }

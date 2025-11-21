@@ -99,12 +99,14 @@
             // 
             // flowpanelExams
             // 
-            flowpanelExams.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             flowpanelExams.AutoScroll = true;
+            flowpanelExams.AutoSize = true;
+            flowpanelExams.Dock = DockStyle.Fill;
             flowpanelExams.Location = new Point(0, 0);
             flowpanelExams.Name = "flowpanelExams";
             flowpanelExams.Size = new Size(1132, 497);
             flowpanelExams.TabIndex = 0;
+            flowpanelExams.SizeChanged += flowpanelExams_SizeChanged;
             // 
             // UC_MyExams
             // 
@@ -119,6 +121,7 @@
             guna2Panel2.ResumeLayout(false);
             guna2Panel2.PerformLayout();
             guna2Panel3.ResumeLayout(false);
+            guna2Panel3.PerformLayout();
             ResumeLayout(false);
         }
 
