@@ -27,7 +27,6 @@ import {
   callPublishExamAPI,
   callListQuestionBankAPI,
   callGetExamQuestionsAPI,
-  callUpsertExamQuestionsAPI,
 } from "../../../services/api.service";
 
 const { Title, Text } = Typography;
