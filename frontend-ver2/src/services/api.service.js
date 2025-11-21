@@ -23,6 +23,20 @@ const loginUserAPI = (username, password) => {
   const res = axios.post(URL_BACKEND, data);
   return res;
 };
+const forgotPasswordAPI = (email) => {
+  const URL_BACKEND = "/api/Auth/forgot-password";
+  return axios.post(URL_BACKEND, { email });
+};
+const resetPasswordAPI = (token, newPassword, confirmPassword) => {
+  const URL_BACKEND = "/api/Auth/reset-password";
+  const data = {
+    token,
+    newPassword,
+    confirmPassword,
+  };
+  return axios.post(URL_BACKEND, data);
+};
+
 const callFetchAccount = () => {
   const URL_BACKEND = "/api/Auth/profile";
   return axios.get(URL_BACKEND);
@@ -401,4 +415,6 @@ export {
   callUploadMaterialAPI,
   callDownloadMaterialAPI,
   callBulkCreateQuestionAPI,
+  forgotPasswordAPI,
+  resetPasswordAPI,
 };
