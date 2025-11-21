@@ -48,33 +48,31 @@
             lblTenTaiLieu.ForeColor = Color.FromArgb(30, 41, 59);
             lblTenTaiLieu.Location = new Point(30, 25);
             lblTenTaiLieu.Name = "lblTenTaiLieu";
-            lblTenTaiLieu.Size = new Size(250, 35);
+            lblTenTaiLieu.Size = new Size(222, 37);
             lblTenTaiLieu.TabIndex = 0;
             lblTenTaiLieu.Text = "Bài giảng chương 1";
             // 
             // lblLopHoc
             // 
             lblLopHoc.BackColor = Color.FromArgb(238, 242, 255);
-            lblLopHoc.BorderStyle = BorderStyle.None;
             lblLopHoc.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
             lblLopHoc.ForeColor = Color.FromArgb(99, 102, 241);
             lblLopHoc.Location = new Point(30, 75);
             lblLopHoc.Name = "lblLopHoc";
             lblLopHoc.Padding = new Padding(8, 4, 8, 4);
-            lblLopHoc.Size = new Size(120, 28);
+            lblLopHoc.Size = new Size(135, 33);
             lblLopHoc.TabIndex = 1;
             lblLopHoc.Text = "Toán cao cấp 1";
             // 
             // lblLoaiTaiLieu
             // 
             lblLoaiTaiLieu.BackColor = Color.FromArgb(254, 243, 199);
-            lblLoaiTaiLieu.BorderStyle = BorderStyle.None;
             lblLoaiTaiLieu.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
             lblLoaiTaiLieu.ForeColor = Color.FromArgb(217, 119, 6);
             lblLoaiTaiLieu.Location = new Point(340, 75);
             lblLoaiTaiLieu.Name = "lblLoaiTaiLieu";
             lblLoaiTaiLieu.Padding = new Padding(8, 4, 8, 4);
-            lblLoaiTaiLieu.Size = new Size(50, 28);
+            lblLoaiTaiLieu.Size = new Size(50, 33);
             lblLoaiTaiLieu.TabIndex = 2;
             lblLoaiTaiLieu.Text = "PDF";
             // 
@@ -111,7 +109,7 @@
             btnXemTaiLieu.FillColor = Color.FromArgb(99, 102, 241);
             btnXemTaiLieu.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnXemTaiLieu.ForeColor = Color.White;
-            btnXemTaiLieu.Location = new Point(930, 25);
+            btnXemTaiLieu.Location = new Point(928, 25);
             btnXemTaiLieu.Name = "btnXemTaiLieu";
             btnXemTaiLieu.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnXemTaiLieu.Size = new Size(110, 40);
@@ -131,7 +129,7 @@
             btnTaiVe.FillColor = Color.White;
             btnTaiVe.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnTaiVe.ForeColor = Color.FromArgb(99, 102, 241);
-            btnTaiVe.Location = new Point(810, 25);
+            btnTaiVe.Location = new Point(808, 25);
             btnTaiVe.Name = "btnTaiVe";
             btnTaiVe.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnTaiVe.Size = new Size(110, 40);
@@ -143,6 +141,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(btnTaiVe);
             Controls.Add(btnXemTaiLieu);
             Controls.Add(lblNgayDang);
@@ -154,7 +153,7 @@
             Margin = new Padding(15);
             Name = "UC_MaterialCard";
             Padding = new Padding(25);
-            Size = new Size(1068, 220);
+            Size = new Size(1066, 218);
             ResumeLayout(false);
             PerformLayout();
         }

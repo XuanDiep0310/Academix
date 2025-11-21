@@ -46,20 +46,19 @@
             guna2HtmlLabel1.ForeColor = Color.FromArgb(30, 41, 59);
             guna2HtmlLabel1.Location = new Point(30, 25);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(350, 35);
+            guna2HtmlLabel1.Size = new Size(322, 37);
             guna2HtmlLabel1.TabIndex = 0;
             guna2HtmlLabel1.Text = "Kiểm tra giữa kỳ - Chương 1";
             // 
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.FromArgb(238, 242, 255);
-            guna2HtmlLabel2.BorderStyle = BorderStyle.None;
             guna2HtmlLabel2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
             guna2HtmlLabel2.ForeColor = Color.FromArgb(99, 102, 241);
             guna2HtmlLabel2.Location = new Point(30, 75);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
             guna2HtmlLabel2.Padding = new Padding(8, 4, 8, 4);
-            guna2HtmlLabel2.Size = new Size(120, 28);
+            guna2HtmlLabel2.Size = new Size(135, 33);
             guna2HtmlLabel2.TabIndex = 1;
             guna2HtmlLabel2.Text = "Toán cao cấp 1";
             // 
@@ -70,7 +69,7 @@
             guna2HtmlLabel3.ForeColor = Color.FromArgb(100, 116, 139);
             guna2HtmlLabel3.Location = new Point(380, 78);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            guna2HtmlLabel3.Size = new Size(140, 25);
+            guna2HtmlLabel3.Size = new Size(134, 25);
             guna2HtmlLabel3.TabIndex = 2;
             guna2HtmlLabel3.Text = "2024-03-10 14:30";
             // 
@@ -95,23 +94,25 @@
             // 
             // guna2HtmlLabel4
             // 
+            guna2HtmlLabel4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             guna2HtmlLabel4.BackColor = Color.Transparent;
             guna2HtmlLabel4.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 163);
             guna2HtmlLabel4.ForeColor = Color.FromArgb(100, 116, 139);
             guna2HtmlLabel4.Location = new Point(970, 50);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            guna2HtmlLabel4.Size = new Size(40, 32);
+            guna2HtmlLabel4.Size = new Size(36, 33);
             guna2HtmlLabel4.TabIndex = 4;
             guna2HtmlLabel4.Text = "/10";
             // 
             // guna2HtmlLabel5
             // 
+            guna2HtmlLabel5.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             guna2HtmlLabel5.BackColor = Color.Transparent;
             guna2HtmlLabel5.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 163);
             guna2HtmlLabel5.ForeColor = Color.FromArgb(34, 197, 94);
             guna2HtmlLabel5.Location = new Point(900, 35);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            guna2HtmlLabel5.Size = new Size(65, 50);
+            guna2HtmlLabel5.Size = new Size(60, 56);
             guna2HtmlLabel5.TabIndex = 5;
             guna2HtmlLabel5.Text = "8.5";
             // 
@@ -123,7 +124,7 @@
             guna2HtmlLabel6.ForeColor = Color.FromArgb(100, 116, 139);
             guna2HtmlLabel6.Location = new Point(880, 90);
             guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            guna2HtmlLabel6.Size = new Size(130, 28);
+            guna2HtmlLabel6.Size = new Size(119, 27);
             guna2HtmlLabel6.TabIndex = 6;
             guna2HtmlLabel6.Text = "8/10 câu đúng";
             // 

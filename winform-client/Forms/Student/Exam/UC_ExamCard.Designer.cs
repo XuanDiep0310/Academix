@@ -54,7 +54,7 @@
             btnBatDauLamBai.FillColor = Color.FromArgb(34, 197, 94);
             btnBatDauLamBai.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBatDauLamBai.ForeColor = Color.White;
-            btnBatDauLamBai.Location = new Point(826, 28);
+            btnBatDauLamBai.Location = new Point(824, 28);
             btnBatDauLamBai.Name = "btnBatDauLamBai";
             btnBatDauLamBai.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnBatDauLamBai.Size = new Size(170, 45);
@@ -169,6 +169,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(lblThoiGianKetThuc);
             Controls.Add(lblThoiGianBatDau);
             Controls.Add(lblThoiLuong);
@@ -182,7 +183,7 @@
             Margin = new Padding(15);
             Name = "UC_ExamCard";
             Padding = new Padding(25);
-            Size = new Size(1024, 300);
+            Size = new Size(1022, 298);
             ResumeLayout(false);
             PerformLayout();
         }

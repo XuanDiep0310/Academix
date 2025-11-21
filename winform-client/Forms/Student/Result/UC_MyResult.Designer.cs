@@ -94,7 +94,6 @@
             guna2Panel5.CustomizableEdges = customizableEdges3;
             guna2Panel5.FillColor = Color.White;
             guna2Panel5.Location = new Point(753, 112);
-
             guna2Panel5.Name = "guna2Panel5";
             guna2Panel5.ShadowDecoration.CustomizableEdges = customizableEdges4;
             guna2Panel5.Size = new Size(360, 161);
@@ -152,13 +151,8 @@
             guna2Panel3.Controls.Add(lblDiemtrungBinh);
             guna2Panel3.Controls.Add(guna2HtmlLabel3);
             guna2Panel3.CustomizableEdges = customizableEdges7;
-<<<<<<< HEAD
             guna2Panel3.FillColor = Color.White;
             guna2Panel3.Location = new Point(1, 112);
-=======
-            guna2Panel3.FillColor = Color.WhiteSmoke;
-            guna2Panel3.Location = new Point(20, 112);
->>>>>>> d9247e048f5ed4251df02a133d107c0239b7ff2e
             guna2Panel3.Name = "guna2Panel3";
             guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges8;
             guna2Panel3.Size = new Size(354, 161);
@@ -219,7 +213,7 @@
             guna2Panel4.CustomizableEdges = customizableEdges9;
             guna2Panel4.FillColor = Color.White;
             guna2Panel4.ForeColor = Color.WhiteSmoke;
-            guna2Panel4.Location = new Point(401, 112);
+            guna2Panel4.Location = new Point(383, 112);
             guna2Panel4.Name = "guna2Panel4";
             guna2Panel4.ShadowDecoration.CustomizableEdges = customizableEdges10;
             guna2Panel4.Size = new Size(346, 161);
@@ -261,12 +255,9 @@
             // flowpanelResult
             // 
             flowpanelResult.AutoScroll = true;
-<<<<<<< HEAD
-            flowpanelResult.BackColor = Color.WhiteSmoke;
-=======
             flowpanelResult.AutoSize = true;
+            flowpanelResult.BackColor = Color.WhiteSmoke;
             flowpanelResult.Dock = DockStyle.Fill;
->>>>>>> d9247e048f5ed4251df02a133d107c0239b7ff2e
             flowpanelResult.Location = new Point(0, 0);
             flowpanelResult.Name = "flowpanelResult";
             flowpanelResult.Padding = new Padding(30, 20, 20, 20);
