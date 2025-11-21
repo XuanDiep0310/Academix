@@ -111,6 +111,7 @@ namespace Academix.WinApp.Forms.Student
                 foreach (var m in paged.Materials)
                 {
                     var card = new UC_MaterialCard();
+                    card.Width = flowpanelMaterial.ClientSize.Width - 20;
                     card.Bind(m);
                     card.Margin = new Padding(10);
                     flowpanelMaterial.Controls.Add(card);
@@ -127,5 +128,17 @@ namespace Academix.WinApp.Forms.Student
             }
         }
 
+        private void flowpanelMaterial_SizeChanged(object sender, EventArgs e)
+        {
+            ResizeCards();
+        }
+        private void ResizeCards()
+        {
+            foreach (Control c in flowpanelMaterial.Controls)
+            {
+                c.Width = flowpanelMaterial.ClientSize.Width - 20; // trừ margin
+            }
+        }
+    
     }
 }

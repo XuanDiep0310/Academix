@@ -121,7 +121,7 @@ namespace Academix.WinApp.Forms.Teacher
         private string ConvertQuestionType(string type) => type switch
         {
             "SingleChoice" => "Một đáp án",
-            "MultiChoice" => "Nhiều đáp án",
+            "MultipleChoice" => "Nhiều đáp án",
             _ => "Không rõ"
         };
     }
