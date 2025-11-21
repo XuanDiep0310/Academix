@@ -63,7 +63,7 @@
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
             guna2HtmlLabel3.ForeColor = SystemColors.ControlDarkDark;
-            guna2HtmlLabel3.Location = new Point(233, 83);
+            guna2HtmlLabel3.Location = new Point(376, 83);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             guna2HtmlLabel3.Size = new Size(118, 22);
             guna2HtmlLabel3.TabIndex = 2;

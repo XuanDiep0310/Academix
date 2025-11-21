@@ -30,6 +30,15 @@ namespace Academix.WinApp.Api
             return client;
         }
 
+        private HttpClient CreateStudentClient()
+        {
+            // Student endpoints use base API URL, not /api/classes/
+            var baseUrl = Config.GetApiBaseUrl();
+            var client = new HttpClient { BaseAddress = new Uri(baseUrl) };
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+            return client;
+        }
+
         #region Teacher/Admin: Exam Management
 
         public async Task<ApiResponse<ExamListResponseDto>> GetExamsByClassAsync(
@@ -157,7 +166,7 @@ namespace Academix.WinApp.Api
 
         public async Task<List<ExamDto>> GetStudentExamsAsync(int? classId = null)
         {
-            using var client = CreateClient();
+            using var client = CreateStudentClient();
             var endpoint = "/api/student/exams" + (classId.HasValue ? $"?classId={classId.Value}" : "");
             var response = await client.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
@@ -167,7 +176,7 @@ namespace Academix.WinApp.Api
 
         public async Task<List<StudentExamResultDto>> GetStudentExamHistoryAsync()
         {
-            using var client = CreateClient();
+            using var client = CreateStudentClient();
             var response = await client.GetAsync("/api/student/exams/history");
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadFromJsonAsync<ApiResponse<List<StudentExamResultDto>>>();
@@ -176,7 +185,7 @@ namespace Academix.WinApp.Api
 
         public async Task<StartExamResponseDto?> StartExamAsync(int examId)
         {
-            using var client = CreateClient();
+            using var client = CreateStudentClient();
             var response = await client.PostAsync($"/api/student/exams/{examId}/start", null);
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadFromJsonAsync<ApiResponse<StartExamResponseDto>>();
@@ -185,7 +194,7 @@ namespace Academix.WinApp.Api
 
         public async Task<bool> SaveAnswerAsync(int attemptId, int questionId, int selectedOptionId)
         {
-            using var client = CreateClient();
+            using var client = CreateStudentClient();
             var payload = new ExamAnswerRequestDto { QuestionId = questionId, SelectedOptionId = selectedOptionId };
             var response = await client.PostAsJsonAsync($"/api/student/exams/attempts/{attemptId}/answer", payload);
             return response.IsSuccessStatusCode;
@@ -193,7 +202,7 @@ namespace Academix.WinApp.Api
 
         public async Task<StudentExamResultDto?> SubmitExamAsync(int attemptId, List<ExamAnswerRequestDto> answers)
         {
-            using var client = CreateClient();
+            using var client = CreateStudentClient();
             var payload = new { answers };
             var response = await client.PostAsJsonAsync($"/api/student/exams/attempts/{attemptId}/submit", payload);
             response.EnsureSuccessStatusCode();
@@ -203,7 +212,7 @@ namespace Academix.WinApp.Api
 
         public async Task<StudentExamResultDto?> GetAttemptResultAsync(int attemptId)
         {
-            using var client = CreateClient();
+            using var client = CreateStudentClient();
             var response = await client.GetAsync($"/api/student/exams/attempts/{attemptId}/result");
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadFromJsonAsync<ApiResponse<StudentExamResultDto>>();
