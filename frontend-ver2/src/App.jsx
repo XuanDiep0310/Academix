@@ -170,6 +170,7 @@ const App = () => {
       {isLoading === false ||
       window.location.pathname === "/login" ||
       window.location.pathname === "/register" ||
+      window.location.pathname === "/forgot-password" ||
       window.location.pathname === "/reset-password" ||
       window.location.pathname === "/" ? (
         <RouterProvider router={router} />
