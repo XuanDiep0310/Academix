@@ -70,55 +70,56 @@
             // 
             // dgvListStudent
             // 
-            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(194, 224, 244);
             dgvListStudent.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvListStudent.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
             dataGridViewCellStyle2.ForeColor = Color.White;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvListStudent.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dgvListStudent.ColumnHeadersHeight = 4;
+            dgvListStudent.ColumnHeadersHeight = 40;
             dgvListStudent.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(214, 234, 247);
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(119, 186, 231);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvListStudent.DefaultCellStyle = dataGridViewCellStyle3;
-            dgvListStudent.GridColor = Color.FromArgb(231, 229, 255);
+            dgvListStudent.GridColor = Color.FromArgb(187, 220, 242);
             dgvListStudent.Location = new Point(25, 22);
             dgvListStudent.Name = "dgvListStudent";
             dgvListStudent.RowHeadersVisible = false;
             dgvListStudent.RowHeadersWidth = 51;
             dgvListStudent.Size = new Size(645, 508);
             dgvListStudent.TabIndex = 2;
-            dgvListStudent.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
+            dgvListStudent.Theme = Guna.UI2.WinForms.Enums.DataGridViewPresetThemes.FeterRiver;
+            dgvListStudent.ThemeStyle.AlternatingRowsStyle.BackColor = Color.FromArgb(194, 224, 244);
             dgvListStudent.ThemeStyle.AlternatingRowsStyle.Font = null;
             dgvListStudent.ThemeStyle.AlternatingRowsStyle.ForeColor = Color.Empty;
             dgvListStudent.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = Color.Empty;
             dgvListStudent.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = Color.Empty;
             dgvListStudent.ThemeStyle.BackColor = Color.White;
-            dgvListStudent.ThemeStyle.GridColor = Color.FromArgb(231, 229, 255);
-            dgvListStudent.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(100, 88, 255);
+            dgvListStudent.ThemeStyle.GridColor = Color.FromArgb(187, 220, 242);
+            dgvListStudent.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(52, 152, 219);
             dgvListStudent.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvListStudent.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
             dgvListStudent.ThemeStyle.HeaderStyle.ForeColor = Color.White;
             dgvListStudent.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dgvListStudent.ThemeStyle.HeaderStyle.Height = 4;
+            dgvListStudent.ThemeStyle.HeaderStyle.Height = 40;
             dgvListStudent.ThemeStyle.ReadOnly = false;
-            dgvListStudent.ThemeStyle.RowsStyle.BackColor = Color.White;
+            dgvListStudent.ThemeStyle.RowsStyle.BackColor = Color.FromArgb(214, 234, 247);
             dgvListStudent.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvListStudent.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9F);
-            dgvListStudent.ThemeStyle.RowsStyle.ForeColor = Color.FromArgb(71, 69, 94);
+            dgvListStudent.ThemeStyle.RowsStyle.ForeColor = Color.Black;
             dgvListStudent.ThemeStyle.RowsStyle.Height = 29;
-            dgvListStudent.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dgvListStudent.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dgvListStudent.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(119, 186, 231);
+            dgvListStudent.ThemeStyle.RowsStyle.SelectionForeColor = Color.Black;
             // 
             // guna2Panel1
             // 

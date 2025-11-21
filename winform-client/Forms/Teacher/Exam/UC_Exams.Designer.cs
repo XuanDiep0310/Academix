@@ -62,6 +62,7 @@
             flowPanelExams.Name = "flowPanelExams";
             flowPanelExams.Size = new Size(1219, 472);
             flowPanelExams.TabIndex = 11;
+            flowPanelExams.SizeChanged += flowPanelExams_SizeChanged;
             // 
             // groupBox1
             // 
@@ -172,7 +173,7 @@
             // 
             // flowpnlBottom
             // 
-            flowpnlBottom.Dock = DockStyle.Fill;
+            flowpnlBottom.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             flowpnlBottom.Location = new Point(0, 0);
             flowpnlBottom.Name = "flowpnlBottom";
             flowpnlBottom.Size = new Size(1219, 86);

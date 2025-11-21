@@ -67,11 +67,11 @@
             lblSoLuongCauHoi = new Guna.UI2.WinForms.Guna2HtmlLabel();
             btnHuy = new Guna.UI2.WinForms.Guna2Button();
             btnThem = new Guna.UI2.WinForms.Guna2Button();
-            txtMonHoc = new Guna.UI2.WinForms.Guna2TextBox();
             txtMoTa = new Guna.UI2.WinForms.Guna2TextBox();
             lblMoTa = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel10 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel11 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            cmbMonHoc = new Guna.UI2.WinForms.Guna2ComboBox();
             ((System.ComponentModel.ISupportInitialize)nmbThoiLuongLamBai).BeginInit();
             pnlCauHoi.SuspendLayout();
             SuspendLayout();
@@ -331,29 +331,9 @@
             btnThem.Text = "Tạo bài kiểm tra";
             btnThem.Click += btnThem_Click;
             // 
-            // txtMonHoc
-            // 
-            txtMonHoc.CustomizableEdges = customizableEdges17;
-            txtMonHoc.DefaultText = "";
-            txtMonHoc.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            txtMonHoc.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            txtMonHoc.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            txtMonHoc.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            txtMonHoc.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtMonHoc.Font = new Font("Segoe UI", 9F);
-            txtMonHoc.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtMonHoc.Location = new Point(19, 529);
-            txtMonHoc.Margin = new Padding(3, 4, 3, 4);
-            txtMonHoc.Name = "txtMonHoc";
-            txtMonHoc.PlaceholderText = "";
-            txtMonHoc.SelectedText = "";
-            txtMonHoc.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            txtMonHoc.Size = new Size(523, 37);
-            txtMonHoc.TabIndex = 35;
-            // 
             // txtMoTa
             // 
-            txtMoTa.CustomizableEdges = customizableEdges19;
+            txtMoTa.CustomizableEdges = customizableEdges17;
             txtMoTa.DefaultText = "";
             txtMoTa.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtMoTa.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -367,7 +347,7 @@
             txtMoTa.Name = "txtMoTa";
             txtMoTa.PlaceholderText = "";
             txtMoTa.SelectedText = "";
-            txtMoTa.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            txtMoTa.ShadowDecoration.CustomizableEdges = customizableEdges18;
             txtMoTa.Size = new Size(523, 42);
             txtMoTa.TabIndex = 37;
             // 
@@ -401,17 +381,34 @@
             guna2HtmlLabel11.TabIndex = 39;
             guna2HtmlLabel11.Text = "Mỗi câu mặc định 1 điểm (totalMarks = số câu hỏi).";
             // 
+            // cmbMonHoc
+            // 
+            cmbMonHoc.BackColor = Color.Transparent;
+            cmbMonHoc.CustomizableEdges = customizableEdges19;
+            cmbMonHoc.DrawMode = DrawMode.OwnerDrawFixed;
+            cmbMonHoc.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbMonHoc.FocusedColor = Color.FromArgb(94, 148, 255);
+            cmbMonHoc.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cmbMonHoc.Font = new Font("Segoe UI", 10F);
+            cmbMonHoc.ForeColor = Color.FromArgb(68, 88, 112);
+            cmbMonHoc.ItemHeight = 30;
+            cmbMonHoc.Location = new Point(22, 530);
+            cmbMonHoc.Name = "cmbMonHoc";
+            cmbMonHoc.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            cmbMonHoc.Size = new Size(512, 36);
+            cmbMonHoc.TabIndex = 40;
+            // 
             // Form_AddUpdateExam
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(580, 844);
+            Controls.Add(cmbMonHoc);
             Controls.Add(guna2HtmlLabel11);
             Controls.Add(guna2HtmlLabel10);
             Controls.Add(txtMoTa);
             Controls.Add(lblMoTa);
-            Controls.Add(txtMonHoc);
             Controls.Add(btnHuy);
             Controls.Add(btnThem);
             Controls.Add(lblSoLuongCauHoi);
@@ -462,10 +459,10 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel lblSoLuongCauHoi;
         private Guna.UI2.WinForms.Guna2Button btnHuy;
         private Guna.UI2.WinForms.Guna2Button btnThem;
-        private Guna.UI2.WinForms.Guna2TextBox txtMonHoc;
         private Guna.UI2.WinForms.Guna2TextBox txtMoTa;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblMoTa;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel10;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel11;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbMonHoc;
     }
 }

@@ -45,9 +45,9 @@
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             pnlBottom = new Guna.UI2.WinForms.Guna2Panel();
+            flowpnlBottom = new FlowLayoutPanel();
             guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
             guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
-            flowpnlBottom = new FlowLayoutPanel();
             groupBox1.SuspendLayout();
             pnlBottom.SuspendLayout();
             guna2Panel2.SuspendLayout();
@@ -63,6 +63,7 @@
             flowPanelQuestion.Name = "flowPanelQuestion";
             flowPanelQuestion.Size = new Size(1219, 472);
             flowPanelQuestion.TabIndex = 11;
+            flowPanelQuestion.SizeChanged += flowPanelQuestion_SizeChanged;
             // 
             // groupBox1
             // 
@@ -149,6 +150,14 @@
             pnlBottom.Size = new Size(1219, 86);
             pnlBottom.TabIndex = 22;
             // 
+            // flowpnlBottom
+            // 
+            flowpnlBottom.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            flowpnlBottom.Location = new Point(0, 0);
+            flowpnlBottom.Name = "flowpnlBottom";
+            flowpnlBottom.Size = new Size(1219, 86);
+            flowpnlBottom.TabIndex = 0;
+            // 
             // guna2Panel2
             // 
             guna2Panel2.Controls.Add(groupBox1);
@@ -170,14 +179,6 @@
             guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges10;
             guna2Panel3.Size = new Size(1219, 472);
             guna2Panel3.TabIndex = 24;
-            // 
-            // flowpnlBottom
-            // 
-            flowpnlBottom.Dock = DockStyle.Fill;
-            flowpnlBottom.Location = new Point(0, 0);
-            flowpnlBottom.Name = "flowpnlBottom";
-            flowpnlBottom.Size = new Size(1219, 86);
-            flowpnlBottom.TabIndex = 0;
             // 
             // UC_Questions
             // 

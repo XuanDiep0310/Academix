@@ -26,7 +26,7 @@ namespace Academix.WinApp.Forms.Student.Result
             _result = result;
 
             guna2HtmlLabel1.Text = result.ExamTitle;
-            guna2HtmlLabel2.Text = result.StudentName;
+            guna2HtmlLabel2.Text = !string.IsNullOrEmpty(result.ClassName) ? result.ClassName : "Chưa có thông tin";
             guna2HtmlLabel3.Text = result.StartTime.ToString("yyyy-MM-dd HH:mm");
 
             guna2HtmlLabel5.Text = result.TotalScore.ToString("0.##");

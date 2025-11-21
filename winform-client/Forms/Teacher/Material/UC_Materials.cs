@@ -6,8 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -101,9 +104,13 @@ namespace Academix.WinApp.Forms.Teacher
 
                 AddActionButtons();
             }
-            //dgvTaiLieu.DataSource = materials;
+
             dgvTaiLieu.DataSource = paged.Materials;
-            RenderPaginationButtons();
+
+            //RenderPaginationButtons();
+
+            BuildPaginationUI();
+
 
         }
 
@@ -137,14 +144,6 @@ namespace Academix.WinApp.Forms.Teacher
             btnView.UseColumnTextForButtonValue = true;
             dgvTaiLieu.Columns.Add(btnView);
 
-            // Sửa
-            var btnEdit = new DataGridViewButtonColumn();
-            btnEdit.Name = "btnEdit";
-            btnEdit.HeaderText = "";
-            btnEdit.Text = "Sửa";
-            btnEdit.UseColumnTextForButtonValue = true;
-            dgvTaiLieu.Columns.Add(btnEdit);
-
             // Xóa
             var btnDelete = new DataGridViewButtonColumn();
             btnDelete.Name = "btnDelete";
@@ -176,10 +175,6 @@ namespace Academix.WinApp.Forms.Teacher
                     ShowMaterialDetails(material);
                     break;
 
-                case "btnEdit":
-                    await EditMaterial(material);
-                    break;
-
                 case "btnDelete":
                     await DeleteMaterial(material);
                     break;
@@ -189,37 +184,68 @@ namespace Academix.WinApp.Forms.Teacher
                     break;
             }
         }
-        private void ShowMaterialDetails(MaterialResponseDto m)
+        private async void ShowMaterialDetails(MaterialResponseDto m)
         {
-            string info =
-                $"Tiêu đề: {m.Title}\n" +
-                $"Mô tả: {m.Description}\n" +
-                $"Loại: {m.MaterialType}\n" +
-                $"File: {m.FileName}\n" +
-                $"URL: {m.FileUrl}\n" +
-                $"Ngày tạo: {m.CreatedAt}\n";
+            if (m == null)
+                return;
 
-            MessageBox.Show(info, "Thông tin tài liệu", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-        private async Task EditMaterial(MaterialResponseDto material)
-        {
-            //using var form = new FormEditMaterial(material);
-            //if (form.ShowDialog() == DialogResult.OK)
-            //{
-            //MaterialResponseDto api = new MaterialResponseDto();
-            //bool ok = await api.UpdateMaterialAsync(material.ClassId, form.UpdatedMaterial);
+            try
+            {
+                // Nếu có FileUrl, mở trực tiếp trên trình duyệt
+                if (!string.IsNullOrWhiteSpace(m.FileUrl))
+                {
+                    var url = m.FileUrl;
 
-            //if (ok)
-            //{
-            //    MessageBox.Show("Cập nhật thành công!");
-            //    await LoadTaiLieuAsync();
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Cập nhật thất bại!");
-            //}
-            //}
+                    // Nếu là relative URL, thêm base URL
+                    if (!url.StartsWith("http://") && !url.StartsWith("https://"))
+                    {
+                        var baseUrl = Config.GetApiBaseUrl().TrimEnd('/');
+                        url = $"{baseUrl}/{url.TrimStart('/')}";
+                    }
+
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = url,
+                        UseShellExecute = true
+                    });
+                    return;
+                }
+
+                // Nếu không có FileUrl, tải về và mở
+                var api = new MaterialApiService();
+                var bytes = await api.DownloadBytesAsync(m.ClassId, m.MaterialId);
+
+                var extension = Path.GetExtension(m.FileName ?? string.Empty);
+                if (string.IsNullOrWhiteSpace(extension))
+                {
+                    extension = ".tmp";
+                }
+
+                var tempFile = Path.Combine(
+                    Path.GetTempPath(),
+                    $"{Guid.NewGuid()}{extension}"
+                );
+
+                await File.WriteAllBytesAsync(tempFile, bytes);
+
+                // Mở file bằng ứng dụng mặc định
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = tempFile,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Không thể xem tài liệu: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
+
 
         private async Task DeleteMaterial(MaterialResponseDto m)
         {
@@ -242,14 +268,40 @@ namespace Academix.WinApp.Forms.Teacher
         }
         private async Task DownloadMaterial(MaterialResponseDto m)
         {
-            MaterialApiService api = new MaterialApiService();
-            bool ok = await api.DownloadAsync(m.ClassId, m);
+            if (string.IsNullOrWhiteSpace(m.MaterialType))
+                return;
 
-            if (ok)
-                MessageBox.Show("Tải xuống thành công!");
-            else
-                MessageBox.Show("Không thể tải file!");
+            switch (m.MaterialType.ToLower())
+            {
+                case "link":
+                    // Nếu là link, mở trực tiếp trong trình duyệt
+                    try
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = m.FileUrl,
+                            UseShellExecute = true
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Không thể mở link: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+
+                default:
+                    // Các loại khác: PDF, Video, Image, Other -> tải về
+                    MaterialApiService api = new MaterialApiService();
+                    bool ok = await api.DownloadAsync(m.ClassId, m);
+
+                    if (ok)
+                        MessageBox.Show("Tải xuống thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("Không thể tải file!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+            }
         }
+
 
         private async void btnPrevious_Click(object sender, EventArgs e)
         {
@@ -351,5 +403,62 @@ namespace Academix.WinApp.Forms.Teacher
         }
 
 
+    private void BuildPaginationUI()
+        {
+            pnlPagination.Controls.Clear(); // Hoặc flowpnlBottom nếu bạn đổi tên panel
+
+            // Prev button
+            var btnPrev = new Button
+            {
+                Text = "Prev",
+                Height = 40,
+                Enabled = currentPage > 1
+            };
+            btnPrev.Click += async (s, e) =>
+            {
+                if (currentPage > 1)
+                {
+                    currentPage--;
+                    await LoadTaiLieuAsync();
+                }
+            };
+            pnlPagination.Controls.Add(btnPrev);
+
+            // Page numbers
+            for (int i = 1; i <= totalPages; i++)
+            {
+                var btnPage = new Button
+                {
+                    Text = i.ToString(),
+                    Width = 35,
+                    Height = 40,
+                    BackColor = (i == currentPage) ? Color.LightSkyBlue : Color.White
+                };
+                int pageNum = i; // tránh closure
+                btnPage.Click += async (s, e) =>
+                {
+                    currentPage = pageNum;
+                    await LoadTaiLieuAsync();
+                };
+                pnlPagination.Controls.Add(btnPage);
+            }
+
+            // Next button
+            var btnNext = new Button
+            {
+                Text = "Next",
+                Height = 40,
+                Enabled = currentPage < totalPages
+            };
+            btnNext.Click += async (s, e) =>
+            {
+                if (currentPage < totalPages)
+                {
+                    currentPage++;
+                    await LoadTaiLieuAsync();
+                }
+            };
+            pnlPagination.Controls.Add(btnNext);
+        }
     }
 }

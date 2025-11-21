@@ -29,7 +29,17 @@ namespace Academix.WinApp.Forms.Teacher.Question
 
         private async void Form_AddUpdateQuestion_Load(object sender, EventArgs e)
         {
-            cmbDoKho.Items.AddRange(new[] { "Easy", "Medium", "Hard" });
+            cmbDoKho.DisplayMember = "Text";
+            cmbDoKho.ValueMember = "Value";
+
+            var list = new List<DifficultyItem>
+                {
+                    new DifficultyItem { Text = "Dễ", Value = "Easy" },
+                    new DifficultyItem { Text = "Trung bình", Value = "Medium" },
+                    new DifficultyItem { Text = "Khó", Value = "Hard" }
+                };
+
+            cmbDoKho.DataSource = list;
 
             if (_questionId > 0)
             {
@@ -54,7 +64,7 @@ namespace Academix.WinApp.Forms.Teacher.Question
 
                     txtCauHoi.Text = q.QuestionText;
                     txtMonHoc.Text = q.Subject ?? "";
-                    cmbDoKho.Text = q.DifficultyLevel ?? "";
+                    cmbDoKho.SelectedValue = q.DifficultyLevel ?? "";
 
                     // Lấy danh sách đáp án theo OptionOrder
                     var answers = q.Options
@@ -110,7 +120,14 @@ namespace Academix.WinApp.Forms.Teacher.Question
         {
             if (string.IsNullOrWhiteSpace(txtCauHoi.Text)) return false;
             if (string.IsNullOrWhiteSpace(txtMonHoc.Text)) return false;
-            if (string.IsNullOrWhiteSpace(cmbDoKho.Text)) return false;
+
+            if (cmbDoKho.SelectedValue == null)
+            {
+                MessageBox.Show("Vui lòng chọn độ khó!", "Thiếu dữ liệu",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             if (_correctAnswerIndex < 0) return false;
 
             return true;
@@ -118,25 +135,21 @@ namespace Academix.WinApp.Forms.Teacher.Question
 
 
 
+
         private async void btnLuu_Click(object sender, EventArgs e)
         {
             if (!ValidateForm())
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin và chọn đáp án đúng!",
-                                "Thiếu dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }
 
             var options = new List<CreateQuestionOptionDto>();
 
-            if (!string.IsNullOrWhiteSpace(txtDapAn1.Text))
-                options.Add(new CreateQuestionOptionDto { OptionText = txtDapAn1.Text.Trim(), IsCorrect = (_correctAnswerIndex == 0), OptionOrder = 1 });
-            if (!string.IsNullOrWhiteSpace(txtDapAn2.Text))
-                options.Add(new CreateQuestionOptionDto { OptionText = txtDapAn2.Text.Trim(), IsCorrect = (_correctAnswerIndex == 1), OptionOrder = 2 });
-            if (!string.IsNullOrWhiteSpace(txtDapAn3.Text))
-                options.Add(new CreateQuestionOptionDto { OptionText = txtDapAn3.Text.Trim(), IsCorrect = (_correctAnswerIndex == 2), OptionOrder = 3 });
-            if (!string.IsNullOrWhiteSpace(txtDapAn4.Text))
-                options.Add(new CreateQuestionOptionDto { OptionText = txtDapAn4.Text.Trim(), IsCorrect = (_correctAnswerIndex == 3), OptionOrder = 4 });
+            options.Add(new CreateQuestionOptionDto { OptionText = txtDapAn1.Text.Trim(), IsCorrect = (_correctAnswerIndex == 0), OptionOrder = 1 });
+            options.Add(new CreateQuestionOptionDto { OptionText = txtDapAn2.Text.Trim(), IsCorrect = (_correctAnswerIndex == 1), OptionOrder = 2 });
+            options.Add(new CreateQuestionOptionDto { OptionText = txtDapAn3.Text.Trim(), IsCorrect = (_correctAnswerIndex == 2), OptionOrder = 3 });
+            options.Add(new CreateQuestionOptionDto { OptionText = txtDapAn4.Text.Trim(), IsCorrect = (_correctAnswerIndex == 3), OptionOrder = 4 });
+
+            // Loại option rỗng
+            options = options.Where(o => !string.IsNullOrWhiteSpace(o.OptionText)).ToList();
 
             if (options.Count < 2)
             {
@@ -150,6 +163,7 @@ namespace Academix.WinApp.Forms.Teacher.Question
                 return;
             }
 
+            string difficulty = cmbDoKho.SelectedValue.ToString();   // LUÔN AN TOÀN VÌ ValidateForm ĐÃ CHECK
 
             if (_questionId == 0)
             {
@@ -158,8 +172,8 @@ namespace Academix.WinApp.Forms.Teacher.Question
                 {
                     QuestionText = txtCauHoi.Text.Trim(),
                     Subject = txtMonHoc.Text.Trim(),
-                    DifficultyLevel = cmbDoKho.Text,
-                    QuestionType = "MultipleChoice",
+                    DifficultyLevel = difficulty,
+                    QuestionType = "SingleChoice",
                     Options = options
                 };
 
@@ -167,10 +181,13 @@ namespace Academix.WinApp.Forms.Teacher.Question
                 if (result.Success)
                 {
                     MessageBox.Show("Thêm thành công!", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK; 
-                    this.Close();
+                    DialogResult = DialogResult.OK;
+                    Close();
                 }
-                else MessageBox.Show(result.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    MessageBox.Show(result.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -179,7 +196,7 @@ namespace Academix.WinApp.Forms.Teacher.Question
                 {
                     QuestionText = txtCauHoi.Text.Trim(),
                     Subject = txtMonHoc.Text.Trim(),
-                    DifficultyLevel = cmbDoKho.Text,
+                    DifficultyLevel = difficulty,
                     Options = options
                 };
 
@@ -187,12 +204,16 @@ namespace Academix.WinApp.Forms.Teacher.Question
                 if (result.Success)
                 {
                     MessageBox.Show("Cập nhật thành công!", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    DialogResult = DialogResult.OK;
+                    Close();
                 }
-                else MessageBox.Show(result.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    MessageBox.Show(result.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
+
 
         private void btnHuy_Click(object sender, EventArgs e)
         {
@@ -202,6 +223,13 @@ namespace Academix.WinApp.Forms.Teacher.Question
                 this.Close();
             }
         }
+
+        class DifficultyItem
+{
+    public string Text { get; set; }
+    public string Value { get; set; }
+}
+
 
     }
 

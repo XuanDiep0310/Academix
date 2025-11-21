@@ -3,6 +3,7 @@ using Academix.WinApp.Models.Teacher;
 using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ namespace Academix.WinApp.Forms.Teacher.Exam
 
         private async void Form_AddUpdateExam_Load(object sender, EventArgs e)
         {
+            await LoadMonHocAsync();
+            LoadCauHoiAsync();
             await LoadClassesAsync();
             if (_examId > 0)
             {
@@ -40,10 +43,10 @@ namespace Academix.WinApp.Forms.Teacher.Exam
                 Text = "Tạo bài kiểm tra mới";
             }
 
-            txtMonHoc.Leave += async (s, ev) =>
-            {
-                await LoadCauHoiAsync();
-            };
+            //cmbMonHoc.Leave += async (s, ev) =>
+            //{
+            //    await LoadCauHoiAsync();
+            //};
             dtpThoiGianBatDau.Value = DateTime.Now;
             dtpThoiGianKetThuc.Value = DateTime.Now.AddHours(1);
 
@@ -94,21 +97,80 @@ namespace Academix.WinApp.Forms.Teacher.Exam
             }
         }
 
+        private async Task LoadMonHocAsync()
+        {
+            var questionApi = new QuestionApiService();
+            var subjects = new HashSet<string>();
+
+            int page = 1;
+            int pageSize = 100;
+            bool hasMore = true;
+
+            while (hasMore)
+            {
+                var resp = await questionApi.GetMyQuestionsPagedAsync(
+                    subject: null,
+                    page: page,
+                    pageSize: pageSize
+                );
+
+                if (resp.Success && resp.Data?.Questions != null)
+                {
+                    foreach (var q in resp.Data.Questions)
+                    {
+                        if (!string.IsNullOrWhiteSpace(q.Subject))
+                            subjects.Add(q.Subject);
+                    }
+
+                    hasMore = page < resp.Data.TotalPages;
+                    page++;
+                }
+                else
+                {
+                    hasMore = false;
+                }
+            }
+
+            cmbMonHoc.Items.Clear();
+            cmbMonHoc.Items.Add("Tất cả");
+
+            if (subjects.Count > 0)
+                cmbMonHoc.Items.AddRange(subjects.ToArray());
+
+            cmbMonHoc.SelectedIndex = 0;
+
+            // Debug
+            Debug.WriteLine("Subjects loaded: " + string.Join(", ", subjects));
+        }
+
+
+        private async void CmbMonHoc_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            await LoadCauHoiAsync(); // load lại câu hỏi theo môn học mới
+        }
+
+
+
         private async Task LoadCauHoiAsync()
         {
             pnlCauHoi.Controls.Clear();
 
-            // Lọc danh sách câu hỏi theo môn học (nếu có)
-            string? subject = string.IsNullOrWhiteSpace(txtMonHoc.Text)
-                ? null
-                : txtMonHoc.Text.Trim();
+            // 1. Load danh sách môn học vào comboBox (await!)
+            await LoadMonHocAsync();
 
+            // 2. Lấy môn học đang chọn
+            string? subject = cmbMonHoc.SelectedItem?.ToString();
+            if (subject == "Tất cả") subject = null;
+
+            // 3. Lấy danh sách câu hỏi theo môn học
             var questionApi = new QuestionApiService();
             var questionsResponse = await questionApi.GetMyQuestionsPagedAsync(
                 subject: subject,
                 page: 1,
-                pageSize: 100);
+                pageSize: 100
+            );
 
+            // 4. Hiển thị checkbox câu hỏi
             int y = 5;
             foreach (var q in questionsResponse.Data?.Questions ?? new List<QuestionResponseDto>())
             {
@@ -127,7 +189,7 @@ namespace Academix.WinApp.Forms.Teacher.Exam
                 y += 25;
             }
 
-            // Nếu đang update, check sẵn các câu hỏi đã có trong exam
+            // 5. Nếu đang update exam, check sẵn các câu hỏi đã có
             if (_examId > 0)
             {
                 var examQuestionsResp = await _api.GetExamQuestionsAsync(_classId, _examId);
@@ -141,8 +203,10 @@ namespace Academix.WinApp.Forms.Teacher.Exam
                     }
                 }
             }
+
             UpdateSoLuongCauHoi();
         }
+
 
 
         private async void btnThem_Click(object sender, EventArgs e)
@@ -265,7 +329,7 @@ namespace Academix.WinApp.Forms.Teacher.Exam
         private bool ValidateForm()
         {
             if (string.IsNullOrWhiteSpace(txtTieuDe.Text)) { txtTieuDe.Focus(); return false; }
-            if (string.IsNullOrWhiteSpace(txtMonHoc.Text)) { txtMonHoc.Focus(); return false; }
+            if (string.IsNullOrWhiteSpace(cmbMonHoc.Text)) { cmbMonHoc.Focus(); return false; }
             if (nmbThoiLuongLamBai.Value <= 0) { nmbThoiLuongLamBai.Focus(); return false; }
             if (dtpThoiGianKetThuc.Value <= dtpThoiGianBatDau.Value) { dtpThoiGianKetThuc.Focus(); return false; }
             if (!pnlCauHoi.Controls.OfType<Guna2CheckBox>().Any(c => c.Checked)) { pnlCauHoi.Focus(); return false; }

@@ -23,6 +23,7 @@ namespace Academix.WinApp.Models.Student
         public string ExamTitle { get; set; } = string.Empty;
         public int StudentId { get; set; }
         public string StudentName { get; set; } = string.Empty;
+        public string? ClassName { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? SubmitTime { get; set; }
         public double TotalScore { get; set; }

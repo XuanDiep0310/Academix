@@ -1,13 +1,9 @@
 ﻿using Academix.WinApp.Api;
-using Academix.WinApp.Forms.Teacher.Material;
 using Academix.WinApp.Forms.Teacher.Question;
+using Academix.WinApp.Models.Teacher;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -39,7 +35,16 @@ namespace Academix.WinApp.Forms.Teacher
 
             if (result?.Data?.Questions == null || result.Data.Questions.Count == 0)
             {
-                MessageBox.Show("Không có câu hỏi nào !");
+                var lblEmpty = new Label
+                {
+                    Text = "Không có câu hỏi nào!",
+                    AutoSize = true,
+                    ForeColor = Color.Gray,
+                    Font = new Font("Segoe UI", 11, FontStyle.Italic)
+                };
+                flowPanelQuestion.Controls.Add(lblEmpty);
+                _totalPages = 1;
+                BuildPaginationUI();
                 return;
             }
 
@@ -47,42 +52,48 @@ namespace Academix.WinApp.Forms.Teacher
 
             foreach (var item in result.Data.Questions)
             {
-                var card = new UC_QuestionCard(item);
+                var card = new UC_QuestionCard(item)
+                {
+                    Width = flowPanelQuestion.ClientSize.Width - 20,
+                    Margin = new Padding(10)
+                };
 
-                // Đăng ký callback event để form reload sau khi sửa/xóa
+                // Chỉ subscribe 1 lần
                 card.OnUpdated += async () => await LoadQuestionsAsync();
 
-                card.Margin = new Padding(10);
                 flowPanelQuestion.Controls.Add(card);
             }
 
             BuildPaginationUI();
         }
 
-
-
-
         private async Task LoadClassesAsync()
         {
-            ClassApiService api = new ClassApiService();
-            var myClasses = await api.GetMyClassesAsync();
+            try
+            {
+                ClassApiService api = new ClassApiService();
+                var myClasses = await api.GetMyClassesAsync();
 
-            cmbLopHoc.DataSource = myClasses;
-            cmbLopHoc.DisplayMember = "ClassName";
-            cmbLopHoc.ValueMember = "ClassId";
-            if (myClasses.Count > 0)
-                cmbLopHoc.SelectedIndex = 0;
+                cmbLopHoc.DataSource = myClasses;
+                cmbLopHoc.DisplayMember = "ClassName";
+                cmbLopHoc.ValueMember = "ClassId";
+
+                if (myClasses.Count > 0)
+                    cmbLopHoc.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi load danh sách lớp: " + ex.Message);
+            }
         }
 
         private async void btnThemCauHoi_Click(object sender, EventArgs e)
         {
-            using (var frm = new Form_AddUpdateQuestion())
+            using var frm = new Form_AddUpdateQuestion();
+            if (frm.ShowDialog() == DialogResult.OK)
             {
-                var result = frm.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    await LoadQuestionsAsync(); 
-                }
+                _page = 1; // quay về trang đầu sau khi thêm
+                await LoadQuestionsAsync();
             }
         }
 
@@ -90,17 +101,21 @@ namespace Academix.WinApp.Forms.Teacher
         {
             flowpnlBottom.Controls.Clear();
 
-            // Prev button
+            // Nút Trước
             var btnPrev = new Button
             {
-                Text = "Prev",
+                Text = "Trước",
                 Height = 40,
                 Enabled = _page > 1
             };
-            btnPrev.Click += (s, e) => { _page--; _ = LoadQuestionsAsync(); };
+            btnPrev.Click += async (s, e) =>
+            {
+                _page--;
+                await LoadQuestionsAsync();
+            };
             flowpnlBottom.Controls.Add(btnPrev);
 
-            // Page numbers
+            // Nút số trang
             for (int i = 1; i <= _totalPages; i++)
             {
                 var btnPage = new Button
@@ -111,20 +126,40 @@ namespace Academix.WinApp.Forms.Teacher
                     BackColor = (i == _page) ? Color.LightSkyBlue : Color.White
                 };
                 int pageNum = i;
-                btnPage.Click += (s, e) => { _page = pageNum; _ = LoadQuestionsAsync(); };
+                btnPage.Click += async (s, e) =>
+                {
+                    _page = pageNum;
+                    await LoadQuestionsAsync();
+                };
                 flowpnlBottom.Controls.Add(btnPage);
             }
 
-            // Next button
+            // Nút Tiếp
             var btnNext = new Button
             {
-                Text = "Next",
+                Text = "Sau",
                 Height = 40,
                 Enabled = _page < _totalPages
             };
-            btnNext.Click += (s, e) => { _page++; _ = LoadQuestionsAsync(); };
+            btnNext.Click += async (s, e) =>
+            {
+                _page++;
+                await LoadQuestionsAsync();
+            };
             flowpnlBottom.Controls.Add(btnNext);
         }
 
+        private void flowPanelQuestion_SizeChanged(object sender, EventArgs e)
+        {
+            ResizeCards();
+        }
+
+        private void ResizeCards()
+        {
+            foreach (Control c in flowPanelQuestion.Controls)
+            {
+                c.Width = flowPanelQuestion.ClientSize.Width - 20; // trừ margin
+            }
+        }
     }
 }
