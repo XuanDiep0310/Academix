@@ -166,7 +166,7 @@ const AdminPage = () => {
     <>
       {/* HEADER */}
       <Title level={3} style={{ marginBottom: 16 }}>
-        🚀 Tổng quan hệ thống
+        Tổng quan hệ thống
       </Title>
       <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
         Thống kê người dùng, lớp học và tài liệu toàn hệ thống
@@ -177,7 +177,7 @@ const AdminPage = () => {
         <Spin spinning={loading}>
           {/* PHẦN 1: THỐNG KÊ NGƯỜI DÙNG */}
           <Title level={4} style={{ marginTop: 0, marginBottom: 16 }}>
-            👥 Thống kê người dùng
+            Thống kê người dùng
           </Title>
           <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
             {/* Cột 1: Tổng người dùng (Primary) */}
@@ -277,7 +277,7 @@ const AdminPage = () => {
 
           {/* PHẦN 2: THỐNG KÊ LỚP HỌC */}
           <Title level={4} style={{ marginBottom: 16 }}>
-            📚 Thống kê lớp học
+            Thống kê lớp học
           </Title>
           <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
             {/* Cột 1: Tổng số lớp (Primary) */}
@@ -365,7 +365,7 @@ const AdminPage = () => {
 
           {/* PHẦN 3: THỐNG KÊ TÀI LIỆU TOÀN HỆ THỐNG */}
           <Title level={4} style={{ marginBottom: 16 }}>
-            📁 Thống kê tài liệu
+            Thống kê tài liệu
           </Title>
           <Row gutter={[24, 24]} style={{ marginBottom: 16 }}>
             {/* Cột 1: Tổng số tài liệu (Primary) */}
