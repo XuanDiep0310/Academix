@@ -1,68 +1,141 @@
+// ResultsView.module.scss
+
+$primary-color: #1890ff;
+$primary-color-dark: #0050b3;
+$secondary-text-color: #6b7280;
+$border-color: #e5e7eb;
+$bg-light: #f0f2f5;
+$card-bg: #fff;
+
 .wrap {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  // Sử dụng Card của Ant Design cho toàn bộ wrap, style card nhẹ nhàng hơn
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07);
+  padding: 0 !important; // Xóa padding mặc định của Card
 }
 
 /* Header */
 .header {
   padding: 16px 20px;
-  border-bottom: 1px solid #edf0f3;
+  border-bottom: 1px solid $border-color;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-.title {
-  margin: 0;
+
+  .title {
+    margin: 0;
+    color: $primary-color-dark;
+  }
+
+  .exportButton {
+    min-width: 140px;
+  }
 }
 
-/* Test select */
-.testSelect {
-  padding: 12px 20px 0 20px;
+/* Select Container */
+.selectContainer {
+  padding: 20px 20px 10px 20px;
+  background-color: #f7f9fa; // Nền nhẹ cho phần chọn
+  border-bottom: 1px solid $border-color;
+
+  .selectGroup {
+    display: flex;
+    flex-direction: column;
+  }
 
   .label {
-    display: block;
     font-size: 12px;
-    color: #6b7280;
+    color: $secondary-text-color;
     margin-bottom: 6px;
+    font-weight: 500;
   }
 }
 
 /* KPIs */
 .kpis {
   display: grid;
-  gap: 12px;
-  padding: 16px 20px 0 20px;
+  gap: 16px;
+  padding: 16px 20px;
+  background-color: $card-bg;
+  border-bottom: 1px solid $border-color;
 
-  @media (min-width: 768px) {
+  // Responsive grid layout
+  grid-template-columns: repeat(2, 1fr); // 2 cột cho mobile
+  @media (min-width: 576px) {
+    grid-template-columns: repeat(4, 1fr); // 4 cột cho tablet/desktop nhỏ
+  }
+  @media (min-width: 992px) {
     grid-template-columns: repeat(4, 1fr);
+  }
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .kpiCard {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 16px; // Tăng padding bên trong Card
+
+    :global(.ant-statistic-title) {
+      font-size: 14px;
+      color: $secondary-text-color;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    :global(.ant-statistic-content) {
+      font-size: 24px;
+      margin-top: 6px;
+      font-weight: 600;
+    }
   }
 }
 
-.kpiCard {
-  border-radius: 10px;
-}
-
-.kpiValue {
-  font-size: 24px;
-  margin-top: 6px;
-}
-
 /* Table */
-.tableCard {
-  padding: 16px 20px 20px 20px;
-}
-
-.pagination {
-  margin-top: 12px;
-  display: flex;
-  justify-content: flex-end;
+.tableContainer {
+  padding: 20px;
+  overflow-x: auto; // Đảm bảo scroll ngang khi cần
+  background-color: $card-bg;
 }
 
 /* Helpers */
-.bold {
-  font-weight: 600;
+.score {
+  font-weight: 700;
+  color: $primary-color; // Màu xanh nổi bật cho điểm số
+  font-size: 1.1em;
 }
 .muted {
   color: #9ca3af;
+}
+
+/* Responsive adjustments */
+@media (max-width: 575px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .selectContainer {
+    padding: 16px 16px 10px 16px;
+  }
+
+  .kpis {
+    padding: 16px;
+  }
+
+  .tableContainer {
+    padding: 16px;
+  }
+
+  .buttonText {
+    display: none; // Ẩn chữ "Xuất Excel" trên mobile, chỉ giữ icon
+  }
+  .exportButton {
+    min-width: auto;
+    width: 100%; // Kéo dài nút Xuất Excel full width
+  }
 }

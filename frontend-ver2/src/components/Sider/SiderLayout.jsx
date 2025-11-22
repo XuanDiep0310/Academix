@@ -11,7 +11,7 @@ import {
 } from "antd";
 import { LogOut, Key } from "lucide-react";
 import { callLogout, callOnChangePassWord } from "../../services/api.service";
-
+import styles from "../../assets/styles/SiderLayout.module.scss";
 const { Sider } = Layout;
 const { Text, Title } = Typography;
 
@@ -26,8 +26,7 @@ const { Text, Title } = Typography;
  * @param {Function} props.onMenuClick - Callback khi click menu item
  * @param {string} props.className - Class name cho sider
  * @param {boolean} props.showChangePassword - Hiển thị nút đổi mật khẩu (mặc định: true)
- */
-const SiderLayout = ({
+ */ const SiderLayout = ({
   brandTitle = "Hệ thống",
   userName = "User",
   menuItems = [],
@@ -94,33 +93,36 @@ const SiderLayout = ({
 
   return (
     <>
-      <Sider width={260} theme="light" className={className}>
-        <div
-          style={{ padding: "20px 16px", borderBottom: "1px solid #f0f0f0" }}
-        >
-          <Title level={4} style={{ margin: 0, marginBottom: 4 }}>
+      {/* Sider (Container Flexbox chính) */}
+      <Sider
+        width={260}
+        theme="light"
+        className={`${className} ${styles.sidebar}`} // Áp dụng class Flexbox
+      >
+        {/* 1. Header (Cố định - flex-shrink: 0) */}
+        <div className={styles.sidebarHeader}>
+          <Title
+            level={4}
+            style={{ margin: 0, marginBottom: 4, color: "#0050b3" }}
+          >
             {brandTitle}
           </Title>
           <Text type="secondary">{userName}</Text>
         </div>
 
-        <Menu
-          mode="inline"
-          selectedKeys={selectedKeys}
-          onClick={onMenuClick}
-          items={menuItems}
-          style={{ borderRight: 0 }}
-        />
+        {/* 2. Menu Wrapper (Phần cuộn - flex-grow: 1, overflow: auto) */}
+        <div className={styles.sidebarMenuWrapper}>
+          <Menu
+            mode="inline"
+            selectedKeys={selectedKeys}
+            onClick={onMenuClick}
+            items={menuItems}
+            style={{ borderRight: 0 }}
+          />
+        </div>
 
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            width: "100%",
-            padding: "16px",
-            borderTop: "1px solid #f0f0f0",
-          }}
-        >
+        {/* 3. Footer Actions (Cố định - flex-shrink: 0) */}
+        <div className={styles.sidebarFooter}>
           {showChangePassword && (
             <Button
               block
@@ -218,4 +220,5 @@ const SiderLayout = ({
     </>
   );
 };
+
 export default SiderLayout;

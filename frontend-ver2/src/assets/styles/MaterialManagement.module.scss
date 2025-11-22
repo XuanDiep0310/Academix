@@ -41,6 +41,14 @@
   text-overflow: ellipsis;
 }
 
+.descriptionCell {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Viewer */
 .viewer {
   display: grid;
@@ -94,4 +102,177 @@
   background: #f9fafb;
   border: 1px solid #edf0f3;
   border-radius: 8px;
+}
+
+/* ==================== FILE UPLOAD PREVIEWS ==================== */
+
+/* PDF File Preview */
+.filePreview {
+  margin-top: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px dashed #3b82f6;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  }
+}
+
+.filePreviewContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.fileIcon {
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.fileInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fileName {
+  font-size: 14px;
+  color: #1e293b;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileSize {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Image Preview */
+.imagePreview {
+  margin-top: 16px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #e5e7eb;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+    .imageOverlay {
+      opacity: 1;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    display: block;
+    background: #f8fafc;
+  }
+}
+
+.imageOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 70%,
+    transparent 100%
+  );
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imageName {
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Video Preview */
+.videoPreview {
+  margin-top: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #e5e7eb;
+  background: #000;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  video {
+    width: 100%;
+    max-height: 400px;
+    display: block;
+    background: #000;
+  }
+}
+
+.videoInfo {
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  > span {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #1e293b;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .filePreview {
+    padding: 12px;
+  }
+
+  .filePreviewContent {
+    gap: 12px;
+  }
+
+  .imagePreview img,
+  .videoPreview video {
+    max-height: 300px;
+  }
+
+  .imageOverlay {
+    opacity: 1;
+  }
+
+  .videoInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

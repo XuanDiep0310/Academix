@@ -1,0 +1,42 @@
+:global(.ant-layout-sider) {
+  height: 100vh !important;
+  position: sticky !important;
+  top: 0;
+
+  display: flex !important;
+  flex-direction: column !important;
+  z-index: 10;
+}
+
+.sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+.sidebarHeader {
+  padding: 20px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.sidebarMenuWrapper {
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 16px;
+
+  :global(.ant-menu) {
+    height: auto;
+  }
+}
+
+/* 4. Footer Actions (Cố định - không cuộn) */
+.sidebarFooter {
+  padding: 16px;
+  border-top: 1px solid #f0f0f0;
+  flex-shrink: 0 !important; /* KHÔNG co lại */
+
+  position: absolute;
+  bottom: 0;
+}

@@ -9,8 +9,16 @@ import {
   Button,
   message,
   Empty,
+  Statistic,
 } from "antd";
-import { Download } from "lucide-react";
+import {
+  Download,
+  BookOpen,
+  Users,
+  CheckCircle,
+  BarChart2,
+  ListChecks,
+} from "lucide-react";
 import dayjs from "dayjs";
 import styles from "../../../assets/styles/ResultsView.module.scss";
 import {
@@ -31,14 +39,14 @@ const STATUS_TEXT = {
 };
 
 const STATUS_COLOR = {
-  Completed: "success",
-  Graded: "success",
-  InProgress: "processing",
+  Completed: "green",
+  Graded: "blue", // Thay đổi màu Graded thành blue để khác với Completed
+  InProgress: "volcano",
   NotStarted: "default",
 };
 
 export default function ResultsView() {
-  /* =================== STATE =================== */
+  /* =================== STATE & FETCH LOGIC (Giữ nguyên) =================== */
   const [students, setStudents] = useState([]);
 
   const [classes, setClasses] = useState([]);
@@ -53,16 +61,24 @@ export default function ResultsView() {
   const [stats, setStats] = useState(null);
   const [loadingResults, setLoadingResults] = useState(false);
 
-  /* =================== FETCH STUDENTS =================== */
+  // ... (Tất cả logic fetchClasses, fetchExams, fetchStudents, fetchResults giữ nguyên) ...
+  // Giả định logic fetch đã ổn
+
+  /* =================== EFFECT & HOOKS =================== */
+  useEffect(() => {
+    fetchClasses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const fetchStudents = async (classId) => {
+    // Logic fetchStudents giữ nguyên
     if (!classId) return;
     try {
       const qs = new URLSearchParams();
       qs.set("page", "1");
-      qs.set("pageSize", "1000"); // đủ lớn cho 1 lớp
+      qs.set("pageSize", "1000");
 
       const res = await callListStudentOnClassesAPI(classId, qs.toString());
-      console.log("check Student >>> ", res);
 
       if (res?.success && Array.isArray(res.data)) {
         const mapped = res.data.map((s) => ({
@@ -83,8 +99,8 @@ export default function ResultsView() {
     }
   };
 
-  /* =================== FETCH LỚP HỌC =================== */
   const fetchClasses = async () => {
+    // Logic fetchClasses giữ nguyên
     try {
       setLoadingClasses(true);
       const res = await callListMyClassesAPI();
@@ -96,7 +112,6 @@ export default function ResultsView() {
         }));
         setClasses(mapped);
 
-        // chọn lớp đầu tiên nếu chưa chọn
         if (!selectedClassId && mapped.length > 0) {
           setSelectedClassId(mapped[0].id);
         }
@@ -111,13 +126,8 @@ export default function ResultsView() {
     }
   };
 
-  useEffect(() => {
-    fetchClasses();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /* =================== FETCH EXAMS CỦA 1 LỚP =================== */
   const fetchExams = async (classId) => {
+    // Logic fetchExams giữ nguyên
     if (!classId) return;
     try {
       setLoadingExams(true);
@@ -168,14 +178,12 @@ export default function ResultsView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedClassId]);
 
-  /* =================== FETCH KẾT QUẢ CỦA 1 BÀI =================== */
   const fetchResults = async () => {
+    // Logic fetchResults giữ nguyên
     if (!selectedClassId || !selectedExamId) return;
 
     try {
       setLoadingResults(true);
-
-      // luôn lấy full kết quả, không phân trang
       const qs = new URLSearchParams();
       qs.set("page", "1");
       qs.set("pageSize", "1000");
@@ -185,7 +193,7 @@ export default function ResultsView() {
         selectedExamId,
         qs.toString()
       );
-      console.log("fetchResults res:", res);
+
       if (res?.success && res.data) {
         const api = res.data;
 
@@ -227,8 +235,8 @@ export default function ResultsView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedClassId, selectedExamId]);
 
-  /* =================== MERGE STUDENTS + RESULTS =================== */
   const mergedRows = useMemo(() => {
+    // Logic mergedRows giữ nguyên
     if (!students.length) return results;
 
     return students.map((s) => {
@@ -270,7 +278,7 @@ export default function ResultsView() {
     ["Completed", "Graded"].includes(r.status)
   ).length;
 
-  /* =================== EXPORT =================== */
+  /* =================== EXPORT (Giữ nguyên) =================== */
   const handleExport = () => {
     if (!mergedRows.length) {
       message.warning("Không có dữ liệu để xuất");
@@ -330,28 +338,45 @@ export default function ResultsView() {
 
   /* =================== COLUMNS =================== */
   const columns = [
-    { title: "Học sinh", dataIndex: "studentName", key: "studentName" },
-    { title: "Email", dataIndex: "email", key: "email" },
     {
-      title: "Điểm",
+      title: "Học sinh",
+      dataIndex: "studentName",
+      key: "studentName",
+      // Responsive: ẩn trên màn hình nhỏ (xs) để giữ không gian
+      responsive: ["md"],
+      render: (name) => <Text strong>{name}</Text>,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      responsive: ["md"],
+      ellipsis: true,
+      width: 250,
+    },
+    {
+      title: "Điểm (100)",
       key: "score",
-      width: 140,
+      width: 120,
+      sorter: (a, b) => (a.score100 || 0) - (b.score100 || 0),
       render: (_, row) =>
         row.totalQuestions ? (
-          <span className={styles.bold}>{row.score100}</span>
+          <span className={styles.score}>{row.score100}</span>
         ) : (
-          <span className={styles.muted}>-</span>
+          <span className={styles.muted}>—</span>
         ),
     },
     {
-      title: "Số câu đúng",
+      title: "Đúng/Tổng",
       key: "correct",
-      width: 140,
+      width: 120,
       render: (_, row) =>
-        row.totalQuestions ? (
-          `${row.correctAnswers}/${row.totalQuestions}`
+        row.totalQuestions > 0 ? (
+          <Text>
+            {row.correctAnswers} / {row.totalQuestions}
+          </Text>
         ) : (
-          <span className={styles.muted}>-</span>
+          <span className={styles.muted}>—</span>
         ),
     },
     {
@@ -369,12 +394,13 @@ export default function ResultsView() {
       title: "Thời gian nộp",
       dataIndex: "submittedAt",
       key: "submittedAt",
-      width: 200,
+      width: 180,
+      responsive: ["lg"], // Chỉ hiển thị trên màn hình lớn
       render: (v) =>
         v ? (
           dayjs(v).format("DD/MM/YYYY HH:mm")
         ) : (
-          <span className={styles.muted}>-</span>
+          <span className={styles.muted}>—</span>
         ),
     },
   ];
@@ -384,11 +410,15 @@ export default function ResultsView() {
 
   /* =================== RENDER =================== */
   return (
-    <div className={styles.wrap}>
+    <Card className={styles.wrap}>
       {/* Header */}
       <div className={styles.header}>
         <div>
           <Title level={4} className={styles.title}>
+            <ListChecks
+              size={24}
+              style={{ marginRight: 8, color: "#1890ff", verticalAlign: "sub" }}
+            />
             Kết quả bài kiểm tra
           </Title>
           <Text type="secondary">
@@ -400,22 +430,23 @@ export default function ResultsView() {
           type="primary"
           icon={<Download size={16} />}
           onClick={handleExport}
-          disabled={!mergedRows.length}
+          disabled={!mergedRows.length || loadingResults}
+          className={styles.exportButton}
         >
-          Xuất Excel
+          <span className={styles.buttonText}>Xuất Excel</span>
         </Button>
       </div>
 
       {/* Chọn lớp & bài kiểm tra */}
-      <div className={styles.testSelect}>
-        <Space wrap>
-          <div>
+      <div className={styles.selectContainer}>
+        <Space wrap size={16}>
+          <div className={styles.selectGroup}>
             <Text className={styles.label}>Lớp học</Text>
             <Select
               loading={loadingClasses}
               value={selectedClassId ?? undefined}
               placeholder="Chọn lớp"
-              style={{ minWidth: 260 }}
+              style={{ minWidth: 220 }}
               onChange={(v) => {
                 setSelectedClassId(v);
               }}
@@ -426,20 +457,20 @@ export default function ResultsView() {
             />
           </div>
 
-          <div>
+          <div className={styles.selectGroup}>
             <Text className={styles.label}>Bài kiểm tra</Text>
             <Select
               loading={loadingExams}
               value={selectedExamId ?? undefined}
               placeholder="Chọn bài kiểm tra"
-              style={{ minWidth: 360 }}
+              style={{ minWidth: 320 }}
               disabled={!selectedClassId}
               onChange={(v) => {
                 setSelectedExamId(v);
               }}
               options={exams.map((e) => ({
                 value: e.id,
-                label: `${e.title} - ${e.className}`,
+                label: e.title,
               }))}
             />
           </div>
@@ -449,52 +480,67 @@ export default function ResultsView() {
       {/* Thống kê nhanh */}
       {currentExam && (
         <div className={styles.kpis}>
-          <Card className={styles.kpiCard}>
-            <Text type="secondary">Lớp</Text>
-            <div className={styles.kpiValue}>{currentClass?.name || "—"}</div>
+          <Card bordered={false} className={styles.kpiCard}>
+            <Statistic
+              title="Lớp"
+              value={currentClass?.name || "—"}
+              prefix={<BookOpen size={20} color="#1890ff" />}
+            />
           </Card>
 
-          <Card className={styles.kpiCard}>
-            <Text type="secondary">Bài kiểm tra</Text>
-            <div className={styles.kpiValue}>{currentExam.title}</div>
+          <Card bordered={false} className={styles.kpiCard}>
+            <Statistic
+              title="Tổng số HS"
+              value={totalStudents}
+              prefix={<Users size={20} color="#52c41a" />}
+            />
           </Card>
 
-          <Card className={styles.kpiCard}>
-            <Text type="secondary">Tổng số học sinh</Text>
-            <div className={styles.kpiValue}>{totalStudents}</div>
+          <Card bordered={false} className={styles.kpiCard}>
+            <Statistic
+              title="Đã nộp"
+              value={submittedCount}
+              prefix={<CheckCircle size={20} color="#faad14" />}
+            />
           </Card>
 
-          <Card className={styles.kpiCard}>
-            <Text type="secondary">Đã nộp</Text>
-            <div className={styles.kpiValue}>{submittedCount}</div>
-          </Card>
-
-          <Card className={styles.kpiCard}>
-            <Text type="secondary">Điểm trung bình</Text>
-            <div className={styles.kpiValue}>{averageScore}/100</div>
+          <Card bordered={false} className={styles.kpiCard}>
+            <Statistic
+              title="Điểm TB"
+              value={averageScore}
+              suffix="/100"
+              precision={1}
+              prefix={<BarChart2 size={20} color="#eb2f96" />}
+              valueStyle={{ color: "#0050b3" }}
+            />
           </Card>
         </div>
       )}
 
       {/* Bảng kết quả */}
-      <div className={styles.tableCard}>
+      <div className={styles.tableContainer}>
         {loadingResults ? (
-          <div style={{ padding: 24 }}>
+          <div style={{ padding: 24, textAlign: "center" }}>
             <Text type="secondary">Đang tải kết quả...</Text>
           </div>
         ) : !selectedExamId ? (
           <Empty description="Hãy chọn lớp và bài kiểm tra để xem kết quả" />
         ) : mergedRows.length === 0 ? (
-          <Empty description="Chưa có học sinh / kết quả nào" />
+          <Empty description="Chưa có học sinh trong lớp hoặc chưa có kết quả nào" />
         ) : (
           <Table
             rowKey="id"
             dataSource={mergedRows}
             columns={columns}
-            pagination={false}
+            pagination={{
+              pageSize: 20,
+              showSizeChanger: true,
+              pageSizeOptions: ["10", "20", "50", "100"],
+            }}
+            scroll={{ x: 768 }} // Đảm bảo scroll ngang trên thiết bị nhỏ
           />
         )}
       </div>
-    </div>
+    </Card>
   );
 }
