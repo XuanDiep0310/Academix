@@ -1,3 +1,4 @@
+// src/pages/admin/MaterialView.jsx (Đã chỉnh sửa)
 import { useEffect, useMemo, useState } from "react";
 import {
   Card,
@@ -51,6 +52,15 @@ const MATERIAL_LABELS = {
   file: "Tập tin",
 };
 
+// MÀU SẮC TAG MỚI
+const MATERIAL_TAG_COLORS = {
+  pdf: "red", // Red
+  link: "geekblue", // Blue
+  image: "green", // Green
+  video: "volcano", // Orange
+  file: "default", // Default (Grey)
+};
+
 // Chuẩn hóa kiểu materialType backend -> key ở trên
 const mapMaterialType = (materialType) => {
   const t = (materialType || "").toLowerCase();
@@ -64,6 +74,7 @@ const mapMaterialType = (materialType) => {
 /* ========================================================= */
 
 export default function MaterialView() {
+  // ... (Giữ nguyên State và Logic fetching)
   /* ------ lớp của student ------ */
   const [classes, setClasses] = useState([]);
   const [selectedClassId, setSelectedClassId] = useState(null);
@@ -211,7 +222,7 @@ export default function MaterialView() {
       <div className={styles.header}>
         <div>
           <Title level={4} className={styles.title}>
-            Tài liệu học tập
+            📂 Tài liệu học tập
           </Title>
           <Text type="secondary">
             Tài liệu và học liệu từ các lớp bạn đang tham gia
@@ -240,17 +251,19 @@ export default function MaterialView() {
             <div className={styles.grid}>
               {materials.map((m) => {
                 const Icon = MATERIAL_ICONS[m.type] || FileText;
+                const tagColor = MATERIAL_TAG_COLORS[m.type] || "default"; // Lấy màu tag
                 return (
                   <Card key={m.id} className={styles.card} bordered>
                     <div className={styles.cardHeader}>
                       <div className={styles.iconBox}>
-                        <Icon size={18} />
+                        <Icon size={20} /> {/* Tăng size Icon */}
                       </div>
                       <div className={styles.meta}>
                         <div className={styles.cardTitle}>{m.title}</div>
                         <div className={styles.tags}>
-                          <Tag>{m.className}</Tag>
-                          <Tag color="default">
+                          <Tag color="blue">{m.className}</Tag>{" "}
+                          {/* Class Tag màu xanh */}
+                          <Tag color={tagColor}>
                             {MATERIAL_LABELS[m.type] || "Tài liệu"}
                           </Tag>
                         </div>
@@ -276,7 +289,14 @@ export default function MaterialView() {
                     <div className={styles.desc}>{m.description}</div>
                     <div className={styles.footer}>
                       <Text type="secondary">
-                        {m.uploadedByName ? `GV: ${m.uploadedByName} • ` : ""}
+                        {m.uploadedByName ? (
+                          <>
+                            <Text strong>GV: {m.uploadedByName}</Text>
+                            {" • "}
+                          </>
+                        ) : (
+                          ""
+                        )}
                         Đăng ngày:{" "}
                         {m.uploadedAt
                           ? new Date(m.uploadedAt).toLocaleString("vi-VN")
@@ -296,7 +316,7 @@ export default function MaterialView() {
                   pageSize={pageSize}
                   total={total}
                   showSizeChanger
-                  pageSizeOptions={[6, 10, 20]}
+                  pageSizeOptions={[6, 12, 18, 24]} // Tăng options để phù hợp với Grid 3 cột
                   onChange={handleChangePage}
                   onShowSizeChange={handleChangePage}
                 />
@@ -312,8 +332,8 @@ export default function MaterialView() {
         open={!!viewing}
         onCancel={() => setViewing(null)}
         footer={null}
-        width={980}
-        bodyStyle={{ maxHeight: "78vh", overflow: "auto" }}
+        width={viewing?.type === "image" ? 720 : 1000} // Tối ưu chiều rộng modal
+        bodyStyle={{ maxHeight: "80vh", overflow: "auto", padding: 16 }} // Tăng maxHeight và giảm padding
         destroyOnClose
       >
         {viewing && (
@@ -323,13 +343,17 @@ export default function MaterialView() {
               style={{ display: "block", marginBottom: 8 }}
             >
               {selectedClassLabel} •{" "}
-              {MATERIAL_LABELS[viewing.type] || "Tài liệu"}
+              <Tag color={MATERIAL_TAG_COLORS[viewing.type]}>
+                {MATERIAL_LABELS[viewing.type] || "Tài liệu"}
+              </Tag>
             </Text>
 
+            {/* Tăng kích thước iframe/embed cho trải nghiệm xem tốt hơn */}
             {viewing.type === "pdf" && viewing.url && (
               <iframe
                 src={viewing.url}
                 className={styles.iframe}
+                style={{ height: 700 }} // Tăng chiều cao
                 title={viewing.title}
               />
             )}
@@ -370,6 +394,12 @@ export default function MaterialView() {
 
             <Card size="small" className={styles.note}>
               <Text>{viewing.description}</Text>
+              <div style={{ marginTop: 8 }}>
+                <Text type="secondary" style={{ fontSize: 12 }}>
+                  Tải lên bởi: {viewing.uploadedByName} | Kích thước:{" "}
+                  {viewing.fileSizeFormatted || "N/A"}
+                </Text>
+              </div>
             </Card>
           </div>
         )}

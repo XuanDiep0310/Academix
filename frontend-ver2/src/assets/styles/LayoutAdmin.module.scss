@@ -1,22 +1,28 @@
 .adminWrap {
   height: 100vh;
-  background: #f7f8fa;
+  // Đổi nền xám nhạt hơn, sạch hơn (Ant Design background)
+  background: #f0f2f5;
 }
 
 /* ---------- SIDER ---------- */
 .sider {
-  border-right: 1px solid #e5e7eb;
+  // Border mỏng hơn, nhạt hơn
+  border-right: 1px solid #f0f0f0;
   display: flex;
   flex-direction: column;
 }
 
 .siderHeader {
   padding: 16px 16px 8px 16px;
-  border-bottom: 1px solid #edf0f3;
+  // Border mỏng hơn, nhạt hơn
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .brand {
   margin: 0;
+  // Làm thương hiệu nổi bật hơn
+  font-weight: 600;
+  color: #1677ff; // Màu Primary
 }
 
 .userName {
@@ -30,7 +36,8 @@
 
 /* Footer trong Sider */
 .siderFooter {
-  border-top: 1px solid #edf0f3;
+  // Border mỏng hơn, nhạt hơn
+  border-top: 1px solid #f0f0f0;
   padding: 12px;
   display: grid;
   gap: 8px;
@@ -44,7 +51,10 @@
 /* ---------- HEADER ---------- */
 .header {
   background: #fff;
-  border-bottom: 1px solid #edf0f3;
+  // Border mỏng hơn, nhạt hơn
+  border-bottom: 1px solid #f0f0f0;
+  // Thêm box-shadow nhẹ cho header để tạo chiều sâu
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   padding: 0 16px;
   display: flex;
   align-items: center;
@@ -52,7 +62,7 @@
 
 /* ---------- CONTENT ---------- */
 .content {
-  padding: 16px;
+  padding: 24px; // Tăng padding lên 24px để thoáng hơn
   overflow: auto;
 }
 
@@ -62,7 +72,8 @@
 
 .card {
   background: #fff;
-  border: 1px solid #edf0f3;
-  border-radius: 12px;
+  border: 1px solid #f0f0f0; // Border nhạt hơn
+  border-radius: 8px; // Giảm border-radius còn 8px
   padding: 16px;
+  // Bỏ box-shadow ở đây và thêm vào Card trong JSX để linh hoạt hơn
 }

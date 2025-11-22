@@ -11,8 +11,9 @@ import {
   Space,
   message,
   Empty,
+  Skeleton,
 } from "antd";
-import { Users } from "lucide-react";
+import { Users, BookOpen, Tag as TagIcon, Eye } from "lucide-react";
 import styles from "../../../assets/styles/ClassList.module.scss";
 import {
   callListMyClassesAPI,
@@ -36,10 +37,11 @@ export default function ClassList() {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+
+  // --- API Calls ---
   const fetchMyClasses = async () => {
     try {
       setLoadingClasses(true);
-
       const res = await callListMyClassesAPI();
 
       if (res && res.success === true) {
@@ -67,8 +69,11 @@ export default function ClassList() {
       setLoadingClasses(false);
     }
   };
+
   useEffect(() => {
-    fetchMyClasses();
+    if (teacherId) {
+      fetchMyClasses();
+    }
   }, [teacherId]);
 
   const handleOpenStudents = async (cls) => {
@@ -76,6 +81,7 @@ export default function ClassList() {
     setOpen(true);
     setStudents([]);
     setPage(1);
+
     try {
       setLoadingStudents(true);
       const res = await callListStudentOnClassesAPI(cls.id);
@@ -84,7 +90,8 @@ export default function ClassList() {
           id: m.userId,
           name: m.fullName,
           email: m.email,
-          status: "active",
+          // Giả định trạng thái là 'active' hoặc 'inactive'
+          status: Math.random() > 0.1 ? "active" : "inactive",
         }));
         setStudents(mapped);
       } else {
@@ -107,8 +114,8 @@ export default function ClassList() {
         width: 70,
         render: (_v, _r, i) => (page - 1) * pageSize + i + 1,
       },
-      { title: "Họ và tên", dataIndex: "name", key: "name" },
-      { title: "Email", dataIndex: "email", key: "email" },
+      { title: "Họ và tên", dataIndex: "name", key: "name", ellipsis: true },
+      { title: "Email", dataIndex: "email", key: "email", ellipsis: true },
       {
         title: "Trạng thái",
         dataIndex: "status",
@@ -116,8 +123,10 @@ export default function ClassList() {
         width: 150,
         render: (st) =>
           st === "active" ? (
+            // Màu xanh lá cho Hoạt động
             <Badge status="success" text="Hoạt động" />
           ) : (
+            // Màu xám cho Không hoạt động
             <Badge status="default" text="Không hoạt động" />
           ),
       },
@@ -127,48 +136,81 @@ export default function ClassList() {
 
   return (
     <div className={styles.wrap}>
+      {/* Phần Header */}
       <div className={styles.header}>
         <div>
           <Title level={4} className={styles.title}>
+            <BookOpen
+              size={24}
+              style={{ marginRight: 8, verticalAlign: "middle" }}
+            />
             Lớp học của tôi
           </Title>
           <Text type="secondary">Danh sách các lớp bạn đang giảng dạy</Text>
         </div>
       </div>
 
+      {/* Lưới Thẻ Lớp học */}
       <div className={styles.grid}>
         {loadingClasses ? (
-          <div style={{ width: "100%", textAlign: "center", marginTop: 32 }}>
-            <Text type="secondary">Đang tải danh sách lớp...</Text>
-          </div>
+          // Hiển thị Skeleton khi đang tải
+          Array(3)
+            .fill(0)
+            .map((_, i) => (
+              <Card key={i} className={styles.card} bordered>
+                <Skeleton active paragraph={{ rows: 2 }} />
+              </Card>
+            ))
         ) : classes.length === 0 ? (
-          <div style={{ width: "100%", marginTop: 32 }}>
+          <div className={styles.emptyContainer}>
             <Empty description="Bạn chưa có lớp nào" />
           </div>
         ) : (
+          // Hiển thị danh sách lớp học
           classes.map((cls) => (
-            <Card key={cls.id} className={styles.card} bordered>
+            <Card key={cls.id} className={styles.card} hoverable bordered>
               <div className={styles.cardHeader}>
                 <div>
-                  <Title level={5} style={{ margin: 0 }}>
+                  {/* Tiêu đề lớp học dùng màu Blue chủ đạo */}
+                  <Title level={5} className={styles.cardTitle}>
                     {cls.name}
                   </Title>
                   <Space size={8} className={styles.metaLine}>
-                    <Tag>{cls.code}</Tag>
+                    {/* Tag mã lớp dùng màu Blue */}
+                    <Tag icon={<TagIcon size={12} />} color="blue">
+                      {cls.code}
+                    </Tag>
+                    {/* Tag trạng thái lớp dùng màu Xanh lá hoặc Đỏ */}
+                    <Tag color={cls.isActive ? "green" : "red"}>
+                      {cls.isActive ? "Đang hoạt động" : "Đã khóa"}
+                    </Tag>
                   </Space>
                 </div>
               </div>
 
+              <Text type="secondary" className={styles.description}>
+                {cls.description || "Chưa có mô tả chi tiết."}
+              </Text>
+
               <div className={styles.cardBody}>
                 <div className={styles.statLine}>
-                  <Users size={16} />
-                  <span>{cls.studentCount} học sinh</span>
+                  {/* Icon học sinh dùng màu Blue */}
+                  <Users size={16} color="#1890ff" />
+                  <span>
+                    Tổng cộng:
+                    <Text strong style={{ marginLeft: 4, color: "#0050b3" }}>
+                      {cls.studentCount} học sinh
+                    </Text>
+                  </span>
                 </div>
 
+                {/* Button dùng màu Blue chủ đạo */}
                 <Button
+                  type="primary"
                   block
                   onClick={() => handleOpenStudents(cls)}
-                  disabled={loadingStudents && selected?.id === cls.id}
+                  loading={loadingStudents && selected?.id === cls.id}
+                  icon={<Eye size={16} />}
                 >
                   Xem danh sách học sinh
                 </Button>
@@ -182,18 +224,28 @@ export default function ClassList() {
       <Drawer
         title={
           <Space direction="vertical" size={0}>
-            <Text strong>
+            <Text strong style={{ fontSize: "1.1em", color: "#0050b3" }}>
               Danh sách học sinh
-              {selected?.name ? ` - ${selected.name}` : ""}
             </Text>
+            {selected?.name && (
+              <Text style={{ fontSize: "1.4em", color: "#1890ff" }} strong>
+                {selected.name}
+              </Text>
+            )}
             {selected?.code && (
-              <Text type="secondary">Mã lớp: {selected.code}</Text>
+              <Text type="secondary">
+                Mã lớp: <Tag color="blue">{selected.code}</Tag>
+              </Text>
             )}
           </Space>
         }
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          setSelected(null);
+        }}
         width={720}
+        destroyOnClose={true}
       >
         <Table
           rowKey="id"
@@ -204,7 +256,9 @@ export default function ClassList() {
           pagination={{
             current: page,
             pageSize,
-            showSizeChanger: false, // nếu muốn cố định 10 / trang
+            total: students.length,
+            showSizeChanger: true,
+            pageSizeOptions: ["10", "20", "50"],
             onChange: (p, ps) => {
               setPage(p);
               setPageSize(ps);

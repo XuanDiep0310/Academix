@@ -1,51 +1,115 @@
+/* src/assets/styles/TestTaking.module.scss */
+
+// Cài đặt biến (tùy chọn)
+$color-white: #fff;
+$color-border: #edf0f3;
+$color-text-secondary: #374151;
+$color-hover: #f8fafc; // slate-50
+$color-danger: #dc2626; // red-600
+
+// Layout chính
 .wrap {
   display: grid;
-  gap: 16px;
+  gap: 16px; // Khoảng cách giữa các phần tử chính (header, list, submit bar)
+  padding-bottom: 80px; // Đảm bảo submit bar không bị che
 }
 
-/* Header cards */
+/* Header & Class Select */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap; // Cho màn hình nhỏ
+}
+
 .headerCard {
-  background: #fff;
-  border: 1px solid #edf0f3;
+  background: $color-white;
+  border: 1px solid $color-border;
   border-radius: 12px;
   padding: 16px 20px;
+  flex: 1; // Chiếm hết không gian còn lại
+  min-width: 300px;
 }
 .title {
-  margin: 0 0 4px 0;
+  margin: 0 0 4px 0 !important;
+  font-size: 1.25rem !important; // 20px
+  font-weight: 600 !important;
 }
 
-/* Doing test top bar */
-.topBar {
-  background: #fff;
-  border: 1px solid #edf0f3;
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
+.classSelect {
+  display: flex;
   align-items: center;
+  padding: 16px 0;
+}
+
+/* ------------------------------------- */
+/* Doing test top bar (Sử dụng Card của AntD) */
+.topBar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  // Các style này được áp dụng cho component AntD Card
+  :global(.ant-card-body) {
+    padding: 14px 16px !important;
+    display: grid;
+    grid-template-columns: 1fr auto; // Title/Badges và Timer
+    gap: 12px;
+    align-items: center;
+
+    // Đảm bảo Title và Badges hiển thị trên 2 hàng trong grid
+    .title {
+      grid-column: 1 / 2;
+      align-self: start;
+    }
+    .badges {
+      grid-column: 1 / 2;
+      margin-top: -4px;
+    }
+    .timer {
+      grid-column: 2 / 3;
+      grid-row: 1 / span 2; // Kéo dài qua 2 hàng
+    }
+  }
 }
 .badges {
-  margin-top: 4px;
+  display: inline-flex;
   gap: 8px;
 }
 .timer {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 18px;
   justify-self: end;
+  background-color: $color-hover;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.3s;
 }
 .timerDanger {
-  color: #dc2626;
-} /* red-600 */
+  color: $color-danger;
+  background-color: lighten($color-danger, 40%);
+  border: 1px solid $color-danger;
+  animation: pulse-danger 1s infinite alternate;
+}
+
+@keyframes pulse-danger {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 /* Alerts */
 .alert {
   border-radius: 10px;
 }
 
+/* ------------------------------------- */
 /* Questions */
 .questions {
   display: grid;
@@ -55,35 +119,60 @@
   border-radius: 12px;
 }
 .qTitle {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 8px;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin-bottom: 12px !important;
+  line-height: 1.5;
+  color: #1f2937;
 }
 .qOptions {
   display: grid;
   gap: 6px;
+  // Ghi đè AntD Radio Group layout
+  :global(.ant-radio-group) {
+    display: grid;
+    gap: 6px;
+  }
 }
 .optionRow {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 8px;
+  padding: 8px 10px;
   border-radius: 8px;
+  transition: background 0.2s;
+  cursor: pointer;
+
+  // Áp dụng hover cho container (do AntD Radio đã là 1 component)
+  &:hover {
+    background: $color-hover;
+  }
 }
-.optionRow:hover {
-  background: #f8fafc; /* slate-50 */
-}
+
 .optionLabel {
   cursor: pointer;
   font-size: 16px !important;
+  line-height: 1.5;
+  flex: 1; // Chiếm hết không gian còn lại
 }
 
+/* ------------------------------------- */
 /* Submit bar */
 .submitBar {
-  position: sticky;
-  bottom: 12px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 16px;
+  width: 90%; // Chiều rộng tương đối
+  max-width: 768px; // Giới hạn chiều rộng
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  background: $color-white;
+  z-index: 20;
+
+  :global(.ant-card-body) {
+    padding: 12px 20px !important;
+  }
 }
 .submitInner {
   display: flex;
@@ -91,10 +180,11 @@
   justify-content: space-between;
 }
 
+/* ------------------------------------- */
 /* List tests */
 .list {
   display: grid;
-  gap: 12px;
+  gap: 16px;
 }
 .item {
   border-radius: 12px;
@@ -102,16 +192,19 @@
 .itemHead {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 12px;
+  gap: 16px;
   align-items: start;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $color-border;
+  margin-bottom: 12px;
 }
 .itemMeta {
   display: grid;
   gap: 6px;
 }
 .itemTitle {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px !important;
+  font-weight: 700;
   color: #111827;
 }
 .tags {
@@ -120,10 +213,9 @@
   flex-wrap: wrap;
 }
 .itemBody {
-  margin-top: 8px;
   display: grid;
   gap: 8px;
-  color: #374151;
+  color: $color-text-secondary;
 }
 .inline {
   display: inline-flex;
@@ -135,4 +227,26 @@
   grid-template-columns: auto 1fr;
   gap: 8px;
   align-items: start;
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .headerRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .classSelect {
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+  }
+  .itemHead {
+    grid-template-columns: 1fr;
+
+    // Chuyển nút bấm xuống dưới cùng
+    & > :last-child {
+      grid-row: 3 / 4;
+      margin-top: 8px;
+    }
+  }
 }

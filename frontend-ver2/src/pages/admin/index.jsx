@@ -2,6 +2,22 @@
 import { Card, Col, Row, Statistic, Typography, Spin, Divider } from "antd";
 import { useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
+// Import Icons từ lucide-react
+import {
+  Users,
+  UserCheck,
+  UserX,
+  GraduationCap,
+  ClipboardList,
+  Upload,
+  BarChart,
+  Target,
+  FileText,
+  Bookmark,
+  BookOpen,
+  TrendingUp, // Sử dụng cho các chỉ số tăng trưởng
+  Database, // Sử dụng cho dung lượng
+} from "lucide-react";
 import {
   callDashboardUsersAPI,
   callDashboardClassesAPI,
@@ -10,8 +26,24 @@ import {
 
 const { Title, Text } = Typography;
 
+// Mảng màu sắc cơ bản của Ant Design và style card mới
+const COLORS = {
+  primary: "#1677ff", // Blue
+  success: "#52c41a", // Green
+  warning: "#faad14", // Gold
+  error: "#ff4d4f", // Red
+  secondary: "rgba(0, 0, 0, 0.45)", // Tiêu đề phụ
+};
+
+const STATISTIC_CARD_STYLE = {
+  // Thêm box-shadow nhẹ để card nổi lên trên nền
+  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+  borderRadius: 8,
+  transition: "all 0.3s",
+};
+
 const AdminPage = () => {
-  // Thống kê người dùng
+  // ... (Giữ nguyên các State và Logic useEffect)
   const [userStats, setUserStats] = useState({
     totalUsers: 0,
     totalAdmins: 0,
@@ -22,7 +54,6 @@ const AdminPage = () => {
     userGrowth: [],
   });
 
-  // Thống kê lớp học
   const [classStats, setClassStats] = useState({
     totalClasses: 0,
     activeClasses: 0,
@@ -33,7 +64,6 @@ const AdminPage = () => {
     classGrowth: [],
   });
 
-  // Thống kê tài liệu (từ /api/materials/statistics)
   const [materialStats, setMaterialStats] = useState({
     totalMaterials: 0,
     materialsByType: {},
@@ -139,76 +169,95 @@ const AdminPage = () => {
         Tổng quan hệ thống
       </Title>
       <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
-        Thống kê người dùng trên hệ thống Academix
+        Thống kê người dùng, lớp học và tài liệu toàn hệ thống
       </Text>
 
       {/* bọc toàn bộ block thống kê trong ref để observer theo dõi */}
       <div ref={statsRef}>
         <Spin spinning={loading}>
           {/* PHẦN 1: THỐNG KÊ NGƯỜI DÙNG */}
+          <Title level={4} style={{ marginTop: 0, marginBottom: 16 }}>
+            Thống kê người dùng
+          </Title>
           <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 1: Tổng người dùng (Primary) */}
+            <Col xs={24} sm={12} lg={6} xl={4}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Tổng người dùng"
                   value={userStats.totalUsers}
                   formatter={formatter}
+                  valueStyle={{ color: COLORS.primary, fontWeight: 700 }} // Đậm hơn
+                  prefix={<Users size={18} color={COLORS.primary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 2: Tổng giáo viên */}
+            <Col xs={24} sm={12} lg={6} xl={4}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Tổng giáo viên"
                   value={userStats.totalTeachers}
                   formatter={formatter}
+                  prefix={<BookOpen size={18} color={COLORS.secondary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 3: Tổng học sinh */}
+            <Col xs={24} sm={12} lg={6} xl={4}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Tổng học sinh"
                   value={userStats.totalStudents}
                   formatter={formatter}
+                  prefix={<Bookmark size={18} color={COLORS.secondary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 4: Số admin */}
+            <Col xs={24} sm={12} lg={6} xl={4}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Số admin"
                   value={userStats.totalAdmins}
                   formatter={formatter}
+                  prefix={<Target size={18} color={COLORS.secondary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 5: Đang hoạt động (Success) */}
+            <Col xs={24} sm={12} lg={6} xl={4}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Đang hoạt động"
                   value={userStats.activeUsers}
                   formatter={formatter}
+                  valueStyle={{ color: COLORS.success, fontWeight: 700 }}
+                  prefix={<UserCheck size={18} color={COLORS.success} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 6: Không hoạt động (Warning) */}
+            <Col xs={24} sm={12} lg={6} xl={4}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Không hoạt động"
                   value={userStats.inactiveUsers}
                   formatter={formatter}
+                  valueStyle={{ color: COLORS.warning, fontWeight: 700 }}
+                  prefix={<UserX size={18} color={COLORS.warning} />}
                 />
               </Card>
             </Col>
 
+            {/* Cột 7: Người dùng mới (Tháng gần nhất) (Primary) - Kích thước lớn hơn */}
             <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title={
                     latestUserGrowth.month
@@ -217,6 +266,8 @@ const AdminPage = () => {
                   }
                   value={latestUserGrowth.count}
                   formatter={formatter}
+                  valueStyle={{ color: COLORS.primary, fontWeight: 700 }}
+                  prefix={<TrendingUp size={18} color={COLORS.primary} />}
                 />
               </Card>
             </Col>
@@ -228,64 +279,73 @@ const AdminPage = () => {
           <Title level={4} style={{ marginBottom: 16 }}>
             Thống kê lớp học
           </Title>
-          <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
-            Tổng quan số lượng lớp, tình trạng hoạt động và sĩ số trung bình
-          </Text>
-
-          <Row gutter={[24, 24]}>
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+          <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
+            {/* Cột 1: Tổng số lớp (Primary) */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Tổng số lớp"
                   value={classStats.totalClasses}
                   formatter={formatter}
+                  valueStyle={{ color: COLORS.primary, fontWeight: 700 }}
+                  prefix={<GraduationCap size={18} color={COLORS.primary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 2: Lớp đang hoạt động (Success) */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Lớp đang hoạt động"
                   value={classStats.activeClasses}
                   formatter={formatter}
+                  valueStyle={{ color: COLORS.success, fontWeight: 700 }}
+                  prefix={<UserCheck size={18} color={COLORS.success} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 3: Lớp ngừng hoạt động (Error) */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Lớp ngừng hoạt động"
                   value={classStats.inactiveClasses}
                   formatter={formatter}
+                  valueStyle={{ color: COLORS.error, fontWeight: 700 }}
+                  prefix={<UserX size={18} color={COLORS.error} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 4: Tổng học sinh (trong các lớp) */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Tổng học sinh (trong các lớp)"
                   value={classStats.totalStudents}
                   formatter={formatter}
+                  prefix={<Users size={18} color={COLORS.secondary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 5: Sĩ số trung bình / lớp */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Sĩ số trung bình / lớp"
                   value={classStats.averageStudentsPerClass}
-                  // nếu muốn hiển thị 1 chữ số thập phân có thể bỏ formatter để dùng precision
-                  formatter={formatter}
+                  precision={1} // Sử dụng precision của Statistic
+                  prefix={<Target size={18} color={COLORS.secondary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 6: Lớp mới (Tháng gần nhất) (Primary) */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title={
                     latestClassGrowth.month
@@ -294,6 +354,8 @@ const AdminPage = () => {
                   }
                   value={latestClassGrowth.count}
                   formatter={formatter}
+                  valueStyle={{ color: COLORS.primary, fontWeight: 700 }}
+                  prefix={<TrendingUp size={18} color={COLORS.primary} />}
                 />
               </Card>
             </Col>
@@ -305,58 +367,74 @@ const AdminPage = () => {
           <Title level={4} style={{ marginBottom: 16 }}>
             Thống kê tài liệu
           </Title>
-          <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
-            Tổng quan số lượng tài liệu và dung lượng đã dùng trên hệ thống
-          </Text>
-
           <Row gutter={[24, 24]} style={{ marginBottom: 16 }}>
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 1: Tổng số tài liệu (Primary) */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Tổng số tài liệu"
                   value={materialStats.totalMaterials}
                   formatter={formatter}
+                  valueStyle={{ color: COLORS.primary, fontWeight: 700 }}
+                  prefix={<FileText size={18} color={COLORS.primary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
-                {/* Dung lượng dạng chuỗi "1.44 MB" → giữ formatter riêng, không CountUp */}
+            {/* Cột 2: Dung lượng đã dùng (Success) - Giữ nguyên không CountUp */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Dung lượng đã dùng"
                   value={materialStats.totalStorageUsed}
-                  formatter={() => materialStats.totalStorageUsedFormatted}
+                  formatter={() => (
+                    <Text
+                      style={{
+                        color: COLORS.success,
+                        fontWeight: 700,
+                        fontSize: "24px",
+                      }}
+                    >
+                      {materialStats.totalStorageUsedFormatted}
+                    </Text>
+                  )}
+                  prefix={<Database size={18} color={COLORS.success} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 3: Tài liệu tải lên hôm nay */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Tài liệu tải lên hôm nay"
                   value={materialStats.materialsUploadedToday}
                   formatter={formatter}
+                  prefix={<Upload size={18} color={COLORS.secondary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 4: Tài liệu tuần này */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Tài liệu tuần này"
                   value={materialStats.materialsUploadedThisWeek}
                   formatter={formatter}
+                  prefix={<ClipboardList size={18} color={COLORS.secondary} />}
                 />
               </Card>
             </Col>
 
-            <Col xs={24} md={12} lg={8}>
-              <Card bordered={false}>
+            {/* Cột 5: Tài liệu tháng này */}
+            <Col xs={24} sm={12} lg={8} xl={6}>
+              <Card bordered={false} hoverable style={STATISTIC_CARD_STYLE}>
                 <Statistic
                   title="Tài liệu tháng này"
                   value={materialStats.materialsUploadedThisMonth}
                   formatter={formatter}
+                  prefix={<ClipboardList size={18} color={COLORS.secondary} />}
                 />
               </Card>
             </Col>

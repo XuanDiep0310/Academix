@@ -13,12 +13,59 @@ import {
   Select,
 } from "antd";
 import CountUp from "react-countup";
+import { FolderOpen, Upload, Users, BarChart } from "lucide-react"; // Import thêm icons
 import {
   callMaterialsStatisticsAPI,
   callListMyClassesAPI,
 } from "../../services/api.service";
 
+// IMPORT SCSS
+import styles from "../../assets/styles/TeacherPage.module.scss";
+
 const { Title, Text } = Typography;
+
+// MAPPING ICON VÀ MÀU CHO CÁC STATISTIC
+const STAT_MAPPINGS = {
+  totalMaterials: {
+    title: "Tổng số tài liệu",
+    icon: FolderOpen,
+    color: "#1890ff",
+  },
+  totalStorageUsed: {
+    title: "Dung lượng đã dùng",
+    icon: BarChart,
+    color: "#52c41a",
+  },
+  materialsUploadedToday: {
+    title: "Tải lên hôm nay",
+    icon: Upload,
+    color: "#faad14",
+  },
+  materialsUploadedThisWeek: {
+    title: "Tải lên tuần này",
+    icon: Upload,
+    color: "#eb2f96",
+  },
+  materialsUploadedThisMonth: {
+    title: "Tải lên tháng này",
+    icon: Upload,
+    color: "#722ed1",
+  },
+};
+
+// MAPPING ICON CHO PHÂN LOẠI TÀI LIỆU (Tùy chỉnh nếu cần)
+const getTypeColor = (type) => {
+  switch (type.toLowerCase()) {
+    case "pdf":
+      return "volcano";
+    case "video":
+      return "cyan";
+    case "image":
+      return "green";
+    default:
+      return "geekblue";
+  }
+};
 
 const TeacherPage = () => {
   const [stats, setStats] = useState({
@@ -95,7 +142,6 @@ const TeacherPage = () => {
             : [],
         });
       } else {
-        // nếu muốn có message.error thì import message từ antd
         setStats((prev) => ({
           ...prev,
           materialsByType: {},
@@ -118,19 +164,18 @@ const TeacherPage = () => {
   const currentClass = classes.find((c) => c.id === selectedClassId);
 
   return (
-    <>
+    <div className={styles.wrap}>
       {/* HEADER + CHỌN LỚP */}
-      <Title level={3} style={{ marginBottom: 16 }}>
+      <Title level={3} className={styles.mainTitle}>
+        <BarChart size={28} style={{ marginRight: 12, color: "#1890ff" }} />
         Tổng quan tài nguyên giảng dạy
       </Title>
-      <Text type="secondary" style={{ display: "block", marginBottom: 8 }}>
+      <Text type="secondary" className={styles.subHeader}>
         Thống kê tài liệu, bài giảng, file mà bạn (và các GV khác) đã tải lên
         cho từng lớp.
       </Text>
 
-      <div
-        style={{ marginBottom: 24, display: "flex", gap: 12, flexWrap: "wrap" }}
-      >
+      <div className={styles.classSelector}>
         <Text strong>Chọn lớp:</Text>
         <Select
           style={{ minWidth: 260 }}
@@ -144,73 +189,55 @@ const TeacherPage = () => {
           }))}
         />
         {currentClass && (
-          <Text type="secondary">
-            Đang xem thống kê cho lớp <Text strong>{currentClass.name}</Text>
+          <Text type="secondary" className={styles.currentClassText}>
+            Đang xem thống kê cho lớp{" "}
+            <Text strong className={styles.classNameHighlight}>
+              {currentClass.name}
+            </Text>
           </Text>
         )}
       </div>
 
+      <Divider className={styles.customDivider} />
+
       <Spin spinning={loadingStats}>
         {/* PHẦN 1: TỔNG QUAN */}
+        <Title level={4} className={styles.sectionTitle}>
+          Thống kê chung
+        </Title>
         <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
-          <Col xs={24} md={12} lg={8}>
-            <Card bordered={false}>
-              <Statistic
-                title="Tổng số tài liệu"
-                value={stats.totalMaterials}
-                formatter={formatter}
-              />
-            </Card>
-          </Col>
+          {Object.keys(STAT_MAPPINGS).map((key) => {
+            const map = STAT_MAPPINGS[key];
+            const Icon = map.icon;
+            const value =
+              stats[key] === "totalStorageUsed"
+                ? stats.totalStorageUsedFormatted
+                : stats[key];
 
-          <Col xs={24} md={12} lg={8}>
-            <Card bordered={false}>
-              <Statistic
-                title="Dung lượng đã dùng"
-                value={stats.totalStorageUsed}
-                formatter={() => stats.totalStorageUsedFormatted}
-              />
-            </Card>
-          </Col>
-
-          <Col xs={24} md={12} lg={8}>
-            <Card bordered={false}>
-              <Statistic
-                title="Tài liệu tải lên hôm nay"
-                value={stats.materialsUploadedToday}
-                formatter={formatter}
-              />
-            </Card>
-          </Col>
-
-          <Col xs={24} md={12} lg={8}>
-            <Card bordered={false}>
-              <Statistic
-                title="Tài liệu tuần này"
-                value={stats.materialsUploadedThisWeek}
-                formatter={formatter}
-              />
-            </Card>
-          </Col>
-
-          <Col xs={24} md={12} lg={8}>
-            <Card bordered={false}>
-              <Statistic
-                title="Tài liệu tháng này"
-                value={stats.materialsUploadedThisMonth}
-                formatter={formatter}
-              />
-            </Card>
-          </Col>
+            return (
+              <Col xs={24} sm={12} lg={8} xl={6} key={key}>
+                <Card bordered={false} className={styles.statCard}>
+                  <Statistic
+                    title={map.title}
+                    value={value}
+                    formatter={
+                      key.includes("totalStorageUsed") ? undefined : formatter
+                    }
+                    prefix={<Icon size={24} style={{ color: map.color }} />}
+                  />
+                </Card>
+              </Col>
+            );
+          })}
         </Row>
 
-        <Divider />
+        <Divider className={styles.customDivider} />
 
         {/* PHẦN 2: PHÂN LOẠI */}
-        <Title level={4} style={{ marginBottom: 16 }}>
+        <Title level={4} className={styles.sectionTitle}>
           Phân loại tài liệu
         </Title>
-        <Text type="secondary" style={{ display: "block", marginBottom: 24 }}>
+        <Text type="secondary" className={styles.subHeader}>
           Thống kê số lượng tài liệu theo từng loại (PDF, video, hình ảnh,…)
         </Text>
 
@@ -219,22 +246,29 @@ const TeacherPage = () => {
         ) : (
           <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
             {materialTypeEntries.map(([type, count]) => (
-              <Col xs={24} md={12} lg={8} key={type}>
-                <Card bordered={false}>
-                  <Statistic title={type} value={count} formatter={formatter} />
+              <Col xs={24} sm={12} lg={8} xl={6} key={type}>
+                <Card bordered={false} className={styles.statCard}>
+                  <Statistic
+                    title={type}
+                    value={count}
+                    formatter={formatter}
+                    prefix={
+                      <Tag color={getTypeColor(type)}>{type.toUpperCase()}</Tag>
+                    }
+                  />
                 </Card>
               </Col>
             ))}
           </Row>
         )}
 
-        <Divider />
+        <Divider className={styles.customDivider} />
 
         {/* PHẦN 3: TOP GIÁO VIÊN */}
-        <Title level={4} style={{ marginBottom: 16 }}>
+        <Title level={4} className={styles.sectionTitle}>
           Giáo viên tích cực tải tài liệu
         </Title>
-        <Text type="secondary" style={{ display: "block", marginBottom: 16 }}>
+        <Text type="secondary" className={styles.subHeader}>
           Danh sách giáo viên có số lượng tài liệu upload nhiều nhất trong lớp
           này.
         </Text>
@@ -242,25 +276,49 @@ const TeacherPage = () => {
         {!stats.topUploaders || stats.topUploaders.length === 0 ? (
           <Text type="secondary">Chưa có dữ liệu top giáo viên.</Text>
         ) : (
-          <Card bordered={false}>
+          <Card bordered={false} className={styles.listCard}>
             <List
               itemLayout="horizontal"
               dataSource={stats.topUploaders}
               renderItem={(item, index) => (
-                <List.Item>
+                <List.Item className={styles.listItem}>
                   <List.Item.Meta
+                    avatar={
+                      <Users
+                        size={20}
+                        color={index < 3 ? "#faad14" : "#1890ff"}
+                      />
+                    }
                     title={
                       <>
-                        <Tag color="blue" style={{ marginRight: 8 }}>
+                        <Tag
+                          color={
+                            index === 0
+                              ? "gold"
+                              : index === 1
+                              ? "silver"
+                              : index === 2
+                              ? "bronze"
+                              : "blue"
+                          }
+                          className={styles.rankTag}
+                        >
                           #{index + 1}
                         </Tag>
-                        {item.fullName || "Giáo viên không tên"}
+                        <Text strong>
+                          {item.fullName || "Giáo viên không tên"}
+                        </Text>
                       </>
                     }
-                    description={item.email}
+                    description={<Text type="secondary">{item.email}</Text>}
                   />
-                  <div>
-                    <Text strong>{item.materialCount}</Text>{" "}
+                  <div className={styles.materialCount}>
+                    <Text
+                      strong
+                      style={{ color: "#1890ff", fontSize: "1.1em" }}
+                    >
+                      {item.materialCount}
+                    </Text>{" "}
                     <Text type="secondary">tài liệu</Text>
                   </div>
                 </List.Item>
@@ -269,7 +327,7 @@ const TeacherPage = () => {
           </Card>
         )}
       </Spin>
-    </>
+    </div>
   );
 };
 
