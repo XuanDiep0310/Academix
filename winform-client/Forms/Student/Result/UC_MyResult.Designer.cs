@@ -78,7 +78,7 @@
             guna2Panel1.Location = new Point(0, 0);
             guna2Panel1.Name = "guna2Panel1";
             guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            guna2Panel1.Size = new Size(1164, 316);
+            guna2Panel1.Size = new Size(1164, 292);
             guna2Panel1.TabIndex = 0;
             // 
             // guna2Panel5
@@ -95,7 +95,7 @@
             guna2Panel5.Location = new Point(772, 112);
             guna2Panel5.Name = "guna2Panel5";
             guna2Panel5.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            guna2Panel5.Size = new Size(360, 161);
+            guna2Panel5.Size = new Size(360, 137);
             guna2Panel5.TabIndex = 2;
             // 
             // guna2ProgressBar2
@@ -153,7 +153,7 @@
             guna2Panel3.Location = new Point(20, 112);
             guna2Panel3.Name = "guna2Panel3";
             guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            guna2Panel3.Size = new Size(354, 161);
+            guna2Panel3.Size = new Size(354, 137);
             guna2Panel3.TabIndex = 0;
             // 
             // guna2ProgressBar1
@@ -213,7 +213,7 @@
             guna2Panel4.Location = new Point(401, 112);
             guna2Panel4.Name = "guna2Panel4";
             guna2Panel4.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            guna2Panel4.Size = new Size(346, 161);
+            guna2Panel4.Size = new Size(346, 137);
             guna2Panel4.TabIndex = 1;
             // 
             // guna2HtmlLabel4
@@ -257,7 +257,7 @@
             flowpanelResult.Location = new Point(0, 0);
             flowpanelResult.Name = "flowpanelResult";
             flowpanelResult.Padding = new Padding(20, 0, 0, 0);
-            flowpanelResult.Size = new Size(1164, 343);
+            flowpanelResult.Size = new Size(1164, 367);
             flowpanelResult.TabIndex = 3;
             flowpanelResult.SizeChanged += flowpanelResult_SizeChanged;
             // 
@@ -266,10 +266,10 @@
             guna2Panel2.Controls.Add(flowpanelResult);
             guna2Panel2.CustomizableEdges = customizableEdges13;
             guna2Panel2.Dock = DockStyle.Fill;
-            guna2Panel2.Location = new Point(0, 316);
+            guna2Panel2.Location = new Point(0, 292);
             guna2Panel2.Name = "guna2Panel2";
             guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            guna2Panel2.Size = new Size(1164, 343);
+            guna2Panel2.Size = new Size(1164, 367);
             guna2Panel2.TabIndex = 1;
             // 
             // UC_MyResult
