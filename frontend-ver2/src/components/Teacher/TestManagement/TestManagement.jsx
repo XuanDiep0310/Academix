@@ -657,11 +657,11 @@ export default function TestManagement() {
               }))}
             />
           </Form.Item>
-
+          {/* 
           <Text type="secondary" style={{ display: "block", marginTop: 4 }}>
             Thứ tự câu hỏi trong đề sẽ theo thứ tự bạn chọn trong danh sách. Mỗi
             câu mặc định 1 điểm (totalMarks = số câu hỏi).
-          </Text>
+          </Text> */}
         </Form>
       </Modal>
       {/* Modal xem chi tiết câu hỏi đã chọn */}

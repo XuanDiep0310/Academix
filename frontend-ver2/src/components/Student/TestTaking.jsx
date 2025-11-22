@@ -731,7 +731,6 @@ export function TestTaking() {
               Số câu đúng: {selectedResult.result.correctAnswers} /{" "}
               {selectedResult.result.totalQuestions}
             </p>
-            {/* Nếu muốn, bạn có thể map selectedResult.result.answers để hiển thị từng câu */}
           </>
         )}
       </Modal>
