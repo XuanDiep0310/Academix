@@ -115,7 +115,47 @@ namespace Academix.WinApp.Api
             }
         }
 
-       
+        public async Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordRequest request)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _client.PostAsync("api/Auth/forgot-password", content);
+                var body = await response.Content.ReadAsStringAsync();
+
+                Debug.WriteLine("ForgotPassword Status: " + response.StatusCode);
+                Debug.WriteLine("ForgotPassword Body: " + body);
+
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<string>>(body);
+
+                if (apiResponse == null)
+                {
+                    return new ForgotPasswordResponse
+                    {
+                        Success = false,
+                        Message = "Không nhận được phản hồi từ server"
+                    };
+                }
+
+                return new ForgotPasswordResponse
+                {
+                    Success = apiResponse.Success,
+                    Message = apiResponse.Message
+                };
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Forgot password error: " + ex);
+                return new ForgotPasswordResponse
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
 
     }
 }
