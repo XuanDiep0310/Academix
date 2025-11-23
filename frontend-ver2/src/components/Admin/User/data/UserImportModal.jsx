@@ -9,7 +9,7 @@ import templateFile from "./templateFile.xlsx?url"; // file mẫu
 const { Dragger } = Upload;
 
 const UserImportModal = (props) => {
-  const { open, onClose, fetchUsers, setCurrent } = props;
+  const { open, onClose, onSuccess } = props;
   const [dataExcel, setDataExcel] = useState([]);
   const [submitting, setSubmitting] = useState(false);
 
@@ -103,8 +103,7 @@ const UserImportModal = (props) => {
 
         setDataExcel([]);
         onClose();
-        setCurrent && setCurrent(1);
-        fetchUsers && (await fetchUsers());
+        onSuccess && onSuccess();
       } else {
         notification.error({
           message: "Đã xảy ra lỗi!",
