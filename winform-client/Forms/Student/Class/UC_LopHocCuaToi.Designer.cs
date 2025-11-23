@@ -77,9 +77,11 @@
             // guna2Panel2
             // 
             guna2Panel2.AutoScroll = true;
+            guna2Panel2.BackColor = Color.FromArgb(249, 250, 251);
             guna2Panel2.Controls.Add(layoutMyCard);
             guna2Panel2.CustomizableEdges = customizableEdges3;
             guna2Panel2.Dock = DockStyle.Fill;
+            guna2Panel2.FillColor = Color.FromArgb(249, 250, 251);
             guna2Panel2.Location = new Point(0, 116);
             guna2Panel2.Name = "guna2Panel2";
             guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges4;
@@ -89,10 +91,11 @@
             // layoutMyCard
             // 
             layoutMyCard.AutoScroll = true;
+            layoutMyCard.BackColor = Color.WhiteSmoke;
             layoutMyCard.Dock = DockStyle.Fill;
             layoutMyCard.Location = new Point(0, 0);
             layoutMyCard.Name = "layoutMyCard";
-            layoutMyCard.Padding = new Padding(30, 0, 0, 0);
+            layoutMyCard.Padding = new Padding(30, 20, 20, 20);
             layoutMyCard.Size = new Size(1162, 654);
             layoutMyCard.TabIndex = 0;
             // 

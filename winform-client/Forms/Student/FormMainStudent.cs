@@ -22,7 +22,7 @@ namespace Academix.WinApp.Forms.Student
 
         private void ResetTabButtons()
         {
-            Color defaultColor = Color.LightSkyBlue; // Xanh dương mặc định
+            Color defaultColor = Color.LightSkyBlue; // Indigo mặc định
             Color defaultTextColor = Color.White;
 
             btnMyClass.FillColor = defaultColor;
@@ -40,7 +40,7 @@ namespace Academix.WinApp.Forms.Student
             btnDoiMatKhau.FillColor = defaultColor;
             btnDoiMatKhau.ForeColor = defaultTextColor;
 
-            btnDangXuat.FillColor = defaultColor;
+            btnDangXuat.FillColor = Color.FromArgb(239, 68, 68); // Đỏ cho nút đăng xuất
             btnDangXuat.ForeColor = defaultTextColor;
         }
 
@@ -125,8 +125,8 @@ namespace Academix.WinApp.Forms.Student
 
                 // Reset màu tab
                 ResetTabButtons();
-                btnDangXuat.FillColor = Color.White;
-                btnDangXuat.ForeColor = Color.LightSkyBlue;
+                btnDangXuat.FillColor = Color.FromArgb(239, 68, 68);
+                btnDangXuat.ForeColor = Color.White;
 
                 // Ẩn form hiện tại và mở FormSignIn
                 this.FindForm().Hide();
@@ -141,7 +141,7 @@ namespace Academix.WinApp.Forms.Student
         {
             ResetTabButtons();
             btnDoiMatKhau.FillColor = Color.White; // Tab được chọn -> trắng
-            btnDoiMatKhau.ForeColor = Color.LightSkyBlue; // Chữ xanh
+            btnDoiMatKhau.ForeColor = Color.FromArgb(99, 102, 241); // Chữ indigo
             FormDoiMatKhau form = new FormDoiMatKhau();
             form.ShowDialog();
         }

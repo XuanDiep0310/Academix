@@ -138,6 +138,7 @@
             // PanelDoExam
             // 
             PanelDoExam.AutoScroll = true;
+            PanelDoExam.BackColor = Color.WhiteSmoke;
             PanelDoExam.Dock = DockStyle.Fill;
             PanelDoExam.Location = new Point(0, 115);
             PanelDoExam.Name = "PanelDoExam";

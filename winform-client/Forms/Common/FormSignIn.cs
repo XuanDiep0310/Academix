@@ -23,7 +23,7 @@ namespace Academix.WinApp.Forms
         }
 
 
-        private async void btnDangNhap_Click(object sender, EventArgs e)
+        private async void btnDangNhap_Click_1(object sender, EventArgs e)
         {
             // Validate input
             if (string.IsNullOrWhiteSpace(txtEmail.Text))
@@ -120,10 +120,13 @@ namespace Academix.WinApp.Forms
             mainForm.Show();
         }
 
-        private async void btnForgotPassWord_Click(object sender, EventArgs e)
+        private void btnForgotPassWord_Click_1(object sender, EventArgs e)
         {
-
+            var forgotForm = new Academix.WinApp.Forms.Common.FormForgotPassword();
+            forgotForm.StartPosition = FormStartPosition.CenterParent; // hiện giữa màn hình
+            forgotForm.ShowDialog(); // Show dạng popup
         }
+
 
         private void btnEye_Click(object sender, EventArgs e)
         {
@@ -139,5 +142,7 @@ namespace Academix.WinApp.Forms
         {
             txtMatKhau.UseSystemPasswordChar = true;
         }
+
+        
     }
 }
