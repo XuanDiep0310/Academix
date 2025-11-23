@@ -140,25 +140,28 @@ namespace Academix.WinApp.Forms.Teacher
             var btnView = new DataGridViewButtonColumn();
             btnView.Name = "btnView";
             btnView.HeaderText = "";
-            btnView.Text = "Xem";
+            btnView.Text = "👁️ Xem";
             btnView.UseColumnTextForButtonValue = true;
+            btnView.Width = 100;
             dgvTaiLieu.Columns.Add(btnView);
-
-            // Xóa
-            var btnDelete = new DataGridViewButtonColumn();
-            btnDelete.Name = "btnDelete";
-            btnDelete.HeaderText = "";
-            btnDelete.Text = "Xóa";
-            btnDelete.UseColumnTextForButtonValue = true;
-            dgvTaiLieu.Columns.Add(btnDelete);
 
             // Download
             var btnDownload = new DataGridViewButtonColumn();
             btnDownload.Name = "btnDownload";
             btnDownload.HeaderText = "";
-            btnDownload.Text = "Tải xuống";
+            btnDownload.Text = "⬇️ Tải";
             btnDownload.UseColumnTextForButtonValue = true;
+            btnDownload.Width = 100;
             dgvTaiLieu.Columns.Add(btnDownload);
+
+            // Xóa
+            var btnDelete = new DataGridViewButtonColumn();
+            btnDelete.Name = "btnDelete";
+            btnDelete.HeaderText = "";
+            btnDelete.Text = "🗑️ Xóa";
+            btnDelete.UseColumnTextForButtonValue = true;
+            btnDelete.Width = 100;
+            dgvTaiLieu.Columns.Add(btnDelete);
         }
 
         private async void dgvTaiLieu_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -326,14 +329,16 @@ namespace Academix.WinApp.Forms.Teacher
             return new Guna.UI2.WinForms.Guna2Button
             {
                 Text = text,
-                Width = 45,
-                Height = 40,
-                BorderRadius = 15,
+                Width = 50,
+                Height = 42,
+                BorderRadius = 20,
                 BorderThickness = 1,
-                BorderColor = Color.Gray,
+                BorderColor = Color.FromArgb(200, 200, 200),
                 FillColor = Color.White,
-                ForeColor = Color.Black,
-                Cursor = Cursors.Hand
+                ForeColor = Color.FromArgb(70, 130, 180),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                Cursor = Cursors.Hand,
+                Margin = new Padding(3)
             };
         }
 
@@ -344,15 +349,15 @@ namespace Academix.WinApp.Forms.Teacher
             int x = 0;
 
             // Prev button
-            var btnPrev = CreatePageButton("Prev");
+            var btnPrev = CreatePageButton("◀ Trước");
             btnPrev.Enabled = currentPage > 1;
             btnPrev.Location = new Point(x, 0);
-            btnPrev.Click += (s, e) =>
+            btnPrev.Click += async (s, e) =>
             {
                 if (currentPage > 1)
                 {
                     currentPage--;
-                    LoadTaiLieuAsync();
+                    await LoadTaiLieuAsync();
                 }
             };
             pnlPagination.Controls.Add(btnPrev);
@@ -370,33 +375,40 @@ namespace Academix.WinApp.Forms.Teacher
                 // highlight current page
                 if (i == currentPage)
                 {
-                    btnPage.FillColor = Color.RoyalBlue;
+                    btnPage.FillColor = Color.FromArgb(70, 130, 180); // SteelBlue
                     btnPage.ForeColor = Color.White;
+                    btnPage.BorderColor = Color.FromArgb(70, 130, 180);
+                }
+                else
+                {
+                    btnPage.FillColor = Color.White;
+                    btnPage.ForeColor = Color.FromArgb(70, 130, 180);
+                    btnPage.BorderColor = Color.FromArgb(200, 200, 200);
                 }
 
                 btnPage.Location = new Point(x, 0);
                 pnlPagination.Controls.Add(btnPage);
 
                 int page = i;
-                btnPage.Click += (s, e) =>
+                btnPage.Click += async (s, e) =>
                 {
                     currentPage = page;
-                    LoadTaiLieuAsync();
+                    await LoadTaiLieuAsync();
                 };
 
                 x += btnPage.Width + 5;
             }
 
             // Next button
-            var btnNext = CreatePageButton("Next");
+            var btnNext = CreatePageButton("Sau ▶");
             btnNext.Enabled = currentPage < totalPages;
             btnNext.Location = new Point(x, 0);
-            btnNext.Click += (s, e) =>
+            btnNext.Click += async (s, e) =>
             {
                 if (currentPage < totalPages)
                 {
                     currentPage++;
-                    LoadTaiLieuAsync();
+                    await LoadTaiLieuAsync();
                 }
             };
             pnlPagination.Controls.Add(btnNext);
@@ -405,14 +417,23 @@ namespace Academix.WinApp.Forms.Teacher
 
     private void BuildPaginationUI()
         {
-            pnlPagination.Controls.Clear(); // Hoặc flowpnlBottom nếu bạn đổi tên panel
+            pnlPagination.Controls.Clear();
 
-            // Prev button
-            var btnPrev = new Button
+            // Prev button với Guna2Button
+            var btnPrev = new Guna.UI2.WinForms.Guna2Button
             {
-                Text = "Prev",
-                Height = 40,
-                Enabled = currentPage > 1
+                Text = "◀ Trước",
+                Width = 90,
+                Height = 42,
+                BorderRadius = 20,
+                BorderThickness = 1,
+                BorderColor = Color.FromArgb(200, 200, 200),
+                FillColor = Color.White,
+                ForeColor = Color.FromArgb(70, 130, 180),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                Cursor = Cursors.Hand,
+                Enabled = currentPage > 1,
+                Margin = new Padding(5, 0, 5, 0)
             };
             btnPrev.Click += async (s, e) =>
             {
@@ -424,17 +445,28 @@ namespace Academix.WinApp.Forms.Teacher
             };
             pnlPagination.Controls.Add(btnPrev);
 
-            // Page numbers
-            for (int i = 1; i <= totalPages; i++)
+            // Page numbers với Guna2Button - chỉ hiển thị tối đa 5 trang
+            int maxPagesToShow = 5;
+            int start = Math.Max(1, currentPage - 2);
+            int end = Math.Min(totalPages, start + maxPagesToShow - 1);
+            
+            for (int i = start; i <= end; i++)
             {
-                var btnPage = new Button
+                var btnPage = new Guna.UI2.WinForms.Guna2Button
                 {
                     Text = i.ToString(),
-                    Width = 35,
-                    Height = 40,
-                    BackColor = (i == currentPage) ? Color.LightSkyBlue : Color.White
+                    Width = 45,
+                    Height = 42,
+                    BorderRadius = 20,
+                    BorderThickness = 1,
+                    FillColor = (i == currentPage) ? Color.FromArgb(70, 130, 180) : Color.White,
+                    ForeColor = (i == currentPage) ? Color.White : Color.FromArgb(70, 130, 180),
+                    BorderColor = (i == currentPage) ? Color.FromArgb(70, 130, 180) : Color.FromArgb(200, 200, 200),
+                    Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                    Cursor = Cursors.Hand,
+                    Margin = new Padding(3, 0, 3, 0)
                 };
-                int pageNum = i; // tránh closure
+                int pageNum = i;
                 btnPage.Click += async (s, e) =>
                 {
                     currentPage = pageNum;
@@ -443,12 +475,21 @@ namespace Academix.WinApp.Forms.Teacher
                 pnlPagination.Controls.Add(btnPage);
             }
 
-            // Next button
-            var btnNext = new Button
+            // Next button với Guna2Button
+            var btnNext = new Guna.UI2.WinForms.Guna2Button
             {
-                Text = "Next",
-                Height = 40,
-                Enabled = currentPage < totalPages
+                Text = "Sau ▶",
+                Width = 90,
+                Height = 42,
+                BorderRadius = 20,
+                BorderThickness = 1,
+                BorderColor = Color.FromArgb(200, 200, 200),
+                FillColor = Color.White,
+                ForeColor = Color.FromArgb(70, 130, 180),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                Cursor = Cursors.Hand,
+                Enabled = currentPage < totalPages,
+                Margin = new Padding(5, 0, 5, 0)
             };
             btnNext.Click += async (s, e) =>
             {
@@ -459,6 +500,14 @@ namespace Academix.WinApp.Forms.Teacher
                 }
             };
             pnlPagination.Controls.Add(btnNext);
+            
+            // Căn giữa pagination
+            pnlPagination.AutoSize = true;
+            var parentPanel = pnlPagination.Parent as Guna.UI2.WinForms.Guna2Panel;
+            if (parentPanel != null)
+            {
+                pnlPagination.Location = new Point((parentPanel.Width - pnlPagination.Width) / 2, (parentPanel.Height - pnlPagination.Height) / 2);
+            }
         }
     }
 }

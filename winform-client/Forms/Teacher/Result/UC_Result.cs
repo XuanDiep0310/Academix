@@ -132,6 +132,7 @@ namespace Academix.WinApp.Forms.Teacher
             }
         }
 
+
         private async Task LoadClassesAsync()
         {
             try
@@ -290,13 +291,21 @@ namespace Academix.WinApp.Forms.Teacher
         {
             flowpnlPagination.Controls.Clear();
 
-            // Prev button
-            var btnPrev = new Button
+            // Prev button với Guna2Button
+            var btnPrev = new Guna.UI2.WinForms.Guna2Button
             {
-                Text = "Prev",
-                Height = 40,
-                Width = 50,
-                Enabled = _page > 1
+                Text = "◀ Trước",
+                Width = 90,
+                Height = 42,
+                BorderRadius = 20,
+                BorderThickness = 1,
+                BorderColor = Color.FromArgb(200, 200, 200),
+                FillColor = Color.White,
+                ForeColor = Color.FromArgb(70, 130, 180),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                Cursor = Cursors.Hand,
+                Enabled = _page > 1,
+                Margin = new Padding(5, 0, 5, 0)
             };
             btnPrev.Click += async (s, e) =>
             {
@@ -308,21 +317,28 @@ namespace Academix.WinApp.Forms.Teacher
             };
             flowpnlPagination.Controls.Add(btnPrev);
 
-            // Page buttons (hiển thị tối đa 5 page như trước)
+            // Page buttons với Guna2Button - hiển thị tối đa 5 trang
             int maxPagesToShow = 5;
             int start = Math.Max(1, _page - 2);
             int end = Math.Min(_totalPages, start + maxPagesToShow - 1);
 
             for (int i = start; i <= end; i++)
             {
-                var btnPage = new Button
+                var btnPage = new Guna.UI2.WinForms.Guna2Button
                 {
                     Text = i.ToString(),
-                    Width = 40,
-                    Height = 40,
-                    BackColor = (i == _page) ? Color.LightSkyBlue : Color.White
+                    Width = 45,
+                    Height = 42,
+                    BorderRadius = 20,
+                    BorderThickness = 1,
+                    FillColor = (i == _page) ? Color.FromArgb(70, 130, 180) : Color.White,
+                    ForeColor = (i == _page) ? Color.White : Color.FromArgb(70, 130, 180),
+                    BorderColor = (i == _page) ? Color.FromArgb(70, 130, 180) : Color.FromArgb(200, 200, 200),
+                    Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                    Cursor = Cursors.Hand,
+                    Margin = new Padding(3, 0, 3, 0)
                 };
-                int pageNum = i; // tránh closure
+                int pageNum = i;
                 btnPage.Click += async (s, e) =>
                 {
                     _page = pageNum;
@@ -331,13 +347,21 @@ namespace Academix.WinApp.Forms.Teacher
                 flowpnlPagination.Controls.Add(btnPage);
             }
 
-            // Next button
-            var btnNext = new Button
+            // Next button với Guna2Button
+            var btnNext = new Guna.UI2.WinForms.Guna2Button
             {
-                Text = "Next",
-                Height = 40,
-                Width = 50,
-                Enabled = _page < _totalPages
+                Text = "Sau ▶",
+                Width = 90,
+                Height = 42,
+                BorderRadius = 20,
+                BorderThickness = 1,
+                BorderColor = Color.FromArgb(200, 200, 200),
+                FillColor = Color.White,
+                ForeColor = Color.FromArgb(70, 130, 180),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                Cursor = Cursors.Hand,
+                Enabled = _page < _totalPages,
+                Margin = new Padding(5, 0, 5, 0)
             };
             btnNext.Click += async (s, e) =>
             {
@@ -348,6 +372,14 @@ namespace Academix.WinApp.Forms.Teacher
                 }
             };
             flowpnlPagination.Controls.Add(btnNext);
+            
+            // Căn giữa pagination
+            flowpnlPagination.AutoSize = true;
+            var parentPanel = flowpnlPagination.Parent as Guna.UI2.WinForms.Guna2Panel;
+            if (parentPanel != null)
+            {
+                flowpnlPagination.Location = new Point((parentPanel.Width - flowpnlPagination.Width) / 2, (parentPanel.Height - flowpnlPagination.Height) / 2);
+            }
         }
 
 

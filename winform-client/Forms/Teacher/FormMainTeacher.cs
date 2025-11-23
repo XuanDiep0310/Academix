@@ -26,7 +26,8 @@ namespace Academix.WinApp.Forms.Teacher
 
         private void ResetTabButtons()
         {
-            Color defaultColor = Color.LightSkyBlue; // Xanh dương mặc định
+            // Màu pastel mềm mại hơn
+            Color defaultColor = Color.FromArgb(135, 206, 250); // LightSkyBlue nhạt hơn
             Color defaultTextColor = Color.White;
 
             btnLopHocCuaToi.FillColor = defaultColor;
@@ -71,7 +72,7 @@ namespace Academix.WinApp.Forms.Teacher
             ResetTabButtons();
 
             btnLopHocCuaToi.FillColor = Color.White;
-            btnLopHocCuaToi.ForeColor = Color.LightSkyBlue;
+            btnLopHocCuaToi.ForeColor = Color.FromArgb(70, 130, 180); // SteelBlue
             ShowUserControl(new UC_MyClasses());
         }
 
@@ -82,7 +83,7 @@ namespace Academix.WinApp.Forms.Teacher
             ResetTabButtons();
 
             btnTaiLieu.FillColor = Color.White;
-            btnTaiLieu.ForeColor = Color.LightSkyBlue;
+            btnTaiLieu.ForeColor = Color.FromArgb(70, 130, 180); // SteelBlue
             ShowUserControl(new UC_Materials());
         }
 
@@ -91,7 +92,7 @@ namespace Academix.WinApp.Forms.Teacher
             ResetTabButtons();
 
             btnNganHangCauHoi.FillColor = Color.White;
-            btnNganHangCauHoi.ForeColor = Color.LightSkyBlue;
+            btnNganHangCauHoi.ForeColor = Color.FromArgb(70, 130, 180); // SteelBlue
             ShowUserControl(new UC_Questions());
         }
 
@@ -100,7 +101,7 @@ namespace Academix.WinApp.Forms.Teacher
             ResetTabButtons();
 
             btnBaiKiemTra.FillColor = Color.White;
-            btnBaiKiemTra.ForeColor = Color.LightSkyBlue;
+            btnBaiKiemTra.ForeColor = Color.FromArgb(70, 130, 180); // SteelBlue
             ShowUserControl(new UC_Exams());
         }
 
@@ -109,7 +110,7 @@ namespace Academix.WinApp.Forms.Teacher
             ResetTabButtons();
 
             btnKetQua.FillColor = Color.White;
-            btnKetQua.ForeColor = Color.LightSkyBlue;
+            btnKetQua.ForeColor = Color.FromArgb(70, 130, 180); // SteelBlue
             ShowUserControl(new UC_Result());
         }
 
@@ -131,7 +132,7 @@ namespace Academix.WinApp.Forms.Teacher
                 // Reset màu tab
                 ResetTabButtons();
                 btnDangXuat.FillColor = Color.White;
-                btnDangXuat.ForeColor = Color.LightSkyBlue;
+                btnDangXuat.ForeColor = Color.FromArgb(70, 130, 180); // SteelBlue
 
                 // Ẩn form hiện tại và mở FormSignIn
                 this.FindForm().Hide();
@@ -146,7 +147,7 @@ namespace Academix.WinApp.Forms.Teacher
         {
             ResetTabButtons();
             btnDoiMatKhau.FillColor = Color.White; // Tab được chọn -> trắng
-            btnDoiMatKhau.ForeColor = Color.LightSkyBlue; // Chữ xanh
+            btnDoiMatKhau.ForeColor = Color.FromArgb(70, 130, 180); // SteelBlue
             FormDoiMatKhau form = new FormDoiMatKhau();
             form.ShowDialog();
 

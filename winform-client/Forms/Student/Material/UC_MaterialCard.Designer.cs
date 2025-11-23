@@ -44,30 +44,35 @@
             // lblTenTaiLieu
             // 
             lblTenTaiLieu.BackColor = Color.Transparent;
-            lblTenTaiLieu.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            lblTenTaiLieu.Location = new Point(34, 34);
+            lblTenTaiLieu.Font = new Font("Segoe UI Semibold", 15F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblTenTaiLieu.ForeColor = Color.FromArgb(30, 41, 59);
+            lblTenTaiLieu.Location = new Point(30, 25);
             lblTenTaiLieu.Name = "lblTenTaiLieu";
-            lblTenTaiLieu.Size = new Size(176, 30);
+            lblTenTaiLieu.Size = new Size(222, 37);
             lblTenTaiLieu.TabIndex = 0;
             lblTenTaiLieu.Text = "Bài giảng chương 1";
             // 
             // lblLopHoc
             // 
-            lblLopHoc.BackColor = Color.Transparent;
-            lblLopHoc.BorderStyle = BorderStyle.FixedSingle;
-            lblLopHoc.Location = new Point(36, 80);
+            lblLopHoc.BackColor = Color.FromArgb(238, 242, 255);
+            lblLopHoc.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblLopHoc.ForeColor = Color.FromArgb(99, 102, 241);
+            lblLopHoc.Location = new Point(30, 75);
             lblLopHoc.Name = "lblLopHoc";
-            lblLopHoc.Size = new Size(106, 24);
+            lblLopHoc.Padding = new Padding(8, 4, 8, 4);
+            lblLopHoc.Size = new Size(135, 33);
             lblLopHoc.TabIndex = 1;
             lblLopHoc.Text = "Toán cao cấp 1";
             // 
             // lblLoaiTaiLieu
             // 
-            lblLoaiTaiLieu.BackColor = Color.SkyBlue;
-            lblLoaiTaiLieu.BorderStyle = BorderStyle.FixedSingle;
-            lblLoaiTaiLieu.Location = new Point(340, 80);
+            lblLoaiTaiLieu.BackColor = Color.FromArgb(254, 243, 199);
+            lblLoaiTaiLieu.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblLoaiTaiLieu.ForeColor = Color.FromArgb(217, 119, 6);
+            lblLoaiTaiLieu.Location = new Point(340, 75);
             lblLoaiTaiLieu.Name = "lblLoaiTaiLieu";
-            lblLoaiTaiLieu.Size = new Size(31, 24);
+            lblLoaiTaiLieu.Padding = new Padding(8, 4, 8, 4);
+            lblLoaiTaiLieu.Size = new Size(50, 33);
             lblLoaiTaiLieu.TabIndex = 2;
             lblLoaiTaiLieu.Text = "PDF";
             // 
@@ -95,38 +100,39 @@
             // btnXemTaiLieu
             // 
             btnXemTaiLieu.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnXemTaiLieu.BorderRadius = 15;
+            btnXemTaiLieu.BorderRadius = 10;
             btnXemTaiLieu.CustomizableEdges = customizableEdges1;
             btnXemTaiLieu.DisabledState.BorderColor = Color.DarkGray;
             btnXemTaiLieu.DisabledState.CustomBorderColor = Color.DarkGray;
             btnXemTaiLieu.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnXemTaiLieu.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnXemTaiLieu.FillColor = Color.RoyalBlue;
-            btnXemTaiLieu.Font = new Font("Segoe UI", 9F);
+            btnXemTaiLieu.FillColor = Color.FromArgb(99, 102, 241);
+            btnXemTaiLieu.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnXemTaiLieu.ForeColor = Color.White;
-            btnXemTaiLieu.Location = new Point(941, 28);
+            btnXemTaiLieu.Location = new Point(928, 25);
             btnXemTaiLieu.Name = "btnXemTaiLieu";
             btnXemTaiLieu.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            btnXemTaiLieu.Size = new Size(106, 36);
+            btnXemTaiLieu.Size = new Size(110, 40);
             btnXemTaiLieu.TabIndex = 11;
             btnXemTaiLieu.Text = "Xem";
             // 
             // btnTaiVe
             // 
             btnTaiVe.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnTaiVe.BorderRadius = 15;
+            btnTaiVe.BorderRadius = 10;
+            btnTaiVe.BorderThickness = 2;
             btnTaiVe.CustomizableEdges = customizableEdges3;
             btnTaiVe.DisabledState.BorderColor = Color.DarkGray;
             btnTaiVe.DisabledState.CustomBorderColor = Color.DarkGray;
             btnTaiVe.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnTaiVe.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnTaiVe.FillColor = Color.White;
-            btnTaiVe.Font = new Font("Segoe UI", 9F);
-            btnTaiVe.ForeColor = Color.Black;
-            btnTaiVe.Location = new Point(831, 28);
+            btnTaiVe.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTaiVe.ForeColor = Color.FromArgb(99, 102, 241);
+            btnTaiVe.Location = new Point(808, 25);
             btnTaiVe.Name = "btnTaiVe";
             btnTaiVe.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnTaiVe.Size = new Size(104, 36);
+            btnTaiVe.Size = new Size(110, 40);
             btnTaiVe.TabIndex = 12;
             btnTaiVe.Text = "Tải về";
             // 
@@ -134,7 +140,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.WhiteSmoke;
+            BackColor = Color.White;
             BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(btnTaiVe);
             Controls.Add(btnXemTaiLieu);
@@ -144,8 +150,10 @@
             Controls.Add(lblLopHoc);
             Controls.Add(lblTenTaiLieu);
             ForeColor = Color.Black;
+            Margin = new Padding(15);
             Name = "UC_MaterialCard";
-            Size = new Size(1068, 213);
+            Padding = new Padding(25);
+            Size = new Size(1066, 218);
             ResumeLayout(false);
             PerformLayout();
         }

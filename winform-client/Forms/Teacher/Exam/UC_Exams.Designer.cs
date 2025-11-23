@@ -88,7 +88,7 @@
             cmbLopHoc.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbLopHoc.FocusedColor = Color.FromArgb(94, 148, 255);
             cmbLopHoc.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cmbLopHoc.Font = new Font("Segoe UI", 10F);
+            cmbLopHoc.Font = new Font("Segoe UI", 11F);
             cmbLopHoc.ForeColor = Color.FromArgb(68, 88, 112);
             cmbLopHoc.ItemHeight = 30;
             cmbLopHoc.Location = new Point(739, 59);
@@ -107,7 +107,7 @@
             btnTaoBaiKiemTra.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnTaoBaiKiemTra.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnTaoBaiKiemTra.FillColor = Color.RoyalBlue;
-            btnTaoBaiKiemTra.Font = new Font("Segoe UI", 9F);
+            btnTaoBaiKiemTra.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnTaoBaiKiemTra.ForeColor = Color.White;
             btnTaoBaiKiemTra.Location = new Point(976, 59);
             btnTaoBaiKiemTra.Name = "btnTaoBaiKiemTra";
@@ -120,21 +120,22 @@
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel2.ForeColor = SystemColors.ControlDarkDark;
-            guna2HtmlLabel2.Location = new Point(53, 70);
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 11.5F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel2.ForeColor = Color.FromArgb(80, 80, 80);
+            guna2HtmlLabel2.Location = new Point(53, 78);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(306, 25);
+            guna2HtmlLabel2.Size = new Size(380, 28);
             guna2HtmlLabel2.TabIndex = 4;
             guna2HtmlLabel2.Text = "Tạo và quản lý bài kiểm tra trắc nghiệm";
             // 
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.ForeColor = Color.FromArgb(30, 30, 30);
             guna2HtmlLabel1.Location = new Point(53, 34);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(187, 30);
+            guna2HtmlLabel1.Size = new Size(250, 38);
             guna2HtmlLabel1.TabIndex = 3;
             guna2HtmlLabel1.Text = "Quản lý bài kiểm tra";
             // 
@@ -173,11 +174,14 @@
             // 
             // flowpnlBottom
             // 
-            flowpnlBottom.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            flowpnlBottom.Anchor = AnchorStyles.None;
+            flowpnlBottom.AutoSize = true;
+            flowpnlBottom.FlowDirection = FlowDirection.LeftToRight;
             flowpnlBottom.Location = new Point(0, 0);
             flowpnlBottom.Name = "flowpnlBottom";
-            flowpnlBottom.Size = new Size(1219, 86);
+            flowpnlBottom.Size = new Size(0, 86);
             flowpnlBottom.TabIndex = 0;
+            flowpnlBottom.WrapContents = false;
             // 
             // UC_Exams
             // 

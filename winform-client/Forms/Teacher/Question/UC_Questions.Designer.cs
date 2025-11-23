@@ -38,6 +38,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             flowPanelQuestion = new FlowLayoutPanel();
             groupBox1 = new GroupBox();
             cmbLopHoc = new Guna.UI2.WinForms.Guna2ComboBox();
@@ -68,7 +70,9 @@
             // groupBox1
             // 
             groupBox1.AutoSize = true;
+            btnImportExcel = new Guna.UI2.WinForms.Guna2Button();
             groupBox1.Controls.Add(cmbLopHoc);
+            groupBox1.Controls.Add(btnImportExcel);
             groupBox1.Controls.Add(btnThemCauHoi);
             groupBox1.Controls.Add(guna2HtmlLabel2);
             groupBox1.Controls.Add(guna2HtmlLabel1);
@@ -89,10 +93,10 @@
             cmbLopHoc.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbLopHoc.FocusedColor = Color.FromArgb(94, 148, 255);
             cmbLopHoc.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cmbLopHoc.Font = new Font("Segoe UI", 10F);
+            cmbLopHoc.Font = new Font("Segoe UI", 11F);
             cmbLopHoc.ForeColor = Color.FromArgb(68, 88, 112);
             cmbLopHoc.ItemHeight = 30;
-            cmbLopHoc.Location = new Point(767, 45);
+            cmbLopHoc.Location = new Point(550, 45);
             cmbLopHoc.Name = "cmbLopHoc";
             cmbLopHoc.ShadowDecoration.CustomizableEdges = customizableEdges2;
             cmbLopHoc.Size = new Size(218, 36);
@@ -108,34 +112,55 @@
             btnThemCauHoi.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnThemCauHoi.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnThemCauHoi.FillColor = Color.RoyalBlue;
-            btnThemCauHoi.Font = new Font("Segoe UI", 9F);
+            btnThemCauHoi.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnThemCauHoi.ForeColor = Color.White;
             btnThemCauHoi.Location = new Point(1005, 45);
             btnThemCauHoi.Name = "btnThemCauHoi";
             btnThemCauHoi.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnThemCauHoi.Size = new Size(181, 36);
             btnThemCauHoi.TabIndex = 5;
-            btnThemCauHoi.Text = "Thêm câu hỏi";
+            btnThemCauHoi.Text = "➕ Thêm câu hỏi";
             btnThemCauHoi.Click += btnThemCauHoi_Click;
+            // 
+            // btnImportExcel
+            // 
+            btnImportExcel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnImportExcel.BorderRadius = 15;
+            btnImportExcel.CustomizableEdges = customizableEdges11;
+            btnImportExcel.DisabledState.BorderColor = Color.DarkGray;
+            btnImportExcel.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnImportExcel.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnImportExcel.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnImportExcel.FillColor = Color.FromArgb(40, 167, 69);
+            btnImportExcel.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnImportExcel.ForeColor = Color.White;
+            btnImportExcel.Location = new Point(810, 45);
+            btnImportExcel.Name = "btnImportExcel";
+            btnImportExcel.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnImportExcel.Size = new Size(181, 36);
+            btnImportExcel.TabIndex = 7;
+            btnImportExcel.Text = "📥 Import Excel";
+            btnImportExcel.Click += btnImportExcel_Click;
             // 
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel2.ForeColor = SystemColors.ControlDarkDark;
-            guna2HtmlLabel2.Location = new Point(30, 70);
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 11.5F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel2.ForeColor = Color.FromArgb(80, 80, 80);
+            guna2HtmlLabel2.Location = new Point(30, 78);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(348, 25);
+            guna2HtmlLabel2.Size = new Size(400, 28);
             guna2HtmlLabel2.TabIndex = 4;
             guna2HtmlLabel2.Text = "Quản lý câu hỏi trắc nghiệm cho bài kiểm tra";
             // 
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.ForeColor = Color.FromArgb(30, 30, 30);
             guna2HtmlLabel1.Location = new Point(30, 34);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(176, 30);
+            guna2HtmlLabel1.Size = new Size(220, 38);
             guna2HtmlLabel1.TabIndex = 3;
             guna2HtmlLabel1.Text = "Ngân hàng câu hỏi";
             // 
@@ -152,11 +177,14 @@
             // 
             // flowpnlBottom
             // 
-            flowpnlBottom.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            flowpnlBottom.Anchor = AnchorStyles.None;
+            flowpnlBottom.AutoSize = true;
+            flowpnlBottom.FlowDirection = FlowDirection.LeftToRight;
             flowpnlBottom.Location = new Point(0, 0);
             flowpnlBottom.Name = "flowpnlBottom";
-            flowpnlBottom.Size = new Size(1219, 86);
+            flowpnlBottom.Size = new Size(0, 86);
             flowpnlBottom.TabIndex = 0;
+            flowpnlBottom.WrapContents = false;
             // 
             // guna2Panel2
             // 
@@ -204,6 +232,7 @@
         private GroupBox groupBox1;
         private Guna.UI2.WinForms.Guna2ComboBox cmbLopHoc;
         private Guna.UI2.WinForms.Guna2Button btnThemCauHoi;
+        private Guna.UI2.WinForms.Guna2Button btnImportExcel;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private Guna.UI2.WinForms.Guna2Panel pnlBottom;
