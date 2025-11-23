@@ -34,6 +34,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             btnSua = new Guna.UI2.WinForms.Guna2Button();
             lblLop = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblKiemTra = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -44,6 +46,7 @@
             lblBatDau = new Guna.UI2.WinForms.Guna2HtmlLabel();
             btnXoa = new Guna.UI2.WinForms.Guna2Button();
             btnCongBo = new Guna.UI2.WinForms.Guna2Button();
+            btnXemChiTiet = new Guna.UI2.WinForms.Guna2Button();
             SuspendLayout();
             // 
             // btnSua
@@ -57,7 +60,7 @@
             btnSua.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnSua.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnSua.FillColor = Color.Transparent;
-            btnSua.Font = new Font("Segoe UI", 9F);
+            btnSua.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnSua.ForeColor = Color.Black;
             btnSua.Location = new Point(874, 28);
             btnSua.Name = "btnSua";
@@ -80,10 +83,11 @@
             // lblKiemTra
             // 
             lblKiemTra.BackColor = Color.Transparent;
-            lblKiemTra.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblKiemTra.Font = new Font("Segoe UI Semibold", 15F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblKiemTra.ForeColor = Color.FromArgb(30, 30, 30);
             lblKiemTra.Location = new Point(44, 28);
             lblKiemTra.Name = "lblKiemTra";
-            lblKiemTra.Size = new Size(389, 33);
+            lblKiemTra.Size = new Size(434, 37);
             lblKiemTra.TabIndex = 9;
             lblKiemTra.Text = "Kiểm tra Đại số tuyến tính - Chương 1";
             // 
@@ -100,44 +104,44 @@
             // lblThoiGian
             // 
             lblThoiGian.BackColor = Color.Transparent;
-            lblThoiGian.Font = new Font("Segoe UI", 10.8F);
-            lblThoiGian.ForeColor = SystemColors.ButtonShadow;
+            lblThoiGian.Font = new Font("Segoe UI", 12F);
+            lblThoiGian.ForeColor = Color.FromArgb(60, 60, 60);
             lblThoiGian.Location = new Point(45, 125);
             lblThoiGian.Name = "lblThoiGian";
-            lblThoiGian.Size = new Size(76, 27);
+            lblThoiGian.Size = new Size(84, 30);
             lblThoiGian.TabIndex = 15;
             lblThoiGian.Text = "Thời gian";
             // 
             // lblSoLuong
             // 
             lblSoLuong.BackColor = Color.Transparent;
-            lblSoLuong.Font = new Font("Segoe UI", 10.8F);
-            lblSoLuong.ForeColor = SystemColors.ButtonShadow;
+            lblSoLuong.Font = new Font("Segoe UI", 12F);
+            lblSoLuong.ForeColor = Color.FromArgb(60, 60, 60);
             lblSoLuong.Location = new Point(496, 125);
             lblSoLuong.Name = "lblSoLuong";
-            lblSoLuong.Size = new Size(86, 27);
+            lblSoLuong.Size = new Size(94, 30);
             lblSoLuong.TabIndex = 16;
             lblSoLuong.Text = "Số câu hỏi";
             // 
             // lblKetThuc
             // 
             lblKetThuc.BackColor = Color.Transparent;
-            lblKetThuc.Font = new Font("Segoe UI", 10.8F);
-            lblKetThuc.ForeColor = SystemColors.ButtonShadow;
+            lblKetThuc.Font = new Font("Segoe UI", 12F);
+            lblKetThuc.ForeColor = Color.FromArgb(60, 60, 60);
             lblKetThuc.Location = new Point(44, 218);
             lblKetThuc.Name = "lblKetThuc";
-            lblKetThuc.Size = new Size(67, 27);
+            lblKetThuc.Size = new Size(75, 30);
             lblKetThuc.TabIndex = 17;
             lblKetThuc.Text = "Kết thúc";
             // 
             // lblBatDau
             // 
             lblBatDau.BackColor = Color.Transparent;
-            lblBatDau.Font = new Font("Segoe UI", 10.8F);
-            lblBatDau.ForeColor = SystemColors.ButtonShadow;
+            lblBatDau.Font = new Font("Segoe UI", 12F);
+            lblBatDau.ForeColor = Color.FromArgb(60, 60, 60);
             lblBatDau.Location = new Point(44, 181);
             lblBatDau.Name = "lblBatDau";
-            lblBatDau.Size = new Size(67, 27);
+            lblBatDau.Size = new Size(73, 30);
             lblBatDau.TabIndex = 18;
             lblBatDau.Text = "Bắt đầu:";
             // 
@@ -152,7 +156,7 @@
             btnXoa.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnXoa.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnXoa.FillColor = Color.Transparent;
-            btnXoa.Font = new Font("Segoe UI", 9F);
+            btnXoa.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnXoa.ForeColor = Color.Black;
             btnXoa.Location = new Point(1036, 28);
             btnXoa.Name = "btnXoa";
@@ -172,7 +176,7 @@
             btnCongBo.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnCongBo.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnCongBo.FillColor = Color.DodgerBlue;
-            btnCongBo.Font = new Font("Segoe UI", 9F);
+            btnCongBo.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnCongBo.ForeColor = Color.White;
             btnCongBo.Location = new Point(936, 28);
             btnCongBo.Name = "btnCongBo";
@@ -182,12 +186,33 @@
             btnCongBo.Text = "Công bố";
             btnCongBo.Click += btnCongBo_Click;
             // 
+            // btnXemChiTiet
+            // 
+            btnXemChiTiet.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnXemChiTiet.BorderRadius = 15;
+            btnXemChiTiet.CustomizableEdges = customizableEdges7;
+            btnXemChiTiet.DisabledState.BorderColor = Color.DarkGray;
+            btnXemChiTiet.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnXemChiTiet.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnXemChiTiet.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnXemChiTiet.FillColor = Color.FromArgb(70, 130, 180);
+            btnXemChiTiet.Font = new Font("Segoe UI", 9F);
+            btnXemChiTiet.ForeColor = Color.White;
+            btnXemChiTiet.Location = new Point(737, 28);
+            btnXemChiTiet.Name = "btnXemChiTiet";
+            btnXemChiTiet.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnXemChiTiet.Size = new Size(137, 36);
+            btnXemChiTiet.TabIndex = 21;
+            btnXemChiTiet.Text = "👁️ Xem chi tiết";
+            btnXemChiTiet.Click += btnXemChiTiet_Click;
+            // 
             // UC_ExamCard
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             BorderStyle = BorderStyle.FixedSingle;
+            Controls.Add(btnXemChiTiet);
             Controls.Add(btnCongBo);
             Controls.Add(btnXoa);
             Controls.Add(lblBatDau);
@@ -215,5 +240,6 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel lblBatDau;
         private Guna.UI2.WinForms.Guna2Button btnXoa;
         private Guna.UI2.WinForms.Guna2Button btnCongBo;
+        private Guna.UI2.WinForms.Guna2Button btnXemChiTiet;
     }
 }

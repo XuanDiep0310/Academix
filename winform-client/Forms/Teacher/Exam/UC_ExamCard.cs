@@ -30,13 +30,13 @@ namespace Academix.WinApp.Forms.Teacher
             lblTrangThai.Text = _exam.IsPublished ? "Đã công bố" : "Bản nháp";
             
 
-            // Nếu đã công bố thì không cho sửa / xóa / công bố lại
+            // Nếu đã công bố thì không cho xóa, nhưng vẫn cho sửa
             if (_exam.IsPublished)
             {
                 lblTrangThai.ForeColor = Color.LightGreen;
-                btnSua.Visible = false;
-                btnXoa.Visible = false; // Xóa
-                btnCongBo.Visible = false;
+                btnXoa.Visible = false; // Không cho xóa bài đã công bố
+                btnCongBo.Visible = false; // Không cho công bố lại
+                // Vẫn cho phép sửa và xem chi tiết
             }
 
             lblThoiGian.Text = $"Thời lượng: {_exam.Duration} phút";
@@ -47,12 +47,7 @@ namespace Academix.WinApp.Forms.Teacher
 
         private async void btnSua_Click(object sender, EventArgs e)
         {
-            if (_exam.IsPublished)
-            {
-                MessageBox.Show("Bài kiểm tra đã được công bố, không thể chỉnh sửa.", "Không thể sửa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
+            // Cho phép sửa cả bài đã công bố
             Form_AddUpdateExam frm = new Form_AddUpdateExam(_exam.ClassId, _exam.ExamId);
 
             // Gọi callback khi form lưu
@@ -63,6 +58,13 @@ namespace Academix.WinApp.Forms.Teacher
             };
 
             frm.Show();
+        }
+
+        private async void btnXemChiTiet_Click(object sender, EventArgs e)
+        {
+            // Mở form xem chi tiết bài kiểm tra
+            using var detailForm = new Form_ExamDetail(_exam.ClassId, _exam.ExamId);
+            detailForm.ShowDialog();
         }
 
         private async void btnCongBo_Click(object sender, EventArgs e)
@@ -94,8 +96,7 @@ namespace Academix.WinApp.Forms.Teacher
             _exam.IsPublished = true;
 
 
-            // ẩn các nút sau khi công bố
-            btnSua.Visible = false;
+            // Ẩn các nút sau khi công bố (chỉ ẩn xóa và công bố, vẫn giữ sửa)
             btnXoa.Visible = false; 
             btnCongBo.Visible = false;
 

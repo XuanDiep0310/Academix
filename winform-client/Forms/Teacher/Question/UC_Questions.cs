@@ -97,33 +97,66 @@ namespace Academix.WinApp.Forms.Teacher
             }
         }
 
+        private async void btnImportExcel_Click(object sender, EventArgs e)
+        {
+            using var frm = new Form_ImportQuestions();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                _page = 1; // quay về trang đầu sau khi import
+                await LoadQuestionsAsync();
+            }
+        }
+
         private void BuildPaginationUI()
         {
             flowpnlBottom.Controls.Clear();
 
-            // Nút Trước
-            var btnPrev = new Button
+            // Prev button với Guna2Button
+            var btnPrev = new Guna.UI2.WinForms.Guna2Button
             {
-                Text = "Trước",
-                Height = 40,
-                Enabled = _page > 1
+                Text = "◀ Trước",
+                Width = 90,
+                Height = 42,
+                BorderRadius = 20,
+                BorderThickness = 1,
+                BorderColor = Color.FromArgb(200, 200, 200),
+                FillColor = Color.White,
+                ForeColor = Color.FromArgb(70, 130, 180),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                Cursor = Cursors.Hand,
+                Enabled = _page > 1,
+                Margin = new Padding(5, 0, 5, 0)
             };
             btnPrev.Click += async (s, e) =>
             {
-                _page--;
-                await LoadQuestionsAsync();
+                if (_page > 1)
+                {
+                    _page--;
+                    await LoadQuestionsAsync();
+                }
             };
             flowpnlBottom.Controls.Add(btnPrev);
 
-            // Nút số trang
-            for (int i = 1; i <= _totalPages; i++)
+            // Page numbers với Guna2Button - chỉ hiển thị tối đa 5 trang
+            int maxPagesToShow = 5;
+            int start = Math.Max(1, _page - 2);
+            int end = Math.Min(_totalPages, start + maxPagesToShow - 1);
+            
+            for (int i = start; i <= end; i++)
             {
-                var btnPage = new Button
+                var btnPage = new Guna.UI2.WinForms.Guna2Button
                 {
                     Text = i.ToString(),
-                    Width = 35,
-                    Height = 40,
-                    BackColor = (i == _page) ? Color.LightSkyBlue : Color.White
+                    Width = 45,
+                    Height = 42,
+                    BorderRadius = 20,
+                    BorderThickness = 1,
+                    FillColor = (i == _page) ? Color.FromArgb(70, 130, 180) : Color.White,
+                    ForeColor = (i == _page) ? Color.White : Color.FromArgb(70, 130, 180),
+                    BorderColor = (i == _page) ? Color.FromArgb(70, 130, 180) : Color.FromArgb(200, 200, 200),
+                    Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                    Cursor = Cursors.Hand,
+                    Margin = new Padding(3, 0, 3, 0)
                 };
                 int pageNum = i;
                 btnPage.Click += async (s, e) =>
@@ -134,19 +167,39 @@ namespace Academix.WinApp.Forms.Teacher
                 flowpnlBottom.Controls.Add(btnPage);
             }
 
-            // Nút Tiếp
-            var btnNext = new Button
+            // Next button với Guna2Button
+            var btnNext = new Guna.UI2.WinForms.Guna2Button
             {
-                Text = "Sau",
-                Height = 40,
-                Enabled = _page < _totalPages
+                Text = "Sau ▶",
+                Width = 90,
+                Height = 42,
+                BorderRadius = 20,
+                BorderThickness = 1,
+                BorderColor = Color.FromArgb(200, 200, 200),
+                FillColor = Color.White,
+                ForeColor = Color.FromArgb(70, 130, 180),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular),
+                Cursor = Cursors.Hand,
+                Enabled = _page < _totalPages,
+                Margin = new Padding(5, 0, 5, 0)
             };
             btnNext.Click += async (s, e) =>
             {
-                _page++;
-                await LoadQuestionsAsync();
+                if (_page < _totalPages)
+                {
+                    _page++;
+                    await LoadQuestionsAsync();
+                }
             };
             flowpnlBottom.Controls.Add(btnNext);
+            
+            // Căn giữa pagination
+            flowpnlBottom.AutoSize = true;
+            var parentPanel = flowpnlBottom.Parent as Guna.UI2.WinForms.Guna2Panel;
+            if (parentPanel != null)
+            {
+                flowpnlBottom.Location = new Point((parentPanel.Width - flowpnlBottom.Width) / 2, (parentPanel.Height - flowpnlBottom.Height) / 2);
+            }
         }
 
         private void flowPanelQuestion_SizeChanged(object sender, EventArgs e)

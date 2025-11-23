@@ -66,31 +66,33 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.ForeColor = Color.FromArgb(30, 30, 30);
             guna2HtmlLabel1.Location = new Point(27, 14);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(171, 30);
+            guna2HtmlLabel1.Size = new Size(227, 39);
             guna2HtmlLabel1.TabIndex = 0;
             guna2HtmlLabel1.Text = "Thêm tài liệu mới";
             // 
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel2.ForeColor = SystemColors.ControlDarkDark;
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 11.5F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel2.ForeColor = Color.FromArgb(80, 80, 80);
             guna2HtmlLabel2.Location = new Point(27, 50);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(324, 25);
+            guna2HtmlLabel2.Size = new Size(354, 27);
             guna2HtmlLabel2.TabIndex = 1;
             guna2HtmlLabel2.Text = "Upload hoặc thêm liên kết tài liệu học tập";
             // 
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
+            guna2HtmlLabel3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            guna2HtmlLabel3.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel3.Location = new Point(27, 87);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            guna2HtmlLabel3.Size = new Size(64, 25);
+            guna2HtmlLabel3.Size = new Size(76, 30);
             guna2HtmlLabel3.TabIndex = 2;
             guna2HtmlLabel3.Text = "Lớp học";
             // 
@@ -102,7 +104,7 @@
             cmbLopHoc.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbLopHoc.FocusedColor = Color.FromArgb(94, 148, 255);
             cmbLopHoc.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cmbLopHoc.Font = new Font("Segoe UI", 10F);
+            cmbLopHoc.Font = new Font("Segoe UI", 11F);
             cmbLopHoc.ForeColor = Color.FromArgb(68, 88, 112);
             cmbLopHoc.ItemHeight = 30;
             cmbLopHoc.Location = new Point(27, 123);
@@ -130,7 +132,8 @@
             txtTeiuDe.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtTeiuDe.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtTeiuDe.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtTeiuDe.Font = new Font("Segoe UI", 9F);
+            txtTeiuDe.Font = new Font("Segoe UI", 11F);
+            txtTeiuDe.ForeColor = Color.FromArgb(30, 30, 30);
             txtTeiuDe.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtTeiuDe.Location = new Point(27, 202);
             txtTeiuDe.Margin = new Padding(3, 4, 3, 4);
@@ -149,7 +152,7 @@
             cmbLoaiTaiLieu.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbLoaiTaiLieu.FocusedColor = Color.FromArgb(94, 148, 255);
             cmbLoaiTaiLieu.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cmbLoaiTaiLieu.Font = new Font("Segoe UI", 10F);
+            cmbLoaiTaiLieu.Font = new Font("Segoe UI", 11F);
             cmbLoaiTaiLieu.ForeColor = Color.FromArgb(68, 88, 112);
             cmbLoaiTaiLieu.ItemHeight = 30;
             cmbLoaiTaiLieu.Location = new Point(27, 292);
@@ -177,7 +180,8 @@
             txtChonFile.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtChonFile.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtChonFile.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtChonFile.Font = new Font("Segoe UI", 9F);
+            txtChonFile.Font = new Font("Segoe UI", 11F);
+            txtChonFile.ForeColor = Color.FromArgb(30, 30, 30);
             txtChonFile.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtChonFile.Location = new Point(27, 377);
             txtChonFile.Margin = new Padding(3, 4, 3, 4);
@@ -208,7 +212,8 @@
             txtURLTaiLieu.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtURLTaiLieu.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtURLTaiLieu.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtURLTaiLieu.Font = new Font("Segoe UI", 9F);
+            txtURLTaiLieu.Font = new Font("Segoe UI", 11F);
+            txtURLTaiLieu.ForeColor = Color.FromArgb(30, 30, 30);
             txtURLTaiLieu.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtURLTaiLieu.Location = new Point(24, 485);
             txtURLTaiLieu.Margin = new Padding(3, 4, 3, 4);
@@ -238,7 +243,8 @@
             txtMoTa.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtMoTa.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtMoTa.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtMoTa.Font = new Font("Segoe UI", 9F);
+            txtMoTa.Font = new Font("Segoe UI", 11F);
+            txtMoTa.ForeColor = Color.FromArgb(30, 30, 30);
             txtMoTa.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtMoTa.Location = new Point(24, 565);
             txtMoTa.Margin = new Padding(3, 4, 3, 4);

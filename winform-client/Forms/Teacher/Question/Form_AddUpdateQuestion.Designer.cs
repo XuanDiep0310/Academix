@@ -80,11 +80,11 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel1.ForeColor = SystemColors.ControlDarkDark;
+            guna2HtmlLabel1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.ForeColor = Color.FromArgb(80, 80, 80);
             guna2HtmlLabel1.Location = new Point(25, 19);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(350, 25);
+            guna2HtmlLabel1.Size = new Size(393, 30);
             guna2HtmlLabel1.TabIndex = 0;
             guna2HtmlLabel1.Text = "Nhập câu hỏi và 4 đáp án, chọn đáp án đúng";
             // 
@@ -97,7 +97,8 @@
             txtCauHoi.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtCauHoi.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtCauHoi.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtCauHoi.Font = new Font("Segoe UI", 9F);
+            txtCauHoi.Font = new Font("Segoe UI", 11F);
+            txtCauHoi.ForeColor = Color.FromArgb(30, 30, 30);
             txtCauHoi.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtCauHoi.Location = new Point(25, 263);
             txtCauHoi.Margin = new Padding(3, 4, 3, 4);
@@ -111,10 +112,11 @@
             // guna2HtmlLabel6
             // 
             guna2HtmlLabel6.BackColor = Color.Transparent;
-            guna2HtmlLabel6.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
+            guna2HtmlLabel6.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            guna2HtmlLabel6.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel6.Location = new Point(22, 231);
             guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            guna2HtmlLabel6.Size = new Size(62, 25);
+            guna2HtmlLabel6.Size = new Size(72, 30);
             guna2HtmlLabel6.TabIndex = 16;
             guna2HtmlLabel6.Text = "Câu hỏi";
             // 
@@ -126,7 +128,7 @@
             cmbDoKho.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbDoKho.FocusedColor = Color.FromArgb(94, 148, 255);
             cmbDoKho.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cmbDoKho.Font = new Font("Segoe UI", 10F);
+            cmbDoKho.Font = new Font("Segoe UI", 11F);
             cmbDoKho.ForeColor = Color.FromArgb(68, 88, 112);
             cmbDoKho.ItemHeight = 30;
             cmbDoKho.Location = new Point(22, 176);
@@ -165,7 +167,8 @@
             txtDapAn1.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtDapAn1.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtDapAn1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtDapAn1.Font = new Font("Segoe UI", 9F);
+            txtDapAn1.Font = new Font("Segoe UI", 11F);
+            txtDapAn1.ForeColor = Color.FromArgb(30, 30, 30);
             txtDapAn1.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtDapAn1.Location = new Point(27, 387);
             txtDapAn1.Margin = new Padding(3, 4, 3, 4);
@@ -412,7 +415,8 @@
             txtMonHoc.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtMonHoc.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtMonHoc.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtMonHoc.Font = new Font("Segoe UI", 9F);
+            txtMonHoc.Font = new Font("Segoe UI", 11F);
+            txtMonHoc.ForeColor = Color.FromArgb(30, 30, 30);
             txtMonHoc.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtMonHoc.Location = new Point(22, 94);
             txtMonHoc.Margin = new Padding(3, 4, 3, 4);
