@@ -181,7 +181,7 @@
             btnPrevious.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnPrevious.Size = new Size(119, 40);
             btnPrevious.TabIndex = 30;
-            btnPrevious.Text = "Previous";
+            btnPrevious.Text = "Trước";
             btnPrevious.Click += btnPrevious_Click;
             // 
             // btnNext
@@ -200,7 +200,7 @@
             btnNext.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnNext.Size = new Size(119, 40);
             btnNext.TabIndex = 31;
-            btnNext.Text = "Next";
+            btnNext.Text = "sau";
             btnNext.Click += btnNext_Click;
             // 
             // guna2Panel6

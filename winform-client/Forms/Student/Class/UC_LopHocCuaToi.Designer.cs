@@ -44,10 +44,11 @@
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 10.2F);
             guna2HtmlLabel2.ForeColor = SystemColors.ActiveCaptionText;
-            guna2HtmlLabel2.Location = new Point(48, 69);
+            guna2HtmlLabel2.Location = new Point(54, 79);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(211, 22);
+            guna2HtmlLabel2.Size = new Size(274, 29);
             guna2HtmlLabel2.TabIndex = 1;
             guna2HtmlLabel2.Text = "Các lớp học bạn đang tham gia";
             guna2HtmlLabel2.Click += guna2HtmlLabel2_Click;
@@ -61,16 +62,16 @@
             guna2Panel1.Location = new Point(0, 0);
             guna2Panel1.Name = "guna2Panel1";
             guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2Panel1.Size = new Size(1162, 116);
+            guna2Panel1.Size = new Size(1307, 133);
             guna2Panel1.TabIndex = 1;
             // 
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
             guna2HtmlLabel1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            guna2HtmlLabel1.Location = new Point(48, 24);
+            guna2HtmlLabel1.Location = new Point(54, 28);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(198, 39);
+            guna2HtmlLabel1.Size = new Size(223, 45);
             guna2HtmlLabel1.TabIndex = 2;
             guna2HtmlLabel1.Text = "Lớp học của tôi";
             // 
@@ -82,10 +83,10 @@
             guna2Panel2.CustomizableEdges = customizableEdges3;
             guna2Panel2.Dock = DockStyle.Fill;
             guna2Panel2.FillColor = Color.FromArgb(249, 250, 251);
-            guna2Panel2.Location = new Point(0, 116);
+            guna2Panel2.Location = new Point(0, 133);
             guna2Panel2.Name = "guna2Panel2";
             guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            guna2Panel2.Size = new Size(1162, 654);
+            guna2Panel2.Size = new Size(1307, 753);
             guna2Panel2.TabIndex = 2;
             // 
             // layoutMyCard
@@ -95,19 +96,20 @@
             layoutMyCard.Dock = DockStyle.Fill;
             layoutMyCard.Location = new Point(0, 0);
             layoutMyCard.Name = "layoutMyCard";
-            layoutMyCard.Padding = new Padding(30, 20, 20, 20);
-            layoutMyCard.Size = new Size(1162, 654);
+            layoutMyCard.Padding = new Padding(34, 23, 22, 23);
+            layoutMyCard.Size = new Size(1307, 753);
             layoutMyCard.TabIndex = 0;
             // 
             // UC_LopHocCuaToi
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
             Controls.Add(guna2Panel2);
             Controls.Add(guna2Panel1);
+            Font = new Font("Segoe UI", 10.2F);
             Name = "UC_LopHocCuaToi";
-            Size = new Size(1162, 770);
+            Size = new Size(1307, 886);
             Load += UC_LopHocCuaToi_Load;
             guna2Panel1.ResumeLayout(false);
             guna2Panel1.PerformLayout();

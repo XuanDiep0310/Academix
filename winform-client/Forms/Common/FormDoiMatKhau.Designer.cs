@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             txtConfirmPassword = new Guna.UI2.WinForms.Guna2TextBox();
             txtNewPassword = new Guna.UI2.WinForms.Guna2TextBox();
             txtOldPassword = new Guna.UI2.WinForms.Guna2TextBox();
@@ -62,7 +62,7 @@
             // txtConfirmPassword
             // 
             txtConfirmPassword.BorderRadius = 12;
-            txtConfirmPassword.CustomizableEdges = customizableEdges17;
+            txtConfirmPassword.CustomizableEdges = customizableEdges1;
             txtConfirmPassword.DefaultText = "";
             txtConfirmPassword.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtConfirmPassword.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -76,14 +76,14 @@
             txtConfirmPassword.Name = "txtConfirmPassword";
             txtConfirmPassword.PlaceholderText = "";
             txtConfirmPassword.SelectedText = "";
-            txtConfirmPassword.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            txtConfirmPassword.ShadowDecoration.CustomizableEdges = customizableEdges2;
             txtConfirmPassword.Size = new Size(476, 45);
             txtConfirmPassword.TabIndex = 17;
             // 
             // txtNewPassword
             // 
             txtNewPassword.BorderRadius = 12;
-            txtNewPassword.CustomizableEdges = customizableEdges19;
+            txtNewPassword.CustomizableEdges = customizableEdges3;
             txtNewPassword.DefaultText = "";
             txtNewPassword.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtNewPassword.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -97,14 +97,14 @@
             txtNewPassword.Name = "txtNewPassword";
             txtNewPassword.PlaceholderText = "";
             txtNewPassword.SelectedText = "";
-            txtNewPassword.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            txtNewPassword.ShadowDecoration.CustomizableEdges = customizableEdges4;
             txtNewPassword.Size = new Size(476, 45);
             txtNewPassword.TabIndex = 16;
             // 
             // txtOldPassword
             // 
             txtOldPassword.BorderRadius = 12;
-            txtOldPassword.CustomizableEdges = customizableEdges21;
+            txtOldPassword.CustomizableEdges = customizableEdges5;
             txtOldPassword.DefaultText = "";
             txtOldPassword.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtOldPassword.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -118,7 +118,7 @@
             txtOldPassword.Name = "txtOldPassword";
             txtOldPassword.PlaceholderText = "";
             txtOldPassword.SelectedText = "";
-            txtOldPassword.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            txtOldPassword.ShadowDecoration.CustomizableEdges = customizableEdges6;
             txtOldPassword.Size = new Size(476, 45);
             txtOldPassword.TabIndex = 15;
             txtOldPassword.TextChanged += txtOldPassword_TextChanged;
@@ -126,37 +126,41 @@
             // guna2HtmlLabel5
             // 
             guna2HtmlLabel5.BackColor = Color.Transparent;
+            guna2HtmlLabel5.Font = new Font("Segoe UI", 10.2F);
             guna2HtmlLabel5.Location = new Point(33, 293);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            guna2HtmlLabel5.Size = new Size(125, 22);
+            guna2HtmlLabel5.Size = new Size(146, 25);
             guna2HtmlLabel5.TabIndex = 14;
             guna2HtmlLabel5.Text = "Xác thực mật khẩu";
             // 
             // guna2HtmlLabel4
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
+            guna2HtmlLabel4.Font = new Font("Segoe UI", 10.2F);
             guna2HtmlLabel4.Location = new Point(33, 198);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            guna2HtmlLabel4.Size = new Size(94, 22);
+            guna2HtmlLabel4.Size = new Size(109, 25);
             guna2HtmlLabel4.TabIndex = 13;
             guna2HtmlLabel4.Text = "Mật khâu mới";
             // 
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
+            guna2HtmlLabel3.Font = new Font("Segoe UI", 10.2F);
             guna2HtmlLabel3.Location = new Point(33, 104);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            guna2HtmlLabel3.Size = new Size(117, 22);
+            guna2HtmlLabel3.Size = new Size(137, 25);
             guna2HtmlLabel3.TabIndex = 12;
             guna2HtmlLabel3.Text = "Mật khẩu hiện tại";
             // 
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 10.2F);
             guna2HtmlLabel2.ForeColor = SystemColors.AppWorkspace;
             guna2HtmlLabel2.Location = new Point(33, 64);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(327, 22);
+            guna2HtmlLabel2.Size = new Size(383, 25);
             guna2HtmlLabel2.TabIndex = 11;
             guna2HtmlLabel2.Text = "Nhập mật khẩu hiện tại và mật khẩu mới của bạn";
             // 
@@ -173,16 +177,16 @@
             // btnDoiMatKhau
             // 
             btnDoiMatKhau.BorderRadius = 20;
-            btnDoiMatKhau.CustomizableEdges = customizableEdges23;
+            btnDoiMatKhau.CustomizableEdges = customizableEdges7;
             btnDoiMatKhau.DisabledState.BorderColor = Color.DarkGray;
             btnDoiMatKhau.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDoiMatKhau.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnDoiMatKhau.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnDoiMatKhau.Font = new Font("Segoe UI", 9F);
+            btnDoiMatKhau.Font = new Font("Segoe UI", 10.2F);
             btnDoiMatKhau.ForeColor = Color.White;
             btnDoiMatKhau.Location = new Point(353, 412);
             btnDoiMatKhau.Name = "btnDoiMatKhau";
-            btnDoiMatKhau.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            btnDoiMatKhau.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnDoiMatKhau.Size = new Size(162, 47);
             btnDoiMatKhau.TabIndex = 21;
             btnDoiMatKhau.Text = "Đổi mật khẩu";
@@ -192,17 +196,17 @@
             // 
             btnHuy.BorderRadius = 20;
             btnHuy.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-            btnHuy.CustomizableEdges = customizableEdges25;
+            btnHuy.CustomizableEdges = customizableEdges9;
             btnHuy.DisabledState.BorderColor = Color.DarkGray;
             btnHuy.DisabledState.CustomBorderColor = Color.DarkGray;
             btnHuy.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnHuy.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnHuy.FillColor = Color.Silver;
-            btnHuy.Font = new Font("Segoe UI", 9F);
+            btnHuy.Font = new Font("Segoe UI", 10.2F);
             btnHuy.ForeColor = Color.White;
             btnHuy.Location = new Point(221, 412);
             btnHuy.Name = "btnHuy";
-            btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            btnHuy.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnHuy.Size = new Size(105, 47);
             btnHuy.TabIndex = 20;
             btnHuy.Text = "Hủy";
@@ -210,7 +214,7 @@
             // 
             // btnEye1
             // 
-            btnEye1.CustomizableEdges = customizableEdges27;
+            btnEye1.CustomizableEdges = customizableEdges11;
             btnEye1.DisabledState.BorderColor = Color.DarkGray;
             btnEye1.DisabledState.CustomBorderColor = Color.DarkGray;
             btnEye1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -221,14 +225,14 @@
             btnEye1.Image = Properties.Resources.eye_closed;
             btnEye1.Location = new Point(449, 138);
             btnEye1.Name = "btnEye1";
-            btnEye1.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            btnEye1.ShadowDecoration.CustomizableEdges = customizableEdges12;
             btnEye1.Size = new Size(52, 36);
             btnEye1.TabIndex = 22;
             btnEye1.Click += btnEye1_Click;
             // 
             // btnEye2
             // 
-            btnEye2.CustomizableEdges = customizableEdges29;
+            btnEye2.CustomizableEdges = customizableEdges13;
             btnEye2.DisabledState.BorderColor = Color.DarkGray;
             btnEye2.DisabledState.CustomBorderColor = Color.DarkGray;
             btnEye2.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -239,14 +243,14 @@
             btnEye2.Image = Properties.Resources.eye_closed;
             btnEye2.Location = new Point(446, 232);
             btnEye2.Name = "btnEye2";
-            btnEye2.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            btnEye2.ShadowDecoration.CustomizableEdges = customizableEdges14;
             btnEye2.Size = new Size(52, 36);
             btnEye2.TabIndex = 23;
             btnEye2.Click += btnEye2_Click;
             // 
             // btnEye3
             // 
-            btnEye3.CustomizableEdges = customizableEdges31;
+            btnEye3.CustomizableEdges = customizableEdges15;
             btnEye3.DisabledState.BorderColor = Color.DarkGray;
             btnEye3.DisabledState.CustomBorderColor = Color.DarkGray;
             btnEye3.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -257,7 +261,7 @@
             btnEye3.Image = Properties.Resources.eye_closed;
             btnEye3.Location = new Point(447, 328);
             btnEye3.Name = "btnEye3";
-            btnEye3.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            btnEye3.ShadowDecoration.CustomizableEdges = customizableEdges16;
             btnEye3.Size = new Size(52, 36);
             btnEye3.TabIndex = 24;
             btnEye3.Click += btnEye3_Click;

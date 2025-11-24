@@ -143,6 +143,9 @@ namespace Academix.WinApp.Forms
             txtMatKhau.UseSystemPasswordChar = true;
         }
 
-        
+        private void guna2HtmlLabel3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

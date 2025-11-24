@@ -95,7 +95,7 @@
             guna2GroupBox1.Controls.Add(txtEmail);
             guna2GroupBox1.Controls.Add(guna2HtmlLabel6);
             guna2GroupBox1.CustomizableEdges = customizableEdges12;
-            guna2GroupBox1.Font = new Font("Segoe UI", 9F);
+            guna2GroupBox1.Font = new Font("Segoe UI", 10.2F);
             guna2GroupBox1.ForeColor = Color.Black;
             guna2GroupBox1.Location = new Point(154, 121);
             guna2GroupBox1.Name = "guna2GroupBox1";
@@ -104,6 +104,7 @@
             guna2GroupBox1.TabIndex = 1;
             guna2GroupBox1.Text = "Đăng nhập";
             guna2GroupBox1.TextAlign = HorizontalAlignment.Center;
+            //guna2GroupBox1.Click += this.guna2GroupBox1_Click;
             // 
             // btnEye
             // 
@@ -125,11 +126,13 @@
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
+            guna2HtmlLabel3.Font = new Font("Segoe UI", 10.2F);
             guna2HtmlLabel3.Location = new Point(107, 59);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            guna2HtmlLabel3.Size = new Size(188, 22);
+            guna2HtmlLabel3.Size = new Size(218, 25);
             guna2HtmlLabel3.TabIndex = 8;
             guna2HtmlLabel3.Text = "Chào mừng bạn quay trở lại";
+            guna2HtmlLabel3.Click += guna2HtmlLabel3_Click;
             // 
             // btnForgotPassWord
             // 
@@ -141,7 +144,7 @@
             btnForgotPassWord.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnForgotPassWord.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnForgotPassWord.FillColor = Color.White;
-            btnForgotPassWord.Font = new Font("Segoe UI", 9F);
+            btnForgotPassWord.Font = new Font("Segoe UI", 10.2F);
             btnForgotPassWord.ForeColor = Color.DimGray;
             btnForgotPassWord.Location = new Point(120, 377);
             btnForgotPassWord.Name = "btnForgotPassWord";
@@ -158,7 +161,7 @@
             btnDangNhap.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDangNhap.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnDangNhap.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnDangNhap.Font = new Font("Segoe UI", 9F);
+            btnDangNhap.Font = new Font("Segoe UI", 10.2F);
             btnDangNhap.ForeColor = Color.White;
             btnDangNhap.Location = new Point(32, 312);
             btnDangNhap.Name = "btnDangNhap";
@@ -171,9 +174,10 @@
             // guna2HtmlLabel5
             // 
             guna2HtmlLabel5.BackColor = Color.Transparent;
+            guna2HtmlLabel5.Font = new Font("Segoe UI", 10.2F);
             guna2HtmlLabel5.Location = new Point(32, 209);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            guna2HtmlLabel5.Size = new Size(64, 22);
+            guna2HtmlLabel5.Size = new Size(75, 25);
             guna2HtmlLabel5.TabIndex = 3;
             guna2HtmlLabel5.Text = "Mật khẩu";
             // 
@@ -220,9 +224,10 @@
             // guna2HtmlLabel6
             // 
             guna2HtmlLabel6.BackColor = Color.Transparent;
+            guna2HtmlLabel6.Font = new Font("Segoe UI", 10.2F);
             guna2HtmlLabel6.Location = new Point(32, 112);
             guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            guna2HtmlLabel6.Size = new Size(40, 22);
+            guna2HtmlLabel6.Size = new Size(44, 25);
             guna2HtmlLabel6.TabIndex = 0;
             guna2HtmlLabel6.Text = "Email";
             // 

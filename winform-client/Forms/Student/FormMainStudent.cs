@@ -18,6 +18,7 @@ namespace Academix.WinApp.Forms.Student
         public FormMainStudent()
         {
             InitializeComponent();
+            lblTenHocSinh.Text = SessionManager.CurrentUser.FullName;
         }
 
         private void ResetTabButtons()
@@ -40,7 +41,7 @@ namespace Academix.WinApp.Forms.Student
             btnDoiMatKhau.FillColor = defaultColor;
             btnDoiMatKhau.ForeColor = defaultTextColor;
 
-            btnDangXuat.FillColor = Color.FromArgb(239, 68, 68); // Đỏ cho nút đăng xuất
+            btnDangXuat.FillColor = defaultColor; 
             btnDangXuat.ForeColor = defaultTextColor;
         }
 

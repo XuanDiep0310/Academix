@@ -223,7 +223,7 @@
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
             guna2HtmlLabel4.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel4.ForeColor = Color.SpringGreen;
+            guna2HtmlLabel4.ForeColor = Color.FromArgb(34, 197, 94);
             guna2HtmlLabel4.Location = new Point(38, 112);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
             guna2HtmlLabel4.Size = new Size(107, 27);

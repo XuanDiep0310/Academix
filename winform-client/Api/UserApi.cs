@@ -1,5 +1,6 @@
 ﻿using Academix.WinApp.Models.Common;
 using Academix.WinApp.Models.Users;
+using Academix.WinApp.Models.Dashboard;
 using Academix.WinApp.Utils;
 using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
@@ -25,7 +26,7 @@ namespace Academix.WinApp.Api
         //    SessionManager.Token = token; // lưu vào SessionManager
         //    SetAuthToken(token);          // set vào HttpClient
         //}
-
+        
         public async Task<UserListData> GetAllUsersAsync(
              int page = 1,
              int pageSize = 20,
@@ -169,5 +170,98 @@ namespace Academix.WinApp.Api
                 Errors = null
             };
         }
+
+        public async Task<DashboardUserStatisticDto> GetUserDashboardAsync()
+        {
+            EnsureAuthToken();
+
+            string endpoint = "api/Users/statistics";
+
+            var response = await _client.GetAsync(endpoint);
+            var json = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"API Error ({response.StatusCode}): {json}");
+
+            if (string.IsNullOrWhiteSpace(json))
+                return new DashboardUserStatisticDto();
+
+            var settings = new JsonSerializerSettings
+            {
+                Error = (sender, args) => args.ErrorContext.Handled = true,
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<DashboardUserStatisticDto>>(json, settings);
+
+            if (apiResponse == null || !apiResponse.Success)
+                throw new Exception(apiResponse?.Message ?? "API returned unsuccessful response");
+
+            return apiResponse.Data ?? new DashboardUserStatisticDto();
+        }
+
+
+        public async Task<ClassDashboardData> GetClassDashboardAsync()
+        {
+            EnsureAuthToken();
+
+            string endpoint = "api/Classes/statistics";
+
+            var response = await _client.GetAsync(endpoint);
+            var json = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"API Error ({response.StatusCode}): {json}");
+
+            if (string.IsNullOrWhiteSpace(json))
+                return new ClassDashboardData();
+
+            var settings = new JsonSerializerSettings
+            {
+                Error = (sender, args) => args.ErrorContext.Handled = true,
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<ClassDashboardData>>(json, settings);
+
+            if (apiResponse == null || !apiResponse.Success)
+                throw new Exception(apiResponse?.Message ?? "API returned unsuccessful response");
+
+            return apiResponse.Data ?? new ClassDashboardData();
+        }
+
+
+        public async Task<MaterialDashboardData> GetMaterialDashboardAsync()
+        {
+            EnsureAuthToken();
+
+            string endpoint = "api/materials/statistics";
+
+            var response = await _client.GetAsync(endpoint);
+            var json = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception($"API Error ({response.StatusCode}): {json}");
+
+            if (string.IsNullOrWhiteSpace(json))
+                return new MaterialDashboardData();
+
+            var settings = new JsonSerializerSettings
+            {
+                Error = (sender, args) => args.ErrorContext.Handled = true,
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<MaterialDashboardData>>(json, settings);
+
+            if (apiResponse == null || !apiResponse.Success)
+                throw new Exception(apiResponse?.Message ?? "API returned unsuccessful response");
+
+            return apiResponse.Data ?? new MaterialDashboardData();
+        }
+
     }
 }
