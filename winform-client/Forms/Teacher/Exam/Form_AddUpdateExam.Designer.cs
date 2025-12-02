@@ -79,31 +79,33 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel1.ForeColor = SystemColors.ControlDarkDark;
+            guna2HtmlLabel1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.ForeColor = Color.FromArgb(80, 80, 80);
             guna2HtmlLabel1.Location = new Point(19, 12);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(443, 25);
+            guna2HtmlLabel1.Size = new Size(499, 30);
             guna2HtmlLabel1.TabIndex = 0;
             guna2HtmlLabel1.Text = "Chọn môn học và câu hỏi, thiết lập thông tin bài kiểm tra";
             // 
             // guna2HtmlLabel6
             // 
             guna2HtmlLabel6.BackColor = Color.Transparent;
-            guna2HtmlLabel6.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
+            guna2HtmlLabel6.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            guna2HtmlLabel6.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel6.Location = new Point(16, 305);
             guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            guna2HtmlLabel6.Size = new Size(147, 25);
+            guna2HtmlLabel6.Size = new Size(174, 30);
             guna2HtmlLabel6.TabIndex = 23;
             guna2HtmlLabel6.Text = "Thời lượng làm bài";
             // 
             // guna2HtmlLabel5
             // 
             guna2HtmlLabel5.BackColor = Color.Transparent;
-            guna2HtmlLabel5.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
+            guna2HtmlLabel5.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            guna2HtmlLabel5.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel5.Location = new Point(22, 497);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            guna2HtmlLabel5.Size = new Size(72, 25);
+            guna2HtmlLabel5.Size = new Size(84, 30);
             guna2HtmlLabel5.TabIndex = 21;
             guna2HtmlLabel5.Text = " Môn học";
             // 
@@ -116,7 +118,8 @@
             txtTieuDe.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtTieuDe.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtTieuDe.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtTieuDe.Font = new Font("Segoe UI", 9F);
+            txtTieuDe.Font = new Font("Segoe UI", 11F);
+            txtTieuDe.ForeColor = Color.FromArgb(30, 30, 30);
             txtTieuDe.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtTieuDe.Location = new Point(19, 168);
             txtTieuDe.Margin = new Padding(3, 4, 3, 4);
@@ -130,10 +133,11 @@
             // guna2HtmlLabel4
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
-            guna2HtmlLabel4.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
+            guna2HtmlLabel4.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            guna2HtmlLabel4.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel4.Location = new Point(19, 136);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            guna2HtmlLabel4.Size = new Size(59, 25);
+            guna2HtmlLabel4.Size = new Size(71, 30);
             guna2HtmlLabel4.TabIndex = 19;
             guna2HtmlLabel4.Text = "Tiêu đề";
             // 
@@ -145,7 +149,7 @@
             cmbLopHoc.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbLopHoc.FocusedColor = Color.FromArgb(94, 148, 255);
             cmbLopHoc.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cmbLopHoc.Font = new Font("Segoe UI", 10F);
+            cmbLopHoc.Font = new Font("Segoe UI", 11F);
             cmbLopHoc.ForeColor = Color.FromArgb(68, 88, 112);
             cmbLopHoc.ItemHeight = 30;
             cmbLopHoc.Location = new Point(19, 86);
@@ -157,10 +161,11 @@
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
+            guna2HtmlLabel3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            guna2HtmlLabel3.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel3.Location = new Point(19, 50);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            guna2HtmlLabel3.Size = new Size(64, 25);
+            guna2HtmlLabel3.Size = new Size(76, 30);
             guna2HtmlLabel3.TabIndex = 17;
             guna2HtmlLabel3.Text = "Lớp học";
             // 
@@ -168,7 +173,8 @@
             // 
             nmbThoiLuongLamBai.BackColor = Color.Transparent;
             nmbThoiLuongLamBai.CustomizableEdges = customizableEdges5;
-            nmbThoiLuongLamBai.Font = new Font("Segoe UI", 9F);
+            nmbThoiLuongLamBai.Font = new Font("Segoe UI", 11F);
+            nmbThoiLuongLamBai.ForeColor = Color.FromArgb(30, 30, 30);
             nmbThoiLuongLamBai.Location = new Point(19, 337);
             nmbThoiLuongLamBai.Margin = new Padding(3, 4, 3, 4);
             nmbThoiLuongLamBai.Name = "nmbThoiLuongLamBai";
@@ -180,10 +186,11 @@
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel2.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel2.Location = new Point(26, 387);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(138, 25);
+            guna2HtmlLabel2.Size = new Size(163, 30);
             guna2HtmlLabel2.TabIndex = 25;
             guna2HtmlLabel2.Text = "Thời gian bắt đầu";
             // 
@@ -194,7 +201,8 @@
             dtpThoiGianBatDau.CustomFormat = "dd/MM/yyyy HH:mm";
             dtpThoiGianBatDau.CustomizableEdges = customizableEdges7;
             dtpThoiGianBatDau.FillColor = Color.White;
-            dtpThoiGianBatDau.Font = new Font("Segoe UI", 9F);
+            dtpThoiGianBatDau.Font = new Font("Segoe UI", 11F);
+            dtpThoiGianBatDau.ForeColor = Color.FromArgb(30, 30, 30);
             dtpThoiGianBatDau.Format = DateTimePickerFormat.Custom;
             dtpThoiGianBatDau.Location = new Point(26, 418);
             dtpThoiGianBatDau.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
@@ -213,7 +221,8 @@
             dtpThoiGianKetThuc.CustomFormat = "dd/MM/yyyy HH:mm";
             dtpThoiGianKetThuc.CustomizableEdges = customizableEdges9;
             dtpThoiGianKetThuc.FillColor = Color.White;
-            dtpThoiGianKetThuc.Font = new Font("Segoe UI", 9F);
+            dtpThoiGianKetThuc.Font = new Font("Segoe UI", 11F);
+            dtpThoiGianKetThuc.ForeColor = Color.FromArgb(30, 30, 30);
             dtpThoiGianKetThuc.Format = DateTimePickerFormat.Custom;
             dtpThoiGianKetThuc.Location = new Point(293, 418);
             dtpThoiGianKetThuc.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
@@ -228,10 +237,11 @@
             // guna2HtmlLabel7
             // 
             guna2HtmlLabel7.BackColor = Color.Transparent;
-            guna2HtmlLabel7.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel7.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel7.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel7.Location = new Point(293, 387);
             guna2HtmlLabel7.Name = "guna2HtmlLabel7";
-            guna2HtmlLabel7.Size = new Size(142, 25);
+            guna2HtmlLabel7.Size = new Size(169, 30);
             guna2HtmlLabel7.TabIndex = 27;
             guna2HtmlLabel7.Text = "Thời gian kết thúc";
             // 
@@ -248,10 +258,11 @@
             // guna2HtmlLabel8
             // 
             guna2HtmlLabel8.BackColor = Color.Transparent;
-            guna2HtmlLabel8.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel8.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel8.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel8.Location = new Point(21, 581);
             guna2HtmlLabel8.Name = "guna2HtmlLabel8";
-            guna2HtmlLabel8.Size = new Size(105, 25);
+            guna2HtmlLabel8.Size = new Size(123, 30);
             guna2HtmlLabel8.TabIndex = 30;
             guna2HtmlLabel8.Text = "Chọn câu hỏi";
             // 
@@ -303,7 +314,7 @@
             btnHuy.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnHuy.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnHuy.FillColor = Color.White;
-            btnHuy.Font = new Font("Segoe UI", 9F);
+            btnHuy.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             btnHuy.ForeColor = Color.Black;
             btnHuy.Location = new Point(313, 923);
             btnHuy.Name = "btnHuy";
@@ -321,7 +332,7 @@
             btnThem.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnThem.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnThem.FillColor = Color.RoyalBlue;
-            btnThem.Font = new Font("Segoe UI", 9F);
+            btnThem.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             btnThem.ForeColor = Color.White;
             btnThem.Location = new Point(401, 923);
             btnThem.Name = "btnThem";
@@ -340,7 +351,8 @@
             txtMoTa.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtMoTa.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtMoTa.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtMoTa.Font = new Font("Segoe UI", 9F);
+            txtMoTa.Font = new Font("Segoe UI", 11F);
+            txtMoTa.ForeColor = Color.FromArgb(30, 30, 30);
             txtMoTa.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtMoTa.Location = new Point(19, 253);
             txtMoTa.Margin = new Padding(3, 4, 3, 4);
@@ -354,10 +366,11 @@
             // lblMoTa
             // 
             lblMoTa.BackColor = Color.Transparent;
-            lblMoTa.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
+            lblMoTa.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            lblMoTa.ForeColor = Color.FromArgb(50, 50, 50);
             lblMoTa.Location = new Point(19, 221);
             lblMoTa.Name = "lblMoTa";
-            lblMoTa.Size = new Size(49, 25);
+            lblMoTa.Size = new Size(56, 30);
             lblMoTa.TabIndex = 36;
             lblMoTa.Text = "Mô tả";
             // 

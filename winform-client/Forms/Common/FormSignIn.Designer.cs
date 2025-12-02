@@ -104,7 +104,6 @@
             guna2GroupBox1.TabIndex = 1;
             guna2GroupBox1.Text = "Đăng nhập";
             guna2GroupBox1.TextAlign = HorizontalAlignment.Center;
-            //guna2GroupBox1.Click += this.guna2GroupBox1_Click;
             // 
             // btnEye
             // 
@@ -122,6 +121,7 @@
             btnEye.ShadowDecoration.CustomizableEdges = customizableEdges3;
             btnEye.Size = new Size(52, 36);
             btnEye.TabIndex = 23;
+            btnEye.Click += btnEye_Click_1;
             // 
             // guna2HtmlLabel3
             // 
@@ -144,8 +144,8 @@
             btnForgotPassWord.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnForgotPassWord.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnForgotPassWord.FillColor = Color.White;
-            btnForgotPassWord.Font = new Font("Segoe UI", 10.2F);
-            btnForgotPassWord.ForeColor = Color.DimGray;
+            btnForgotPassWord.Font = new Font("Segoe UI", 9F);
+            btnForgotPassWord.ForeColor = Color.White;
             btnForgotPassWord.Location = new Point(120, 377);
             btnForgotPassWord.Name = "btnForgotPassWord";
             btnForgotPassWord.ShadowDecoration.CustomizableEdges = customizableEdges5;
@@ -161,7 +161,7 @@
             btnDangNhap.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDangNhap.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnDangNhap.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnDangNhap.Font = new Font("Segoe UI", 10.2F);
+            btnDangNhap.Font = new Font("Segoe UI", 9F);
             btnDangNhap.ForeColor = Color.White;
             btnDangNhap.Location = new Point(32, 312);
             btnDangNhap.Name = "btnDangNhap";
@@ -190,7 +190,8 @@
             txtMatKhau.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtMatKhau.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtMatKhau.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtMatKhau.Font = new Font("Segoe UI", 9F);
+            txtMatKhau.Font = new Font("Segoe UI", 11F);
+            txtMatKhau.ForeColor = Color.FromArgb(30, 30, 30);
             txtMatKhau.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtMatKhau.Location = new Point(32, 238);
             txtMatKhau.Margin = new Padding(3, 4, 3, 4);
@@ -210,7 +211,8 @@
             txtEmail.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             txtEmail.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
             txtEmail.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtEmail.Font = new Font("Segoe UI", 9F);
+            txtEmail.Font = new Font("Segoe UI", 11F);
+            txtEmail.ForeColor = Color.FromArgb(30, 30, 30);
             txtEmail.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
             txtEmail.Location = new Point(32, 141);
             txtEmail.Margin = new Padding(3, 4, 3, 4);
@@ -224,7 +226,7 @@
             // guna2HtmlLabel6
             // 
             guna2HtmlLabel6.BackColor = Color.Transparent;
-            guna2HtmlLabel6.Font = new Font("Segoe UI", 10.2F);
+            guna2HtmlLabel6.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
             guna2HtmlLabel6.Location = new Point(32, 112);
             guna2HtmlLabel6.Name = "guna2HtmlLabel6";
             guna2HtmlLabel6.Size = new Size(44, 25);

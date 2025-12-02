@@ -128,7 +128,7 @@ namespace Academix.WinApp.Forms
         }
 
 
-        private void btnEye_Click(object sender, EventArgs e)
+        private void btnEye_Click_1(object sender, EventArgs e)
         {
             // Toggle mật khẩu cho txtMatKhau
             txtMatKhau.UseSystemPasswordChar = !txtMatKhau.UseSystemPasswordChar;
@@ -147,5 +147,6 @@ namespace Academix.WinApp.Forms
         {
 
         }
+
     }
 }

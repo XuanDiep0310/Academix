@@ -97,7 +97,7 @@
             dgvHocSinh.BorderStyle = BorderStyle.FixedSingle;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             dataGridViewCellStyle2.ForeColor = Color.White;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
@@ -107,7 +107,7 @@
             dgvHocSinh.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.FromArgb(214, 234, 247);
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10.5F);
             dataGridViewCellStyle3.ForeColor = Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(119, 186, 231);
             dataGridViewCellStyle3.SelectionForeColor = Color.Black;
@@ -130,14 +130,15 @@
             dgvHocSinh.ThemeStyle.GridColor = Color.FromArgb(187, 220, 242);
             dgvHocSinh.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(52, 152, 219);
             dgvHocSinh.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvHocSinh.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
+            dgvHocSinh.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             dgvHocSinh.ThemeStyle.HeaderStyle.ForeColor = Color.White;
             dgvHocSinh.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dgvHocSinh.ThemeStyle.HeaderStyle.Height = 40;
             dgvHocSinh.ThemeStyle.ReadOnly = false;
             dgvHocSinh.ThemeStyle.RowsStyle.BackColor = Color.FromArgb(214, 234, 247);
             dgvHocSinh.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvHocSinh.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9F);
+            dgvHocSinh.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 10.5F);
+            dgvHocSinh.ThemeStyle.RowsStyle.ForeColor = Color.FromArgb(30, 30, 30);
             dgvHocSinh.ThemeStyle.RowsStyle.ForeColor = Color.Black;
             dgvHocSinh.ThemeStyle.RowsStyle.Height = 29;
             dgvHocSinh.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(119, 186, 231);
@@ -151,7 +152,7 @@
             cmbBaiKT.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbBaiKT.FocusedColor = Color.FromArgb(94, 148, 255);
             cmbBaiKT.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cmbBaiKT.Font = new Font("Segoe UI", 10F);
+            cmbBaiKT.Font = new Font("Segoe UI", 11F);
             cmbBaiKT.ForeColor = Color.FromArgb(68, 88, 112);
             cmbBaiKT.ItemHeight = 30;
             cmbBaiKT.Location = new Point(82, 155);
@@ -171,7 +172,7 @@
             btnXuatExcel.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnXuatExcel.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnXuatExcel.FillColor = Color.DodgerBlue;
-            btnXuatExcel.Font = new Font("Segoe UI", 9F);
+            btnXuatExcel.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnXuatExcel.ForeColor = Color.White;
             btnXuatExcel.Location = new Point(973, 57);
             btnXuatExcel.Name = "btnXuatExcel";
@@ -184,28 +185,30 @@
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel2.ForeColor = SystemColors.ControlDarkDark;
-            guna2HtmlLabel2.Location = new Point(64, 68);
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 11.5F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel2.ForeColor = Color.FromArgb(80, 80, 80);
+            guna2HtmlLabel2.Location = new Point(64, 76);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(357, 27);
+            guna2HtmlLabel2.Size = new Size(450, 28);
             guna2HtmlLabel2.TabIndex = 31;
             guna2HtmlLabel2.Text = "Xem điểm và trạng thái nộp bài của học sinh";
             // 
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.ForeColor = Color.FromArgb(30, 30, 30);
             guna2HtmlLabel1.Location = new Point(64, 32);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(187, 30);
+            guna2HtmlLabel1.Size = new Size(250, 38);
             guna2HtmlLabel1.TabIndex = 30;
             guna2HtmlLabel1.Text = "Kết quả bài kiểm tra";
             // 
             // guna2HtmlLabel4
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
-            guna2HtmlLabel4.Font = new Font("Microsoft Sans Serif", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel4.ForeColor = Color.FromArgb(50, 50, 50);
             guna2HtmlLabel4.Location = new Point(64, 113);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
             guna2HtmlLabel4.Size = new Size(143, 24);
@@ -228,7 +231,8 @@
             // lblSoLuongHocSinh
             // 
             lblSoLuongHocSinh.BackColor = Color.Transparent;
-            lblSoLuongHocSinh.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblSoLuongHocSinh.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblSoLuongHocSinh.ForeColor = Color.FromArgb(30, 30, 30);
             lblSoLuongHocSinh.Location = new Point(22, 43);
             lblSoLuongHocSinh.Name = "lblSoLuongHocSinh";
             lblSoLuongHocSinh.Size = new Size(33, 39);
@@ -238,8 +242,8 @@
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel3.ForeColor = SystemColors.ControlDarkDark;
+            guna2HtmlLabel3.Font = new Font("Segoe UI", 11.5F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel3.ForeColor = Color.FromArgb(60, 60, 60);
             guna2HtmlLabel3.Location = new Point(22, 12);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             guna2HtmlLabel3.Size = new Size(133, 25);
@@ -262,7 +266,8 @@
             // lblSLDaNop
             // 
             lblSLDaNop.BackColor = Color.Transparent;
-            lblSLDaNop.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblSLDaNop.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblSLDaNop.ForeColor = Color.FromArgb(30, 30, 30);
             lblSLDaNop.Location = new Point(22, 43);
             lblSLDaNop.Name = "lblSLDaNop";
             lblSLDaNop.Size = new Size(33, 39);
@@ -272,8 +277,8 @@
             // guna2HtmlLabel6
             // 
             guna2HtmlLabel6.BackColor = Color.Transparent;
-            guna2HtmlLabel6.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel6.ForeColor = SystemColors.ControlDarkDark;
+            guna2HtmlLabel6.Font = new Font("Segoe UI", 11.5F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel6.ForeColor = Color.FromArgb(60, 60, 60);
             guna2HtmlLabel6.Location = new Point(22, 12);
             guna2HtmlLabel6.Name = "guna2HtmlLabel6";
             guna2HtmlLabel6.Size = new Size(59, 25);
@@ -296,7 +301,8 @@
             // lblSLChuaNop
             // 
             lblSLChuaNop.BackColor = Color.Transparent;
-            lblSLChuaNop.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblSLChuaNop.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblSLChuaNop.ForeColor = Color.FromArgb(30, 30, 30);
             lblSLChuaNop.Location = new Point(22, 43);
             lblSLChuaNop.Name = "lblSLChuaNop";
             lblSLChuaNop.Size = new Size(33, 39);
@@ -306,8 +312,8 @@
             // guna2HtmlLabel8
             // 
             guna2HtmlLabel8.BackColor = Color.Transparent;
-            guna2HtmlLabel8.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel8.ForeColor = SystemColors.ControlDarkDark;
+            guna2HtmlLabel8.Font = new Font("Segoe UI", 11.5F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel8.ForeColor = Color.FromArgb(60, 60, 60);
             guna2HtmlLabel8.Location = new Point(22, 12);
             guna2HtmlLabel8.Name = "guna2HtmlLabel8";
             guna2HtmlLabel8.Size = new Size(78, 25);
@@ -331,7 +337,8 @@
             // lblDiemTrungBinh
             // 
             lblDiemTrungBinh.BackColor = Color.Transparent;
-            lblDiemTrungBinh.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            lblDiemTrungBinh.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblDiemTrungBinh.ForeColor = Color.FromArgb(30, 30, 30);
             lblDiemTrungBinh.Location = new Point(22, 43);
             lblDiemTrungBinh.Name = "lblDiemTrungBinh";
             lblDiemTrungBinh.Size = new Size(39, 39);
@@ -341,8 +348,8 @@
             // guna2HtmlLabel10
             // 
             guna2HtmlLabel10.BackColor = Color.Transparent;
-            guna2HtmlLabel10.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 163);
-            guna2HtmlLabel10.ForeColor = SystemColors.ControlDarkDark;
+            guna2HtmlLabel10.Font = new Font("Segoe UI", 11.5F, FontStyle.Regular, GraphicsUnit.Point, 163);
+            guna2HtmlLabel10.ForeColor = Color.FromArgb(60, 60, 60);
             guna2HtmlLabel10.Location = new Point(22, 12);
             guna2HtmlLabel10.Name = "guna2HtmlLabel10";
             guna2HtmlLabel10.Size = new Size(129, 25);
@@ -392,11 +399,14 @@
             // 
             // flowpnlPagination
             // 
-            flowpnlPagination.Dock = DockStyle.Bottom;
+            flowpnlPagination.Anchor = AnchorStyles.None;
+            flowpnlPagination.AutoSize = true;
+            flowpnlPagination.FlowDirection = FlowDirection.LeftToRight;
             flowpnlPagination.Location = new Point(0, 0);
             flowpnlPagination.Name = "flowpnlPagination";
-            flowpnlPagination.Size = new Size(1217, 80);
+            flowpnlPagination.Size = new Size(0, 80);
             flowpnlPagination.TabIndex = 0;
+            flowpnlPagination.WrapContents = false;
             // 
             // UC_Result
             // 

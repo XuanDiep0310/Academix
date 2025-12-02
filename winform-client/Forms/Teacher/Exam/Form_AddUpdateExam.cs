@@ -49,8 +49,11 @@ namespace Academix.WinApp.Forms.Teacher.Exam
             //};
             dtpThoiGianBatDau.Value = DateTime.Now;
             dtpThoiGianKetThuc.Value = DateTime.Now.AddHours(1);
+            cmbMonHoc.SelectedIndexChanged += CmbMonHoc_SelectedIndexChanged;
+
 
         }
+
 
         private async Task LoadClassesAsync()
         {
@@ -155,14 +158,13 @@ namespace Academix.WinApp.Forms.Teacher.Exam
         {
             pnlCauHoi.Controls.Clear();
 
-            // 1. Load danh sách môn học vào comboBox (await!)
-            await LoadMonHocAsync();
+            // Không load lại môn học ở đây nữa!!
 
-            // 2. Lấy môn học đang chọn
+            // Lấy môn học đang chọn
             string? subject = cmbMonHoc.SelectedItem?.ToString();
             if (subject == "Tất cả") subject = null;
 
-            // 3. Lấy danh sách câu hỏi theo môn học
+            // Lấy danh sách câu hỏi theo môn học
             var questionApi = new QuestionApiService();
             var questionsResponse = await questionApi.GetMyQuestionsPagedAsync(
                 subject: subject,
@@ -170,7 +172,7 @@ namespace Academix.WinApp.Forms.Teacher.Exam
                 pageSize: 100
             );
 
-            // 4. Hiển thị checkbox câu hỏi
+            // Hiển thị checkbox câu hỏi
             int y = 5;
             foreach (var q in questionsResponse.Data?.Questions ?? new List<QuestionResponseDto>())
             {
@@ -184,12 +186,11 @@ namespace Academix.WinApp.Forms.Teacher.Exam
                 };
 
                 chk.CheckedChanged += (s, e) => UpdateSoLuongCauHoi();
-
                 pnlCauHoi.Controls.Add(chk);
                 y += 25;
             }
 
-            // 5. Nếu đang update exam, check sẵn các câu hỏi đã có
+            // Nếu đang update exam → tự check câu hỏi đã chọn
             if (_examId > 0)
             {
                 var examQuestionsResp = await _api.GetExamQuestionsAsync(_classId, _examId);
@@ -206,6 +207,7 @@ namespace Academix.WinApp.Forms.Teacher.Exam
 
             UpdateSoLuongCauHoi();
         }
+
 
 
 

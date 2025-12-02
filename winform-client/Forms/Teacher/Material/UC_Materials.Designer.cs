@@ -69,6 +69,7 @@
             guna2Panel1.Controls.Add(guna2Panel4);
             guna2Panel1.Controls.Add(guna2Panel3);
             guna2Panel1.Controls.Add(pnlBottom);
+            guna2Panel1.BackColor = Color.FromArgb(250, 250, 255); // Màu nền mềm mại
             guna2Panel1.CustomizableEdges = customizableEdges13;
             guna2Panel1.Dock = DockStyle.Fill;
             guna2Panel1.Location = new Point(0, 0);
@@ -95,7 +96,7 @@
             dgvTaiLieu.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvTaiLieu.BorderStyle = BorderStyle.FixedSingle;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(70, 130, 180); // SteelBlue - mềm mại hơn
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
             dataGridViewCellStyle2.ForeColor = Color.White;
             dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
@@ -127,7 +128,7 @@
             dgvTaiLieu.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = Color.Empty;
             dgvTaiLieu.ThemeStyle.BackColor = Color.White;
             dgvTaiLieu.ThemeStyle.GridColor = Color.FromArgb(187, 220, 242);
-            dgvTaiLieu.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(52, 152, 219);
+            dgvTaiLieu.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(70, 130, 180); // SteelBlue
             dgvTaiLieu.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvTaiLieu.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
             dgvTaiLieu.ThemeStyle.HeaderStyle.ForeColor = Color.White;
@@ -138,7 +139,7 @@
             dgvTaiLieu.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvTaiLieu.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9F);
             dgvTaiLieu.ThemeStyle.RowsStyle.ForeColor = Color.Black;
-            dgvTaiLieu.ThemeStyle.RowsStyle.Height = 29;
+            dgvTaiLieu.ThemeStyle.RowsStyle.Height = 35; // Tăng chiều cao hàng cho dễ nhìn hơn
             dgvTaiLieu.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(119, 186, 231);
             dgvTaiLieu.ThemeStyle.RowsStyle.SelectionForeColor = Color.Black;
             dgvTaiLieu.CellContentClick += dgvTaiLieu_CellContentClick;
@@ -151,6 +152,7 @@
             guna2Panel3.Controls.Add(btnThemTaiLieu);
             guna2Panel3.Controls.Add(guna2HtmlLabel2);
             guna2Panel3.Controls.Add(guna2HtmlLabel1);
+            guna2Panel3.BackColor = Color.White;
             guna2Panel3.CustomizableEdges = customizableEdges9;
             guna2Panel3.Dock = DockStyle.Top;
             guna2Panel3.Location = new Point(0, 0);
@@ -173,8 +175,8 @@
             cmbLoaiTaiLieu.CustomizableEdges = customizableEdges3;
             cmbLoaiTaiLieu.DrawMode = DrawMode.OwnerDrawFixed;
             cmbLoaiTaiLieu.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbLoaiTaiLieu.FocusedColor = Color.FromArgb(94, 148, 255);
-            cmbLoaiTaiLieu.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cmbLoaiTaiLieu.FocusedColor = Color.FromArgb(70, 130, 180);
+            cmbLoaiTaiLieu.FocusedState.BorderColor = Color.FromArgb(70, 130, 180);
             cmbLoaiTaiLieu.Font = new Font("Segoe UI", 10F);
             cmbLoaiTaiLieu.ForeColor = Color.FromArgb(68, 88, 112);
             cmbLoaiTaiLieu.ItemHeight = 30;
@@ -191,8 +193,8 @@
             cmbLopHoc.CustomizableEdges = customizableEdges5;
             cmbLopHoc.DrawMode = DrawMode.OwnerDrawFixed;
             cmbLopHoc.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbLopHoc.FocusedColor = Color.FromArgb(94, 148, 255);
-            cmbLopHoc.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cmbLopHoc.FocusedColor = Color.FromArgb(70, 130, 180);
+            cmbLopHoc.FocusedState.BorderColor = Color.FromArgb(70, 130, 180);
             cmbLopHoc.Font = new Font("Segoe UI", 10F);
             cmbLopHoc.ForeColor = Color.FromArgb(68, 88, 112);
             cmbLopHoc.ItemHeight = 30;
@@ -207,21 +209,21 @@
             // btnThemTaiLieu
             // 
             btnThemTaiLieu.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnThemTaiLieu.BorderRadius = 15;
+            btnThemTaiLieu.BorderRadius = 20;
             btnThemTaiLieu.CustomizableEdges = customizableEdges7;
             btnThemTaiLieu.DisabledState.BorderColor = Color.DarkGray;
             btnThemTaiLieu.DisabledState.CustomBorderColor = Color.DarkGray;
             btnThemTaiLieu.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnThemTaiLieu.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnThemTaiLieu.FillColor = Color.DodgerBlue;
-            btnThemTaiLieu.Font = new Font("Segoe UI", 9F);
+            btnThemTaiLieu.FillColor = Color.FromArgb(70, 130, 180); // SteelBlue - màu mềm mại hơn
+            btnThemTaiLieu.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular);
             btnThemTaiLieu.ForeColor = Color.White;
             btnThemTaiLieu.Location = new Point(988, 63);
             btnThemTaiLieu.Name = "btnThemTaiLieu";
             btnThemTaiLieu.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnThemTaiLieu.Size = new Size(181, 36);
+            btnThemTaiLieu.Size = new Size(181, 42);
             btnThemTaiLieu.TabIndex = 10;
-            btnThemTaiLieu.Text = "Thêm tài liệu";
+            btnThemTaiLieu.Text = "➕ Thêm tài liệu";
             btnThemTaiLieu.Click += btnThemTaiLieu_Click;
             // 
             // guna2HtmlLabel2
@@ -248,6 +250,7 @@
             // pnlBottom
             // 
             pnlBottom.Controls.Add(pnlPagination);
+            pnlBottom.BackColor = Color.White;
             pnlBottom.CustomizableEdges = customizableEdges11;
             pnlBottom.Dock = DockStyle.Bottom;
             pnlBottom.Location = new Point(0, 633);
@@ -258,11 +261,14 @@
             // 
             // pnlPagination
             // 
-            pnlPagination.Dock = DockStyle.Bottom;
-            pnlPagination.Location = new Point(0, 3);
+            pnlPagination.Anchor = AnchorStyles.None;
+            pnlPagination.AutoSize = true;
+            pnlPagination.FlowDirection = FlowDirection.LeftToRight;
+            pnlPagination.Location = new Point(0, 0);
             pnlPagination.Name = "pnlPagination";
-            pnlPagination.Size = new Size(1219, 72);
+            pnlPagination.Size = new Size(0, 75);
             pnlPagination.TabIndex = 0;
+            pnlPagination.WrapContents = false;
             // 
             // UC_Materials
             // 

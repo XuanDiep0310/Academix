@@ -75,17 +75,18 @@
             // 
             pnlMain.CustomizableEdges = customizableEdges1;
             pnlMain.Dock = DockStyle.Fill;
-            pnlMain.Location = new Point(215, 0);
+            pnlMain.Location = new Point(237, 0);
             pnlMain.Name = "pnlMain";
             pnlMain.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            pnlMain.Size = new Size(1219, 708);
+            pnlMain.Size = new Size(1197, 708);
             pnlMain.TabIndex = 4;
             // 
             // lblRole
             // 
             lblRole.BackColor = Color.Transparent;
-            lblRole.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblRole.Location = new Point(82, 23);
+            lblRole.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblRole.ForeColor = Color.FromArgb(50, 50, 50);
+            lblRole.Location = new Point(91, 23);
             lblRole.Name = "lblRole";
             lblRole.Size = new Size(117, 33);
             lblRole.TabIndex = 3;
@@ -99,15 +100,17 @@
             btnLopHocCuaToi.DisabledState.CustomBorderColor = Color.DarkGray;
             btnLopHocCuaToi.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnLopHocCuaToi.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnLopHocCuaToi.FillColor = Color.LightSkyBlue;
-            btnLopHocCuaToi.Font = new Font("Segoe UI", 9F);
+            btnLopHocCuaToi.FillColor = Color.FromArgb(135, 206, 250);
+            btnLopHocCuaToi.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             btnLopHocCuaToi.ForeColor = Color.White;
-            btnLopHocCuaToi.Location = new Point(21, 138);
+            btnLopHocCuaToi.Location = new Point(12, 138);
             btnLopHocCuaToi.Name = "btnLopHocCuaToi";
+            btnLopHocCuaToi.Padding = new Padding(15, 0, 0, 0);
             btnLopHocCuaToi.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            btnLopHocCuaToi.Size = new Size(178, 38);
+            btnLopHocCuaToi.Size = new Size(207, 42);
             btnLopHocCuaToi.TabIndex = 1;
-            btnLopHocCuaToi.Text = "Lớp học của tôi";
+            btnLopHocCuaToi.Text = "📚 Lớp học của tôi";
+            btnLopHocCuaToi.TextAlign = HorizontalAlignment.Left;
             btnLopHocCuaToi.Click += btnLopHocCuaToi_Click;
             // 
             // guna2CirclePictureBox1
@@ -132,15 +135,17 @@
             btnNganHangCauHoi.DisabledState.CustomBorderColor = Color.DarkGray;
             btnNganHangCauHoi.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnNganHangCauHoi.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnNganHangCauHoi.FillColor = Color.LightSkyBlue;
-            btnNganHangCauHoi.Font = new Font("Segoe UI", 9F);
+            btnNganHangCauHoi.FillColor = Color.FromArgb(135, 206, 250);
+            btnNganHangCauHoi.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             btnNganHangCauHoi.ForeColor = Color.White;
-            btnNganHangCauHoi.Location = new Point(21, 226);
+            btnNganHangCauHoi.Location = new Point(12, 242);
             btnNganHangCauHoi.Name = "btnNganHangCauHoi";
+            btnNganHangCauHoi.Padding = new Padding(15, 0, 0, 0);
             btnNganHangCauHoi.ShadowDecoration.CustomizableEdges = customizableEdges7;
-            btnNganHangCauHoi.Size = new Size(178, 38);
+            btnNganHangCauHoi.Size = new Size(207, 42);
             btnNganHangCauHoi.TabIndex = 3;
-            btnNganHangCauHoi.Text = "Ngân hàng câu hỏi";
+            btnNganHangCauHoi.Text = "❓ Ngân hàng câu hỏi";
+            btnNganHangCauHoi.TextAlign = HorizontalAlignment.Left;
             btnNganHangCauHoi.Click += btnNganHangCauHoi_Click;
             // 
             // btnTaiLieu
@@ -151,15 +156,17 @@
             btnTaiLieu.DisabledState.CustomBorderColor = Color.DarkGray;
             btnTaiLieu.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnTaiLieu.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnTaiLieu.FillColor = Color.LightSkyBlue;
-            btnTaiLieu.Font = new Font("Segoe UI", 9F);
+            btnTaiLieu.FillColor = Color.FromArgb(135, 206, 250);
+            btnTaiLieu.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             btnTaiLieu.ForeColor = Color.White;
-            btnTaiLieu.Location = new Point(21, 182);
+            btnTaiLieu.Location = new Point(12, 190);
             btnTaiLieu.Name = "btnTaiLieu";
+            btnTaiLieu.Padding = new Padding(15, 0, 0, 0);
             btnTaiLieu.ShadowDecoration.CustomizableEdges = customizableEdges9;
-            btnTaiLieu.Size = new Size(178, 38);
+            btnTaiLieu.Size = new Size(207, 42);
             btnTaiLieu.TabIndex = 2;
-            btnTaiLieu.Text = "Tài liệu học tập";
+            btnTaiLieu.Text = "📄 Tài liệu học tập";
+            btnTaiLieu.TextAlign = HorizontalAlignment.Left;
             btnTaiLieu.Click += btnTaiLieu_Click;
             // 
             // btnDangXuat
@@ -170,15 +177,17 @@
             btnDangXuat.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDangXuat.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnDangXuat.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnDangXuat.FillColor = Color.LightSkyBlue;
-            btnDangXuat.Font = new Font("Segoe UI", 9F);
+            btnDangXuat.FillColor = Color.FromArgb(135, 206, 250);
+            btnDangXuat.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             btnDangXuat.ForeColor = Color.White;
-            btnDangXuat.Location = new Point(21, 69);
+            btnDangXuat.Location = new Point(12, 75);
             btnDangXuat.Name = "btnDangXuat";
+            btnDangXuat.Padding = new Padding(15, 0, 0, 0);
             btnDangXuat.ShadowDecoration.CustomizableEdges = customizableEdges11;
-            btnDangXuat.Size = new Size(178, 38);
+            btnDangXuat.Size = new Size(207, 42);
             btnDangXuat.TabIndex = 6;
-            btnDangXuat.Text = "Đăng xuất";
+            btnDangXuat.Text = "🚪 Đăng xuất";
+            btnDangXuat.TextAlign = HorizontalAlignment.Left;
             btnDangXuat.Click += btnDangXuat_Click;
             // 
             // btnDoiMatKhau
@@ -189,15 +198,17 @@
             btnDoiMatKhau.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDoiMatKhau.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnDoiMatKhau.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnDoiMatKhau.FillColor = Color.LightSkyBlue;
-            btnDoiMatKhau.Font = new Font("Segoe UI", 9F);
+            btnDoiMatKhau.FillColor = Color.FromArgb(135, 206, 250);
+            btnDoiMatKhau.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             btnDoiMatKhau.ForeColor = Color.White;
-            btnDoiMatKhau.Location = new Point(21, 16);
+            btnDoiMatKhau.Location = new Point(12, 22);
             btnDoiMatKhau.Name = "btnDoiMatKhau";
+            btnDoiMatKhau.Padding = new Padding(15, 0, 0, 0);
             btnDoiMatKhau.ShadowDecoration.CustomizableEdges = customizableEdges13;
-            btnDoiMatKhau.Size = new Size(178, 38);
+            btnDoiMatKhau.Size = new Size(207, 42);
             btnDoiMatKhau.TabIndex = 5;
-            btnDoiMatKhau.Text = "Đổi mật khẩu";
+            btnDoiMatKhau.Text = "🔒 Đổi mật khẩu";
+            btnDoiMatKhau.TextAlign = HorizontalAlignment.Left;
             btnDoiMatKhau.Click += btnDoiMatKhau_Click;
             // 
             // guna2Panel4
@@ -209,7 +220,7 @@
             guna2Panel4.Location = new Point(0, 579);
             guna2Panel4.Name = "guna2Panel4";
             guna2Panel4.ShadowDecoration.CustomizableEdges = customizableEdges15;
-            guna2Panel4.Size = new Size(215, 129);
+            guna2Panel4.Size = new Size(237, 129);
             guna2Panel4.TabIndex = 4;
             // 
             // guna2Panel1
@@ -222,22 +233,23 @@
             guna2Panel1.Location = new Point(0, 0);
             guna2Panel1.Name = "guna2Panel1";
             guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges17;
-            guna2Panel1.Size = new Size(215, 122);
+            guna2Panel1.Size = new Size(237, 122);
             guna2Panel1.TabIndex = 0;
             // 
             // lblHoTen
             // 
             lblHoTen.BackColor = Color.Transparent;
-            lblHoTen.Font = new Font("Segoe UI", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 163);
-            lblHoTen.Location = new Point(36, 77);
+            lblHoTen.Font = new Font("Segoe UI", 13F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblHoTen.ForeColor = Color.FromArgb(30, 30, 30);
+            lblHoTen.Location = new Point(43, 77);
             lblHoTen.Name = "lblHoTen";
-            lblHoTen.Size = new Size(139, 30);
+            lblHoTen.Size = new Size(151, 32);
             lblHoTen.TabIndex = 4;
             lblHoTen.Text = "Nguyễn Văn A";
             // 
             // pnlTab
             // 
-            pnlTab.BackColor = Color.LightSkyBlue;
+            pnlTab.BackColor = Color.FromArgb(240, 248, 255);
             pnlTab.BorderColor = Color.Silver;
             pnlTab.Controls.Add(btnKetQua);
             pnlTab.Controls.Add(btnBaiKiemTra);
@@ -251,7 +263,7 @@
             pnlTab.Location = new Point(0, 0);
             pnlTab.Name = "pnlTab";
             pnlTab.ShadowDecoration.CustomizableEdges = customizableEdges23;
-            pnlTab.Size = new Size(215, 708);
+            pnlTab.Size = new Size(237, 708);
             pnlTab.TabIndex = 3;
             // 
             // btnKetQua
@@ -262,15 +274,17 @@
             btnKetQua.DisabledState.CustomBorderColor = Color.DarkGray;
             btnKetQua.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnKetQua.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnKetQua.FillColor = Color.LightSkyBlue;
-            btnKetQua.Font = new Font("Segoe UI", 9F);
+            btnKetQua.FillColor = Color.FromArgb(135, 206, 250);
+            btnKetQua.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             btnKetQua.ForeColor = Color.White;
-            btnKetQua.Location = new Point(21, 314);
+            btnKetQua.Location = new Point(12, 346);
             btnKetQua.Name = "btnKetQua";
+            btnKetQua.Padding = new Padding(15, 0, 0, 0);
             btnKetQua.ShadowDecoration.CustomizableEdges = customizableEdges19;
-            btnKetQua.Size = new Size(178, 38);
+            btnKetQua.Size = new Size(207, 42);
             btnKetQua.TabIndex = 6;
-            btnKetQua.Text = "Kết quả";
+            btnKetQua.Text = "📊 Kết quả";
+            btnKetQua.TextAlign = HorizontalAlignment.Left;
             btnKetQua.Click += btnKetQua_Click;
             // 
             // btnBaiKiemTra
@@ -281,15 +295,17 @@
             btnBaiKiemTra.DisabledState.CustomBorderColor = Color.DarkGray;
             btnBaiKiemTra.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnBaiKiemTra.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnBaiKiemTra.FillColor = Color.LightSkyBlue;
-            btnBaiKiemTra.Font = new Font("Segoe UI", 9F);
+            btnBaiKiemTra.FillColor = Color.FromArgb(135, 206, 250);
+            btnBaiKiemTra.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             btnBaiKiemTra.ForeColor = Color.White;
-            btnBaiKiemTra.Location = new Point(21, 270);
+            btnBaiKiemTra.Location = new Point(12, 294);
             btnBaiKiemTra.Name = "btnBaiKiemTra";
+            btnBaiKiemTra.Padding = new Padding(15, 0, 0, 0);
             btnBaiKiemTra.ShadowDecoration.CustomizableEdges = customizableEdges21;
-            btnBaiKiemTra.Size = new Size(178, 38);
+            btnBaiKiemTra.Size = new Size(207, 42);
             btnBaiKiemTra.TabIndex = 5;
-            btnBaiKiemTra.Text = "Bài kiểm tra";
+            btnBaiKiemTra.Text = "📝 Bài kiểm tra";
+            btnBaiKiemTra.TextAlign = HorizontalAlignment.Left;
             btnBaiKiemTra.Click += btnBaiKiemTra_Click;
             // 
             // FormMainTeacher
