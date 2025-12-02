@@ -33,8 +33,12 @@ namespace Academix.WinApp.Forms.Admin
             btnQLLopHoc.FillColor = defaultColor;
             btnQLLopHoc.ForeColor = defaultTextColor;
 
-            btnCaiDat.FillColor = defaultColor;
-            btnCaiDat.ForeColor = defaultTextColor;
+            //btnCaiDat.FillColor = defaultColor;
+            //btnCaiDat.ForeColor = defaultTextColor;
+
+            btnTongQuan.FillColor = defaultColor;
+            btnTongQuan.ForeColor = defaultTextColor;
+
 
             btnDoiMatKhau.FillColor = defaultColor;
             btnDoiMatKhau.ForeColor = defaultTextColor;
@@ -72,17 +76,28 @@ namespace Academix.WinApp.Forms.Admin
 
         }
 
-        private void btnCaiDat_Click(object sender, EventArgs e)
+        private void btnTongQuan_Click_1(object sender, EventArgs e)
         {
             ResetTabButtons();
-            btnCaiDat.FillColor = Color.White; // Tab được chọn -> trắng
-            btnCaiDat.ForeColor = Color.LightSkyBlue; // Chữ xanh
-
+            btnTongQuan.FillColor = Color.White; // Tab được chọn -> trắng
+            btnTongQuan.ForeColor = Color.LightSkyBlue; // Chữ xanh
             mainPanel.Controls.Clear();
-            UC_CaiDat uc = new UC_CaiDat();
+            UC_TongQuanAdmin uc = new UC_TongQuanAdmin();
             uc.Dock = DockStyle.Fill;
             mainPanel.Controls.Add(uc);
         }
+
+        //private void btnCaiDat_Click(object sender, EventArgs e)
+        //{
+        //    ResetTabButtons();
+        //    btnCaiDat.FillColor = Color.White; // Tab được chọn -> trắng
+        //    btnCaiDat.ForeColor = Color.LightSkyBlue; // Chữ xanh
+
+        //    mainPanel.Controls.Clear();
+        //    UC_CaiDat uc = new UC_CaiDat();
+        //    uc.Dock = DockStyle.Fill;
+        //    mainPanel.Controls.Add(uc);
+        //}
 
         private void btnDoiMatKhau_Click(object sender, EventArgs e)
         {
@@ -137,5 +152,7 @@ namespace Academix.WinApp.Forms.Admin
         {
 
         }
+
+        
     }
 }

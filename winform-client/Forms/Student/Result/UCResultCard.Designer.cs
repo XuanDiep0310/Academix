@@ -91,6 +91,7 @@
             guna2Button1.Size = new Size(200, 40);
             guna2Button1.TabIndex = 3;
             guna2Button1.Text = "Xem chi tiết đáp án";
+            //guna2Button1.Click += guna2Button1_Click_1;
             // 
             // guna2HtmlLabel4
             // 
@@ -110,7 +111,7 @@
             guna2HtmlLabel5.BackColor = Color.Transparent;
             guna2HtmlLabel5.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 163);
             guna2HtmlLabel5.ForeColor = Color.FromArgb(34, 197, 94);
-            guna2HtmlLabel5.Location = new Point(900, 35);
+            guna2HtmlLabel5.Location = new Point(892, 28);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
             guna2HtmlLabel5.Size = new Size(60, 56);
             guna2HtmlLabel5.TabIndex = 5;

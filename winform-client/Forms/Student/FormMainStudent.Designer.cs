@@ -58,7 +58,7 @@
             btnTaiLieuHocTap = new Guna.UI2.WinForms.Guna2Button();
             btnMyClass = new Guna.UI2.WinForms.Guna2Button();
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
-            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            lblTenHocSinh = new Guna.UI2.WinForms.Guna2HtmlLabel();
             mainPanel = new Panel();
             guna2CirclePictureBox2 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).BeginInit();
@@ -144,7 +144,7 @@
             btnDangXuat.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDangXuat.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnDangXuat.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnDangXuat.FillColor = Color.FromArgb(239, 68, 68);
+            btnDangXuat.FillColor = Color.LightSkyBlue;
             btnDangXuat.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnDangXuat.ForeColor = Color.White;
             btnDangXuat.Location = new Point(20, 75);
@@ -236,7 +236,7 @@
             // 
             // guna2Panel1
             // 
-            guna2Panel1.Controls.Add(guna2HtmlLabel1);
+            guna2Panel1.Controls.Add(lblTenHocSinh);
             guna2Panel1.Controls.Add(guna2CirclePictureBox1);
             guna2Panel1.CustomizableEdges = customizableEdges16;
             guna2Panel1.Dock = DockStyle.Top;
@@ -247,16 +247,16 @@
             guna2Panel1.Size = new Size(250, 130);
             guna2Panel1.TabIndex = 0;
             // 
-            // guna2HtmlLabel1
+            // lblTenHocSinh
             // 
-            guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel1.ForeColor = Color.White;
-            guna2HtmlLabel1.Location = new Point(70, 93);
-            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(139, 34);
-            guna2HtmlLabel1.TabIndex = 3;
-            guna2HtmlLabel1.Text = "Hi, Student!";
+            lblTenHocSinh.BackColor = Color.Transparent;
+            lblTenHocSinh.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTenHocSinh.ForeColor = Color.White;
+            lblTenHocSinh.Location = new Point(20, 77);
+            lblTenHocSinh.Name = "lblTenHocSinh";
+            lblTenHocSinh.Size = new Size(139, 34);
+            lblTenHocSinh.TabIndex = 3;
+            lblTenHocSinh.Text = "Hi, Student!";
             // 
             // mainPanel
             // 
@@ -314,7 +314,7 @@
         private Guna.UI2.WinForms.Guna2Button btnTaiLieuHocTap;
         private Guna.UI2.WinForms.Guna2Button btnMyClass;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblTenHocSinh;
         private Guna.UI2.WinForms.Guna2Button btnMyResult;
         public Panel mainPanel;
         private Guna.UI2.WinForms.Guna2CirclePictureBox guna2CirclePictureBox2;

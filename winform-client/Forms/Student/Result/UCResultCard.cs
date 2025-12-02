@@ -46,14 +46,47 @@ namespace Academix.WinApp.Forms.Student.Result
             {
                 StudentExamResultDto detail = _result;
 
+                // Nếu chưa có câu trả lời → gọi API để lấy
                 if (detail.Answers == null || detail.Answers.Count == 0)
                 {
                     var api = new ExamApiService();
-                    var loaded = await api.GetAttemptResultAsync(_result.AttemptId);
-                    if (loaded != null)
+
+                    try
                     {
-                        detail = loaded;
+                        var loaded = await api.GetAttemptResultAsync(_result.AttemptId);
+
+                        if (loaded != null)
+                            detail = loaded;
                     }
+                    catch (HttpRequestException httpEx)
+                    {
+                        // Nếu API trả về 404 => xem như bài chưa làm câu nào
+                        if (httpEx.Message.Contains("404"))
+                        {
+                            MessageBox.Show(
+                                "Học sinh chưa làm câu nào.",
+                                "Thông báo",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information
+                            );
+                            return;
+                        }
+
+                        // Lỗi HTTP khác
+                        throw;
+                    }
+                }
+
+                // Nếu sau khi gọi API vẫn không có câu trả lời
+                if (detail.Answers == null || detail.Answers.Count == 0)
+                {
+                    MessageBox.Show(
+                        "Học sinh chưa làm câu nào.",
+                        "Thông báo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                    return;
                 }
 
                 using var dlg = new FormExamResultDetail(detail);
@@ -69,5 +102,8 @@ namespace Academix.WinApp.Forms.Student.Result
                 );
             }
         }
+
+
+
     }
 }
