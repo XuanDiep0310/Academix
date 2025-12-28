@@ -43,6 +43,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             guna2CirclePictureBox1 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             guna2GroupBox1 = new Guna.UI2.WinForms.Guna2GroupBox();
@@ -57,6 +59,7 @@
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            btnLanguage = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).BeginInit();
             guna2Panel1.SuspendLayout();
             guna2GroupBox1.SuspendLayout();
@@ -143,7 +146,7 @@
             btnForgotPassWord.DisabledState.CustomBorderColor = Color.DarkGray;
             btnForgotPassWord.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnForgotPassWord.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnForgotPassWord.FillColor = Color.White;
+            btnForgotPassWord.FillColor = Color.Black;
             btnForgotPassWord.Font = new Font("Segoe UI", 9F);
             btnForgotPassWord.ForeColor = Color.White;
             btnForgotPassWord.Location = new Point(120, 377);
@@ -260,16 +263,37 @@
             guna2HtmlLabel4.TabIndex = 8;
             guna2HtmlLabel4.Text = "Chào mừng bạn quay trở lại";
             // 
+            // btnLanguage
+            // 
+            btnLanguage.BorderRadius = 5;
+            btnLanguage.CustomizableEdges = customizableEdges16;
+            btnLanguage.DisabledState.BorderColor = Color.DarkGray;
+            btnLanguage.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnLanguage.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnLanguage.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnLanguage.FillColor = Color.FromArgb(135, 206, 250);
+            btnLanguage.Font = new Font("Segoe UI", 9F);
+            btnLanguage.ForeColor = Color.White;
+            btnLanguage.Location = new Point(1200, 20);
+            btnLanguage.Name = "btnLanguage";
+            btnLanguage.ShadowDecoration.CustomizableEdges = customizableEdges17;
+            btnLanguage.Size = new Size(80, 35);
+            btnLanguage.TabIndex = 3;
+            btnLanguage.Text = "VI/EN";
+            btnLanguage.Click += btnLanguage_Click;
+            // 
             // FormSignIn
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightSkyBlue;
             ClientSize = new Size(1312, 701);
+            Controls.Add(btnLanguage);
             Controls.Add(guna2Panel1);
             Controls.Add(guna2CirclePictureBox1);
             Name = "FormSignIn";
-            Text = "FormSignIn";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Academix - Đăng nhập";
             Load += FormSignIn_Load;
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).EndInit();
             guna2Panel1.ResumeLayout(false);
@@ -293,5 +317,6 @@
         private Guna.UI2.WinForms.Guna2TextBox txtMatKhau;
         private Guna.UI2.WinForms.Guna2TextBox txtEmail;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
+        private Guna.UI2.WinForms.Guna2Button btnLanguage;
     }
 }
