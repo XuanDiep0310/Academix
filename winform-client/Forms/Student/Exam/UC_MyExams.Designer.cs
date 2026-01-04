@@ -69,20 +69,21 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            guna2HtmlLabel1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
             guna2HtmlLabel1.Location = new Point(37, 30);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(132, 33);
+            guna2HtmlLabel1.Size = new Size(157, 39);
             guna2HtmlLabel1.TabIndex = 4;
             guna2HtmlLabel1.Text = "Bài kiểm tra";
             // 
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
+            guna2HtmlLabel2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             guna2HtmlLabel2.ForeColor = SystemColors.ActiveCaptionText;
             guna2HtmlLabel2.Location = new Point(37, 75);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(236, 22);
+            guna2HtmlLabel2.Size = new Size(306, 30);
             guna2HtmlLabel2.TabIndex = 3;
             guna2HtmlLabel2.Text = "Danh sách các bài kiểm tra của bạn";
             // 
@@ -102,13 +103,11 @@
             // flowpanelExams
             // 
             flowpanelExams.AutoScroll = true;
-
-            flowpanelExams.BackColor = Color.WhiteSmoke;
             flowpanelExams.AutoSize = true;
+            flowpanelExams.BackColor = Color.WhiteSmoke;
             flowpanelExams.Dock = DockStyle.Fill;
             flowpanelExams.Location = new Point(0, 0);
             flowpanelExams.Name = "flowpanelExams";
-            flowpanelExams.Padding = new Padding(30, 20, 20, 20);
             flowpanelExams.Size = new Size(1132, 497);
             flowpanelExams.TabIndex = 0;
             flowpanelExams.SizeChanged += flowpanelExams_SizeChanged;

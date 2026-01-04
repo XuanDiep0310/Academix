@@ -271,13 +271,14 @@
             // guna2CirclePictureBox2
             // 
             guna2CirclePictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
+            guna2CirclePictureBox2.Dock = DockStyle.Fill;
             guna2CirclePictureBox2.Image = Properties.Resources.Logo;
             guna2CirclePictureBox2.ImageRotate = 0F;
-            guna2CirclePictureBox2.Location = new Point(56, 28);
+            guna2CirclePictureBox2.Location = new Point(0, 0);
             guna2CirclePictureBox2.Name = "guna2CirclePictureBox2";
             guna2CirclePictureBox2.ShadowDecoration.CustomizableEdges = customizableEdges20;
             guna2CirclePictureBox2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            guna2CirclePictureBox2.Size = new Size(920, 558);
+            guna2CirclePictureBox2.Size = new Size(976, 586);
             guna2CirclePictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             guna2CirclePictureBox2.TabIndex = 5;
             guna2CirclePictureBox2.TabStop = false;
@@ -293,6 +294,7 @@
             Name = "FormMainStudent";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Academix - Học Sinh";
+            Load += FormMainStudent_Load;
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).EndInit();
             guna2Panel2.ResumeLayout(false);
             guna2Panel4.ResumeLayout(false);

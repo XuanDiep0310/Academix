@@ -1,6 +1,8 @@
 ﻿using Academix.WinApp.Forms.Admin;
+using Academix.WinApp.Forms;
 using Academix.WinApp.Forms.Student.MyResult;
 using Academix.WinApp.Utils;
+using Academix.WinApp.Languages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,11 +17,31 @@ namespace Academix.WinApp.Forms.Student
 {
     public partial class FormMainStudent : Form
     {
+        private Guna.UI2.WinForms.Guna2Button btnLanguage;
+
         public FormMainStudent()
         {
             InitializeComponent();
-            lblTenHocSinh.Text = SessionManager.CurrentUser.FullName;
+            
+            // Kiểm tra session trước khi truy cập
+            if (SessionManager.CurrentUser != null)
+            {
+                lblTenHocSinh.Text = SessionManager.CurrentUser.FullName ?? LanguageManager.GetString("Student");
+            }
+            else
+            {
+                MessageBox.Show(
+                    LanguageManager.GetString("InvalidSession"), 
+                    LanguageManager.GetString("Error"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+            }
+            
+            ResetTabButtons();
+            
         }
+
+        
 
         private void ResetTabButtons()
         {
@@ -113,8 +135,8 @@ namespace Academix.WinApp.Forms.Student
         {
             // Hiển thị hộp thoại xác nhận
             var result = MessageBox.Show(
-                "Bạn có chắc muốn đăng xuất không?",
-                "Xác nhận đăng xuất",
+                LanguageManager.GetString("ConfirmLogout"),
+                LanguageManager.GetString("LogoutTitle"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
@@ -124,17 +146,28 @@ namespace Academix.WinApp.Forms.Student
                 // Xóa session
                 SessionManager.ClearSession();
 
-                // Reset màu tab
-                ResetTabButtons();
-                btnDangXuat.FillColor = Color.FromArgb(239, 68, 68);
-                btnDangXuat.ForeColor = Color.White;
+                // Tìm FormSignIn trong Application.OpenForms hoặc tạo mới
+                FormSignIn loginForm = null;
+                foreach (Form form in Application.OpenForms)
+                {
+                    if (form is FormSignIn)
+                    {
+                        loginForm = form as FormSignIn;
+                        break;
+                    }
+                }
 
-                // Ẩn form hiện tại và mở FormSignIn
-                this.FindForm().Hide();
-                using var loginForm = new FormSignIn();
-                loginForm.ShowDialog();
+                // Nếu không tìm thấy FormSignIn, tạo mới
+                if (loginForm == null || loginForm.IsDisposed)
+                {
+                    loginForm = new FormSignIn();
+                }
 
-                this.FindForm().Close();
+                // Hiển thị lại FormSignIn và reset thông tin
+                loginForm.ShowLoginForm();
+
+                // Đóng form hiện tại
+                this.Close();
             }
         }
 
@@ -142,9 +175,22 @@ namespace Academix.WinApp.Forms.Student
         {
             ResetTabButtons();
             btnDoiMatKhau.FillColor = Color.White; // Tab được chọn -> trắng
-            btnDoiMatKhau.ForeColor = Color.FromArgb(99, 102, 241); // Chữ indigo
+            btnDoiMatKhau.ForeColor = Color.LightSkyBlue; // Chữ indigo
             FormDoiMatKhau form = new FormDoiMatKhau();
             form.ShowDialog();
+        }
+
+        private void FormMainStudent_Load(object sender, EventArgs e)
+        {
+            // Load ngôn ngữ khi form load
+            //LoadLanguage();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            // Hủy đăng ký event khi form đóng
+            //LanguageManager.LanguageChanged -= LanguageManager_LanguageChanged;
+            base.OnFormClosed(e);
         }
     }
 }

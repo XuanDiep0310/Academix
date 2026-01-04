@@ -48,7 +48,7 @@
             guna2HtmlLabel2.ForeColor = SystemColors.ActiveCaptionText;
             guna2HtmlLabel2.Location = new Point(54, 79);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(274, 29);
+            guna2HtmlLabel2.Size = new Size(244, 25);
             guna2HtmlLabel2.TabIndex = 1;
             guna2HtmlLabel2.Text = "Các lớp học bạn đang tham gia";
             guna2HtmlLabel2.Click += guna2HtmlLabel2_Click;
@@ -71,7 +71,7 @@
             guna2HtmlLabel1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
             guna2HtmlLabel1.Location = new Point(54, 28);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(223, 45);
+            guna2HtmlLabel1.Size = new Size(198, 39);
             guna2HtmlLabel1.TabIndex = 2;
             guna2HtmlLabel1.Text = "Lớp học của tôi";
             // 
@@ -96,7 +96,6 @@
             layoutMyCard.Dock = DockStyle.Fill;
             layoutMyCard.Location = new Point(0, 0);
             layoutMyCard.Name = "layoutMyCard";
-            layoutMyCard.Padding = new Padding(34, 23, 22, 23);
             layoutMyCard.Size = new Size(1307, 753);
             layoutMyCard.TabIndex = 0;
             // 

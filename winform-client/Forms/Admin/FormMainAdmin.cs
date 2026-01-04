@@ -1,5 +1,7 @@
 ﻿using Academix.WinApp.Api;
 using Academix.WinApp.Utils;
+using Academix.WinApp.Forms;
+using Academix.WinApp.Languages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,12 +17,33 @@ namespace Academix.WinApp.Forms.Admin
     public partial class FormMainAdmin : Form
     {
         private readonly UserApi _userApi;
+        private Guna.UI2.WinForms.Guna2Button btnLanguage;
+
         public FormMainAdmin()
         {
             InitializeComponent();
             _userApi = new UserApi(Config.Get("ApiSettings:BaseUrl"));
             ResetTabButtons();
+            CreateLanguageButton();
+           
         }
+
+        private void CreateLanguageButton()
+        {
+            btnLanguage = new Guna.UI2.WinForms.Guna2Button();
+            btnLanguage.BorderRadius = 5;
+            btnLanguage.FillColor = Color.FromArgb(135, 206, 250);
+            btnLanguage.Font = new Font("Segoe UI", 9F);
+            btnLanguage.ForeColor = Color.White;
+            btnLanguage.Location = new Point(guna2Panel2.Width - 90, 10);
+            btnLanguage.Size = new Size(80, 30);
+            btnLanguage.Text = LanguageManager.CurrentLanguage.ToUpper();
+            //btnLanguage.Click += btnLanguage_Click;
+            guna2Panel2.Controls.Add(btnLanguage);
+            btnLanguage.BringToFront();
+        }
+
+        
 
         private void ResetTabButtons()
         {
@@ -112,8 +135,8 @@ namespace Academix.WinApp.Forms.Admin
         {
             // Hiển thị hộp thoại xác nhận
             var result = MessageBox.Show(
-                "Bạn có chắc muốn đăng xuất không?",
-                "Xác nhận đăng xuất",
+                LanguageManager.GetString("ConfirmLogout"),
+                LanguageManager.GetString("LogoutTitle"),
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
@@ -123,18 +146,28 @@ namespace Academix.WinApp.Forms.Admin
                 // Xóa session
                 SessionManager.ClearSession();
 
-                // Reset màu tab
-                ResetTabButtons();
-                btnDangXuat.FillColor = Color.White;
-                btnDangXuat.ForeColor = Color.LightSkyBlue;
+                // Tìm FormSignIn trong Application.OpenForms hoặc tạo mới
+                FormSignIn loginForm = null;
+                foreach (Form form in Application.OpenForms)
+                {
+                    if (form is FormSignIn)
+                    {
+                        loginForm = form as FormSignIn;
+                        break;
+                    }
+                }
 
-                // Ẩn form hiện tại và mở FormSignIn
-                this.FindForm().Hide();
-                using var loginForm = new FormSignIn();
-                loginForm.ShowDialog();
+                // Nếu không tìm thấy FormSignIn, tạo mới
+                if (loginForm == null || loginForm.IsDisposed)
+                {
+                    loginForm = new FormSignIn();
+                }
 
-                // Đóng form hiện tại sau khi FormSignIn đóng
-                this.FindForm().Close();
+                // Hiển thị lại FormSignIn và reset thông tin
+                loginForm.ShowLoginForm();
+
+                // Đóng form hiện tại
+                this.Close();
             }
             // Nếu chọn No thì không làm gì, form vẫn giữ nguyên
         }
@@ -150,9 +183,28 @@ namespace Academix.WinApp.Forms.Admin
 
         private void FormMainAdmin_Load(object sender, EventArgs e)
         {
-
+            // Load ngôn ngữ khi form load
+            //LoadLanguage();
+            
+            // Đảm bảo tất cả button được cập nhật
+            RefreshAllButtons();
         }
 
-        
+        private void RefreshAllButtons()
+        {
+            // Force refresh tất cả button
+            btnTongQuan.Invalidate();
+            btnQLTaiKhoan.Invalidate();
+            btnQLLopHoc.Invalidate();
+            btnDoiMatKhau.Invalidate();
+            btnDangXuat.Invalidate();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            // Hủy đăng ký event khi form đóng
+            //LanguageManager.LanguageChanged -= LanguageManager_LanguageChanged;
+            base.OnFormClosed(e);
+        }
     }
 }

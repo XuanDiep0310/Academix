@@ -318,6 +318,7 @@
             Name = "FormMainTeacher";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ giảng viên";
+            Load += FormMainTeacher_Load;
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).EndInit();
             guna2Panel4.ResumeLayout(false);
             guna2Panel1.ResumeLayout(false);
