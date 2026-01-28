@@ -1,4 +1,4 @@
-﻿using Academix.WinApp.Models.Common;
+using Academix.WinApp.Models.Common;
 using Academix.WinApp.Models.Student;
 using Academix.WinApp.Models.Teacher;
 using Academix.WinApp.Utils;
@@ -187,9 +187,23 @@ namespace Academix.WinApp.Api
         {
             using var client = CreateStudentClient();
             var response = await client.PostAsync($"/api/student/exams/{examId}/start", null);
-            response.EnsureSuccessStatusCode();
+            
+            // Đọc response theo dạng ApiResponse để lấy được Message khi 400 BadRequest
             var result = await response.Content.ReadFromJsonAsync<ApiResponse<StartExamResponseDto>>();
-            return result?.Data;
+
+            if (!response.IsSuccessStatusCode || result == null || !result.Success)
+            {
+                var message = result?.Message;
+
+                if (string.IsNullOrWhiteSpace(message))
+                {
+                    message = $"API Error {response.StatusCode}";
+                }
+
+                throw new Exception(message);
+            }
+
+            return result.Data;
         }
 
         public async Task<bool> SaveAnswerAsync(int attemptId, int questionId, int selectedOptionId)

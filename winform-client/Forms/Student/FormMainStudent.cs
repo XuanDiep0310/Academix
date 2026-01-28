@@ -22,7 +22,7 @@ namespace Academix.WinApp.Forms.Student
         public FormMainStudent()
         {
             InitializeComponent();
-            
+
             // Kiểm tra session trước khi truy cập
             if (SessionManager.CurrentUser != null)
             {
@@ -31,17 +31,17 @@ namespace Academix.WinApp.Forms.Student
             else
             {
                 MessageBox.Show(
-                    LanguageManager.GetString("InvalidSession"), 
+                    LanguageManager.GetString("InvalidSession"),
                     LanguageManager.GetString("Error"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Close();
             }
-            
+
             ResetTabButtons();
-            
+
         }
 
-        
+
 
         private void ResetTabButtons()
         {
@@ -63,7 +63,7 @@ namespace Academix.WinApp.Forms.Student
             btnDoiMatKhau.FillColor = defaultColor;
             btnDoiMatKhau.ForeColor = defaultTextColor;
 
-            btnDangXuat.FillColor = defaultColor; 
+            btnDangXuat.FillColor = defaultColor;
             btnDangXuat.ForeColor = defaultTextColor;
         }
 
@@ -192,5 +192,21 @@ namespace Academix.WinApp.Forms.Student
             //LanguageManager.LanguageChanged -= LanguageManager_LanguageChanged;
             base.OnFormClosed(e);
         }
+
+        
+
+            
+        public void DisableNavigation()
+        {
+            guna2Panel2.Enabled = false; // khóa sidebar
+        }
+
+        public void EnableNavigation()
+        {
+            guna2Panel2.Enabled = true;
+        }
+
+
+
     }
 }

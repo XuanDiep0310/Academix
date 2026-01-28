@@ -82,6 +82,15 @@ namespace Academix.WinApp.Forms.Student.Exam
             base.OnSizeChanged(e);
             flowOptions.Width = Width - 48;
         }
+
+        public void SetEnabled(bool enabled)
+{
+    foreach (Control c in this.Controls)
+    {
+        c.Enabled = enabled;
+    }
+}
+
     }
 
     public class OptionSelectedEventArgs : EventArgs
@@ -95,4 +104,6 @@ namespace Academix.WinApp.Forms.Student.Exam
         public int QuestionId { get; }
         public int SelectedOptionId { get; }
     }
+
+
 }

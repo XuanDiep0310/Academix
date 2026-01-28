@@ -29,8 +29,13 @@ namespace Academix.WinApp.Forms.Student.MyResult
             lblLopHoc.Text = exam.ClassName;
             //lblMonHoc.Text = exam.ClassName;
             lblThoiLuong.Text = $"{exam.Duration} phút";
-            lblThoiGianBatDau.Text = exam.StartTime.ToString("HH:mm dd/MM/yyyy");
-            lblThoiGianKetThuc.Text = exam.EndTime.ToString("HH:mm dd/MM/yyyy");
+
+            // exam.StartTime/EndTime đang được backend lưu dạng UTC -> convert về local để hiển thị & kiểm tra
+            var startLocal = DateTime.SpecifyKind(exam.StartTime, DateTimeKind.Utc).ToLocalTime();
+            var endLocal = DateTime.SpecifyKind(exam.EndTime, DateTimeKind.Utc).ToLocalTime();
+
+            lblThoiGianBatDau.Text = startLocal.ToString("HH:mm dd/MM/yyyy");
+            lblThoiGianKetThuc.Text = endLocal.ToString("HH:mm dd/MM/yyyy");
 
             if (_attemptResult != null)
             {
@@ -53,8 +58,8 @@ namespace Academix.WinApp.Forms.Student.MyResult
 
             var now = DateTime.Now;
             var isOpen = exam.IsPublished
-                && now >= exam.StartTime
-                && now <= exam.EndTime;
+                && now >= startLocal
+                && now <= endLocal;
 
             // Cập nhật giao diện theo trạng thái
             if (isOpen)
@@ -79,9 +84,9 @@ namespace Academix.WinApp.Forms.Student.MyResult
                 string reason = "Bài kiểm tra đã kết thúc.";
                 if (!exam.IsPublished)
                     reason = "Bài kiểm tra chưa được mở.";
-                else if (now < exam.StartTime)
+                else if (now < startLocal)
                     reason = "Bài kiểm tra chưa đến thời gian bắt đầu.";
-                else if (now > exam.EndTime)
+                else if (now > endLocal)
                     reason = "Bài kiểm tra đã hết thời gian.";
 
                 lblTrangThaiDangMo.Text = reason;
@@ -126,8 +131,8 @@ namespace Academix.WinApp.Forms.Student.MyResult
                 frm.mainPanel.Controls.Clear();
                 var uc = new UC_DoExam();
                 uc.Dock = DockStyle.Fill;
-                uc.BindAttempt(attempt, _exam);
-                frm.mainPanel.Controls.Add(uc);
+                frm.mainPanel.Controls.Add(uc);   // Add vào form TRƯỚC để có ParentForm
+                uc.BindAttempt(attempt, _exam);   // Rồi mới Bind (fullscreen sẽ hoạt động)
             }
             catch (Exception ex)
             {

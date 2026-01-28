@@ -1,8 +1,9 @@
-﻿using Academix.WinApp.Api;
+using Academix.WinApp.Api;
 using Academix.WinApp.Forms.Student;
 using Academix.WinApp.Forms.Student.MyResult;
 using Academix.WinApp.Models.Student;
 using Academix.WinApp.Models.Teacher;
+using Academix.WinApp.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ using System.Windows.Forms;
 
 namespace Academix.WinApp.Forms.Student.Exam
 {
+
+
     public partial class UC_DoExam : UserControl
     {
         private readonly ExamApiService _examApi = new();
@@ -20,6 +23,129 @@ namespace Academix.WinApp.Forms.Student.Exam
         private bool _isSubmitting;
         private bool _initialized;
         private TimeSpan remaining;
+
+        private DateTime _lastClickTime = DateTime.MinValue;
+        private int _rapidClickCount = 0;
+
+        private bool _antiCheatHooked;
+
+        private bool _isHandlingDeactivate;
+        private bool _answerLocked;
+        private DateTime _lockUntil;
+        private bool _isFullScreen;
+        private DateTime _lastDeactivateWarning = DateTime.MinValue;
+        private System.Windows.Forms.Timer? _unlockTimer;
+        private bool _isShowingWarning; // Flag để tránh trigger Deactivate khi đang hiện MessageBox
+        private FormWindowState _prevWindowState;
+        private FormBorderStyle _prevBorderStyle;
+        private bool _prevControlBox;
+
+
+
+        private void HookAntiCheat()
+        {
+            if (_antiCheatHooked || ParentForm == null) return;
+
+            ParentForm.Activated += ParentForm_Activated;
+            ParentForm.Deactivate += ParentForm_Deactivate;
+            _antiCheatHooked = true;
+        }
+
+        private void UnhookAntiCheat()
+        {
+            if (!_antiCheatHooked || ParentForm == null) return;
+
+            ParentForm.Activated -= ParentForm_Activated;
+            ParentForm.Deactivate -= ParentForm_Deactivate;
+            _antiCheatHooked = false;
+        }
+
+        private void EnterFullScreen()
+        {
+            if (_isFullScreen || ParentForm == null) return;
+
+            var form = ParentForm;
+
+            _prevWindowState = form.WindowState;
+            _prevBorderStyle = form.FormBorderStyle;
+            _prevControlBox = form.ControlBox;
+
+            form.ControlBox = false;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.WindowState = FormWindowState.Maximized;
+
+            _isFullScreen = true;
+        }
+
+        private void ExitFullScreen()
+        {
+            if (!_isFullScreen || ParentForm == null) return;
+
+            var form = ParentForm;
+
+            form.ControlBox = _prevControlBox;
+            form.FormBorderStyle = _prevBorderStyle;
+            form.WindowState = _prevWindowState;
+
+            _isFullScreen = false;
+        }
+
+        private void ParentForm_Activated(object? sender, EventArgs e)
+        {
+            _rapidClickCount = 0;
+        }
+
+        private async void ParentForm_Deactivate(object? sender, EventArgs e)
+        {
+            // Không cảnh báo nếu đang submit, đang hiện warning khác, hoặc đã xử lý rồi
+            if (_isHandlingDeactivate || _isSubmitting || _isShowingWarning) return;
+            _isHandlingDeactivate = true;
+
+            try
+            {
+                await Task.Delay(200); // cho Windows ổn định focus
+
+                // Check lại sau delay
+                if (_isSubmitting || _isShowingWarning || ParentForm == null)
+                {
+                    return;
+                }
+
+                // Cooldown 3 giây - không hiện cảnh báo liên tục
+                var now = DateTime.Now;
+                if ((now - _lastDeactivateWarning).TotalSeconds >= 3)
+                {
+                    _lastDeactivateWarning = now;
+                    _isShowingWarning = true;
+                    try
+                    {
+                        MessageBox.Show(
+                            "Không được rời khỏi màn hình làm bài!",
+                            "Cảnh báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                    finally
+                    {
+                        _isShowingWarning = false;
+                    }
+                }
+
+                // Kéo form về foreground
+                if (ParentForm != null)
+                {
+                    ParentForm.TopMost = true;
+                    ParentForm.TopMost = false;
+                }
+            }
+            finally
+            {
+                _isHandlingDeactivate = false;
+            }
+        }
+
+
+
 
         public UC_DoExam()
         {
@@ -37,6 +163,20 @@ namespace Academix.WinApp.Forms.Student.Exam
             _examMetadata = examMetadata;
             _selectedAnswers.Clear();
             _initialized = true;
+
+            var frm = FindForm() as FormMainStudent;
+            frm?.DisableNavigation();
+
+
+            //khóa bàn phím chuyển app
+            KeyboardLocker.Lock();
+
+            HookAntiCheat();
+            EnterFullScreen();
+
+            // trộn đềđề
+            ExamShuffleHelper.ShuffleExam(_attempt);
+
 
             lblTenBaiKtra.Text = attempt.Title;
             lblTenMon.Text = examMetadata.ClassName;
@@ -104,10 +244,12 @@ namespace Academix.WinApp.Forms.Student.Exam
 
         private async void Card_OptionSelected(object? sender, OptionSelectedEventArgs e)
         {
-            if (_attempt == null || _isSubmitting)
-            {
+            // Kiểm tra rapid click - nếu bị chặn thì return ngay
+            if (!DetectRapidClick())
                 return;
-            }
+
+            if (_answerLocked || _attempt == null || _isSubmitting)
+                return;
 
             _selectedAnswers[e.QuestionId] = e.SelectedOptionId;
             UpdateAnsweredLabel();
@@ -151,6 +293,8 @@ namespace Academix.WinApp.Forms.Student.Exam
             {
                 timer1.Stop();
                 lblClock.Text = "00:00:00";
+
+                KeyboardLocker.Unlock();
                 await SubmitExamAsync(true);
                 return;
             }
@@ -186,6 +330,23 @@ namespace Academix.WinApp.Forms.Student.Exam
 
                 var result = await _examApi.SubmitExamAsync(_attempt.AttemptId, answers);
                 timer1.Stop();
+
+                // Gỡ bỏ anti-cheat hooks TRƯỚC khi hiện MessageBox (tránh trigger Deactivate)
+                UnhookAntiCheat();
+
+                // Dọn dẹp unlock timer nếu có
+                _unlockTimer?.Stop();
+                _unlockTimer?.Dispose();
+                _unlockTimer = null;
+
+                // Mở khóa bàn phím
+                KeyboardLocker.Unlock();
+
+                // Thoát fullscreen và bật lại navigation
+                ExitFullScreen();
+                var frm = FindForm() as FormMainStudent;
+                frm?.EnableNavigation();
+
 
                 var message = isAutoSubmit
                     ? "Hết giờ! Bài kiểm tra đã được nộp tự động."
@@ -258,5 +419,107 @@ namespace Academix.WinApp.Forms.Student.Exam
                 NavigateBackToExamList();
             }
         }
+
+        /// <summary>
+        /// Kiểm tra click nhanh bất thường. 
+        /// Return true nếu cho phép tiếp tục, false nếu bị chặn.
+        /// </summary>
+        private bool DetectRapidClick()
+        {
+            // Nếu đang bị khóa
+            if (_answerLocked)
+            {
+                var remain = (_lockUntil - DateTime.Now).TotalSeconds;
+                if (remain > 0)
+                {
+                    _isShowingWarning = true;
+                    MessageBox.Show(
+                        $"Bạn đang bị khóa thao tác trong {Math.Ceiling(remain)} giây!",
+                        "Bị khóa thao tác",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    _isShowingWarning = false;
+                    return false; // Chặn
+                }
+                else
+                {
+                    // Hết thời gian khóa -> mở lại
+                    _answerLocked = false;
+                    EnableAnswerControls(true);
+                }
+            }
+
+            var now = DateTime.Now;
+
+            // Nếu click trong vòng 10 giây so với lần trước (rapid click)
+            if ((now - _lastClickTime).TotalSeconds < 10)
+            {
+                _rapidClickCount++;
+
+                // Nếu click nhanh >= 5 lần liên tiếp -> khóa 10 giây
+                if (_rapidClickCount >= 5)
+                {
+                    LockAnswerForSeconds(10);
+                    _rapidClickCount = 0;
+                    return false; // Chặn
+                }
+            }
+            else
+            {
+                // Reset đếm nếu click chậm lại
+                _rapidClickCount = 0;
+            }
+
+            _lastClickTime = now;
+            return true; // Cho phép tiếp tục
+        }
+
+        private void LockAnswerForSeconds(int seconds)
+        {
+            _answerLocked = true;
+            _lockUntil = DateTime.Now.AddSeconds(seconds);
+
+            EnableAnswerControls(false);
+
+            // Tạo Timer để tự động unlock sau X giây
+            _unlockTimer?.Stop();
+            _unlockTimer?.Dispose();
+            _unlockTimer = new System.Windows.Forms.Timer();
+            _unlockTimer.Interval = seconds * 1000;
+            _unlockTimer.Tick += (s, e) =>
+            {
+                _unlockTimer?.Stop();
+                _unlockTimer?.Dispose();
+                _unlockTimer = null;
+
+                _answerLocked = false;
+                EnableAnswerControls(true);
+            };
+            _unlockTimer.Start();
+
+            // Set flag để tránh trigger Deactivate khi hiện MessageBox
+            _isShowingWarning = true;
+            MessageBox.Show(
+                $"Phát hiện thao tác bất thường!\nBạn bị khóa chọn đáp án trong {seconds} giây.",
+                "Cảnh báo gian lận",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+            _isShowingWarning = false;
+        }
+
+        private void EnableAnswerControls(bool enabled)
+        {
+            foreach (Control c in PanelDoExam.Controls)
+            {
+                if (c is UC_DoExamCard card)
+                {
+                    card.SetEnabled(enabled);
+                }
+            }
+        }
+
+
+
+
     }
 }
