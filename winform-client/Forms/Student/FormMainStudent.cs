@@ -192,10 +192,16 @@ namespace Academix.WinApp.Forms.Student
             //LanguageManager.LanguageChanged -= LanguageManager_LanguageChanged;
             base.OnFormClosed(e);
         }
-
-        private void guna2CirclePictureBox2_Click(object sender, EventArgs e)
+            
+        public void DisableNavigation()
         {
-
+            guna2Panel2.Enabled = false; // khóa sidebar
         }
+
+        public void EnableNavigation()
+        {
+            guna2Panel2.Enabled = true;
+        }
+
     }
 }

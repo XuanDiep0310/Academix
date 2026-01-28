@@ -283,7 +283,7 @@ namespace Academix.WinApp.Forms.Student
             guna2CirclePictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             guna2CirclePictureBox2.TabIndex = 5;
             guna2CirclePictureBox2.TabStop = false;
-            guna2CirclePictureBox2.Click += guna2CirclePictureBox2_Click;
+            //guna2CirclePictureBox2.Click += guna2CirclePictureBox2_Click;
             // 
             // FormMainStudent
             // 

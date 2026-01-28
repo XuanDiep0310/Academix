@@ -1,4 +1,4 @@
-﻿using Academix.WinApp.Api;
+using Academix.WinApp.Api;
 using Academix.WinApp.Models.Teacher;
 using Guna.UI2.WinForms;
 using System;
@@ -244,8 +244,10 @@ namespace Academix.WinApp.Forms.Teacher.Exam
                 Description = lblMoTa.Text.Trim(),
                 Duration = (int)nmbThoiLuongLamBai.Value,
                 TotalMarks = selectedQuestions.Sum(q => q.Marks),
-                StartTime = dtpThoiGianBatDau.Value,
-                EndTime = dtpThoiGianKetThuc.Value,
+                // Lưu xuống backend/DB theo UTC, vẫn cho giáo viên chọn giờ local
+                StartTime = DateTime.SpecifyKind(dtpThoiGianBatDau.Value, DateTimeKind.Local).ToUniversalTime(),
+                EndTime = DateTime.SpecifyKind(dtpThoiGianKetThuc.Value, DateTimeKind.Local).ToUniversalTime(),
+
                 Questions = selectedQuestions 
             };
 
@@ -283,8 +285,10 @@ namespace Academix.WinApp.Forms.Teacher.Exam
                 Description = txtMoTa.Text.Trim(),
                 Duration = (int)nmbThoiLuongLamBai.Value,
                 TotalMarks = selectedQuestions.Sum(q => q.Marks),
-                StartTime = dtpThoiGianBatDau.Value,
-                EndTime = dtpThoiGianKetThuc.Value
+                // Lưu xuống backend/DB theo UTC, vẫn cho giáo viên chọn giờ local
+                StartTime = DateTime.SpecifyKind(dtpThoiGianBatDau.Value, DateTimeKind.Local).ToUniversalTime(),
+                EndTime = DateTime.SpecifyKind(dtpThoiGianKetThuc.Value, DateTimeKind.Local).ToUniversalTime(),
+
             };
 
             var result = await _api.UpdateExamAsync(_classId, _examId, request);

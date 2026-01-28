@@ -182,7 +182,6 @@ namespace Academix.WinApp.Languages
                 // Student Menu
                 {"MyClass", "Lớp học của tôi"},
                 {"StudyMaterials", "Tài liệu học tập"},
-                {"Exams", "Bài kiểm tra"},
                 {"MyResults", "Kết quả của tôi"},
                 {"Student", "Học sinh"},
                 
@@ -278,7 +277,6 @@ namespace Academix.WinApp.Languages
                 // Student Menu
                 {"MyClass", "My Class"},
                 {"StudyMaterials", "Study Materials"},
-                {"Exams", "Exams"},
                 {"MyResults", "My Results"},
                 {"Student", "Student"},
                 
