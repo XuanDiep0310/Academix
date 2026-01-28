@@ -66,14 +66,14 @@ namespace Academix.WinApp.Languages
 
         public static string GetString(string key)
         {
-            if (_translations.ContainsKey(_currentLanguage) && 
+            if (_translations.ContainsKey(_currentLanguage) &&
                 _translations[_currentLanguage].ContainsKey(key))
             {
                 return _translations[_currentLanguage][key];
             }
 
             // Fallback về tiếng Việt nếu không tìm thấy
-            if (_translations.ContainsKey("vi") && 
+            if (_translations.ContainsKey("vi") &&
                 _translations["vi"].ContainsKey(key))
             {
                 return _translations["vi"][key];

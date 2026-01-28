@@ -115,8 +115,30 @@ namespace Academix.WinApp.Forms
                 }
                 else
                 {
+                    // Phân biệt lỗi email không tồn tại và mật khẩu sai
+                    var rawMessage = loginResult.Message ?? string.Empty;
+                    var lower = rawMessage.ToLowerInvariant();
+                    string userFriendly;
+
+                    if (lower.Contains("email") && (lower.Contains("không tồn tại") || lower.Contains("khong ton tai") ||
+                                                     lower.Contains("not found") || lower.Contains("does not exist")))
+                    {
+                        userFriendly = "Email không tồn tại trong hệ thống. Vui lòng kiểm tra lại.";
+                    }
+                    else if (lower.Contains("mật khẩu") || lower.Contains("mat khau") || lower.Contains("password"))
+                    {
+                        userFriendly = "Mật khẩu không đúng hoặc email không tồn tại. Vui lòng thử lại.";
+                    }
+                    else
+                    {
+                        // Giữ lại thông báo gốc nếu không bắt được pattern
+                        userFriendly = string.IsNullOrWhiteSpace(rawMessage)
+                            ? LanguageManager.GetString("LoginFailed")
+                            : rawMessage;
+                    }
+
                     MessageBox.Show(
-                        loginResult.Message, 
+                        userFriendly,
                         LanguageManager.GetString("LoginFailed"),
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

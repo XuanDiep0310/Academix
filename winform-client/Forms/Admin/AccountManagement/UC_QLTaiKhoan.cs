@@ -1,4 +1,4 @@
-﻿using Academix.WinApp.Api;
+using Academix.WinApp.Api;
 using Academix.WinApp.Utils;
 using System;
 using System.Collections.Generic;
@@ -66,7 +66,10 @@ namespace Academix.WinApp.Forms.Admin
 
                 _totalPages = result.TotalPages > 0 ? result.TotalPages : 1;
 
-                dgvTaiKhoan.DataSource = new BindingList<UserData>(result.Users);
+                // Lưu danh sách hiện tại để phục vụ tìm kiếm
+                _currentUsers = result.Users ?? new List<UserData>();
+
+                ApplySearchFilter(timkiem.Text);
 
                 ConfigureColumns();
                 AddActionColumns();
@@ -204,21 +207,6 @@ namespace Academix.WinApp.Forms.Admin
         }
         #endregion
 
-        #region Cell Formatting & Click
-        //private void DgvTaiKhoan_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        //{
-        //    if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-        //    if (dgvTaiKhoan.Columns[e.ColumnIndex].Name == "IsActive")
-        //    {
-        //        var user = dgvTaiKhoan.Rows[e.RowIndex].DataBoundItem as UserData;
-        //        if (user != null)
-        //        {
-        //            e.Value = user.IsActive ? "Hoạt động" : "Đã khóa";
-        //            e.FormattingApplied = true;
-        //        }
-        //    }
-        //}
-
 
         private async void DgvTaiKhoan_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -246,7 +234,7 @@ namespace Academix.WinApp.Forms.Admin
                 case "btnDelete": await HandleDeleteUser(user); break;
             }
         }
-        #endregion
+
 
         #region User Actions
         private async Task HandleEditUser(UserData user)
@@ -395,7 +383,56 @@ namespace Academix.WinApp.Forms.Admin
         }
         #endregion
 
-        
+
+        private void timkiem_TextChanged(object sender, EventArgs e)
+        {
+            ApplySearchFilter(timkiem.Text);
+        }
+
+        private void btnTimKim1_Click(object sender, EventArgs e)
+        {
+            ApplySearchFilter(timkiem.Text);
+        }
+
+        /// <summary>
+        /// Lọc danh sách tài khoản theo từ khóa (tên, email, vai trò)
+        /// </summary>
+        private void ApplySearchFilter(string keyword)
+        {
+            try
+            {
+                if (_currentUsers == null)
+                {
+                    dgvTaiKhoan.DataSource = null;
+                    return;
+                }
+
+                keyword = keyword?.Trim() ?? string.Empty;
+
+                if (string.IsNullOrWhiteSpace(keyword))
+                {
+                    dgvTaiKhoan.DataSource = new BindingList<UserData>(_currentUsers);
+                    return;
+                }
+
+                var lower = keyword.ToLower();
+
+                var filtered = _currentUsers
+                    .Where(u =>
+                        (!string.IsNullOrEmpty(u.FullName) && u.FullName.ToLower().Contains(lower)) ||
+                        (!string.IsNullOrEmpty(u.Email) && u.Email.ToLower().Contains(lower)) ||
+                        (!string.IsNullOrEmpty(u.Role) && u.Role.ToLower().Contains(lower)))
+                    .ToList();
+
+                dgvTaiKhoan.DataSource = new BindingList<UserData>(filtered);
+            }
+            catch (Exception ex)
+            {
+                HandleError("Lỗi tìm kiếm tài khoản", ex);
+            }
+        }
+
+      
     }
 }
 

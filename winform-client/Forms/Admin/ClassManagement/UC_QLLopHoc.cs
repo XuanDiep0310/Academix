@@ -1,10 +1,11 @@
-﻿using Academix.WinApp.Api;
+using Academix.WinApp.Api;
 using Academix.WinApp.Forms.Admin.ClassManagement;
 using Academix.WinApp.Models.Classes;
 using Academix.WinApp.Models.Classes.Responses;
 using Academix.WinApp.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -13,6 +14,7 @@ namespace Academix.WinApp.Forms.Admin
     public partial class UC_QLLopHoc : UserControl
     {
         private readonly ClassApiService _classApiService;
+        private List<ClassDto> _currentClasses;
 
         public UC_QLLopHoc()
         {
@@ -58,21 +60,11 @@ namespace Academix.WinApp.Forms.Admin
                     sortOrder: "desc"
                 );
 
-                dgvClasses.Rows.Clear();
+                // Lưu danh sách lớp hiện tại để phục vụ tìm kiếm
+                _currentClasses = data.Classes ?? new List<ClassDto>();
 
-                foreach (var c in data.Classes)
-                {
-                    int rowIndex = dgvClasses.Rows.Add(
-                        c.ClassName,
-                        c.ClassCode,
-                        $"{c.TeacherCount}/2",
-                        $"{c.StudentCount}/100",
-                        c.CreatedAt.ToString("yyyy-MM-dd"),
-                        "👥", "✏️", "🗑️"
-                    );
-
-                    dgvClasses.Rows[rowIndex].Tag = c.ClassId;
-                }
+                // Áp dụng filter theo ô tìm kiếm (nếu có)
+                ApplySearchFilter(timkiem.Text);
 
                 // Gán tổng số trang từ API
                 _totalPages = data.TotalPages > 0 ? data.TotalPages : 1;
@@ -207,5 +199,56 @@ namespace Academix.WinApp.Forms.Admin
             }
         }
 
+        private void timkiem_TextChanged(object sender, EventArgs e)
+        {
+            ApplySearchFilter(timkiem.Text);
+        }
+
+        private void btnTimKim1_Click(object sender, EventArgs e)
+        {
+            ApplySearchFilter(timkiem.Text);
+        }
+
+        /// <summary>
+        /// Lọc danh sách lớp theo từ khóa (tên lớp, mã lớp, người tạo)
+        /// </summary>
+        private void ApplySearchFilter(string keyword)
+        {
+            if (_currentClasses == null)
+            {
+                dgvClasses.Rows.Clear();
+                return;
+            }
+
+            keyword = keyword?.Trim() ?? string.Empty;
+
+            IEnumerable<ClassDto> source = _currentClasses;
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                var lower = keyword.ToLower();
+
+                source = _currentClasses.Where(c =>
+                    (!string.IsNullOrEmpty(c.ClassName) && c.ClassName.ToLower().Contains(lower)) ||
+                    (!string.IsNullOrEmpty(c.ClassCode) && c.ClassCode.ToLower().Contains(lower)) ||
+                    (!string.IsNullOrEmpty(c.CreatedByName) && c.CreatedByName.ToLower().Contains(lower)));
+            }
+
+            dgvClasses.Rows.Clear();
+
+            foreach (var c in source)
+            {
+                int rowIndex = dgvClasses.Rows.Add(
+                    c.ClassName,
+                    c.ClassCode,
+                    $"{c.TeacherCount}/2",
+                    $"{c.StudentCount}/100",
+                    c.CreatedAt.ToString("yyyy-MM-dd"),
+                    "👥", "✏️", "🗑️"
+                );
+
+                dgvClasses.Rows[rowIndex].Tag = c.ClassId;
+            }
+        }
     }
 }
