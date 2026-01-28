@@ -1,4 +1,4 @@
-﻿namespace Academix.WinApp.Forms.Student
+namespace Academix.WinApp.Forms.Student
 {
     partial class FormMainStudent
     {
@@ -249,10 +249,11 @@
             // 
             // lblTenHocSinh
             // 
+            lblTenHocSinh.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             lblTenHocSinh.BackColor = Color.Transparent;
             lblTenHocSinh.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTenHocSinh.ForeColor = Color.White;
-            lblTenHocSinh.Location = new Point(20, 77);
+            lblTenHocSinh.Location = new Point(60, 80);
             lblTenHocSinh.Name = "lblTenHocSinh";
             lblTenHocSinh.Size = new Size(139, 34);
             lblTenHocSinh.TabIndex = 3;
@@ -270,8 +271,8 @@
             // 
             // guna2CirclePictureBox2
             // 
+            guna2CirclePictureBox2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             guna2CirclePictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
-            guna2CirclePictureBox2.Dock = DockStyle.Fill;
             guna2CirclePictureBox2.Image = Properties.Resources.Logo;
             guna2CirclePictureBox2.ImageRotate = 0F;
             guna2CirclePictureBox2.Location = new Point(0, 0);
@@ -282,6 +283,7 @@
             guna2CirclePictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             guna2CirclePictureBox2.TabIndex = 5;
             guna2CirclePictureBox2.TabStop = false;
+            //guna2CirclePictureBox2.Click += guna2CirclePictureBox2_Click;
             // 
             // FormMainStudent
             // 

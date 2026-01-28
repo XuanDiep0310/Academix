@@ -56,6 +56,7 @@
             // 
             // guna2Panel2
             // 
+            guna2Panel2.BackColor = Color.White;
             guna2Panel2.Controls.Add(guna2HtmlLabel1);
             guna2Panel2.Controls.Add(guna2HtmlLabel2);
             guna2Panel2.CustomizableEdges = customizableEdges3;
@@ -70,7 +71,7 @@
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
             guna2HtmlLabel1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            guna2HtmlLabel1.Location = new Point(37, 30);
+            guna2HtmlLabel1.Location = new Point(37, 17);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
             guna2HtmlLabel1.Size = new Size(157, 39);
             guna2HtmlLabel1.TabIndex = 4;
@@ -104,7 +105,7 @@
             // 
             flowpanelExams.AutoScroll = true;
             flowpanelExams.AutoSize = true;
-            flowpanelExams.BackColor = Color.WhiteSmoke;
+            flowpanelExams.BackColor = Color.Transparent;
             flowpanelExams.Dock = DockStyle.Fill;
             flowpanelExams.Location = new Point(0, 0);
             flowpanelExams.Name = "flowpanelExams";

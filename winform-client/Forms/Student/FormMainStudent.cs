@@ -192,9 +192,6 @@ namespace Academix.WinApp.Forms.Student
             //LanguageManager.LanguageChanged -= LanguageManager_LanguageChanged;
             base.OnFormClosed(e);
         }
-
-        
-
             
         public void DisableNavigation()
         {
@@ -205,8 +202,6 @@ namespace Academix.WinApp.Forms.Student
         {
             guna2Panel2.Enabled = true;
         }
-
-
 
     }
 }
